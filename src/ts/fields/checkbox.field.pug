@@ -1,0 +1,4 @@
+doctype html
+
+input.custom-control-input(type='checkbox', [id]='controlName', [checked]='isChecked', (click)='toggle()')
+.fa.checkbox-indicator([ngClass]='{ "fa-square-o": !formControl.value, "fa-check-square-o": formControl.value }', (click)='toggle()')

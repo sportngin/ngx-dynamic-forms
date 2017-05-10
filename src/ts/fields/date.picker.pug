@@ -1,0 +1,12 @@
+doctype html
+
+div.form-inline([formGroup]='dateForm')
+
+    select.form-control(formControlName='year', (change)='checkForm()', (touched)='onTouched')
+        option(*ngFor='let year of years', [value]='year') {{year}}
+
+    select.form-control(formControlName='month', (change)='checkForm()', (touched)='onTouched')
+        option(*ngFor='let month of months', [value]='month.value') {{month.name}}
+
+    select.form-control(formControlName='day', (change)='checkForm()', (touched)='onTouched')
+        option(*ngFor='let day of days', [value]='day') {{day}}

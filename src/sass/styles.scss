@@ -1,0 +1,38 @@
+.editor { display: none; }
+
+.editing {
+
+  .editor {
+    display: block;
+
+    &.button-container {
+      display: flex;
+      align-items: center;
+
+      &.flex-right {
+        justify-content: flex-end;
+      }
+    }
+  }
+
+  .editable {
+    display: none;
+  }
+
+}
+
+list-field {
+  ul {
+    list-style-type: none;
+    padding: 0;
+
+    .list-item {
+      display: block;
+    }
+  }
+}
+
+.checkbox-indicator {
+  width: 17px;
+  margin-right: 5px;
+}

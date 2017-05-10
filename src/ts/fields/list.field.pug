@@ -1,0 +1,22 @@
+doctype html
+include fields
+
+div([formGroup]='form')
+
+    //.no-entries(*ngIf='!hasEntries')
+    //    | No entries
+
+    ul([formArrayName]='controlName')
+        li.list-item(
+            *ngFor='let entry of formControl.controls; let i = index',
+            listEntry,
+            [formGroupName]='i',
+            [ngClass]='{ editing: state.entries[i].editing }',
+            (keydown.enter)='onSaveItemClick(entry)'
+        )
+            .editable((click)='editEntry(i)', *ngIf='!state.entries[i].editing')
+                ng-template(ngFor let-control [ngForOf]='childControls')
+                    +fields(true, 'entry', null)
+            .editor(*ngIf='state.entries[i].editing')
+                ng-template(ngFor let-control [ngForOf]='childControls')
+                    +fields(false, 'entry', null)

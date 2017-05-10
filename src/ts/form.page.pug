@@ -1,0 +1,18 @@
+doctype html
+include fields/fields
+
+
+div(*ngIf='isRootPage')
+    ng-template(ngFor let-page [ngForOf]='childControls')
+        form-page(*ngIf='currentPage === page.pageIndex', [form]=`${formVarName || 'form' }`, [control]='page')
+
+    div
+        button.btn.btn-default((click)='prevPage()', type='button', *ngIf='currentPage > 0') prev
+        button.btn.btn-default.float-right((click)='nextPage()', type='button', *ngIf='currentPage < childControls.length - 1') next
+
+div(*ngIf='!isRootPage')
+    +helpers
+    ng-template(ngFor let-control [ngForOf]='childControls')
+        +fields('displayOnly', 'form', true)
+
+
