@@ -8,7 +8,7 @@ import { FieldBase }            from './field.base';
 
 @Component({
     selector: 'text-field',
-    templateUrl: './text.field.pug.html'
+    templateUrl: './text.field.pug'
 })
 export class TextFieldComponent extends FieldBase<FormControl> {
 

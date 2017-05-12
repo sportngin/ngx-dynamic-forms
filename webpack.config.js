@@ -9,7 +9,7 @@ module.exports = {
     target: 'web',
 
     entry: {
-        main: './index.ts'
+        index: './index.ts'
     },
 
     output: {
@@ -31,7 +31,8 @@ module.exports = {
             {
                 test: /\.ts$/,
                 use: [
-                    'awesome-typescript-loader'
+                    'awesome-typescript-loader',
+                    'angular2-template-loader'
                 ]
             },
             {
@@ -73,15 +74,6 @@ module.exports = {
         new webpack.LoaderOptionsPlugin({
             // minimize: true,
             debug: false
-        }),
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            },
-            output: {
-                comments: false
-            },
-            sourceMap: true
         }),
 
         new webpack.ProgressPlugin(),

@@ -12,7 +12,7 @@ import { FieldBase }            from './field.base';
 
 @Component({
     selector: 'date-picker',
-    templateUrl: './date.picker.pug.html',
+    templateUrl: './date.picker.pug',
     providers: [{
         provide: NG_VALUE_ACCESSOR,
         useExisting: forwardRef(() => DatePickerComponent),

@@ -7,7 +7,7 @@ import { ModelControl }         from './model/control/model.control';
 
 @Component({
     selector: '[layout]',
-    templateUrl: 'layout.pug.html'
+    templateUrl: 'layout.pug'
 })
 export class LayoutComponent extends HostedElement {
 

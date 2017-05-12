@@ -5,10 +5,12 @@
     "target": "es5",
     "module": "es2015",
     "moduleResolution": "node",
+    "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "sourceMap": true,
+    "stripInternal": true,
     "typeRoots": [ "./node_modules/@types" ],
     "types": [
       "core-js",
@@ -18,14 +20,10 @@
       "es2015",
       "dom"
     ],
-    "outDir": "dist"
+    "outDir": "./dist"
   },
-  "include": [
-    "src/ts/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "src/ts/**/*.aot.ts"
+  "files": [
+    "index.ts"
   ],
   "awesomeTypescriptLoaderOptions": {
     "forkChecker": true,

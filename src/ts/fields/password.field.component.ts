@@ -10,7 +10,7 @@ const TOKENS = {
 
 @Component({
     selector: 'password-field',
-    templateUrl: './password.field.pug.html'
+    templateUrl: './password.field.pug'
 })
 export class PasswordFieldComponent extends FieldBase<FormControl> {
 

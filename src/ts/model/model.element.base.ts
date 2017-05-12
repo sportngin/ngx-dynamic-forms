@@ -25,6 +25,7 @@ export abstract class ModelElementBase implements ModelElementBuilder {
     public readonly elementType: ModelElementType;
     public helpers: ElementHelper[];
     public renderConditions: ModelElementRenderCondition[];
+    public disabled: boolean;
 
     public addCssClass(...cssClass: string[]): ModelElementBuilder {
         if (!this.cssClasses) {
@@ -55,4 +56,10 @@ export abstract class ModelElementBase implements ModelElementBuilder {
 
         return this;
     }
+
+    public disable(): ModelElementBuilder {
+        this.disabled = true;
+        return this;
+    }
+
 }

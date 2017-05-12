@@ -6,7 +6,7 @@ import { FieldBase }            from './field.base';
 
 @Component({
     selector: 'color-picker',
-    templateUrl: './color.picker.pug.html'
+    templateUrl: './color.picker.pug'
 })
 export class ColorPickerComponent extends FieldBase<FormControl> {
 

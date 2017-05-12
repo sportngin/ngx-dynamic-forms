@@ -1,4 +1,4 @@
-import { ControlPosition, ControlPositions } from './control.position';
+import { ControlPosition } from './control.position';
 
 export type ModelElementType = 'array' | 'button' | 'control' | 'group' | 'layout' | 'page' | 'submit';
 
@@ -37,6 +37,8 @@ export interface ModelElement {
     helpers?: ElementHelper[];
     /** an optional array of conditions to help determine whether the element should be rendered */
     renderConditions?: ModelElementRenderCondition[];
+    /** determines whether the element is rendered as disabled */
+    disabled: boolean;
 }
 
 /**
@@ -44,16 +46,19 @@ export interface ModelElement {
  * @see {ModelElement}
  */
 export interface ModelElementBuilder extends ModelElement {
+
     /**
      * Adds one or more render conditions to determine whether the element should be rendered
      * @param {ModelElementRenderCondition | ModelElementRenderCondition[]} conditions
      */
     addConditions: (...conditions: ModelElementRenderCondition[]) => ModelElementBuilder;
+
     /**
      * Adds one or more CSS classes to be rendered for the element
      * @param {string | string[]} cssClass
      */
     addCssClass: (...cssClass: string[]) => ModelElementBuilder;
+
     /**
      * Adds a helper to be rendered for the element
      * @param text
@@ -61,4 +66,9 @@ export interface ModelElementBuilder extends ModelElement {
      * @param position
      */
     addHelper: (text: string, cssClass?: string, position?: ControlPosition) => ModelElementBuilder;
+
+    /**
+     * Sets the `disabled` property to true
+     */
+    disable(): ModelElementBuilder;
 }

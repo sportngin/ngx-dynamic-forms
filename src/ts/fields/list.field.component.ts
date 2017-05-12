@@ -23,7 +23,7 @@ const TOKENS = {
 
 @Component({
     selector: 'list-field',
-    templateUrl: './list.field.pug.html',
+    templateUrl: './list.field.pug',
     viewProviders: [{
         provide: EditItemHandlerToken,
         useExisting: ListFieldComponent

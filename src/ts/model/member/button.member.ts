@@ -1,5 +1,5 @@
-import { ModelElementBase }                 from '../model.element.base';
 import { ElementHelper, ModelElementType }  from '../model.element';
+import { ModelElementBase }                 from '../model.element.base';
 
 export type ButtonClass = 'primary' | 'secondary' | 'default' | 'success' | 'warning' | 'danger';
 

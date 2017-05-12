@@ -8,7 +8,7 @@ import { ModelControl }         from './model/control/model.control';
 
 @Component({
     selector: 'form-page',
-    templateUrl: './form.page.pug.html'
+    templateUrl: './form.page.pug'
 })
 export class FormPageComponent extends HostedElement implements OnInit {
 

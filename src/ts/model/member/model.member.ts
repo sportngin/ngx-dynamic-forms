@@ -1,9 +1,12 @@
 import { ValidatorFn } from '@angular/forms';
 
-import { FormControlType }                                                      from '../../form.control.type';
-import { ControlPosition, ControlPositions }                                    from '../control.position';
-import { ElementHelper, ModelElement, ModelElementBuilder, ModelElementType }   from '../model.element';
-import { ModelElementBase }                                                     from '../model.element.base';
+import { FormControlType }                                                  from '../../form.control.type';
+import { ControlPosition, ControlPositions }                                from '../control.position';
+import {
+    ElementHelper, ModelElement, ModelElementBuilder,
+    ModelElementType
+}  from '../model.element';
+import { ModelElementBase } from '../model.element.base';
 
 export interface ModelMember extends ModelElement {
     name: string;
@@ -50,4 +53,5 @@ export abstract class ModelMemberBase extends ModelElementBase implements ModelM
         this.label = label;
         return this;
     }
+
 }

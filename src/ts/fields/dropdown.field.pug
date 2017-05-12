@@ -3,7 +3,8 @@ doctype html
 select.form-control(
     [formControl]='formControl',
     autocomplete='off',
-    [ngClass]='{ "form-control-success": formControl.validator && formControl.valid, "form-control-danger": formControl.validator && !formControl.valid && formControl.touched }'
+    [ngClass]='{ "form-control-success": formControl.validator && formControl.valid, "form-control-danger": formControl.validator && !formControl.valid && formControl.touched }',
+    [attr.disabled]='control.disabled ? "" : null'
 )
     option(
         *ngFor='let item of data',

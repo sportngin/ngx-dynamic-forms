@@ -10,7 +10,7 @@ import { ModelControl }         from './model/control/model.control';
 
 @Component({
     selector: 'dynamic-form',
-    templateUrl: 'dynamic.form.pug.html'
+    templateUrl: 'dynamic.form.pug'
 })
 export class DynamicFormComponent extends FormElement {
 

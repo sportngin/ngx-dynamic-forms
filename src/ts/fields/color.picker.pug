@@ -5,5 +5,6 @@ input.form-control(
     autocomplete='off',
     [ngClass]='{ "form-control-success": formControl.validator && formControl.valid, "form-control-danger": formControl.validator && !formControl.valid && formControl.touched }',
     [(colorPicker)]='value',
-    [style.background-color]='value'
+    [style.background-color]='value',
+    [attr.disabled]='control.disabled ? "" : null',
 )

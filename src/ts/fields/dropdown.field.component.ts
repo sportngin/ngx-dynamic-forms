@@ -14,7 +14,7 @@ const TOKENS = {
 
 @Component({
     selector: 'dropdown-field',
-    templateUrl: './dropdown.field.pug.html'
+    templateUrl: './dropdown.field.pug'
 })
 export class DropdownFieldComponent extends FieldBase<FormControl> implements OnInit {
 

@@ -8,7 +8,7 @@ import { InputSelectorComponent }   from './input.selector.component';
 
 @Component({
     selector: 'dyn-field',
-    templateUrl: './dynamic.field.pug.html',
+    templateUrl: './dynamic.field.pug',
     providers: [{
         provide: NG_VALUE_ACCESSOR,
         useExisting: forwardRef(() => DynamicFieldComponent),

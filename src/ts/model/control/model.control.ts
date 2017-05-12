@@ -17,6 +17,7 @@ export abstract class ModelControlBase<TMember extends ModelElement> implements 
         this.cssClass = member.cssClass;
         this.renderConditions = member.renderConditions;
         this.helpers = member.helpers;
+        this.disabled = member.disabled;
     }
 
     public member: TMember;
@@ -26,6 +27,7 @@ export abstract class ModelControlBase<TMember extends ModelElement> implements 
     public renderConditions: ModelElementRenderCondition[];
     public helpers: ElementHelper[];
     public get hidden() { return false; };
+    public disabled: boolean;
 }
 
 export class ModelMemberControl<TModelMember extends ModelMember = ModelMember> extends ModelControlBase<TModelMember> {

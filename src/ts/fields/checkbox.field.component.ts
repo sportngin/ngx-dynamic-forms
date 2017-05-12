@@ -12,7 +12,7 @@ const TOKENS = {
 
 @Component({
     selector: 'checkbox-field',
-    templateUrl: 'checkbox.field.pug.html'
+    templateUrl: 'checkbox.field.pug'
 })
 export class CheckboxFieldComponent extends FieldBase<FormControl> implements OnInit {
 
