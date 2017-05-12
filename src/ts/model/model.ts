@@ -50,7 +50,7 @@ export abstract class Model {
 
     protected members: ModelElement[];
 
-    constructor(...members: Array<ModelElement>) {
+    constructor(...members: ModelElement[]) {
         this.members = members;
     };
 

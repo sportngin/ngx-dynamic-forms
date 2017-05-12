@@ -9,15 +9,12 @@
     "url": "git@bitbucket.org:siplay/ng-dynamic-forms.git"
   },
   "scripts": {
-    "prebuild": "rimraf out/prod;gulp pug;npm run ngc",
+    "prebuild": "rimraf dist;gulp pug;npm run ngc",
     "ngc": "ngc -p ./tsconfig.aot.json",
-    "start": "gulp dev",
     "pug": "gulp pug",
-    "webpack:info": "webpack --config webpack.dev.config.js --display-chunks --display-reasons --display-modules",
-    "webpack:prod": "webpack --config webpack.prod.config.js",
-    "build": "npm run prebuild; npm run webpack",
-    "build:info": "npm run prebuild; npm run webpack:info",
-    "build:prod": "npm run prebuild; npm run webpack:prod"
+    "webpack": "webpack --config webpack.config.js --display-chunks --display-reasons --display-modules",
+    "dts-gen": "dts-gen -m dist/main.js",
+    "build": "npm run prebuild; npm run webpack"
   },
   "author": "SI Play",
   "dependencies": {
@@ -43,6 +40,8 @@
     "concurrently": "3.4.0",
     "css-loader": "0.28.1",
     "del": "2.2.2",
+    "dts-bundle": "^0.7.2",
+    "dts-gen": "^0.5.6",
     "extract-loader": "0.1.0",
     "extract-text-webpack-plugin": "2.1.0",
     "file-loader": "0.11.1",

@@ -1,18 +1,21 @@
+'use strict';
+
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-
-const helpers = require('./helpers');
 
 module.exports = {
 
     target: 'web',
 
-    entry: {},
+    entry: {
+        main: './index.ts'
+    },
 
     output: {
         publicPath: '/',
-        filename: '[name].[hash:8].js',
+        path: path.resolve(process.cwd(), 'dist'),
+        filename: '[name].js',
         sourceMapFilename: '[file].map'
     },
 
@@ -25,6 +28,16 @@ module.exports = {
     module: {
         loaders: [
 
+            {
+                test: /\.ts$/,
+                use: [
+                    'awesome-typescript-loader'
+                ]
+            },
+            {
+                test: /\.html$/,
+                loader: 'file-loader?name=[name].[ext]!extract-loader!html-loader'
+            },
             {
                 test: /\.pug$/,
                 use: 'pug-loader'
@@ -57,6 +70,20 @@ module.exports = {
     },
 
     plugins: [
+        new webpack.LoaderOptionsPlugin({
+            // minimize: true,
+            debug: false
+        }),
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            },
+            output: {
+                comments: false
+            },
+            sourceMap: true
+        }),
+
         new webpack.ProgressPlugin(),
 
         new webpack.ContextReplacementPlugin(
