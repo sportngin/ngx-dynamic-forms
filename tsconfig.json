@@ -13,7 +13,6 @@
     "stripInternal": true,
     "typeRoots": [ "./node_modules/@types" ],
     "types": [
-      "core-js",
       "node"
     ],
     "lib": [
@@ -25,6 +24,10 @@
   "files": [
     "index.ts"
   ],
+  "angularCompilerOptions": {
+    "skipMetadataEmit" : false,
+    "skipTemplateCodegen": true
+  },
   "awesomeTypescriptLoaderOptions": {
     "forkChecker": true,
     "useWebpackText": true

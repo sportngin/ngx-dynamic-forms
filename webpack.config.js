@@ -9,14 +9,17 @@ module.exports = {
     target: 'web',
 
     entry: {
-        index: './index.ts'
+        'dynamic.forms.umd': './index.ts'
     },
 
     output: {
         publicPath: '/',
         path: path.resolve(process.cwd(), 'dist'),
         filename: '[name].js',
-        sourceMapFilename: '[file].map'
+        sourceMapFilename: '[file].map',
+        library: 'ng-dynamic-forms',
+        libraryTarget: 'umd',
+        umdNamedDefine: true
     },
 
     resolve: {
@@ -31,7 +34,7 @@ module.exports = {
             {
                 test: /\.ts$/,
                 use: [
-                    'awesome-typescript-loader',
+                    'awesome-typescript-loader?configFileName=./tsconfig.json&declaration=false',
                     'angular2-template-loader'
                 ]
             },
@@ -87,5 +90,16 @@ module.exports = {
         new webpack.optimize.OccurrenceOrderPlugin(true),
 
         new ExtractTextPlugin('styles.css')
+    ],
+
+    externals: [
+        '@angular/common',
+        '@angular/compiler',
+        '@angular/core',
+        '@angular/forms',
+        '@angular/http',
+        // 'reflect-metadata',
+        'rxjs/Rx',
+        'zone.js'
     ]
 };
