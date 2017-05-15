@@ -1,4 +1,6 @@
-import { Component, Host, Injector }                          from '@angular/core';
+import 'reflect-metadata';
+
+import { Component, Host, Injector }                from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup }  from '@angular/forms';
 
 import { Observable } from 'rxjs/Observable';
