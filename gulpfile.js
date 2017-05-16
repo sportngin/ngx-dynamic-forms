@@ -25,8 +25,6 @@ const buildTemplate = through.obj(function transform(file, encoding, callback) {
 });
 
 gulp.task('build-templates', () => {
-
-
     return gulp.src(['./dist/**/*.js', '!*.umd.js'])
         .pipe(buildTemplate)
         .pipe(gulp.dest('./dist'));

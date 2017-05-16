@@ -4,8 +4,8 @@ import {
     Validators
 } from '@angular/forms';
 
-import { map, range }   from 'lodash';
-import * as moment      from 'moment';
+import { isNumber, map, range } from 'lodash';
+import * as moment              from 'moment';
 
 import { FormComponentHost }    from '../form.component.host';
 import { FieldBase }            from './field.base';
@@ -57,15 +57,15 @@ export class DatePickerComponent extends FieldBase<FormControl> implements Contr
     }
 
     checkForm(): void {
-        if (!this.dateForm.value.year) {
-            this.dateForm.controls.month.disable();
-        } else {
+        if (isNumber(this.dateForm.value.year)) {
             this.dateForm.controls.month.enable();
-        }
-        if (!this.dateForm.value.month) {
-            this.dateForm.controls.day.disable();
         } else {
+            this.dateForm.controls.month.disable();
+        }
+        if (isNumber(this.dateForm.value.month)) {
             this.dateForm.controls.day.enable();
+        } else {
+            this.dateForm.controls.day.disable();
         }
 
         if (this.dateForm.valid) {
