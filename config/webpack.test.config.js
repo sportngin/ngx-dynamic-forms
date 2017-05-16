@@ -79,8 +79,9 @@ module.exports = {
                     /**
                      * These packages have problems with their sourcemaps
                      */
-                    helpers.root('node_modules/rxjs'),
-                    helpers.root('node_modules/@angular')
+                    // helpers.root('node_modules/rxjs'),
+                    // helpers.root('node_modules/@angular')
+                    helpers.root('node_modules/@angular/compiler')
                 ]
             },
 
@@ -92,25 +93,26 @@ module.exports = {
             {
                 test: /\.ts$/,
                 use: [
-                    {
-                        loader: 'awesome-typescript-loader',
-                        query: {
-                            /**
-                             * Use inline sourcemaps for "karma-remap-coverage" reporter
-                             */
-                            sourceMap: false,
-                            inlineSourceMap: true,
-                            compilerOptions: {
-
-                                /**
-                                 * Remove TypeScript helpers to be injected
-                                 * below by DefinePlugin
-                                 */
-                                removeComments: true
-
-                            }
-                        },
-                    },
+                    // {
+                    //     loader: 'awesome-typescript-loader',
+                    //     query: {
+                    //         /**
+                    //          * Use inline sourcemaps for "karma-remap-coverage" reporter
+                    //          */
+                    //         sourceMap: false,
+                    //         inlineSourceMap: true,
+                    //         compilerOptions: {
+                    //
+                    //             /**
+                    //              * Remove TypeScript helpers to be injected
+                    //              * below by DefinePlugin
+                    //              */
+                    //             removeComments: true
+                    //
+                    //         }
+                    //     },
+                    // },
+                    'awesome-typescript-loader?configFileName=./tsconfig.json&declaration=false',
                     'angular2-template-loader'
                 ],
                 exclude: [ /\.e2e\.ts$/ ]
@@ -184,7 +186,7 @@ module.exports = {
 
             {
                 test: /\.pug$/,
-                loader: 'file-loader?name=[name].[ext]!pug-loader'
+                loader: ['raw-loader', 'pug-html-loader']
             },
 
         ]
