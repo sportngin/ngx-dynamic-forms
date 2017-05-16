@@ -5,6 +5,6 @@ switch (process.env.NODE_ENV) {
         module.exports = require('./config/webpack.test.config');
         break;
     default:
-        module.exports = require('./config/webpack.build.config');
+        module.exports = require('./config/webpack.build');
         break;
 }

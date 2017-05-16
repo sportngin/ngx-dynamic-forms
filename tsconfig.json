@@ -13,8 +13,10 @@
     "stripInternal": true,
     "typeRoots": [ "./node_modules/@types" ],
     "types": [
-      "jasmine",
-      "node"
+      "chai",
+      "mocha",
+      "node",
+      "sinon"
     ],
     "lib": [
       "es2015",

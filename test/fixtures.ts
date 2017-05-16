@@ -18,5 +18,5 @@ export class FauxComponentHost extends FormComponentHost {
 export const FORM_COMPONENT_HOST_PROVIDERS = [
     FormBuilder,
     { provide: FormComponentHost, useClass: FauxComponentHost },
-    { provide: 'formControl', useValue: new FormControl() }
+    { provide: 'formControl', useValue: new FormControl('') }
 ];
