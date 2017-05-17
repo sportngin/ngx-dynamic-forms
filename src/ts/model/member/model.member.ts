@@ -24,7 +24,7 @@ export interface ModelMemberBuilder extends ModelMember, ModelElementBuilder {
 
 export abstract class ModelMemberBase extends ModelElementBase implements ModelMemberBuilder {
 
-    constructor(elementType: ModelElementType, controlType: FormControlType, name: string, validators?: ValidatorFn | ValidatorFn[], data?: { [key: string]: any }) {
+    constructor(elementType: ModelElementType, controlType: FormControlType | string, name: string, validators?: ValidatorFn | ValidatorFn[], data?: { [key: string]: any }) {
         super(elementType);
 
         this.controlType = controlType;
@@ -34,7 +34,7 @@ export abstract class ModelMemberBase extends ModelElementBase implements ModelM
     }
 
     public name: string;
-    public controlType: FormControlType;
+    public controlType: FormControlType | string;
     public validators: ValidatorFn | ValidatorFn[];
     public data: { [key: string]: any };
     public label: string;

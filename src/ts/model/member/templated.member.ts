@@ -7,7 +7,7 @@ import { ModelMemberBase }  from './model.member';
 
 export class TemplatedMember extends ModelMemberBase {
 
-    constructor(elementType: ModelElementType, controlType: FormControlType, name: string, template: Model, validators?: ValidatorFn | ValidatorFn[], data?: {}) {
+    constructor(elementType: ModelElementType, controlType: FormControlType | string, name: string, template: Model, validators?: ValidatorFn | ValidatorFn[], data?: {}) {
         super(elementType, controlType, name, validators, data);
 
         this.template = template;

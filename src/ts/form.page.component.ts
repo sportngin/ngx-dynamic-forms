@@ -27,7 +27,5 @@ export class FormPageComponent extends HostedElement {
     ) {
         // FIXME: see above
         super(injector, (injector as any).view.component.host);
-
-        console.log('FormPageComponent', this);
     }
 }

@@ -6,7 +6,7 @@ import { ModelMemberBase }      from './model.member';
 
 export class SimpleMember extends ModelMemberBase {
 
-    constructor(controlType: FormControlType, name: string, validators?: ValidatorFn | ValidatorFn[], defaultValue?: any, data?: {}) {
+    constructor(controlType: FormControlType | string, name: string, validators?: ValidatorFn | ValidatorFn[], defaultValue?: any, data?: {}) {
         super(ModelElementTypes.control, controlType, name, validators, data);
 
         this.defaultValue = defaultValue;

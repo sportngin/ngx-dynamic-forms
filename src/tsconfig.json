@@ -23,7 +23,7 @@
       "es6",
       "dom"
     ],
-    "outDir": "./dist"
+    "outDir": "../dist"
   },
   "files": [
     "../index.ts"

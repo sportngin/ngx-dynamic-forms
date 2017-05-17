@@ -26,8 +26,6 @@ export class FormPageRootComponent extends HostedElement {
     ) {
         // FIXME: see above
         super(injector, (injector as any).view.component.host);
-
-        console.log('FormPageRootComponent', this);
     }
 
     nextPage(): void {

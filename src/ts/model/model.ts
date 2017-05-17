@@ -93,7 +93,7 @@ export abstract class Model {
         return new CheckboxMember(name, checked);
     }
 
-    static member(name: string, controlType: FormControlType, ...validators: ValidatorFn[]): SimpleMember {
+    static member(name: string, controlType: FormControlType | string, ...validators: ValidatorFn[]): SimpleMember {
         return Model.defaultValueMember(name, '', controlType, ...validators);
     }
 
@@ -101,7 +101,7 @@ export abstract class Model {
         return new SelectionMember(name, validators);
     }
 
-    static defaultValueMember(name: string, value: any, controlType: FormControlType, ...validators: ValidatorFn[]): SimpleMember {
+    static defaultValueMember(name: string, value: any, controlType: FormControlType | string, ...validators: ValidatorFn[]): SimpleMember {
         return new SimpleMember(controlType, name, validators, value);
     }
 
