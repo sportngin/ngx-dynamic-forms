@@ -7,6 +7,7 @@ import { ColorPickerModule } from 'ngx-color-picker';
 import { DynamicFormComponent }     from './dynamic.form.component';
 import { FormControlTypeMappings }  from './form.control.type';
 import { FormPageComponent }        from './form.page.component';
+import { FormPageRootComponent }    from './form.page.root.component';
 import { LayoutComponent }          from './layout.component';
 import { PositionPipe }             from './position.pipe';
 
@@ -33,6 +34,7 @@ import { TextFieldComponent }       from './fields/text.field.component';
         DynamicFieldComponent,
         DynamicFormComponent,
         FormPageComponent,
+        FormPageRootComponent,
         GroupFieldComponent,
         InputSelectorComponent,
         LayoutComponent,
@@ -50,6 +52,7 @@ import { TextFieldComponent }       from './fields/text.field.component';
         DynamicFieldComponent,
         DynamicFormComponent,
         FormPageComponent,
+        FormPageRootComponent,
         GroupFieldComponent,
         InputSelectorComponent,
         LayoutComponent,

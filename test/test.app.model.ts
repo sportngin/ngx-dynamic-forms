@@ -1,11 +1,13 @@
-import { Model } from '../src/ts/model/model';
-import { FormControlType } from '../src/ts/form.control.type';
+import { Validators } from '@angular/forms';
+
+import { FormControlType }  from '../src/ts/form.control.type';
+import { Model }            from '../src/ts/model/model';
 
 export class TestAppModelSimpleFields extends Model {
 
     constructor() {
         super(
-            Model.textMember('textMember'),
+            Model.textMember('textMember', Validators.required).addLabel('textMember'),
         );
     }
 
@@ -15,7 +17,7 @@ export class TestAppModelComplicatedFields extends Model {
 
     constructor() {
         super(
-            Model.member('datePicker', FormControlType.date)
+            Model.member('datePicker', FormControlType.date).addLabel('datePicker')
         )
     }
 

@@ -119,7 +119,7 @@ export abstract class Model {
             case ModelElementTypes.control: return fb.control((member as SimpleMember).defaultValue, member.validators);
             case ModelElementTypes.page:
             case ModelElementTypes.group:
-                return fb.group((member as TemplatedMember).template.toFormGroup(fb), { validator: member.validators });
+                return (member as TemplatedMember).template.toFormGroup(fb);
             default: throw new Error(`Invalid MemberType ${member.elementType}`);
         }
     }

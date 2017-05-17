@@ -13,7 +13,11 @@ export class TestAppComponent extends FormComponentHost {
     constructor() {
         super(new TestAppModel());
 
-        console.log('TestAppComponent');
+        console.log('TestAppComponent.ctr', this.modelDef);
+    }
+
+    protected afterFormInit() {
+        console.log('TestAppComponent.afterFormInit', this.form);
     }
 
     protected doSubmit(): void {

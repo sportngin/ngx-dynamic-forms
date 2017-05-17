@@ -13,7 +13,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build:templates": "gulp build-templates",
-    "build:ngc": "ngc -p ./tsconfig.json",
+    "build:ngc": "ngc -p ./src/tsconfig.json",
     "build:webpack": "webpack --config webpack.config.js --display-chunks --display-reasons --display-modules",
     "build": "npm run prebuild; npm run build:ngc; npm run build:webpack; npm run build:templates",
     "prepublishOnly": "npm run build",

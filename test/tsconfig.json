@@ -22,11 +22,10 @@
       "es2015",
       "es6",
       "dom"
-    ],
-    "outDir": "./dist"
+    ]
   },
   "files": [
-    "index.ts"
+    "test.bootstrap.ts"
   ],
   "angularCompilerOptions": {
     "skipMetadataEmit" : false,

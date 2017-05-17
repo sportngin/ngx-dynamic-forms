@@ -1,7 +1,7 @@
 mixin fields(displayOnly, formVarName, formGroup)
     +helpers('before')
     div(layout, *ngIf='control.elementType === "layout" && isRendered(control)', [class]='control.cssClass', [control]='control', [form]=`${formVarName || 'form' }`, [displayOnly]=`${displayOnly || false}`)
-    form-page(*ngIf='(control.elementType === "page" || control.elementType === "pageRoot") && isRendered(control)', [form]=`${formVarName || 'form'}`, [control]='control')
+    form-page-root(*ngIf='(control.elementType === "page" || control.elementType === "pageRoot") && isRendered(control)', [form]=`${formVarName || 'form'}`, [control]='control')
     if formGroup
         div(*ngIf='!displayOnly && control.elementType !== "layout" && isRendered(control)', [formGroup]=`${formVarName || 'form'}`)
             +controls(formVarName)

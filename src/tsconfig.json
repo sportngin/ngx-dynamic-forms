@@ -1,0 +1,39 @@
+{
+  "compileOnSave": false,
+  "buildOnSave": false,
+  "compilerOptions": {
+    "target": "es5",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "stripInternal": true,
+    "typeRoots": [ "./node_modules/@types" ],
+    "types": [
+      "chai",
+      "mocha",
+      "node",
+      "sinon"
+    ],
+    "lib": [
+      "es2015",
+      "es6",
+      "dom"
+    ],
+    "outDir": "./dist"
+  },
+  "files": [
+    "../index.ts"
+  ],
+  "angularCompilerOptions": {
+    "skipMetadataEmit" : false,
+    "skipTemplateCodegen": true
+  },
+  "awesomeTypescriptLoaderOptions": {
+    "forkChecker": true,
+    "useWebpackText": true
+  }
+}
