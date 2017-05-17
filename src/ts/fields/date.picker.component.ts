@@ -4,8 +4,9 @@ import {
     Validators
 } from '@angular/forms';
 
-import { isNumber, map, range } from 'lodash';
+import { isEqual, map, range }  from 'lodash';
 import * as moment              from 'moment';
+import { isNumeric }            from 'rxjs/util/isNumeric';
 
 import { FormComponentHost }    from '../form.component.host';
 import { FieldBase }            from './field.base';
@@ -24,6 +25,9 @@ export class DatePickerComponent extends FieldBase<FormControl> implements Contr
     public months: { name: string, value: number }[] = map(moment.months(), (month: string, index: number) => ({ name: month, value: index }));
     public get days(): number[] {
         let ref = moment([this.dateForm.value.year, this.dateForm.value.month]);
+        if (!ref.isValid()) {
+            return [];
+        }
         return range(1, ref.daysInMonth() + 1);
     }
     public get years() {
@@ -44,50 +48,99 @@ export class DatePickerComponent extends FieldBase<FormControl> implements Contr
         super(injector, host);
 
         this.dateForm = fb.group({
+            year: ['', Validators.required],
             month: ['', Validators.required],
-            day: ['', Validators.required],
-            year: ['', Validators.required]
+            day: ['', Validators.required]
         });
 
-        this.checkForm();
+        this.checkFields();
     }
 
     ngOnInit(): void {
-        this.writeValue(this.formControl.value);
+        if (this.control.disabled) {
+            this.dateForm.disable();
+        } else {
+            this.dateForm.valueChanges.subscribe(() => this.checkForm());
+            this.writeValue(this.formControl.value);
+        }
     }
 
-    checkForm(): void {
-        if (isNumber(this.dateForm.value.year)) {
-            this.dateForm.controls.month.enable();
+    private checkFields(): void {
+
+        if (isNumeric(this.dateForm.value.year)) {
+            if (this.dateForm.controls.month.disabled) {
+                this.dateForm.controls.month.enable();
+            }
         } else {
-            this.dateForm.controls.month.disable();
+            if (this.dateForm.controls.month.enabled) {
+                this.dateForm.controls.month.disable();
+            }
         }
-        if (isNumber(this.dateForm.value.month)) {
-            this.dateForm.controls.day.enable();
+        if (isNumeric(this.dateForm.value.month)) {
+            if (this.dateForm.controls.day.disabled) {
+                this.dateForm.controls.day.enable();
+            }
         } else {
-            this.dateForm.controls.day.disable();
+            if (this.dateForm.controls.day.enabled) {
+                this.dateForm.controls.day.disable();
+            }
         }
+
+    }
+
+    private checkForm(): void {
+
+        this.checkFields();
 
         if (this.dateForm.valid) {
             let value = moment([this.dateForm.value.year, this.dateForm.value.month, this.dateForm.value.day]);
+
+            // check to see if a change in month has caused the date to become invalid
+            if (!value.isValid()) {
+
+                let month = moment([this.dateForm.value.year, this.dateForm.value.month]);
+
+                // if the year+month are not valid, don't bother
+                if (!month.isValid()) {
+                    return;
+                }
+
+                // if the selected day of the month is more than the number of days in the month
+                // (e.g. going from July to June), just default to the last valid day of the current month
+                if (this.dateForm.value.day > month.daysInMonth()) {
+                    this.dateForm.controls.day.setValue(month.daysInMonth());
+                    return;
+                }
+            }
+
             if (value !== this.formControl.value) {
                 this.writeValue(value);
             }
         }
     }
 
-    writeValue(obj: any): void {
-        let value = moment(obj);
+    writeValue(value: any): void {
+        if (!value) {
+            return;
+        }
+        value = moment(value);
         if (value.isValid()) {
-            this.dateForm.enable();
-            this.dateForm.setValue({
+            if (!this.dateForm.enabled) {
+                this.dateForm.enable();
+            }
+            let newDateFormValue = {
                 year: value.year(),
                 month: value.month(),
-                day: value.day()
-            });
-            this.formControl.setValue(value);
-            if (this.onChangeHandler) {
-                this.onChangeHandler(value);
+                day: value.date()
+            };
+            if (!isEqual(this.dateForm.value, newDateFormValue)) {
+                this.dateForm.setValue(newDateFormValue);
+            }
+            if (this.formControl.value.valueOf() !== value.valueOf()) {
+                this.formControl.setValue(value);
+                if (this.onChangeHandler) {
+                    this.onChangeHandler(value);
+                }
             }
         }
     }
