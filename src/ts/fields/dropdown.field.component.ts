@@ -26,6 +26,8 @@ export class DropdownFieldComponent extends FieldBase<FormControl> implements On
     private dataFn: Function;
     private lastValues: any = {};
 
+    public pendingPrerequisites: boolean = false;
+
     constructor(
         injector: Injector,
         @Host() host: FormComponentHost
@@ -42,6 +44,7 @@ export class DropdownFieldComponent extends FieldBase<FormControl> implements On
         }
 
         if (this.dependentControls) {
+            this.pendingPrerequisites = true;
             this.form.valueChanges.subscribe(() => this.checkDependentControls());
         }
     }
@@ -57,8 +60,9 @@ export class DropdownFieldComponent extends FieldBase<FormControl> implements On
         let changed = false;
         let args = map(this.dependentControls, (name: string) => {
             let ctrl = this.form.controls[name];
-            if (!ctrl || !ctrl.valid) {
+            if (!ctrl || (ctrl.value === null || ctrl.value === '' || ctrl.value === undefined)) {
                 valid = false;
+                this.lastValues[name] = ctrl.value;
                 return null;
             }
             if (ctrl.value !== this.lastValues[name]) {
@@ -72,15 +76,13 @@ export class DropdownFieldComponent extends FieldBase<FormControl> implements On
             if (this.data) {
                 this.data = null;
             }
-            if (!this.formControl.disabled) {
-                this.formControl.disable();
-            }
+            this.pendingPrerequisites = true;
             return;
         }
 
         if (changed) {
             this.data = this.dataFn(...args);
-            this.formControl.enable();
+            this.pendingPrerequisites = false;
         }
 
     }
