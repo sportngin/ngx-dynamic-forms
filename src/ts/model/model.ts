@@ -7,7 +7,7 @@ import { ArrayControl }                     from './control/array.control';
 import { ButtonControl }                    from './control/button.control';
 import { LayoutControl }                    from './control/layout.control';
 import { ModelControl, ModelMemberControl } from './control/model.control';
-import { PageControl }                      from './control/page.control';
+import { PageControl, RootPageControl }     from './control/page.control';
 import { PasswordControl }                  from './control/password.control';
 import { ArrayMember }                      from './member/array.member';
 import { ButtonAction, ButtonActions, ButtonClass, ButtonMember } from './member/button.member';
@@ -31,7 +31,10 @@ export function toControlGroup(members: ModelElement[]): ModelControl[] {
             return new LayoutControl(member as LayoutMember);
         }
         if (member.elementType === ModelElementTypes.page) {
-            return new PageControl(member as PageMember, member instanceof RootPageMember ? null : index);
+            return new PageControl(member as PageMember, index);
+        }
+        if (member.elementType === ModelElementTypes.pageRoot) {
+            return new RootPageControl(member as RootPageMember);
         }
         if (member.elementType === ModelElementTypes.array) {
             return new ArrayControl(member as ArrayMember);
@@ -66,8 +69,8 @@ export abstract class Model {
         return new LayoutMember(cssClass, members);
     }
 
-    static page(...members: ModelElement[]): PageMember {
-        return new PageMember(members);
+    static page(pageId: string | number, model: Model): PageMember {
+        return new PageMember(pageId, model);
     }
 
     static pages(...members: PageMember[]): RootPageMember {
@@ -90,7 +93,7 @@ export abstract class Model {
         return new CheckboxMember(name, checked);
     }
 
-    static member(name: string, controlType: any, ...validators: ValidatorFn[]): SimpleMember {
+    static member(name: string, controlType: FormControlType, ...validators: ValidatorFn[]): SimpleMember {
         return Model.defaultValueMember(name, '', controlType, ...validators);
     }
 
@@ -98,7 +101,7 @@ export abstract class Model {
         return new SelectionMember(name, validators);
     }
 
-    static defaultValueMember(name: string, value: any, controlType: any, ...validators: ValidatorFn[]): SimpleMember {
+    static defaultValueMember(name: string, value: any, controlType: FormControlType, ...validators: ValidatorFn[]): SimpleMember {
         return new SimpleMember(controlType, name, validators, value);
     }
 
@@ -114,27 +117,36 @@ export abstract class Model {
         switch (member.elementType) {
             case ModelElementTypes.array: return fb.array([(member as TemplatedMember).template.toFormGroup(fb)], (member.validators && member.validators.length) ? (member.validators as ValidatorFn[])[0] : null);
             case ModelElementTypes.control: return fb.control((member as SimpleMember).defaultValue, member.validators);
-            case ModelElementTypes.group: return fb.group((member as TemplatedMember).template, { validator: member.validators });
+            case ModelElementTypes.page:
+            case ModelElementTypes.group:
+                return fb.group((member as TemplatedMember).template.toFormGroup(fb), { validator: member.validators });
             default: throw new Error(`Invalid MemberType ${member.elementType}`);
         }
     }
 
-    private collectMembers(members: ModelElement[]): any[] {
+    private collectMembers(fb: FormBuilder, members: ModelElement[]): any {
         return map(members, (member: ModelElement) => {
-            if (member.elementType === ModelElementTypes.layout || member.elementType === ModelElementTypes.page) {
-                return this.collectMembers((member as ContainerMember).members);
+            if (member.elementType === ModelElementTypes.layout || member.elementType === ModelElementTypes.pageRoot) {
+                return this.collectMembers(fb, (member as ContainerMember).members);
             }
+            // if (member.elementType === ModelElementTypes.pageRoot) {
+            //     return fb.group(this.createFormGroup(fb, (member as ContainerMember).members));
+            // }
             return member;
         });
     }
 
-    toFormGroup(fb: FormBuilder): FormGroup {
-        return fb.group(chain(this.collectMembers(this.members))
+    private createFormGroup(fb: FormBuilder, members: ModelElement[]): FormGroup {
+        return fb.group(chain(this.collectMembers(fb, members))
             .flattenDeep()
             .filter((member: ModelElement) => member.elementType !== ModelElementTypes.button && member.elementType !== ModelElementTypes.submit)
             .map((member: ModelMemberBase) => [member.name, this.modelMemberToFormControl(fb, member)])
             .fromPairs()
             .value());
+    }
+
+    toFormGroup(fb: FormBuilder): FormGroup {
+        return this.createFormGroup(fb, this.members);
     }
 
     toControlGroup(): ModelControl[] {

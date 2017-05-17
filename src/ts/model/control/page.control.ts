@@ -1,12 +1,19 @@
-import { PageMember, RootPageMember }   from '../member/page.member';
-import { toControlGroup }               from '../model';
-import { ModelControlBase }             from './model.control';
+import { PageMember, RootPageMember }           from '../member/page.member';
+import { toControlGroup }                       from '../model';
+import { ModelControlBase, ModelMemberControl } from './model.control';
 
-export class PageControl extends ModelControlBase<PageMember> {
-    constructor(container: PageMember | RootPageMember, pageIndex: number | null = null) {
+export class RootPageControl extends ModelControlBase<RootPageMember> {
+    constructor(container: RootPageMember) {
         super(container);
 
         this.childControls = toControlGroup(container.members);
+    }
+}
+
+export class PageControl extends ModelMemberControl<PageMember> {
+    constructor(container: PageMember, pageIndex: number) {
+        super(container);
+
         this.pageIndex = pageIndex;
     }
 

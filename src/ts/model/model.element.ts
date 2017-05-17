@@ -1,6 +1,6 @@
 import { ControlPosition } from './control.position';
 
-export type ModelElementType = 'array' | 'button' | 'control' | 'group' | 'layout' | 'page' | 'submit';
+export type ModelElementType = 'array' | 'button' | 'control' | 'group' | 'layout' | 'page' | 'pageRoot' | 'submit';
 
 /**
  * Contains an enumeration of valid ModelElementType values;
@@ -12,6 +12,7 @@ export const ModelElementTypes = {
     group: 'group' as ModelElementType,
     layout: 'layout' as ModelElementType,
     page: 'page' as ModelElementType,
+    pageRoot: 'pageRoot' as ModelElementType,
     submit: 'submit' as ModelElementType
 };
 
