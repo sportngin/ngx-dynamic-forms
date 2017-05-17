@@ -6,16 +6,31 @@ const gulp = require('gulp');
 const pug = require('pug');
 const through = require('through2');
 
-const pattern = /templateUrl:\s*'([\w.\\\/]+\.pug)'/g;
+const REPLACE_CONFIG = {
+    js: {
+        templatePattern: /templateUrl:\s*'([\w.\\\/]+\.pug)'/g,
+        quotePattern: /'/g,
+        quoteReplaceChar: `\\'`,
+        propertyQuoteChar: ``,
+        valueQuoteChar: `'`,
+    },
+    json: {
+        templatePattern: /"templateUrl":\s*"([\w.\\\/]+\.pug)"/g,
+        quotePattern: /"/g,
+        quoteReplaceChar: `\\"`,
+        propertyQuoteChar: `"`,
+        valueQuoteChar: `"`,
+    }
+};
 
 const buildTemplate = through.obj(function transform(file, encoding, callback) {
     let contents = file.contents.toString(encoding);
-    if (contents.match(pattern)) {
-
-        file.contents = new Buffer(contents.replace(pattern, (match, cap) => {
+    let config = REPLACE_CONFIG[path.extname(file.path).substring(1)];
+    if (contents.match(config.templatePattern)) {
+        file.contents = new Buffer(contents.replace(config.templatePattern, (match, cap) => {
             let dirpath = path.relative(path.resolve(file.cwd, 'dist'), path.dirname(file.path));
             let pugPath = path.resolve(dirpath, cap);
-            return `template: '${pug.renderFile(pugPath).replace(/'/g, "\\'")}'`;
+            return `${config.propertyQuoteChar}template${config.propertyQuoteChar}: ${config.valueQuoteChar}${pug.renderFile(pugPath).replace(config.quotePattern, config.quoteReplaceChar)}${config.valueQuoteChar}`;
         }), encoding);
 
         return callback(null, file);
@@ -25,7 +40,7 @@ const buildTemplate = through.obj(function transform(file, encoding, callback) {
 });
 
 gulp.task('build-templates', () => {
-    return gulp.src(['./dist/**/*.js', '!*.umd.js'])
+    return gulp.src(['./dist/**/*.js', './dist/**/*.metadata.json', '!*.umd.js'])
         .pipe(buildTemplate)
         .pipe(gulp.dest('./dist'));
 });
