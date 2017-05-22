@@ -33,7 +33,7 @@ describe('DatePickerComponent', () => {
     let monthDe:    DebugElement;
     let dayDe:      DebugElement;
 
-    beforeEach(async(() => {
+    beforeEach(() => {
 
         TestBed.configureTestingModule({
             declarations: [ DatePickerComponent ],
@@ -43,11 +43,8 @@ describe('DatePickerComponent', () => {
                 { provide: 'control', useValue: { disabled: false } }
             ]
         })
-        /**
-         * Compile template and css
-         */
             .compileComponents();
-    }));
+    });
 
     /**
      * Synchronous beforeEach
