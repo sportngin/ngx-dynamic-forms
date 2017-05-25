@@ -1,8 +1,8 @@
-var helpers = require('./helpers');
 var webpack = require('webpack');
 var webpackMerge = require('webpack-merge');
-var commonTestConfig = require('./webpack.test.common.js');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var helpers = require('./helpers');
+var commonTestConfig = require('./webpack.test.common.js');
 
 module.exports = webpackMerge(commonTestConfig, {
     target: 'web',

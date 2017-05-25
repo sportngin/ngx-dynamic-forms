@@ -1,12 +1,12 @@
 import { LayoutMember }     from '../member/layout.member';
-import { toControlGroup }   from '../model';
+import { ModelHelper }      from '../model.helper';
 import { ModelControlBase } from './model.control';
 
 export class LayoutControl extends ModelControlBase<LayoutMember> {
     constructor(container: LayoutMember) {
         super(container);
 
-        this.childControls = toControlGroup(container.members);
+        this.childControls = ModelHelper.createModelControls(container.members);
 
     }
 }
