@@ -1,7 +1,6 @@
 doctype html
 include fields
 
-div(style='display:none') {{control.name}} valid: {{form.controls[control.name].valid}} {{form.controls[control.name].errors|json}}
 .form-group([ngClass]='{ "has-success": control.displaysValidation && form.controls[control.name].validator && form.controls[control.name].valid, "has-danger": control.displaysValidation && form.controls[control.name].validator && !form.controls[control.name].valid && form.controls[control.name].touched }')
     label([for]='control.name', *ngIf='control.label && control.labelPosition === "before"') {{control.label}}
     input-selector(#input, [control]='control', [form]='form')

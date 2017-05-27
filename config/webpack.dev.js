@@ -3,35 +3,70 @@
 const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const helpers = require('./helpers');
 
-module.exports = merge(require('./webpack.test.common'), {
+module.exports = merge({
+
+    entry: {
+        'test.app.umd': './test/app/test.bootstrap.ts'
+    },
+
+    devtool: 'cheap-module-source-map',
 
     target: 'web',
 
-    entry: {
-        'test.app.umd': './test/test.bootstrap.ts'
-    },
-
-    resolve: {
-        extensions: [ '.js', '.ts', '.json', '.css', '.scss', '.pug', '.html' ]
+    resolveLoader: {
+        moduleExtensions: ['-loader'] // To bypass mocha-loader incompatibility with webpack :
+                                      // mocha-loader still using loaders without the "-loader" suffix,
+                                      // which is forbidden with webpack v2
     },
 
     module: {
-        rules: [{
-            test: /\.ts$/,
-            // include: `${helpers.root('src')}/**/*.spec.ts`,
-            loaders: [
-                {
-                    loader: 'awesome-typescript-loader',
-                    options: {configFileName: helpers.root('test/tsconfig.json')}
-                }, 'angular2-template-loader'
-            ]
-        }]
+        rules: [
+            {
+                test: /\.ts$/,
+                loaders: [
+                    'awesome-typescript-loader?configFileName=./test/tsconfig.json&declaration=false',
+                    'angular2-template-loader'
+                ]
+            },
+            {
+                test: /\.css$/,
+                use: ExtractTextPlugin.extract({
+                    use: 'css-loader?sourceMap'
+                })
+            },
+            {
+                test: /\.css$/,
+                loader: 'raw-loader'
+            },
+            {
+                test: /\.pug$/,
+                loader: ['raw-loader', 'pug-html-loader']
+            },
+            {
+                test: /\.scss$/,
+                use: ExtractTextPlugin.extract({
+                    use: 'css-loader?sourceMap!sass-loader?sourceMap'
+                })
+            },
+            {
+                test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
+                use: 'file-loader?name=font/[name].[ext]'
+            }
+        ]
     },
 
-    devtool: 'source-map',
+    resolve: {
+        extensions: [ '.js', '.ts', '.json', '.css', '.scss', '.pug', '.html' ],
+
+        modules: [
+            'node_modules',
+            path.resolve(__dirname, '../test/modules')
+        ]
+    },
 
     output: {
         publicPath: '/',
@@ -44,10 +79,19 @@ module.exports = merge(require('./webpack.test.common'), {
     },
 
     plugins: [
+        // Workaround for angular/angular#11580
+        new webpack.ContextReplacementPlugin(
+            /angular(\\|\/)core(\\|\/)@angular/,
+            helpers.root('src'),
+            {}
+        ),
+
         new HtmlWebpackPlugin({
-            template: './test/test.index.pug',
+            template: './test/app/test.index.pug',
             filename: 'index.html',
             chunksSortMode: 'dependency'
-        })
+        }),
+
+        new ExtractTextPlugin('style.css')
     ]
 });

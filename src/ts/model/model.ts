@@ -12,7 +12,7 @@ import { SelectionMember }                  from './member/selection.member';
 import { SimpleMember }                     from './member/simple.member';
 import { TemplatedMember }                  from './member/templated.member';
 import { ModelElement, ModelElementTypes }  from './model.element';
-import { ModelHelper } from './model.helper';
+import { ModelHelper }                      from './model.helper';
 
 /**
  * The base class used by form Models
