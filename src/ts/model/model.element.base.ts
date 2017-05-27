@@ -26,6 +26,7 @@ export abstract class ModelElementBase implements ModelElementBuilder {
     public helpers: ElementHelper[];
     public renderConditions: ModelElementRenderCondition[];
     public disabled: boolean;
+    public displaysValidation: boolean = true;
 
     public addCssClass(...cssClass: string[]): ModelElementBuilder {
         if (!this.cssClasses) {

@@ -23,7 +23,7 @@ export class ModelHelper {
 
     static modelMemberToFormControl(fb: FormBuilder, member: ModelMemberBase): AbstractControl {
         switch (member.elementType) {
-            case ModelElementTypes.array: return fb.array([(member as TemplatedMember).template.toFormGroup(fb)], (member.validators && member.validators.length) ? (member.validators as ValidatorFn[])[0] : null);
+            case ModelElementTypes.array: return fb.array([(member as TemplatedMember).template.toFormGroup(fb)], member.validator);
             case ModelElementTypes.control: return fb.control((member as SimpleMember).defaultValue, member.validators);
             case ModelElementTypes.page:
             case ModelElementTypes.group:

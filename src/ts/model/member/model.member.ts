@@ -1,5 +1,7 @@
 import { ValidatorFn } from '@angular/forms';
 
+import { first, isArray } from 'lodash';
+
 import { FormControlType }                                                  from '../../form.control.type';
 import { ControlPosition, ControlPositions }                                from '../control.position';
 import {
@@ -36,6 +38,12 @@ export abstract class ModelMemberBase extends ModelElementBase implements ModelM
     public name: string;
     public controlType: FormControlType | string;
     public validators: ValidatorFn | ValidatorFn[];
+    public get validator(): ValidatorFn {
+        if (!isArray(this.validators)) {
+            return this.validators as ValidatorFn;
+        }
+        return first(this.validators);
+    }
     public data: { [key: string]: any };
     public label: string;
     public labelPosition: ControlPosition = ControlPositions.before;

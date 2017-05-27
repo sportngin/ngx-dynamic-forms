@@ -81,6 +81,16 @@ export abstract class Model {
         return new TemplatedMember(ModelElementTypes.group, FormControlType.group, name, template, validator);
     }
 
+    static validationMessage(fieldKey: string, errorKey: string, text: string, cssClass?: string): LayoutMember {
+        let layout = Model.layout('');
+
+        layout
+            .addHelper(text, cssClass)
+            .addConditions({ key: `${fieldKey}:${errorKey}`, method: 'displayValidation' });
+
+        return layout;
+    }
+
     toFormGroup(fb: FormBuilder): FormGroup {
         return ModelHelper.createFormGroup(fb, this.members);
     }

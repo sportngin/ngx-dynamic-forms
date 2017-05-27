@@ -18,6 +18,7 @@ export const ModelElementTypes = {
 
 export interface ModelElementRenderCondition {
     key: string;
+    method?: string;
 }
 
 export interface ElementHelper {
@@ -40,6 +41,8 @@ export interface ModelElement {
     renderConditions?: ModelElementRenderCondition[];
     /** determines whether the element is rendered as disabled */
     disabled: boolean;
+    /** determines whether the control created by this element will display validation styling **/
+    displaysValidation: boolean;
 }
 
 /**

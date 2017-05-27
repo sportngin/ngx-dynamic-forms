@@ -55,6 +55,7 @@ export const HandlerTokens: { [key: string]: OpaqueToken } = {
 };
 
 export const HandlerMethods: { [key: string]: string } = {
+    displayValidation: 'displayValidation',
     editItem: 'onEditItemClick',
     isDisabled: 'isDisabled',
     isRendered: 'isChildRendered',
