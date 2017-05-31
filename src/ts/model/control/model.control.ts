@@ -1,6 +1,6 @@
-import { ElementHelper, ModelElement, ModelElementRenderCondition, ModelElementType } from '../model.element';
 import { FormControlType }      from '../../form.control.type';
 import { ControlPosition }      from '../control.position';
+import { ElementHelper, ModelElement, ModelElementRenderCondition, ModelElementType } from '../model.element';
 import { ModelMember }          from '../member/model.member';
 import { TemplatedMember }      from '../member/templated.member';
 
