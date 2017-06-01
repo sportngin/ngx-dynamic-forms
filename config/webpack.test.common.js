@@ -28,19 +28,19 @@ module.exports = {
                 loader: 'null-loader'
             },
             {
-                test: /\.css$/,
-                exclude: helpers.root('src', 'app'),
-                loader: 'null-loader'
-            },
-            {
-                test: /\.css$/,
-                include: helpers.root('src', 'app'),
-                loader: 'raw-loader'
-            },
-            {
                 test: /\.pug$/,
                 loader: ['raw-loader', 'pug-html-loader']
             },
+            {
+                test: /\.component\.scss$/,
+                exclude: /node_modules/,
+                loader: ['raw-loader', 'sass-loader']
+            },
+            {
+                test: /\.scss$/,
+                exclude: /\.component\.scss$/,
+                use: 'null-loader'
+            }
         ]
     },
 

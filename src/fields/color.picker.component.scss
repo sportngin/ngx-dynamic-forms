@@ -1,0 +1,34 @@
+@import '~bootstrap/scss/mixins/clearfix';
+
+color-picker.ngdf-colorpicker-toggled > color-picker {
+
+  //&:before {
+  //  position: fixed;
+  //  z-index: 100;
+  //  content: '';
+  //  display: block;
+  //  top: 0;
+  //  left: 0;
+  //  width: 100%;
+  //  height: 100%;
+  //  background-color: rgba(255, 255, 255, 0.75);
+  //}
+
+  > .color-picker {
+
+    .button-area {
+      .btn-primary {
+        float: right;
+      }
+      .btn-secondary {
+        float: left;
+      }
+
+      @include clearfix;
+    }
+    .hex-text,
+    .type-policy {
+      display: none;
+    }
+  }
+}

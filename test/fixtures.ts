@@ -1,7 +1,7 @@
 import { FormBuilder, FormControl } from '@angular/forms';
 
-import { FormComponentHost }    from '../src/ts/form.component.host';
-import { Model }                from '../src/ts/model/model';
+import { FormComponentHost }    from '../src/form.component.host';
+import { Model }                from '../src/model/model';
 
 export class FauxModel extends Model { }
 

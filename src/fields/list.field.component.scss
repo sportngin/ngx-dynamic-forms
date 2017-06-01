@@ -1,21 +1,21 @@
-.editor { display: none; }
+.ngdf-list-editor { display: none; }
 
-.editing {
+.ngdf-list-editing {
 
-  .editor {
+  .ngdf-list-editor {
     display: block;
 
-    &.button-container {
+    &.ngdf-list-button-container {
       display: flex;
       align-items: center;
 
-      &.flex-right {
+      &.ngdf-list-flex-right {
         justify-content: flex-end;
       }
     }
   }
 
-  .editable {
+  .ngdf-list-editable {
     display: none;
   }
 
@@ -26,13 +26,8 @@ list-field {
     list-style-type: none;
     padding: 0;
 
-    .list-item {
+    .ngdf-list-item {
       display: block;
     }
   }
-}
-
-.checkbox-indicator {
-  width: 17px;
-  margin-right: 5px;
 }

@@ -7,16 +7,16 @@ div([formGroup]='form')
     //    | No entries
 
     ul([formArrayName]='controlName')
-        li.list-item(
+        li.ngdf-list-item(
             *ngFor='let entry of formControl.controls; let i = index',
             listEntry,
             [formGroupName]='i',
-            [ngClass]='{ editing: state.entries[i].editing }',
+            [ngClass]='{ "ngdf-list-editing": state.entries[i].editing }',
             (keydown.enter)='onSaveItemClick(entry)'
         )
-            .editable((click)='editEntry(i)', *ngIf='!state.entries[i].editing')
+            .ngdf-list-editable((click)='editEntry(i)', *ngIf='!state.entries[i].editing')
                 ng-template(ngFor let-control [ngForOf]='childControls')
                     +fields(true, 'entry', null)
-            .editor(*ngIf='state.entries[i].editing')
+            .ngdf-list-editor(*ngIf='state.entries[i].editing')
                 ng-template(ngFor let-control [ngForOf]='childControls')
                     +fields(false, 'entry', null)

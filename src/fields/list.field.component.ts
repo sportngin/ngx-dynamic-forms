@@ -1,6 +1,6 @@
 import {
     Component, Host, InjectionToken, Injector, Input, OnInit, ViewChildren, QueryList,
-    AfterViewInit
+    AfterViewInit, ViewEncapsulation
 } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/forms';
 
@@ -42,7 +42,9 @@ const TOKENS = {
     }, {
         provide: IsRenderedHandlerToken,
         useExisting: ListFieldComponent
-    }]
+    }],
+    styleUrls: ['./list.field.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> implements
     OnInit, AfterViewInit,

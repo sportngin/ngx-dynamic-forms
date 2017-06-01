@@ -47,7 +47,13 @@ module.exports = merge({
                 loader: ['raw-loader', 'pug-html-loader']
             },
             {
+                test: /\.component\.scss$/,
+                exclude: /node_modules/,
+                loader: ['raw-loader', 'sass-loader']
+            },
+            {
                 test: /\.scss$/,
+                exclude: /\.component\.scss$/,
                 use: ExtractTextPlugin.extract({
                     use: 'css-loader?sourceMap!sass-loader?sourceMap'
                 })
