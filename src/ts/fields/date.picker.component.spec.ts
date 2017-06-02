@@ -1,5 +1,5 @@
 import { DebugElement, NO_ERRORS_SCHEMA }   from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed }        from '@angular/core/testing';
 import { By }                               from '@angular/platform-browser';
 
 import { expect } from 'chai';
@@ -33,7 +33,7 @@ describe('DatePickerComponent', () => {
     let monthDe:    DebugElement;
     let dayDe:      DebugElement;
 
-    beforeEach(async(() => {
+    beforeEach(() => {
 
         TestBed.configureTestingModule({
             declarations: [ DatePickerComponent ],
@@ -43,11 +43,8 @@ describe('DatePickerComponent', () => {
                 { provide: 'control', useValue: { disabled: false } }
             ]
         })
-        /**
-         * Compile template and css
-         */
             .compileComponents();
-    }));
+    });
 
     /**
      * Synchronous beforeEach

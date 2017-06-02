@@ -5,7 +5,7 @@
     "target": "es5",
     "module": "es2015",
     "moduleResolution": "node",
-    "declaration": true,
+    "declaration": false,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -22,10 +22,14 @@
       "es2015",
       "es6",
       "dom"
-    ]
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "ng-dynamic-forms": ["modules/ng-dynamic-forms"]
+    }
   },
   "files": [
-    "test.bootstrap.ts"
+    "app/test.bootstrap.ts"
   ],
   "angularCompilerOptions": {
     "skipMetadataEmit" : false,

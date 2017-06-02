@@ -1,5 +1,5 @@
-var helpers = require('./helpers');
-var webpack = require('webpack');
+const helpers = require('./helpers');
+const webpack = require('webpack');
 
 module.exports = {
     devtool: 'cheap-module-source-map',
@@ -16,19 +16,11 @@ module.exports = {
 
     module: {
         rules: [
-            // {
-            //     test: /\.ts$/,
-            //     exclude: `${helpers.root('src')}/**/*.spec.ts`,
-            //     loaders: ['istanbul-instrumenter-loader', 'awesome-typescript-loader', 'angular2-template-loader']
-            // },
             {
                 test: /\.ts$/,
-                // include: `${helpers.root('src')}/**/*.spec.ts`,
                 loaders: [
-                    {
-                        loader: 'awesome-typescript-loader',
-                        options: {configFileName: helpers.root('tsconfig.json')}
-                    }, 'angular2-template-loader'
+                    'awesome-typescript-loader?configFileName=./test/tsconfig.json&declaration=false',
+                    'angular2-template-loader'
                 ]
             },
             {

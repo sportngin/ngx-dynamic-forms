@@ -3,14 +3,16 @@ import { AbstractControl, FormGroup }   from '@angular/forms';
 
 import { every, isFunction } from 'lodash';
 
-import { HandlerMethods, HandlerTokens }    from './button.handlers';
-import { ModelControl }                     from './model/control/model.control';
+import { HandlerMethods, HandlerTokens } from './button.handlers';
+import { ModelControl }                  from './model/control/model.control';
 
 export class FormElement {
 
     @Input() public form: FormGroup;
 
-    private handlers: { [buttonEvent: string]: any } = {};
+    private handlers: { [buttonEvent: string]: any } = {
+        displayValidation: this
+    };
 
     constructor(
         protected injector: Injector
@@ -32,6 +34,17 @@ export class FormElement {
             return handler;
         }
         return this.handlers[buttonEvent];
+    }
+
+    public displayValidation(form: AbstractControl, fieldKey: string, errorKey: string): boolean {
+        let group = form as FormGroup;
+        if (!group) {
+            return true;
+        }
+        if (!group.controls[fieldKey]) {
+            throw new Error('Field does not exist!');
+        }
+        return group.controls[fieldKey].errors && group.controls[fieldKey].errors[errorKey];
     }
 
     // FIXME: find a better/more generic name, since these are no longer specific to buttons
@@ -66,11 +79,11 @@ export class FormElement {
             // FIXME: for some reason, using IsRenderedMethods.parent causes the error "Object prototype may only be an Object or null: undefined
             // if (condition === 'parent') { // IsRenderedMethods.parent) {
             // console.log('isRendered', condition.key, this.constructor, this.form);
-                return this.handleButtonEvent(`isRendered:${condition.key}`, this.form, true);
+                return this.handleButtonEvent(`${condition.method || 'isRendered'}:${condition.key}`, this.form, true);
             // }
 
             // return true;
-        })
+        });
     }
 
 }

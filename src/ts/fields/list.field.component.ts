@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/forms';
 
-import { last } from 'lodash';
+import { each, extend, last } from 'lodash';
 
 import {
     EditItemHandler, EditItemHandlerToken, IsRenderedHandler, IsRenderedHandlerToken,
@@ -124,13 +124,35 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
     setEntry(value: any, index: number): void {
         if (index >= this.formControl.length) {
             let form = this.template.toFormGroup(this.fb);
-            form.patchValue(value);
             this.formControl.push(form);
-            this.state.entries.push({ submitted: form.valid, editing: !form.valid });
+            let state = { submitted: form.valid, editing: !form.valid };
+            this.state.entries.push(state);
+            this.patchAndCheck(form, value, state);
         } else {
             let form = this.formControl.controls[index];
-            form.patchValue(value);
-            this.state.entries[index] = { submitted: form.valid, editing: !form.valid };
+            let state = { submitted: form.valid, editing: !form.valid };
+            this.state.entries[index] = state;
+            this.patchAndCheck(form, value, state);
+        }
+    }
+
+    private patchAndCheck(form: AbstractControl, value: any, state: any): void {
+        form.patchValue(value);
+        setTimeout(() => {
+            this.checkDirty(form);
+            extend(state, { submitted: form.valid, editing: !form.valid });
+        });
+    }
+
+    private checkDirty(form: AbstractControl): void {
+        if (form.value && form.errors) {
+            form.markAsDirty();
+            form.markAsTouched();
+        } else if (form instanceof FormGroup) {
+            let formGroup = form as FormGroup;
+            each(formGroup.controls, (control, key) => {
+                this.checkDirty(control);
+            });
         }
     }
 
@@ -170,7 +192,6 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
     }
 
     isChildRendered(form: AbstractControl, key?: string): boolean {
-        // console.log('isChildRendered', key, this.getFormIndex(form));
         switch(key) {
             case 'add': return this.control.canAddItem && this.isLastEntry(form);
             case 'edit': return this.control.canEditItem && (!this.isLastEntry(form) || !this.control.canAddItem);

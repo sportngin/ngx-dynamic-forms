@@ -29,7 +29,7 @@ interface InputData {
 
 @Component({
     selector: 'input-selector',
-    template: '<div #container></div>',
+    template: '<span #container></span>',
 })
 export class InputSelectorComponent implements ControlValueAccessor, OnInit {
 

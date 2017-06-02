@@ -9,6 +9,8 @@ export class ArrayMember extends TemplatedMember {
 
     constructor(name: string, template: Model, validators?: ValidatorFn | ValidatorFn[], data?: {}) {
         super(ModelElementTypes.array, FormControlType.list, name, template, validators, data);
+
+        this.displaysValidation = false;
     }
 
     public canEditItem: boolean = true;

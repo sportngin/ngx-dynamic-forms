@@ -1,0 +1,13 @@
+doctype html
+
+h3 {{fieldName}}
+p
+    code {{modelSourcePath}}
+
+.row
+    .col-8
+        dynamic-form
+
+h3 Form Model
+pre.model-display
+    code {{form.value|json}}

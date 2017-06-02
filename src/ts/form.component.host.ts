@@ -1,19 +1,25 @@
-import { EventEmitter, OnDestroy, Provider }    from '@angular/core';
-import { AbstractControl }                      from '@angular/forms';
+import { EventEmitter, OnDestroy, Provider, Type }  from '@angular/core';
+import { AbstractControl }                          from '@angular/forms';
 
 import { Observable }   from 'rxjs/Observable';
 import { Observer }     from 'rxjs/Observer';
 
-import { DynamicFormComponent }                         from './dynamic.form.component';
-import { UseAltTextHandler, UseAltTextHandlerToken }    from './button.handlers';
-import { Model }                                        from './model/model';
+import {
+    IsRenderedHandler, IsRenderedHandlerToken,
+    UseAltTextHandler, UseAltTextHandlerToken
+} from './button.handlers';
+import { DynamicFormComponent } from './dynamic.form.component';
+import { Model }                from './model/model';
 
-export function hostProvides(implementation: any): Provider[] {
+export function hostProvides(implementation: Type<any>): Provider[] {
     return [{
         provide: FormComponentHost,
         useExisting: implementation
     }, {
         provide: UseAltTextHandlerToken,
+        useExisting: implementation
+    }, {
+        provide: IsRenderedHandlerToken,
         useExisting: implementation
     }]
 }
@@ -29,7 +35,7 @@ export interface FormState {
     error?: any
 }
 
-export abstract class FormComponentHost<TState extends FormState = FormState> implements OnDestroy, UseAltTextHandler {
+export abstract class FormComponentHost<TState extends FormState = FormState> implements OnDestroy, IsRenderedHandler, UseAltTextHandler {
 
     private _form: DynamicFormComponent;
     private valueInjectionObserver: Promise<Observer<ControlValueInjection>>;
@@ -85,6 +91,14 @@ export abstract class FormComponentHost<TState extends FormState = FormState> im
 
     protected emit(event: any): void {
         this.events.emit(event);
+    }
+
+    public isChildRendered(form: AbstractControl, key?: string): boolean {
+        switch (key) {
+            case 'error': return !!this.state.error;
+            case 'submitting': return this.state.submitting;
+            case 'submitted': return this.state.submitted;
+        }
     }
 
 }

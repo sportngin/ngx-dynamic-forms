@@ -1,12 +1,12 @@
 import { PageMember, RootPageMember }           from '../member/page.member';
-import { toControlGroup }                       from '../model';
+import { ModelHelper }                          from '../model.helper';
 import { ModelControlBase, ModelMemberControl } from './model.control';
 
 export class RootPageControl extends ModelControlBase<RootPageMember> {
     constructor(container: RootPageMember) {
         super(container);
 
-        this.childControls = toControlGroup(container.members);
+        this.childControls = ModelHelper.createModelControls(container.members);
     }
 }
 

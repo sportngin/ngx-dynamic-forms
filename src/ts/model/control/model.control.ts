@@ -1,6 +1,6 @@
-import { ElementHelper, ModelElement, ModelElementRenderCondition, ModelElementType } from '../model.element';
 import { FormControlType }      from '../../form.control.type';
 import { ControlPosition }      from '../control.position';
+import { ElementHelper, ModelElement, ModelElementRenderCondition, ModelElementType } from '../model.element';
 import { ModelMember }          from '../member/model.member';
 import { TemplatedMember }      from '../member/templated.member';
 
@@ -18,6 +18,7 @@ export abstract class ModelControlBase<TMember extends ModelElement> implements 
         this.renderConditions = member.renderConditions;
         this.helpers = member.helpers;
         this.disabled = member.disabled;
+        this.displaysValidation = member.displaysValidation;
     }
 
     public member: TMember;
@@ -28,6 +29,7 @@ export abstract class ModelControlBase<TMember extends ModelElement> implements 
     public helpers: ElementHelper[];
     public get hidden() { return false; };
     public disabled: boolean;
+    public displaysValidation: boolean;
 }
 
 export class ModelMemberControl<TModelMember extends ModelMember = ModelMember> extends ModelControlBase<TModelMember> {
