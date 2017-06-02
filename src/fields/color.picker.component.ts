@@ -30,7 +30,6 @@ export class ColorPickerComponent extends FieldBase<FormControl> {
     }
 
     onToggleChange(toggled: boolean): void {
-        console.log('toggleChange');
         if (toggled) {
             this.renderer.addClass(this.elementRef.nativeElement, 'ngdf-colorpicker-toggled');
         } else {
