@@ -21,12 +21,6 @@ module.exports = {
                 use: 'pug-loader'
             },
             {
-                test: /\.css$/,
-                use: ExtractTextPlugin.extract({
-                    use: 'css-loader?sourceMap'
-                })
-            },
-            {
                 test: /\.component\.scss$/,
                 exclude: /node_modules/,
                 loader: ['raw-loader', 'sass-loader']
