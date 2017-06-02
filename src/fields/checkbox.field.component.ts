@@ -1,5 +1,5 @@
-import { Component, Host, InjectionToken, Injector, Input, OnInit } from '@angular/core';
-import { FormControl }                                              from '@angular/forms';
+import { Component, Host, InjectionToken, Injector, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 import { isBoolean, isFunction } from 'lodash';
 
@@ -12,7 +12,9 @@ const TOKENS = {
 
 @Component({
     selector: 'checkbox-field',
-    templateUrl: 'checkbox.field.pug'
+    templateUrl: 'checkbox.field.pug',
+    styleUrls: ['./checkbox.field.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 export class CheckboxFieldComponent extends FieldBase<FormControl> implements OnInit {
 
