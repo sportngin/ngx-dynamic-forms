@@ -19,6 +19,7 @@ import { CheckboxTestComponent }    from './fields/checkbox/checkbox.test.compon
 import { ColorPickerTestComponent } from './fields/colorpicker/color.picker.test.component';
 import { DatePickerTestComponent }  from './fields/datepicker/date.picker.test.component';
 import { DropdownTestComponent }    from './fields/dropdown/dropdown.test.component';
+import { ListTestComponent }        from './fields/list/list.test.component';
 
 @NgModule({
     bootstrap:      [ TestAppComponent ],
@@ -31,7 +32,8 @@ import { DropdownTestComponent }    from './fields/dropdown/dropdown.test.compon
         CheckboxTestComponent,
         ColorPickerTestComponent,
         DatePickerTestComponent,
-        DropdownTestComponent
+        DropdownTestComponent,
+        ListTestComponent
     ],
     imports:        [
         BrowserModule,
