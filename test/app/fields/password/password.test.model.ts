@@ -1,0 +1,19 @@
+import { Validators } from '@angular/forms';
+
+import { Model, PasswordValidator } from 'ng-dynamic-forms';
+
+export class PasswordTestModel extends Model {
+
+    constructor() {
+        super(
+            Model.passwordMember('simplePassword', Validators.required).addLabel('Simple Password'),
+
+            Model.passwordMember('strengthValidatedPassword', Validators.required, PasswordValidator.validator([
+                { description: 'At least two letters', pattern: /[A-Za-z].*[A-Za-z]/ },
+                { description: 'At least two numbers', pattern: /\d.*\d/ },
+            ]))
+                .addLabel('Validated Password')
+                .addHelper('At least two letters and two numbers.')
+        );
+    }
+}

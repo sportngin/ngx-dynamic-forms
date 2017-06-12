@@ -6,6 +6,7 @@ import { ColorPickerTestComponent } from './colorpicker/color.picker.test.compon
 import { DatePickerTestComponent }  from './datepicker/date.picker.test.component';
 import { DropdownTestComponent }    from './dropdown/dropdown.test.component';
 import { ListTestComponent }        from './list/list.test.component';
+import { PasswordTestComponent }    from './password/password.test.component';
 
 export const fieldsChildRoutes: Routes = [
     { path: '',             component: TestFieldsHomeComponent },
@@ -13,5 +14,6 @@ export const fieldsChildRoutes: Routes = [
     { path: 'colorpicker',  component: ColorPickerTestComponent },
     { path: 'datepicker',   component: DatePickerTestComponent },
     { path: 'dropdown',     component: DropdownTestComponent },
-    { path: 'list',         component: ListTestComponent }
+    { path: 'list',         component: ListTestComponent },
+    { path: 'password',     component: PasswordTestComponent }
 ];

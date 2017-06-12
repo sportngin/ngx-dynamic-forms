@@ -10,7 +10,8 @@ const TOKENS = {
 
 @Component({
     selector: 'password-field',
-    templateUrl: './password.field.pug'
+    templateUrl: './password.field.pug',
+    styleUrls: ['./checkbox.field.component.scss']
 })
 export class PasswordFieldComponent extends FieldBase<FormControl> {
 
