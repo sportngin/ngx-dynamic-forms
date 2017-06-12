@@ -20,8 +20,6 @@ export class CheckboxFieldComponent extends FieldBase<FormControl> implements On
 
     @Input() protected checked: boolean | (() => boolean);
 
-    public isChecked: boolean;
-
     constructor(
         injector: Injector,
         @Host() host: FormComponentHost
@@ -30,12 +28,14 @@ export class CheckboxFieldComponent extends FieldBase<FormControl> implements On
     }
 
     ngOnInit(): void {
+        let checked = false;
+
         if (isBoolean(this.checked)) {
-            this.isChecked = this.checked;
+            checked = this.checked;
         } else if (isFunction(this.checked)) {
-            this.isChecked = this.checked();
+            checked = this.checked();
         }
-        this.formControl.setValue(this.isChecked || false);
+        setTimeout(() => this.formControl.setValue(checked || false), 0);
     }
 
     toggle(): void {

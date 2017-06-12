@@ -3,8 +3,8 @@ doctype html
 input.custom-control-input(
     type='checkbox',
     [id]='controlName',
-    [checked]='isChecked',
     (click)='toggle()',
+    [formControl]='formControl',
     [attr.disabled]='control.disabled ? "" : null'
 )
 .fa.ngdf-checkbox-indicator(
