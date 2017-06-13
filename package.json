@@ -1,11 +1,14 @@
 {
   "name": "ng-dynamic-forms",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "",
   "author": "SI Play",
   "repository": {
     "type": "git",
     "url": "git@bitbucket.org:siplay/ng-dynamic-forms.git"
+  },
+  "publishConfig": {
+    "registry": "https://sportssignup.myget.org/F/siplay-npm/auth/190133ec-cc4f-4de9-9b83-fe9354b4bb2a/npm/"
   },
   "main": "dist/dynamic.forms.umd.js",
   "module": "dist/index.js",
