@@ -54,9 +54,7 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
     @Input() template: Model;
     @ViewChildren(ListFieldEntryDirective) inputs: QueryList<ListFieldEntryDirective>;
 
-    public state: {
-        entries: { submitted: boolean, editing: boolean }[]
-    } = { entries: [] };
+    public entryState: { submitted: boolean, editing: boolean }[] = [];
 
     constructor(
         private fb: FormBuilder,
@@ -68,7 +66,7 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
 
     ngOnInit(): void {
         this.formControl.controls.forEach((entryControl: FormGroup) => {
-            this.state.entries.push({ submitted: entryControl.valid, editing: !entryControl.valid });
+            this.entryState.push({ submitted: entryControl.valid, editing: !entryControl.valid });
         });
 
         this.addEmptyEntryIfNeeded();
@@ -79,24 +77,26 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
             }
             let items = injection.value as any[];
             items.forEach((value, i) => this.setEntry(value, i));
-            this.addEmptyEntryIfNeeded();
             this.formControl.reset(items);
+            this.addEmptyEntryIfNeeded();
         });
     }
 
     ngAfterViewInit(): void {
         this.inputs.changes.subscribe((changes: QueryList<ListFieldEntryDirective>) => {
-            if (changes.last && last(this.state.entries).editing) {
+            if (changes.last && last(this.entryState).editing) {
                 changes.last.focusFirstInput();
             }
         });
     }
 
     addEmptyEntryIfNeeded(): void {
-        if (this.control.canAddItem && last(this.state.entries).submitted) {
+        console.log('addEmptyEntryIfNeeded');
+        let lastEntry = last(this.entryState);
+        if (this.control.canAddItem && (lastEntry.submitted || !lastEntry.editing)) {
             let form = this.template.toFormGroup(this.fb);
             this.formControl.push(form);
-            this.state.entries.push({ submitted: false, editing: true });
+            this.entryState.push({ submitted: false, editing: true });
         }
     }
 
@@ -104,8 +104,8 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
         if (form.valid) {
             let index = this.formControl.controls.indexOf(form);
 
-            this.state.entries[index].submitted = true;
-            this.state.entries[index].editing = false;
+            this.entryState[index].submitted = true;
+            this.entryState[index].editing = false;
 
             this.addEmptyEntryIfNeeded();
         }
@@ -116,7 +116,7 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
         let index = this.formControl.controls.indexOf(form);
 
         this.formControl.removeAt(index);
-        this.state.entries.splice(index, 1);
+        this.entryState.splice(index, 1);
     }
 
     onResetItemClick(form: AbstractControl): void {
@@ -124,17 +124,21 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
     }
 
     setEntry(value: any, index: number): void {
+        let form;
         if (index >= this.formControl.length) {
-            let form = this.template.toFormGroup(this.fb);
+            form = this.template.toFormGroup(this.fb);
             this.formControl.push(form);
-            let state = { submitted: form.valid, editing: !form.valid };
-            this.state.entries.push(state);
+            let state = { submitted: form.valid, editing: false};
+            this.entryState.push(state);
             this.patchAndCheck(form, value, state);
         } else {
-            let form = this.formControl.controls[index];
-            let state = { submitted: form.valid, editing: !form.valid };
-            this.state.entries[index] = state;
+            form = this.formControl.controls[index];
+            let state = { submitted: form.valid, editing: false };
+            this.entryState[index] = state;
             this.patchAndCheck(form, value, state);
+        }
+        if (!form.valid) {
+            this.editEntry(index);
         }
     }
 
@@ -142,7 +146,10 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
         form.patchValue(value);
         setTimeout(() => {
             this.checkDirty(form);
-            extend(state, { submitted: form.valid, editing: !form.valid });
+            extend(state, { submitted: form.valid, editing: false });
+            if (!form.valid) {
+                this.editEntry(this.getFormIndex(form));
+            }
         });
     }
 
@@ -152,7 +159,7 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
             form.markAsTouched();
         } else if (form instanceof FormGroup) {
             let formGroup = form as FormGroup;
-            each(formGroup.controls, (control, key) => {
+            each(formGroup.controls, (control) => {
                 this.checkDirty(control);
             });
         }
@@ -161,7 +168,7 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
     get hasEntries(): boolean {
         return this.formControl.controls.length > 0 &&
                 this.formControl.controls[0].valid &&
-                this.state.entries[0].submitted;
+                this.entryState[0].submitted;
     }
 
     private get formArray(): FormArray {
@@ -178,14 +185,14 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
     }
 
     editEntry(index: number) {
-        if (this.control.canEditItem) {
-            this.state.entries[index].editing = true;
+        if (this.control.getPermission(this.control.canEditItem, this.formArray.value[index])) {
+            this.entryState[index].editing = true;
         }
     }
 
     useAltText(form: AbstractControl): boolean {
         let index = this.getFormIndex(form);
-        return !this.state.entries[index].submitted;
+        return !this.entryState[index].submitted;
     }
 
     private isLastEntry(form: AbstractControl): boolean {
@@ -195,11 +202,25 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
 
     isChildRendered(form: AbstractControl, key?: string): boolean {
         switch(key) {
-            case 'add': return this.control.canAddItem && this.isLastEntry(form);
-            case 'edit': return this.control.canEditItem && (!this.isLastEntry(form) || !this.control.canAddItem);
-            case 'remove': return this.control.canRemoveItem && (!this.isLastEntry(form) || !this.control.canAddItem);
+            case 'add':
+                return this.control.canAddItem && this.isLastEntry(form);
+
+            case 'edit':
+                return this.control.getPermission(this.control.canEditItem, form.value) &&
+                    (!this.isLastEntry(form) || !this.control.getPermission(this.control.canAddItem, form.value));
+
+            case 'remove':
+                return this.control.getPermission(this.control.canRemoveItem, form.value) &&
+                    (!this.isLastEntry(form) || !this.control.getPermission(this.control.canAddItem, form.value));
+
             case 'reset': return this.isLastEntry(form);
-            case 'save': return (this.control.canEditItem || this.control.canAddItem) && (!this.isLastEntry(form) || !this.control.canAddItem);
+
+            case 'save':
+                return (
+                    this.control.getPermission(this.control.canEditItem, form.value) ||
+                    this.control.getPermission(this.control.canAddItem, form.value)
+                    ) &&
+                (!this.isLastEntry(form) || !this.control.canAddItem);
         }
         return true;
     }

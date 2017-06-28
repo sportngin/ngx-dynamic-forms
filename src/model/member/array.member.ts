@@ -5,6 +5,8 @@ import { Model }                from '../model';
 import { ModelElementTypes }    from '../model.element';
 import { TemplatedMember }      from './templated.member';
 
+export type ArrayItemPermission = boolean | ((value: any) => boolean);
+
 export class ArrayMember extends TemplatedMember {
 
     constructor(name: string, template: Model, validators?: ValidatorFn | ValidatorFn[], data?: {}) {
@@ -13,11 +15,11 @@ export class ArrayMember extends TemplatedMember {
         this.displaysValidation = false;
     }
 
-    public canEditItem: boolean = true;
+    public canEditItem: ArrayItemPermission = true;
     public canAddItem: boolean = true;
-    public canRemoveItem: boolean = true;
+    public canRemoveItem: ArrayItemPermission = true;
 
-    public allowEdit(allowEdit: boolean): ArrayMember {
+    public allowEdit(allowEdit: ArrayItemPermission): ArrayMember {
         this.canEditItem = allowEdit;
         return this;
     }
@@ -27,7 +29,7 @@ export class ArrayMember extends TemplatedMember {
         return this;
     }
 
-    public allowRemoveItem(allowRemoveItem: boolean): ArrayMember {
+    public allowRemoveItem(allowRemoveItem: ArrayItemPermission): ArrayMember {
         this.canRemoveItem = allowRemoveItem;
         return this;
     }

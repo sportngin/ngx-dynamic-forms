@@ -1,5 +1,5 @@
-import { ArrayMember }          from '../member/array.member';
-import { ModelMemberControl }   from './model.control';
+import { ArrayItemPermission, ArrayMember } from '../member/array.member';
+import { ModelMemberControl }               from './model.control';
 
 export class ArrayControl extends ModelMemberControl<ArrayMember> {
 
@@ -11,8 +11,16 @@ export class ArrayControl extends ModelMemberControl<ArrayMember> {
         this.canRemoveItem = member.canRemoveItem;
     }
 
-    public canEditItem: boolean;
     public canAddItem: boolean;
-    public canRemoveItem: boolean;
+    public canEditItem: ArrayItemPermission;
+    public canRemoveItem: ArrayItemPermission;
+
+    public getPermission(hasPermission: ArrayItemPermission, value: any): boolean {
+        if (typeof hasPermission === 'boolean') {
+            return hasPermission as boolean;
+        }
+
+        return hasPermission(value);
+    }
 
 }

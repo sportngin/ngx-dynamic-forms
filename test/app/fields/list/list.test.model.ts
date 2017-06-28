@@ -1,13 +1,16 @@
 import { Validators } from '@angular/forms';
 
 import { ButtonActions, BUTTON_CLASSES, Model } from '@siplay/ng-dynamic-forms';
+import { FormControlType } from '../../../../src/form.control.type';
 
 export class ListTestModelItem extends Model {
 
     constructor() {
         super(
             Model.layout('.row.entry-row-1',
-                Model.layout('.col-8', Model.textMember('name', Validators.required).addLabel('Name')),
+                Model.hiddenMember('cantTouchThis'),
+                Model.layout('.col-6', Model.textMember('name', Validators.required).addLabel('Name')),
+                Model.layout('.col-2', Model.defaultValueMember('default', 'default', FormControlType.text).addLabel('default')),
                 Model.layout('.col-4.ngdf-list-editable.ngdf-list-button-container.flex-right',
                     Model.layout('.float-right',
                         Model.button(ButtonActions.removeItem, BUTTON_CLASSES.danger)
@@ -42,6 +45,7 @@ export class ListTestModel extends Model {
     constructor() {
         super(
             Model.arrayMember('list', new ListTestModelItem())
+                .allowEdit(value => !value.cantTouchThis)
                 .addLabel('List')
 
         );

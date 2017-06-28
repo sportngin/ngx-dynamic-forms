@@ -18,6 +18,10 @@ export class ListTestComponent extends FieldTestComponent {
         super(new ListTestModel());
     }
 
+    afterFormInit(): void {
+        this.injectControlValue(this.form.controls['list'], [{ cantTouchThis: true, name: `can't touch this` }]);
+    }
+
     protected get fieldName() {
         return 'List';
     }
