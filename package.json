@@ -13,6 +13,9 @@
   "main": "dist/dynamic.forms.umd.js",
   "module": "dist/index.js",
   "typings": "dist/index",
+  "files": [
+    "dist/"
+  ],
   "scripts": {
     "prebuild": "rimraf dist",
     "build:templates": "gulp build-templates",
@@ -27,9 +30,6 @@
     "test:server": "webpack-dev-server --config config/webpack.test.browser.js --inline --progress --port 8888",
     "dev": "webpack-dev-server --config config/webpack.dev.js --history-api-fallback true --inline --progress --port 8888"
   },
-  "files": [
-    "dist/"
-  ],
   "peerDependencies": {
     "@angular/common": "^4.0.0",
     "@angular/core": "^4.0.0",
@@ -42,8 +42,7 @@
   "dependencies": {
     "lodash": "^4.17.0",
     "moment": "^2.18.0",
-    "ngx-color-picker": "^4.0.0",
-    "npm": "^5.0.1"
+    "ngx-color-picker": "^4.0.0"
   },
   "devDependencies": {
     "@angular/common": "^4.2.0",

@@ -23,7 +23,7 @@ module.exports = merge(require('./webpack.common'), {
         path: path.resolve(process.cwd(), 'dist'),
         filename: '[name].js',
         sourceMapFilename: '[file].map',
-        library: 'ng-dynamic-forms',
+        library: '@siplay/ng-dynamic-forms',
         libraryTarget: 'umd',
         umdNamedDefine: true
     },
