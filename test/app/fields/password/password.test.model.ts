@@ -1,6 +1,6 @@
 import { Validators } from '@angular/forms';
 
-import { Model, PasswordValidator } from 'ng-dynamic-forms';
+import { Model, PasswordValidator } from '@siplay/ng-dynamic-forms';
 
 export class PasswordTestModel extends Model {
 

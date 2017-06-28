@@ -1,4 +1,4 @@
-import { Model } from 'ng-dynamic-forms';
+import { Model } from '@siplay/ng-dynamic-forms';
 
 export class DropdownTestModel extends Model {
 

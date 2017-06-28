@@ -1,4 +1,4 @@
-import { FormComponentHost, Model } from 'ng-dynamic-forms';
+import { FormComponentHost, Model } from '@siplay/ng-dynamic-forms';
 
 export abstract class FieldTestComponent extends FormComponentHost {
 

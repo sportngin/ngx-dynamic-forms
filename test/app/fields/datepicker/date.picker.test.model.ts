@@ -1,4 +1,4 @@
-import { FormControlType, Model } from 'ng-dynamic-forms';
+import { FormControlType, Model } from '@siplay/ng-dynamic-forms';
 
 export class DatePickerTestModel extends Model {
 

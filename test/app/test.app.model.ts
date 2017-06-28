@@ -1,6 +1,6 @@
 // import { Validators } from '@angular/forms';
 //
-// import { FormControlType, Model } from 'ng-dynamic-forms';
+// import { FormControlType, Model } from '@siplay/ng-dynamic-forms';
 //
 // export class TestAppModelSimpleFields extends Model {
 //

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { hostProvides } from 'ng-dynamic-forms';
+import { hostProvides } from '@siplay/ng-dynamic-forms';
 
 import { FieldTestComponent }   from '../field.test.component';
 import { CheckboxTestModel }    from './checkbox.test.model';

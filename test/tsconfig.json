@@ -25,7 +25,7 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "ng-dynamic-forms": ["modules/ng-dynamic-forms"]
+      "@siplay/*": ["modules/@siplay/*"]
     }
   },
   "files": [

@@ -6,7 +6,7 @@ import { NgModule }             from '@angular/core';
 import { ReactiveFormsModule }  from '@angular/forms';
 import { BrowserModule }        from '@angular/platform-browser';
 
-import { DynamicFormsModule }   from 'ng-dynamic-forms';
+import { DynamicFormsModule }   from '@siplay/ng-dynamic-forms';
 
 import { TestAppComponent }             from './test.app.component';
 import { routing, routingProviders }    from './test.app.routing';

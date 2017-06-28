@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { hostProvides } from 'ng-dynamic-forms';
+import { hostProvides } from '@siplay/ng-dynamic-forms';
 
 import { FieldTestComponent }   from '../field.test.component';
 import { DatePickerTestModel }    from './date.picker.test.model';
