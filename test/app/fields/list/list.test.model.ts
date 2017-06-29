@@ -1,7 +1,6 @@
 import { Validators } from '@angular/forms';
 
-import { ButtonActions, BUTTON_CLASSES, Model } from '@siplay/ng-dynamic-forms';
-import { FormControlType } from '../../../../src/form.control.type';
+import { ButtonActions, BUTTON_CLASSES, FormControlType, Model } from '@siplay/ng-dynamic-forms';
 
 export class ListTestModelItem extends Model {
 
@@ -9,12 +8,19 @@ export class ListTestModelItem extends Model {
         super(
             Model.layout('.row.entry-row-1',
                 Model.hiddenMember('cantTouchThis'),
-                Model.layout('.col-6', Model.textMember('name', Validators.required).addLabel('Name')),
+                Model.layout('.col-4', Model.textMember('name', Validators.required).addLabel('Name')),
                 Model.layout('.col-2', Model.defaultValueMember('default', 'default', FormControlType.text).addLabel('default')),
+                Model.layout('.col-2',
+                    Model.selectionMember('selectSomething')
+                        .addData('data', [{ id: 1, name: 'option 1' }, { id: 2, name: 'option 2' }])
+                        .addData('itemLabel', 'name')
+                        .addData('itemValue', 'id')
+                ),
                 Model.layout('.col-4.ngdf-list-editable.ngdf-list-button-container.flex-right',
                     Model.layout('.float-right',
                         Model.button(ButtonActions.removeItem, BUTTON_CLASSES.danger)
                             .addCssClass('fa', 'fa-trash-o'))
+                            .addConditions({ key: 'remove' })
                 ),
                 Model.layout('.col-4.ngdf-list-editor.ngdf-list-button-container.ngdf-list-flex-right',
                     Model.layout('.float-right',
@@ -46,6 +52,7 @@ export class ListTestModel extends Model {
         super(
             Model.arrayMember('list', new ListTestModelItem())
                 .allowEditItem(value => !value.cantTouchThis)
+                .allowRemoveItem(value => !value.cantTouchThis)
                 .addLabel('List')
 
         );

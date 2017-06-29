@@ -1,9 +1,9 @@
-import { ValidatorFn } from '@angular/forms';
+import { FormControl, ValidatorFn } from '@angular/forms';
 
 import { first, isArray } from 'lodash';
 
-import { FormControlType }                                                  from '../../form.control.type';
-import { ControlPosition, ControlPositions }                                from '../control.position';
+import { FormControlType }                      from '../../form.control.type';
+import { ControlPosition, ControlPositions }    from '../control.position';
 import {
     ElementHelper, ModelElement, ModelElementBuilder,
     ModelElementType
@@ -60,6 +60,10 @@ export abstract class ModelMemberBase extends ModelElementBase implements ModelM
     public addLabel(label: string): ModelMemberBuilder {
         this.label = label;
         return this;
+    }
+
+    public createFormControl(): FormControl {
+        return new FormControl(null, this.validators);
     }
 
 }

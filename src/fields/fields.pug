@@ -7,7 +7,8 @@ mixin fields(displayOnly, formVarName, formGroup)
             +controls(formVarName)
     else
         +controls(formVarName)
-    div(*ngIf='displayOnly && control.elementType !== "layout" && !control.hidden && isRendered(control)') {{#{formVarName || 'form'}.value[control.name]}}
+    div(*ngIf='displayOnly && control.elementType !== "layout" && !control.hidden && isRendered(control)')
+        | {{control.name && #{formVarName || 'form'}.controls[control.name] && #{formVarName || 'form'}.controls[control.name].displayValue || #{formVarName || 'form'}.value[control.name]}}
     input(
         *ngIf='control.elementType === "submit" && isRendered(control)',
         type='submit',

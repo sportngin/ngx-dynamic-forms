@@ -1,15 +1,24 @@
-import { ValidatorFn }          from '@angular/forms';
+import { ValidatorFn } from '@angular/forms';
+
+import { find } from 'lodash';
 
 import { FormControlType }      from '../../form.control.type';
-import { ModelElementTypes }    from '../model.element';
-import { ModelMemberBase }      from './model.member';
+import { DisplayValueMember }   from './display.value.member';
 
-export class SelectionMember extends ModelMemberBase {
+export class SelectionMember extends DisplayValueMember {
 
     constructor(name: string, validators?: ValidatorFn | ValidatorFn[], data?: {}, dependentControls?: string[]) {
-        super(ModelElementTypes.control, FormControlType.dropdown, name, validators, data);
+        super(FormControlType.dropdown, name, validators, data);
 
         this.dependentControls = dependentControls;
+    }
+
+    protected getDisplayValue(value: any): string {
+        let selectionData = this.data['data'];
+        let itemLabelKey = this.data['itemLabel'];
+        let itemValueKey = this.data['itemValue'];
+        let item = find(selectionData, (item: any) => item[itemValueKey] === value);
+        return item ? item[itemLabelKey] : null;
     }
 
     public dependentControls: string[];
@@ -21,4 +30,5 @@ export class SelectionMember extends ModelMemberBase {
         this.dependentControls.push(...controlNames);
         return this;
     }
+
 }

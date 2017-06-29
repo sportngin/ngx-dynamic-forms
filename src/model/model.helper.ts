@@ -24,7 +24,7 @@ export class ModelHelper {
     static modelMemberToFormControl(fb: FormBuilder, member: ModelMemberBase): AbstractControl {
         switch (member.elementType) {
             case ModelElementTypes.array: return fb.array([(member as TemplatedMember).template.toFormGroup(fb)], member.validator);
-            case ModelElementTypes.control: return fb.control((member as SimpleMember).defaultValue, member.validators);
+            case ModelElementTypes.control: return (member as SimpleMember).createFormControl();
             case ModelElementTypes.page:
             case ModelElementTypes.group:
                 return (member as TemplatedMember).template.toFormGroup(fb);
