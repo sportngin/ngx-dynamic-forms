@@ -19,8 +19,8 @@ export class ArrayMember extends TemplatedMember {
     public canAddItem: boolean = true;
     public canRemoveItem: ArrayItemPermission = true;
 
-    public allowEdit(allowEdit: ArrayItemPermission): ArrayMember {
-        this.canEditItem = allowEdit;
+    public allowEditItem(allowEditItem: ArrayItemPermission): ArrayMember {
+        this.canEditItem = allowEditItem;
         return this;
     }
 

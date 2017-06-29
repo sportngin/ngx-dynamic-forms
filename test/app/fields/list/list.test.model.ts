@@ -45,7 +45,7 @@ export class ListTestModel extends Model {
     constructor() {
         super(
             Model.arrayMember('list', new ListTestModelItem())
-                .allowEdit(value => !value.cantTouchThis)
+                .allowEditItem(value => !value.cantTouchThis)
                 .addLabel('List')
 
         );
