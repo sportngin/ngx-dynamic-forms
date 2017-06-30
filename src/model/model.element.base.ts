@@ -1,4 +1,4 @@
-import { chain } from 'lodash';
+import { chain, extend, map } from 'lodash';
 
 import {
     ElementHelper, ModelElementBuilder, ModelElementRenderCondition,
@@ -66,6 +66,10 @@ export abstract class ModelElementBase implements ModelElementBuilder {
         }
 
         return this;
+    }
+
+    public addListItemControlConditions(...renderConditions: ModelElementRenderCondition[]): ModelElementBuilder {
+        return this.addConditions(...map(renderConditions, condition => extend(condition, { method: 'isListItemControlRendered' })))
     }
 
     public disable(): ModelElementBuilder {

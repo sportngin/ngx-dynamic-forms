@@ -43,10 +43,17 @@ export interface IsRenderedHandler {
 
 export const IsRenderedHandlerToken = new InjectionToken<IsRenderedHandler>('IsRenderedHandler');
 
+export interface IsListItemControlRenderedHandler {
+    isListItemControlRendered(form: AbstractControl, key: string): boolean;
+}
+
+export const IsListItemControlRenderedHandlerToken = new InjectionToken<IsListItemControlRenderedHandler>('IsListItemControlRenderedHandler');
+
 // FIXME: these constants should be turned into a service so handlers for custom actions can be registered
 export const HandlerTokens: { [key: string]: OpaqueToken } = {
     editItem: EditItemHandlerToken,
     isDisabled: IsDisabledHandlerToken,
+    isListItemControlRendered: IsListItemControlRenderedHandlerToken,
     isRendered: IsRenderedHandlerToken,
     removeItem: RemoveItemHandlerToken,
     resetItem: ResetItemHandlerToken,
@@ -58,6 +65,7 @@ export const HandlerMethods: { [key: string]: string } = {
     displayValidation: 'displayValidation',
     editItem: 'onEditItemClick',
     isDisabled: 'isDisabled',
+    isListItemControlRendered: 'isListItemControlRendered',
     isRendered: 'isChildRendered',
     removeItem: 'onRemoveItemClick',
     resetItem: 'onResetItemClick',

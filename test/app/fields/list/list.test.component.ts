@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
+import { AbstractControl }              from '@angular/forms';
 
 import { hostProvides } from '@siplay/ng-dynamic-forms';
 
@@ -10,7 +11,9 @@ import { ListTestModel }        from './list.test.model';
     templateUrl: '../field.test.pug',
     viewProviders: [
         hostProvides(ListTestComponent)
-    ]
+    ],
+    styleUrls: ['./list.test.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 export class ListTestComponent extends FieldTestComponent {
 
@@ -30,4 +33,11 @@ export class ListTestComponent extends FieldTestComponent {
         return 'test/app/fields/dropdown/list.test.model.ts';
     }
 
+    isChildRendered(form: AbstractControl, key?: string): boolean {
+        if (key === 'cant-touch-this') {
+            return form.value.cantTouchThis;
+        }
+
+        return super.isChildRendered(form, key);
+    }
 }

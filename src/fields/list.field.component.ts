@@ -7,7 +7,7 @@ import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/for
 import { each, extend, last } from 'lodash';
 
 import {
-    EditItemHandler, EditItemHandlerToken, IsRenderedHandler, IsRenderedHandlerToken,
+    EditItemHandler, EditItemHandlerToken, IsListItemControlRenderedHandler, IsListItemControlRenderedHandlerToken,
     RemoveItemHandler, RemoveItemHandlerToken, ResetItemHandler, ResetItemHandlerToken,
     SaveItemHandler, SaveItemHandlerToken, UseAltTextHandler, UseAltTextHandlerToken,
 } from '../button.handlers';
@@ -40,7 +40,7 @@ const TOKENS = {
         provide: UseAltTextHandlerToken,
         useExisting: ListFieldComponent
     }, {
-        provide: IsRenderedHandlerToken,
+        provide: IsListItemControlRenderedHandlerToken,
         useExisting: ListFieldComponent
     }],
     styleUrls: ['./list.field.component.scss'],
@@ -49,7 +49,7 @@ const TOKENS = {
 export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> implements
     OnInit, AfterViewInit,
     EditItemHandler, SaveItemHandler, RemoveItemHandler, ResetItemHandler,
-    UseAltTextHandler, IsRenderedHandler {
+    UseAltTextHandler, IsListItemControlRenderedHandler {
 
     @Input() template: Model;
     @ViewChildren(ListFieldEntryDirective) inputs: QueryList<ListFieldEntryDirective>;
@@ -65,8 +65,8 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
     }
 
     ngOnInit(): void {
-        this.formControl.controls.forEach((entryControl: FormGroup) => {
-            this.entryState.push({ submitted: entryControl.valid, editing: !entryControl.valid });
+        this.formControl.controls.forEach(() => {
+            this.entryState.push({ submitted: false, editing: true });
         });
 
         this.addEmptyEntryIfNeeded();
@@ -91,7 +91,6 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
     }
 
     addEmptyEntryIfNeeded(): void {
-        console.log('addEmptyEntryIfNeeded');
         let lastEntry = last(this.entryState);
         if (this.control.canAddItem && (lastEntry.submitted || !lastEntry.editing)) {
             let form = this.template.toFormGroup(this.fb);
@@ -200,7 +199,7 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
         return index < 0 || index === this.formArray.controls.length - 1;
     }
 
-    isChildRendered(form: AbstractControl, key?: string): boolean {
+    isListItemControlRendered(form: AbstractControl, key?: string): boolean {
         switch(key) {
             case 'add':
                 return this.control.canAddItem && this.isLastEntry(form);
