@@ -1,4 +1,4 @@
-import { Component, Host, Injector, Input } from '@angular/core';
+import { Component, ElementRef, Injector, Input, Renderer2, OnInit } from '@angular/core';
 
 import { FormComponentHost }    from './form.component.host';
 import { HostedElement }        from './hosted.element';
@@ -9,7 +9,7 @@ import { ModelControl }         from './model/control/model.control';
     selector: '[layout]',
     templateUrl: 'layout.pug'
 })
-export class LayoutComponent extends HostedElement {
+export class LayoutComponent extends HostedElement implements OnInit {
 
     get childControls(): ModelControl[] { return this.control ? this.control.childControls : null; }
 
@@ -18,10 +18,18 @@ export class LayoutComponent extends HostedElement {
 
     constructor(
         injector: Injector,
-        // FIXME: for some reason, using this here causes a "No provider for FormComponentHost" error to be thrown
-        // @Host() host: FormComponentHost
+        host: FormComponentHost,
+        private elementRef: ElementRef,
+        private renderer: Renderer2
     ) {
-        // FIXME: see above
-        super(injector, (injector as any).view.component.host);
+        super(injector, host);
+    }
+
+    ngOnInit(): void {
+        if (this.control && this.control.attributes) {
+            Object.keys(this.control.attributes).forEach(name => {
+                this.renderer.setAttribute(this.elementRef.nativeElement, name, this.control.attributes[name]);
+            });
+        }
     }
 }

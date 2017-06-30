@@ -12,6 +12,7 @@ export class ListTestModelItem extends Model {
                     Model.layout('.cant-touch-this.alert.alert-info.info-icon',
                         Model.layout('.fa.fa-info')
                     )
+                        .addAttributes({ title: 'this one cannot be edited' })
                         .addConditions({ key: 'cant-touch-this' }),
                     Model.textMember('name', Validators.required).addLabel('Name')
                 ),
