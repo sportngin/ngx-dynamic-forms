@@ -13,6 +13,7 @@ import { SimpleMember }                     from './member/simple.member';
 import { TemplatedMember }                  from './member/templated.member';
 import { ModelElement, ModelElementTypes }  from './model.element';
 import { ModelHelper }                      from './model.helper';
+import { FormText } from '../form.text';
 
 /**
  * The base class used by form Models
@@ -25,12 +26,12 @@ export abstract class Model {
         this.members = members;
     };
 
-    static submitButton(buttonClass: ButtonClass, text: string, submittingText?: string, disableWhenInvalid: boolean = true): ButtonMember {
-        return new ButtonMember(ModelElementTypes.submit, ButtonActions.submit, buttonClass, text, submittingText, disableWhenInvalid);
+    static submitButton(buttonClass: ButtonClass, text: FormText, disableWhenInvalid: boolean = true): ButtonMember {
+        return new ButtonMember(ModelElementTypes.submit, ButtonActions.submit, buttonClass, text, disableWhenInvalid);
     }
 
-    static button(buttonAction: ButtonAction, buttonClass: ButtonClass, text?: string, altText?: string, disableWhenInvalid: boolean = false): ButtonMember {
-        return new ButtonMember(ModelElementTypes.button, buttonAction, buttonClass, text, altText, disableWhenInvalid);
+    static button(buttonAction: ButtonAction, buttonClass: ButtonClass, text?: FormText, disableWhenInvalid: boolean = false): ButtonMember {
+        return new ButtonMember(ModelElementTypes.button, buttonAction, buttonClass, text, disableWhenInvalid);
     }
 
     static layout(cssClass: string, ...members: ModelElement[]): LayoutMember {

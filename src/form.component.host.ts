@@ -4,19 +4,13 @@ import { AbstractControl }                          from '@angular/forms';
 import { Observable }   from 'rxjs/Observable';
 import { Observer }     from 'rxjs/Observer';
 
-import {
-    IsRenderedHandler, IsRenderedHandlerToken,
-    UseAltTextHandler, UseAltTextHandlerToken
-} from './button.handlers';
+import { IsRenderedHandler, IsRenderedHandlerToken } from './button.handlers';
 import { DynamicFormComponent } from './dynamic.form.component';
 import { Model }                from './model/model';
 
 export function hostProvides(implementation: Type<any>): Provider[] {
     return [{
         provide: FormComponentHost,
-        useExisting: implementation
-    }, {
-        provide: UseAltTextHandlerToken,
         useExisting: implementation
     }, {
         provide: IsRenderedHandlerToken,
@@ -35,7 +29,7 @@ export interface FormState {
     error?: any
 }
 
-export abstract class FormComponentHost<TState extends FormState = FormState> implements OnDestroy, IsRenderedHandler, UseAltTextHandler {
+export abstract class FormComponentHost<TState extends FormState = FormState> implements OnDestroy, IsRenderedHandler {
 
     private _form: DynamicFormComponent;
     private valueInjectionObserver: Promise<Observer<ControlValueInjection>>;

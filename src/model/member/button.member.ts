@@ -1,3 +1,4 @@
+import { FormText }                         from '../../form.text';
 import { ElementHelper, ModelElementType }  from '../model.element';
 import { ModelElementBase }                 from '../model.element.base';
 
@@ -24,20 +25,18 @@ export const ButtonActions = {
 
 export class ButtonMember extends ModelElementBase {
 
-    constructor(elementType: ModelElementType, buttonAction: ButtonAction, buttonClass: ButtonClass, text: string, altText?: string, disableWhenInvalid: boolean = false) {
+    constructor(elementType: ModelElementType, buttonAction: ButtonAction, buttonClass: ButtonClass, text: FormText, disableWhenInvalid: boolean = false) {
         super(elementType);
 
         this.buttonAction = buttonAction;
         this.buttonClass = buttonClass;
         this.text = text;
-        this.altText = altText;
         this.disableWhenInvalid = disableWhenInvalid;
     }
 
     public buttonAction: ButtonAction;
     public buttonClass: ButtonClass;
-    public text: string;
-    public altText: string;
+    public text: FormText;
     public disableWhenInvalid: boolean;
     public customDisabledHandler: boolean;
     public helpers: ElementHelper[];

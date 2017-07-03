@@ -9,7 +9,7 @@ import { each, extend, last } from 'lodash';
 import {
     EditItemHandler, EditItemHandlerToken, IsListItemControlRenderedHandler, IsListItemControlRenderedHandlerToken,
     RemoveItemHandler, RemoveItemHandlerToken, ResetItemHandler, ResetItemHandlerToken,
-    SaveItemHandler, SaveItemHandlerToken, UseAltTextHandler, UseAltTextHandlerToken,
+    SaveItemHandler, SaveItemHandlerToken
 } from '../button.handlers';
 import { FormComponentHost }        from '../form.component.host';
 import { Model }                    from '../model/model';
@@ -37,9 +37,6 @@ const TOKENS = {
         provide: ResetItemHandlerToken,
         useExisting: ListFieldComponent
     }, {
-        provide: UseAltTextHandlerToken,
-        useExisting: ListFieldComponent
-    }, {
         provide: IsListItemControlRenderedHandlerToken,
         useExisting: ListFieldComponent
     }],
@@ -49,7 +46,7 @@ const TOKENS = {
 export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> implements
     OnInit, AfterViewInit,
     EditItemHandler, SaveItemHandler, RemoveItemHandler, ResetItemHandler,
-    UseAltTextHandler, IsListItemControlRenderedHandler {
+    IsListItemControlRenderedHandler {
 
     @Input() template: Model;
     @ViewChildren(ListFieldEntryDirective) inputs: QueryList<ListFieldEntryDirective>;

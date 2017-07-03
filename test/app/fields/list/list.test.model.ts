@@ -36,7 +36,7 @@ export class ListTestModelItem extends Model {
                         Model.button(ButtonActions.resetItem, BUTTON_CLASSES.warning)
                             .addListItemControlConditions({ key: 'reset' })
                             .addCssClass('fa', 'fa-undo'),
-                        Model.button(ButtonActions.saveItem, BUTTON_CLASSES.primary, null, null, true)
+                        Model.button(ButtonActions.saveItem, BUTTON_CLASSES.primary, null, true)
                             .addListItemControlConditions({ key: 'save' })
                             .addCssClass('fa', 'fa-check')
                     )
@@ -45,7 +45,7 @@ export class ListTestModelItem extends Model {
             Model.layout('.row.ngdf-list-editor.entry-row-2',
                 Model.layout('.col-11',
                     Model.layout('.float-right',
-                        Model.button(ButtonActions.saveItem, BUTTON_CLASSES.primary, '+ Add Another', null, true)
+                        Model.button(ButtonActions.saveItem, BUTTON_CLASSES.primary, '+ Add Another', true)
                             .addListItemControlConditions({ key: 'add' })
                     )
                 )

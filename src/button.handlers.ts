@@ -31,12 +31,6 @@ export interface IsDisabledHandler {
 
 export const IsDisabledHandlerToken = new InjectionToken<IsDisabledHandler>('IsDisabledHandler');
 
-export interface UseAltTextHandler {
-    useAltText(form: AbstractControl): boolean;
-}
-
-export const UseAltTextHandlerToken = new InjectionToken<UseAltTextHandler>('UseAltTextHandler');
-
 export interface IsRenderedHandler {
     isChildRendered(form: AbstractControl, key?: string): boolean;
 }
@@ -57,8 +51,7 @@ export const HandlerTokens: { [key: string]: OpaqueToken } = {
     isRendered: IsRenderedHandlerToken,
     removeItem: RemoveItemHandlerToken,
     resetItem: ResetItemHandlerToken,
-    saveItem: SaveItemHandlerToken,
-    useAltText: UseAltTextHandlerToken
+    saveItem: SaveItemHandlerToken
 };
 
 export const HandlerMethods: { [key: string]: string } = {
@@ -69,6 +62,5 @@ export const HandlerMethods: { [key: string]: string } = {
     isRendered: 'isChildRendered',
     removeItem: 'onRemoveItemClick',
     resetItem: 'onResetItemClick',
-    saveItem: 'onSaveItemClick',
-    useAltText: 'useAltText'
+    saveItem: 'onSaveItemClick'
 };
