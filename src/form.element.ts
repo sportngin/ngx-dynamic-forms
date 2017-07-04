@@ -50,22 +50,18 @@ export class FormElement {
     // FIXME: find a better/more generic name, since these are no longer specific to buttons
     public handleBehavior(behaviorAndArgs: string, form: AbstractControl, defaultValue?: any): any {
 
-        console.log('handleBehavior', behaviorAndArgs, form, defaultValue);
-
         let optional = typeof defaultValue !== 'undefined';
         let behaviorArgs = behaviorAndArgs.split(':');
         let behaviorType = behaviorArgs[0];
         let handler = this.getHandler(behaviorType, optional);
 
         if (!handler) {
-            console.log('No handler', behaviorType);
             if (!optional) {
                 console.error('Could not find a handler for button action', behaviorType);
             }
             return defaultValue;
         }
 
-        console.log('calling handler', handler, form, behaviorArgs);
         return handler(form, ...behaviorArgs.slice(1));
 
     }

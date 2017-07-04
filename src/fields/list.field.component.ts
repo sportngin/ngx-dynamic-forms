@@ -183,7 +183,6 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
     }
 
     isListItemControlRendered(form: AbstractControl, key?: string): boolean {
-        console.log('isListItemControlRendered', form, key);
         switch(key) {
             case 'add':
                 return this.control.canAddItem && this.isLastEntry(form);

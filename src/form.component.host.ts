@@ -47,7 +47,6 @@ export abstract class FormComponentHost<TState extends FormState = FormState> im
     }
 
     public submit(e: Event): void {
-        console.log('submit!', e);
         e.preventDefault();
         this.doSubmit()
             .then(() => {
