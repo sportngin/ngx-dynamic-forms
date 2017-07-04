@@ -15,6 +15,8 @@ import { TestHomeComponent }        from './test.home.component';
 
 import { TestFieldsComponent }      from './fields/test.fields.component';
 import { TestFieldsHomeComponent }  from './fields/test.fields.home.component';
+import { FormTestComponent }        from './fields/form/form.test.component';
+
 import { CheckboxTestComponent }    from './fields/checkbox/checkbox.test.component';
 import { ColorPickerTestComponent } from './fields/colorpicker/color.picker.test.component';
 import { DatePickerTestComponent }  from './fields/datepicker/date.picker.test.component';
@@ -30,6 +32,7 @@ import { PasswordTestComponent }    from './fields/password/password.test.compon
 
         TestFieldsComponent,
         TestFieldsHomeComponent,
+        FormTestComponent,
         CheckboxTestComponent,
         ColorPickerTestComponent,
         DatePickerTestComponent,

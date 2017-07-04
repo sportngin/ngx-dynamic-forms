@@ -6,16 +6,15 @@ import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/for
 
 import { each, extend, last } from 'lodash';
 
-import {
-    EditItemHandler, EditItemHandlerToken, IsListItemControlRenderedHandler, IsListItemControlRenderedHandlerToken,
-    RemoveItemHandler, RemoveItemHandlerToken, ResetItemHandler, ResetItemHandlerToken,
-    SaveItemHandler, SaveItemHandlerToken
-} from '../button.handlers';
 import { FormComponentHost }        from '../form.component.host';
 import { Model }                    from '../model/model';
 import { ArrayControl }             from '../model/control/array.control';
 import { FieldBase }                from './field.base';
 import { ListFieldEntryDirective }  from './list.field.entry.directive';
+import {
+    behaviorProviders, BehaviorType, EditItemHandler, IsListItemControlRenderedHandler, RemoveItemHandler,
+    ResetItemHandler, SaveItemHandler
+} from '../behavior/behaviors';
 
 const TOKENS = {
     template: new InjectionToken<Model>('template')
@@ -24,22 +23,14 @@ const TOKENS = {
 @Component({
     selector: 'list-field',
     templateUrl: './list.field.pug',
-    viewProviders: [{
-        provide: EditItemHandlerToken,
-        useExisting: ListFieldComponent
-    }, {
-        provide: SaveItemHandlerToken,
-        useExisting: ListFieldComponent
-    }, {
-        provide: RemoveItemHandlerToken,
-        useExisting: ListFieldComponent
-    }, {
-        provide: ResetItemHandlerToken,
-        useExisting: ListFieldComponent
-    }, {
-        provide: IsListItemControlRenderedHandlerToken,
-        useExisting: ListFieldComponent
-    }],
+    viewProviders: [
+        behaviorProviders(ListFieldComponent,
+            BehaviorType.editItem,
+            BehaviorType.isListItemControlRendered,
+            BehaviorType.removeItem,
+            BehaviorType.resetItem,
+            BehaviorType.saveItem
+        )],
     styleUrls: ['./list.field.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
@@ -186,17 +177,13 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
         }
     }
 
-    useAltText(form: AbstractControl): boolean {
-        let index = this.getFormIndex(form);
-        return !this.entryState[index].submitted;
-    }
-
     private isLastEntry(form: AbstractControl): boolean {
         let index = this.getFormIndex(form);
         return index < 0 || index === this.formArray.controls.length - 1;
     }
 
     isListItemControlRendered(form: AbstractControl, key?: string): boolean {
+        console.log('isListItemControlRendered', form, key);
         switch(key) {
             case 'add':
                 return this.control.canAddItem && this.isLastEntry(form);

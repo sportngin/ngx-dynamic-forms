@@ -11,7 +11,8 @@ export class FauxComponentHost extends FormComponentHost {
         super(new FauxModel());
     }
 
-    protected doSubmit(): void {
+    protected doSubmit(): Promise<any> {
+        return Promise.resolve(null);
     }
 }
 

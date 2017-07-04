@@ -4,18 +4,18 @@ import { AbstractControl }                          from '@angular/forms';
 import { Observable }   from 'rxjs/Observable';
 import { Observer }     from 'rxjs/Observer';
 
-import { IsRenderedHandler, IsRenderedHandlerToken } from './button.handlers';
+import { behaviorProviders, BehaviorType, IsRenderedHandler } from './behavior/behaviors';
 import { DynamicFormComponent } from './dynamic.form.component';
 import { Model }                from './model/model';
 
-export function hostProvides(implementation: Type<any>): Provider[] {
-    return [{
-        provide: FormComponentHost,
-        useExisting: implementation
-    }, {
-        provide: IsRenderedHandlerToken,
-        useExisting: implementation
-    }]
+export function hostProviders(implementation: Type<any>): Provider[] {
+    return [
+        {
+            provide: FormComponentHost,
+            useExisting: implementation
+        },
+        behaviorProviders(implementation, BehaviorType.isRendered)
+    ]
 }
 
 export interface ControlValueInjection {
@@ -47,11 +47,22 @@ export abstract class FormComponentHost<TState extends FormState = FormState> im
     }
 
     public submit(e: Event): void {
+        console.log('submit!', e);
         e.preventDefault();
-        this.doSubmit();
+        this.doSubmit()
+            .then(() => {
+                this.state.error = null;
+                this.state.submitting = false;
+                this.state.submitted = true;
+            }, err => {
+                this.state.error = err;
+                this.state.submitting = false;
+                this.state.submitted = false;
+            });
+        this.state.submitting = true;
     }
 
-    protected abstract doSubmit(): void;
+    protected abstract doSubmit(): Promise<any>;
 
     public get form(): DynamicFormComponent {
         return this._form;
@@ -74,10 +85,6 @@ export abstract class FormComponentHost<TState extends FormState = FormState> im
     }
 
     protected afterFormInit(): void {}
-
-    public useAltText(form: AbstractControl): boolean {
-        return this.state.submitting;
-    }
 
     public subscribe(generatorOrNext?: any, error?: any, complete?: any): any {
         return this.events.subscribe(generatorOrNext, error, complete);

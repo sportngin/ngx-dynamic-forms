@@ -1,31 +1,28 @@
 import { FormText }                         from '../../form.text';
+import { DisableBehavior }                  from '../disable.behavior';
 import { ElementHelper, ModelElementType }  from '../model.element';
 import { ModelElementBase }                 from '../model.element.base';
 
-export type ButtonClass = 'primary' | 'secondary' | 'default' | 'success' | 'warning' | 'danger';
+export enum ButtonClass {
+    primary = 'primary',
+    secondary = 'secondary',
+    default = 'default',
+    success = 'success',
+    warning = 'warning',
+    danger = 'danger'
+}
 
-export const BUTTON_CLASSES = {
-    primary: 'primary' as ButtonClass,
-    secondary: 'secondary' as ButtonClass,
-    default: 'default' as ButtonClass,
-    success: 'success' as ButtonClass,
-    warning: 'warning' as ButtonClass,
-    danger: 'danger' as ButtonClass
-};
+export enum ButtonAction {
+    submit = 'submit',
+    saveItem = 'saveItem',
+    editItem = 'editItem',
+    removeItem = 'removeItem',
+    resetItem = 'resetItem'
+}
 
-export type ButtonAction = 'submit' | 'saveItem' | 'editItem' | 'removeItem' | 'resetItem' | string;
+export class ButtonMember extends ModelElementBase<ButtonMember> implements DisableBehavior {
 
-export const ButtonActions = {
-    submit: 'submit' as ButtonAction,
-    saveItem: 'saveItem' as ButtonAction,
-    editItem: 'editItem' as ButtonAction,
-    removeItem: 'removeItem' as ButtonAction,
-    resetItem: 'resetItem' as ButtonAction
-};
-
-export class ButtonMember extends ModelElementBase {
-
-    constructor(elementType: ModelElementType, buttonAction: ButtonAction, buttonClass: ButtonClass, text: FormText, disableWhenInvalid: boolean = false) {
+    constructor(elementType: ModelElementType, buttonAction: ButtonAction | string, buttonClass: ButtonClass, text: FormText, disableWhenInvalid: boolean = false) {
         super(elementType);
 
         this.buttonAction = buttonAction;
@@ -34,7 +31,7 @@ export class ButtonMember extends ModelElementBase {
         this.disableWhenInvalid = disableWhenInvalid;
     }
 
-    public buttonAction: ButtonAction;
+    public buttonAction: ButtonAction | string;
     public buttonClass: ButtonClass;
     public text: FormText;
     public disableWhenInvalid: boolean;

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { hostProvides } from '@siplay/ng-dynamic-forms';
+import { hostProviders } from '@siplay/ng-dynamic-forms';
 
 import { FieldTestComponent }   from '../field.test.component';
 import { DropdownTestModel }    from './dropdown.test.model';
@@ -9,7 +9,7 @@ import { DropdownTestModel }    from './dropdown.test.model';
     selector: 'dropdown-test',
     templateUrl: '../field.test.pug',
     viewProviders: [
-        hostProvides(DropdownTestComponent)
+        hostProviders(DropdownTestComponent)
     ]
 })
 export class DropdownTestComponent extends FieldTestComponent {

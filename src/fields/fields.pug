@@ -12,10 +12,10 @@ mixin fields(displayOnly, formVarName, formGroup)
     input(
         *ngIf='control.elementType === "submit" && isRendered(control)',
         type='submit',
-        [value]='getText(control.member.text)',
+        [value]='getText(control.text)',
         [class]='"btn btn-" + control.member.buttonClass',
         [attr.disabled]='control.disabled ? "" : null',
-        [disabled]=`control.member.customDisabledHandler ? handleButtonEvent("isDisabled", ${formVarName || 'form'}) : (control.member.disableWhenInvalid && (!${formVarName || 'form'}.valid || state.submitting))`
+        [disabled]='isDisabled(control)'
         )
     button(
         type='button',
@@ -23,8 +23,8 @@ mixin fields(displayOnly, formVarName, formGroup)
         [class]='"btn btn-" + control.member.buttonClass + " " + control.cssClass',
         (click)=`handleButtonEvent(control.member.buttonAction, ${formVarName || 'form'})`,
         [attr.disabled]='control.disabled ? "" : null',
-        [disabled]='control.member.customDisabledHandler ? handleButtonEvent("isDisabled", form) : (control.member.disableWhenInvalid && !form.valid)'
-        ) {{getText(control.member.text)}}
+        [disabled]='isDisabled(control)'
+        ) {{getText(control.text)}}
     +helpers('after')
 
 

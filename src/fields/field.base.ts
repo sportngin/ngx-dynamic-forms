@@ -1,6 +1,7 @@
 import { Injector, Input, InjectionToken }          from '@angular/core';
 import { AbstractControl, FormControl, FormGroup }  from '@angular/forms';
 
+import { BehaviorService }      from '../behavior/behavior.service';
 import { ElementBase }          from '../element.base';
 import { FormComponentHost }    from '../form.component.host';
 import { ModelControl }         from '../model/control/model.control';
@@ -23,7 +24,7 @@ export abstract class FieldBase<
         injector: Injector,
         host: FormComponentHost,
         ...tokens: any[]) {
-        super(injector, host, ...tokens);
+        super(injector, injector.get(BehaviorService), host, ...tokens);
 
         this.setProperties(this.tokens);
 

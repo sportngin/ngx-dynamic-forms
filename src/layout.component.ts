@@ -1,5 +1,6 @@
 import { Component, ElementRef, Injector, Input, Renderer2, OnInit } from '@angular/core';
 
+import { BehaviorService }      from './behavior/behavior.service';
 import { FormComponentHost }    from './form.component.host';
 import { HostedElement }        from './hosted.element';
 import { LayoutControl }        from './model/control/layout.control';
@@ -18,11 +19,12 @@ export class LayoutComponent extends HostedElement implements OnInit {
 
     constructor(
         injector: Injector,
+        behaviorService: BehaviorService,
         host: FormComponentHost,
         private elementRef: ElementRef,
         private renderer: Renderer2
     ) {
-        super(injector, host);
+        super(injector, behaviorService, host);
     }
 
     ngOnInit(): void {

@@ -5,7 +5,7 @@ import { Model }            from '../model';
 import { ModelElementType } from '../model.element';
 import { ModelMemberBase }  from './model.member';
 
-export class TemplatedMember extends ModelMemberBase {
+export class TemplatedMember extends ModelMemberBase<TemplatedMember> {
 
     constructor(elementType: ModelElementType, controlType: FormControlType | string, name: string, template: Model, validators?: ValidatorFn | ValidatorFn[], data?: {}) {
         super(elementType, controlType, name, validators, data);

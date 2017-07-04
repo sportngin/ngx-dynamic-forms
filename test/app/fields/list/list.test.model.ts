@@ -1,6 +1,6 @@
 import { Validators } from '@angular/forms';
 
-import { ButtonActions, BUTTON_CLASSES, FormControlType, Model } from '@siplay/ng-dynamic-forms';
+import { ButtonAction, ButtonClass, FormControlType, Model } from '@siplay/ng-dynamic-forms';
 
 export class ListTestModelItem extends Model {
 
@@ -26,17 +26,17 @@ export class ListTestModelItem extends Model {
                 ),
                 Model.layout('.col-2.ngdf-list-editable.ngdf-list-button-container.flex-right',
                     Model.layout('.float-right',
-                        Model.button(ButtonActions.removeItem, BUTTON_CLASSES.danger)
+                        Model.button(ButtonAction.removeItem, ButtonClass.danger)
                             .addListItemControlConditions({ key: 'remove' })
                             .addCssClass('fa', 'fa-trash-o')
                     )
                 ),
                 Model.layout('.col-2.ngdf-list-editor.ngdf-list-button-container.ngdf-list-flex-right',
                     Model.layout('.float-right',
-                        Model.button(ButtonActions.resetItem, BUTTON_CLASSES.warning)
+                        Model.button(ButtonAction.resetItem, ButtonClass.warning)
                             .addListItemControlConditions({ key: 'reset' })
                             .addCssClass('fa', 'fa-undo'),
-                        Model.button(ButtonActions.saveItem, BUTTON_CLASSES.primary, null, true)
+                        Model.button(ButtonAction.saveItem, ButtonClass.primary, null, true)
                             .addListItemControlConditions({ key: 'save' })
                             .addCssClass('fa', 'fa-check')
                     )
@@ -45,7 +45,7 @@ export class ListTestModelItem extends Model {
             Model.layout('.row.ngdf-list-editor.entry-row-2',
                 Model.layout('.col-11',
                     Model.layout('.float-right',
-                        Model.button(ButtonActions.saveItem, BUTTON_CLASSES.primary, '+ Add Another', true)
+                        Model.button(ButtonAction.saveItem, ButtonClass.primary, '+ Add Another', true)
                             .addListItemControlConditions({ key: 'add' })
                     )
                 )

@@ -2,29 +2,25 @@ import { FormControl, ValidatorFn } from '@angular/forms';
 
 import { first, isArray } from 'lodash';
 
-import { FormControlType }                      from '../../form.control.type';
-import { ControlPosition, ControlPositions }    from '../control.position';
-import {
-    ElementHelper, ModelElement, ModelElementBuilder,
-    ModelElementType
-}  from '../model.element';
+import { FormControlType }  from '../../form.control.type';
+import { ControlPosition }  from '../control.position';
+import { ElementHelper, ModelElement, ModelElementBuilder, ModelElementType } from '../model.element';
 import { ModelElementBase } from '../model.element.base';
 
 export interface ModelMember extends ModelElement {
     name: string;
     controlType: any;
+    validator: ValidatorFn;
     validators: ValidatorFn | ValidatorFn[];
-    data: {};
     label: string;
     labelPosition: ControlPosition;
 }
 
-export interface ModelMemberBuilder extends ModelMember, ModelElementBuilder {
-    addData: (key: string, value: any) => ModelMemberBuilder;
-    addLabel: (label: string) => ModelMemberBuilder;
+export interface ModelMemberBuilder<T extends ModelMemberBuilder<T>> extends ModelMember, ModelElementBuilder<T> {
+    addLabel: (label: string) => T;
 }
 
-export abstract class ModelMemberBase extends ModelElementBase implements ModelMemberBuilder {
+export abstract class ModelMemberBase<T extends ModelMemberBase<T>> extends ModelElementBase<T> implements ModelMemberBuilder<T> {
 
     constructor(elementType: ModelElementType, controlType: FormControlType | string, name: string, validators?: ValidatorFn | ValidatorFn[], data?: { [key: string]: any }) {
         super(elementType);
@@ -32,7 +28,6 @@ export abstract class ModelMemberBase extends ModelElementBase implements ModelM
         this.controlType = controlType;
         this.name = name;
         this.validators = validators;
-        this.data = data;
     }
 
     public name: string;
@@ -44,22 +39,13 @@ export abstract class ModelMemberBase extends ModelElementBase implements ModelM
         }
         return first(this.validators);
     }
-    public data: { [key: string]: any };
     public label: string;
-    public labelPosition: ControlPosition = ControlPositions.before;
+    public labelPosition: ControlPosition = ControlPosition.before;
     public helpers: ElementHelper[];
 
-    public addData(key: string, value: any): ModelMemberBuilder {
-        if (!this.data) {
-            this.data = {};
-        }
-        this.data[key] = value;
-        return this;
-    }
-
-    public addLabel(label: string): ModelMemberBuilder {
+    public addLabel(label: string): T {
         this.label = label;
-        return this;
+        return this.self;
     }
 
     public createFormControl(): FormControl {

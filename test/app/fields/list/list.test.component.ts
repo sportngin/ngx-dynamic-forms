@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { AbstractControl }              from '@angular/forms';
 
-import { hostProvides } from '@siplay/ng-dynamic-forms';
+import { hostProviders } from '@siplay/ng-dynamic-forms';
 
 import { FieldTestComponent }   from '../field.test.component';
 import { ListTestModel }        from './list.test.model';
@@ -10,7 +10,7 @@ import { ListTestModel }        from './list.test.model';
     selector: 'list-test',
     templateUrl: '../field.test.pug',
     viewProviders: [
-        hostProvides(ListTestComponent)
+        hostProviders(ListTestComponent)
     ],
     styleUrls: ['./list.test.component.scss'],
     encapsulation: ViewEncapsulation.None

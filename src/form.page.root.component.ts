@@ -5,6 +5,7 @@ import { FormComponentHost }    from './form.component.host';
 import { HostedElement }        from './hosted.element';
 import { RootPageControl }      from './model/control/page.control';
 import { ModelControl }         from './model/control/model.control';
+import { BehaviorService } from './behavior/behavior.service';
 
 @Component({
     selector: 'form-page-root',
@@ -21,11 +22,12 @@ export class FormPageRootComponent extends HostedElement {
 
     constructor(
         injector: Injector,
+        behaviorService: BehaviorService,
         // FIXME: for some reason, using this here causes a "No provider for FormComponentHost" error to be thrown
         // @Host() host: FormComponentHost
     ) {
         // FIXME: see above
-        super(injector, (injector as any).view.component.host);
+        super(injector, behaviorService, (injector as any).view.component.host);
     }
 
     nextPage(): void {

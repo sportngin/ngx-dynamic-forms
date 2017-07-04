@@ -1,10 +1,7 @@
 import { chain, extend, map } from 'lodash';
 
-import {
-    ElementHelper, ModelElementBuilder, ModelElementRenderCondition,
-    ModelElementType
-} from './model.element';
-import { ControlPosition, ControlPositions } from './control.position';
+import { ControlPosition } from './control.position';
+import { ElementHelper, ModelElementBuilder, ModelElementRenderCondition, ModelElementType } from './model.element';
 
 function cleanCssClass(cssClass) {
     return cssClass.replace(/\./g, ' ').trim();
@@ -13,7 +10,7 @@ function cleanCssClass(cssClass) {
 /**
  * Provides a base implementation of {@link ModelElement} and {@link ModelElementBuilder}.
  */
-export abstract class ModelElementBase implements ModelElementBuilder {
+export class ModelElementBase<T extends ModelElementBase<T>> implements ModelElementBuilder<T> {
 
     /**
      *
@@ -21,6 +18,10 @@ export abstract class ModelElementBase implements ModelElementBuilder {
      */
     constructor(elementType: ModelElementType) {
         this.elementType = elementType;
+    }
+
+    protected get self(): T {
+        return this as any as T;
     }
 
     private cssClasses: string[];
@@ -33,8 +34,9 @@ export abstract class ModelElementBase implements ModelElementBuilder {
     public renderConditions: ModelElementRenderCondition[];
     public disabled: boolean;
     public displaysValidation: boolean = true;
+    public data: { [key: string]: any };
 
-    public addCssClass(...cssClass: string[]): ModelElementBuilder {
+    public addCssClass(...cssClass: string[]): T {
         cssClass = chain(cssClass)
             .map(entry => cleanCssClass(entry).split(' '))
             .flatten()
@@ -44,10 +46,10 @@ export abstract class ModelElementBase implements ModelElementBuilder {
         } else {
             this.cssClasses.push(...cssClass);
         }
-        return this;
+        return this.self;
     }
 
-    public addHelper(text: string, cssClass?: string, position: ControlPosition = ControlPositions.after): ModelElementBuilder {
+    public addHelper(text: string, cssClass?: string, position: ControlPosition = ControlPosition   .after): T {
         if (!this.helpers) {
             this.helpers = [];
         }
@@ -55,26 +57,35 @@ export abstract class ModelElementBase implements ModelElementBuilder {
             cssClass = cleanCssClass(cssClass);
         }
         this.helpers.push({ text, cssClass, position });
-        return this;
+
+        return this.self;
     }
 
-    public addConditions(...renderConditions: ModelElementRenderCondition[]): ModelElementBuilder {
+    public addConditions(...renderConditions: ModelElementRenderCondition[]): T {
         if (!this.renderConditions) {
             this.renderConditions = renderConditions;
         } else {
             this.renderConditions.push(...renderConditions);
         }
 
-        return this;
+        return this.self;
     }
 
-    public addListItemControlConditions(...renderConditions: ModelElementRenderCondition[]): ModelElementBuilder {
-        return this.addConditions(...map(renderConditions, condition => extend(condition, { method: 'isListItemControlRendered' })))
+    public addListItemControlConditions(...renderConditions: ModelElementRenderCondition[]): T {
+        return this.addConditions(...map(renderConditions, condition => extend(condition, { method: 'isListItemControlRendered' })));
     }
 
-    public disable(): ModelElementBuilder {
+    public addData(key: string, value: any): T {
+        if (!this.data) {
+            this.data = {};
+        }
+        this.data[key] = value;
+        return this.self;
+    }
+
+    public disable(): T {
         this.disabled = true;
-        return this;
+        return this.self;
     }
 
 }

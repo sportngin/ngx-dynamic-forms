@@ -1,11 +1,11 @@
 import { Component, Host, Injector, Input } from '@angular/core';
 import { FormGroup }                        from '@angular/forms';
 
+import { BehaviorService }      from './behavior/behavior.service';
 import { FormComponentHost }    from './form.component.host';
 import { HostedElement }        from './hosted.element';
 import { PageControl }          from './model/control/page.control';
 import { ModelControl }         from './model/control/model.control';
-import { ModelElementTypes } from './model/model.element';
 
 @Component({
     selector: 'form-page',
@@ -22,10 +22,11 @@ export class FormPageComponent extends HostedElement {
 
     constructor(
         injector: Injector,
+        behaviorService: BehaviorService,
         // FIXME: for some reason, using this here causes a "No provider for FormComponentHost" error to be thrown
         // @Host() host: FormComponentHost
     ) {
         // FIXME: see above
-        super(injector, (injector as any).view.component.host);
+        super(injector, behaviorService, (injector as any).view.component.host);
     }
 }

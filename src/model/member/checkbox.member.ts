@@ -1,15 +1,15 @@
 import { FormControlType }      from '../../form.control.type';
-import { ControlPositions }     from '../control.position';
-import { ModelElementTypes }    from '../model.element';
+import { ControlPosition }      from '../control.position';
+import { ModelElementType }     from '../model.element';
 import { ModelMemberBase }      from './model.member';
 
-export class CheckboxMember extends ModelMemberBase {
+export class CheckboxMember extends ModelMemberBase<CheckboxMember> {
 
     constructor(name: string, checked?: boolean | (() => boolean)) {
-        super(ModelElementTypes.control, FormControlType.checkbox, name);
+        super(ModelElementType.control, FormControlType.checkbox, name);
 
         this.checked = checked;
-        this.labelPosition = ControlPositions.after;
+        this.labelPosition = ControlPosition.after;
     }
 
     public checked: boolean | (() => boolean);

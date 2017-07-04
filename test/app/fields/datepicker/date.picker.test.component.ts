@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { hostProvides } from '@siplay/ng-dynamic-forms';
+import { hostProviders } from '@siplay/ng-dynamic-forms';
 
 import { FieldTestComponent }   from '../field.test.component';
 import { DatePickerTestModel }    from './date.picker.test.model';
@@ -9,7 +9,7 @@ import { DatePickerTestModel }    from './date.picker.test.model';
     selector: 'date-picker-test',
     templateUrl: '../field.test.pug',
     viewProviders: [
-        hostProvides(DatePickerTestComponent)
+        hostProviders(DatePickerTestComponent)
     ]
 })
 export class DatePickerTestComponent extends FieldTestComponent {

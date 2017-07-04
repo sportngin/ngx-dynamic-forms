@@ -4,6 +4,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
+import { BehaviorService }          from '../behavior/behavior.service';
 import { FormComponentHost }        from '../form.component.host';
 import { FormControlType }          from '../form.control.type';
 import { HostedElement }            from '../hosted.element';
@@ -25,10 +26,11 @@ export class DynamicFieldComponent extends HostedElement implements ControlValue
     @ViewChild('input', { read: InputSelectorComponent }) input: ControlValueAccessor;
 
     constructor(
-        protected injector: Injector,
+        injector: Injector,
+        behaviorService: BehaviorService,
         host: FormComponentHost
     ) {
-        super(injector, host);
+        super(injector, behaviorService, host);
     }
 
     ngOnInit(): void {

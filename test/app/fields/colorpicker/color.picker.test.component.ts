@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { hostProvides } from '@siplay/ng-dynamic-forms';
+import { hostProviders } from '@siplay/ng-dynamic-forms';
 
 import { ColorPickerTestModel } from './color.picker.test.model';
 import { FieldTestComponent }   from '../field.test.component';
@@ -9,7 +9,7 @@ import { FieldTestComponent }   from '../field.test.component';
     selector: 'color-picker-test',
     templateUrl: '../field.test.pug',
     viewProviders: [
-        hostProvides(ColorPickerTestComponent)
+        hostProviders(ColorPickerTestComponent)
     ]
 })
 export class ColorPickerTestComponent extends FieldTestComponent {

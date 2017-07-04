@@ -3,8 +3,9 @@ import { AbstractControl, FormGroup }   from '@angular/forms';
 
 import { every, isFunction } from 'lodash';
 
-import { HandlerMethods, HandlerTokens } from './button.handlers';
-import { ModelControl }                  from './model/control/model.control';
+import { BehaviorService }  from './behavior/behavior.service';
+import { BehaviorFn }       from './behavior/behaviors';
+import { ModelControl }     from './model/control/model.control';
 
 export class FormElement {
 
@@ -15,25 +16,24 @@ export class FormElement {
     };
 
     constructor(
-        protected injector: Injector
+        protected injector: Injector,
+        private behaviorService: BehaviorService
     ) {}
 
-    private getHandler(buttonEvent: string, optional: boolean) {
-        if (!this.handlers[buttonEvent]) {
-            let token = HandlerTokens[buttonEvent];
+    private getHandler(behaviorType: string, optional: boolean): BehaviorFn {
+        if (!this.handlers[behaviorType]) {
+            let handler = this.behaviorService.getBehaviorHandler(this.injector, behaviorType, optional);
 
-            if (!token) {
+            if (!handler) {
                 if (!optional) {
-                    console.error('No handler has been configured for button action', buttonEvent);
+                    console.error('No handler has been configured for button action', behaviorType);
                 }
                 return;
             }
-
-            let handler = this.injector.get(token, optional ? Injector.NULL : Injector.THROW_IF_NOT_FOUND);
-            this.handlers[buttonEvent] = handler;
+            this.handlers[behaviorType] = handler;
             return handler;
         }
-        return this.handlers[buttonEvent];
+        return this.handlers[behaviorType];
     }
 
     public displayValidation(form: AbstractControl, fieldKey: string, errorKey: string): boolean {
@@ -48,21 +48,25 @@ export class FormElement {
     }
 
     // FIXME: find a better/more generic name, since these are no longer specific to buttons
-    public handleButtonEvent(buttonEventAndArgs: string, form: AbstractControl, defaultValue?: any): any {
+    public handleBehavior(behaviorAndArgs: string, form: AbstractControl, defaultValue?: any): any {
+
+        console.log('handleBehavior', behaviorAndArgs, form, defaultValue);
 
         let optional = typeof defaultValue !== 'undefined';
-        let buttonEventArgs = buttonEventAndArgs.split(':');
-        let buttonEvent = buttonEventArgs[0];
-        let handler = this.getHandler(buttonEvent, optional);
+        let behaviorArgs = behaviorAndArgs.split(':');
+        let behaviorType = behaviorArgs[0];
+        let handler = this.getHandler(behaviorType, optional);
 
-        if (!handler || handler === Injector.NULL) {
+        if (!handler) {
+            console.log('No handler', behaviorType);
             if (!optional) {
-                console.error('Could not find a handler for button action', buttonEvent);
+                console.error('Could not find a handler for button action', behaviorType);
             }
             return defaultValue;
         }
 
-        return handler[HandlerMethods[buttonEvent]](form, ...buttonEventArgs.slice(1));
+        console.log('calling handler', handler, form, behaviorArgs);
+        return handler(form, ...behaviorArgs.slice(1));
 
     }
 
@@ -79,7 +83,7 @@ export class FormElement {
             // FIXME: for some reason, using IsRenderedMethods.parent causes the error "Object prototype may only be an Object or null: undefined
             // if (condition === 'parent') { // IsRenderedMethods.parent) {
             // console.log('isRendered', condition.key, this.constructor, this.form);
-                return this.handleButtonEvent(`${condition.method || 'isRendered'}:${condition.key}`, this.form, true);
+                return this.handleBehavior(`${condition.method || 'isRendered'}:${condition.key}`, this.form, true);
             // }
 
             // return true;

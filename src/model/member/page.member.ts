@@ -1,20 +1,20 @@
 import { FormControlType }                          from '../../form.control.type';
 import { Model }                                    from '../model';
-import { ModelElementBuilder, ModelElementTypes }   from '../model.element';
-import { ContainerMember }                          from './container.member';
+import { ModelElementBuilder, ModelElementType }    from '../model.element';
+import { ContainerMemberBase }                      from './container.member';
 import { TemplatedMember }                          from './templated.member';
 
-export interface RootPageContainer extends ModelElementBuilder {
+export interface RootPageContainer<T extends RootPageContainer<T>> extends ModelElementBuilder<T> {
 
     prevText: string;
     nextText: string;
 
 }
 
-export interface RootPageMemberBuilder extends RootPageContainer {
+export interface RootPageMemberBuilder<T extends RootPageContainer<T>> extends RootPageContainer<T> {
 
-    setPrevText(prevText: string): RootPageMemberBuilder;
-    setNextText(nextText: string): RootPageMemberBuilder;
+    setPrevText(prevText: string): T;
+    setNextText(nextText: string): T;
 
 }
 
@@ -24,25 +24,25 @@ export class PageMember extends TemplatedMember {
         pageId: string | number,
         template: Model
     ) {
-        super(ModelElementTypes.page, FormControlType.group, pageId.toString(), template);
+        super(ModelElementType.page, FormControlType.group, pageId.toString(), template);
     }
 
 }
 
-export class RootPageMember extends ContainerMember implements RootPageMemberBuilder {
+export class RootPageMember extends ContainerMemberBase<RootPageMember> implements RootPageMemberBuilder<RootPageMember> {
 
     constructor(
         members: PageMember[]
     ) {
-        super(ModelElementTypes.pageRoot, members);
+        super(ModelElementType.pageRoot, members);
     }
 
-    public setPrevText(prevText: string): RootPageMemberBuilder {
+    public setPrevText(prevText: string): RootPageMember {
         this.prevText = prevText;
         return this;
     }
 
-    public setNextText(nextText: string): RootPageMemberBuilder {
+    public setNextText(nextText: string): RootPageMember {
         this.nextText = nextText;
         return this;
     }

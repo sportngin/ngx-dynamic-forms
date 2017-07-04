@@ -1,20 +1,18 @@
 import { ControlPosition } from './control.position';
 
-export type ModelElementType = 'array' | 'button' | 'control' | 'group' | 'layout' | 'page' | 'pageRoot' | 'submit';
-
 /**
  * Contains an enumeration of valid ModelElementType values;
  */
-export const ModelElementTypes = {
-    array: 'array' as ModelElementType,
-    button: 'button' as ModelElementType,
-    control: 'control' as ModelElementType,
-    group: 'group' as ModelElementType,
-    layout: 'layout' as ModelElementType,
-    page: 'page' as ModelElementType,
-    pageRoot: 'pageRoot' as ModelElementType,
-    submit: 'submit' as ModelElementType
-};
+export enum ModelElementType {
+    array = 'array',
+    button = 'button',
+    control = 'control',
+    group = 'group',
+    layout = 'layout',
+    page = 'page',
+    pageRoot = 'pageRoot',
+    submit = 'submit'
+}
 
 export interface ModelElementRenderCondition {
     key: string;
@@ -43,25 +41,27 @@ export interface ModelElement {
     disabled: boolean;
     /** determines whether the control created by this element will display validation styling **/
     displaysValidation: boolean;
+
+    data: { [key: string]: any };
 }
 
 /**
  * Extends {@link ModelElement} to define a fluent interface for configuring elements
  * @see {ModelElement}
  */
-export interface ModelElementBuilder extends ModelElement {
+export interface ModelElementBuilder<T extends ModelElementBuilder<T>> extends ModelElement {
 
     /**
      * Adds one or more render conditions to determine whether the element should be rendered
      * @param {ModelElementRenderCondition | ModelElementRenderCondition[]} conditions
      */
-    addConditions: (...conditions: ModelElementRenderCondition[]) => ModelElementBuilder;
+    addConditions: (...conditions: ModelElementRenderCondition[]) => T;
 
     /**
      * Adds one or more CSS classes to be rendered for the element
      * @param {string | string[]} cssClass
      */
-    addCssClass: (...cssClass: string[]) => ModelElementBuilder;
+    addCssClass: (...cssClass: string[]) => T;
 
     /**
      * Adds a helper to be rendered for the element
@@ -69,10 +69,12 @@ export interface ModelElementBuilder extends ModelElement {
      * @param cssClass
      * @param position
      */
-    addHelper: (text: string, cssClass?: string, position?: ControlPosition) => ModelElementBuilder;
+    addHelper: (text: string, cssClass?: string, position?: ControlPosition) => T;
+
+    addData: (key: string, value: any) => T;
 
     /**
      * Sets the `disabled` property to true
      */
-    disable(): ModelElementBuilder;
+    disable(): T;
 }

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, ValidatorFn } from '@angular/forms';
 import { FormControlType }                  from '../form.control.type';
 import { ModelControl }                     from './control/model.control';
 import { ArrayMember }                      from './member/array.member';
-import { ButtonAction, ButtonActions, ButtonClass, ButtonMember } from './member/button.member';
+import { ButtonAction, ButtonClass, ButtonMember } from './member/button.member';
 import { CheckboxMember }                   from './member/checkbox.member';
 import { LayoutMember }                     from './member/layout.member';
 import { PageMember, RootPageMember }       from './member/page.member';
@@ -11,7 +11,7 @@ import { PasswordMember }                   from './member/password.member';
 import { SelectionMember }                  from './member/selection.member';
 import { SimpleMember }                     from './member/simple.member';
 import { TemplatedMember }                  from './member/templated.member';
-import { ModelElement, ModelElementTypes }  from './model.element';
+import { ModelElement, ModelElementType }   from './model.element';
 import { ModelHelper }                      from './model.helper';
 import { FormText } from '../form.text';
 
@@ -27,11 +27,11 @@ export abstract class Model {
     };
 
     static submitButton(buttonClass: ButtonClass, text: FormText, disableWhenInvalid: boolean = true): ButtonMember {
-        return new ButtonMember(ModelElementTypes.submit, ButtonActions.submit, buttonClass, text, disableWhenInvalid);
+        return new ButtonMember(ModelElementType.submit, ButtonAction.submit, buttonClass, text, disableWhenInvalid);
     }
 
-    static button(buttonAction: ButtonAction, buttonClass: ButtonClass, text?: FormText, disableWhenInvalid: boolean = false): ButtonMember {
-        return new ButtonMember(ModelElementTypes.button, buttonAction, buttonClass, text, disableWhenInvalid);
+    static button(buttonAction: ButtonAction | string, buttonClass: ButtonClass, text?: FormText, disableWhenInvalid: boolean = false): ButtonMember {
+        return new ButtonMember(ModelElementType.button, buttonAction, buttonClass, text, disableWhenInvalid);
     }
 
     static layout(cssClass: string, ...members: ModelElement[]): LayoutMember {
@@ -79,7 +79,7 @@ export abstract class Model {
     }
 
     static groupMember(name: string, template: any, validator?: ValidatorFn): TemplatedMember {
-        return new TemplatedMember(ModelElementTypes.group, FormControlType.group, name, template, validator);
+        return new TemplatedMember(ModelElementType.group, FormControlType.group, name, template, validator);
     }
 
     static validationMessage(fieldKey: string, errorKey: string, text: string, cssClass?: string): LayoutMember {

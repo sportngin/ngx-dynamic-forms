@@ -24,6 +24,7 @@ import { ListFieldComponent }       from './fields/list.field.component';
 import { ListFieldEntryDirective }  from './fields/list.field.entry.directive';
 import { PasswordFieldComponent }   from './fields/password.field.component';
 import { TextFieldComponent }       from './fields/text.field.component';
+import { BehaviorService } from './behavior/behavior.service';
 
 @NgModule({
     declarations:   [
@@ -78,6 +79,7 @@ import { TextFieldComponent }       from './fields/text.field.component';
         ReactiveFormsModule
     ],
     providers:      [
+        BehaviorService,
         FormControlTypeMappings
     ]
 })

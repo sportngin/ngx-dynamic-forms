@@ -19,6 +19,7 @@ export abstract class ModelControlBase<TMember extends ModelElement> implements 
         this.helpers = member.helpers;
         this.disabled = member.disabled;
         this.displaysValidation = member.displaysValidation;
+        this.data = member.data;
     }
 
     public member: TMember;
@@ -30,6 +31,7 @@ export abstract class ModelControlBase<TMember extends ModelElement> implements 
     public get hidden() { return false; };
     public disabled: boolean;
     public displaysValidation: boolean;
+    public data: { [key: string]: any };
 }
 
 export class ModelMemberControl<TModelMember extends ModelMember = ModelMember> extends ModelControlBase<TModelMember> {

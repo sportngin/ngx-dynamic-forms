@@ -1,16 +1,16 @@
 import { ValidatorFn } from '@angular/forms';
 
-import { FormControlType }      from '../../form.control.type';
-import { Model }                from '../model';
-import { ModelElementTypes }    from '../model.element';
-import { TemplatedMember }      from './templated.member';
+import { FormControlType }  from '../../form.control.type';
+import { Model }            from '../model';
+import { ModelElementType } from '../model.element';
+import { TemplatedMember }  from './templated.member';
 
 export type ArrayItemPermission = boolean | ((value: any) => boolean);
 
 export class ArrayMember extends TemplatedMember {
 
     constructor(name: string, template: Model, validators?: ValidatorFn | ValidatorFn[], data?: {}) {
-        super(ModelElementTypes.array, FormControlType.list, name, template, validators, data);
+        super(ModelElementType.array, FormControlType.list, name, template, validators, data);
 
         this.displaysValidation = false;
     }

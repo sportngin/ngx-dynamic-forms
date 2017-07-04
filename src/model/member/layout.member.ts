@@ -1,9 +1,9 @@
 import { extend } from 'lodash';
 
-import { ModelElement, ModelElementTypes }  from '../model.element';
-import { ContainerMember }                  from './container.member';
+import { ModelElement, ModelElementType }   from '../model.element';
+import { ContainerMemberBase }              from './container.member';
 
-export class LayoutMember extends ContainerMember {
+export class LayoutMember extends ContainerMemberBase<LayoutMember> {
 
     public attributes: { [name: string]: string };
 
@@ -11,7 +11,7 @@ export class LayoutMember extends ContainerMember {
         cssClass: string,
         members: ModelElement[]
     ) {
-        super(ModelElementTypes.layout, members);
+        super(ModelElementType.layout, members);
 
         this.addCssClass(cssClass.replace(/\./g, ' ').trim());
     }
