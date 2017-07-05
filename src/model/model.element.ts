@@ -17,6 +17,7 @@ export enum ModelElementType {
 export interface ModelElementRenderCondition {
     key: string;
     method?: string;
+    required?: boolean
 }
 
 export interface ElementHelper {

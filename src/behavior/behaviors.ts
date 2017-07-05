@@ -10,7 +10,8 @@ export enum BehaviorType {
     isRendered = 'isRendered',
     removeItem = 'removeItem',
     resetItem = 'resetItem',
-    saveItem = 'saveItem'
+    saveItem = 'saveItem',
+    validateDisplay = 'validateDisplay'
 }
 
 export type BehaviorFn = (form: AbstractControl, ...args: string[]) => any;
@@ -53,6 +54,10 @@ export interface IsListItemControlRenderedHandler {
     isListItemControlRendered(form: AbstractControl, key: string): boolean;
 }
 
+export interface DisplayValidationHandler {
+    validateDisplay(form: AbstractControl, fieldKey: string, errorKey: string): boolean;
+}
+
 function getInjectionToken<T>(type: BehaviorType | string): InjectionToken<T> {
     return new InjectionToken<T>(`${type}BehaviorHandler`)
 }
@@ -62,6 +67,7 @@ export function behavior<T>(type: BehaviorType | string, accessor: BehaviorFnAcc
 }
 
 export const BUILT_IN_BEHAVIORS: Behavior[] = [
+    behavior<DisplayValidationHandler>(BehaviorType.validateDisplay, h => h.validateDisplay),
     behavior<EditItemHandler>(BehaviorType.editItem, h => h.onEditItemClick),
     behavior<IsDisabledHandler>(BehaviorType.isDisabled, h => h.isDisabled),
     behavior<IsListItemControlRenderedHandler>(BehaviorType.isListItemControlRendered, h => h.isListItemControlRendered),

@@ -15,6 +15,7 @@ export class FormTestModel extends Model {
 
     constructor() {
         super(
+            Model.validationMessage('email', 'email', 'Please enter a valid email address.', '.alert.alert-danger'),
             Model.textMember('email', Validators.required, Validators.email)
                 .addLabel('Email'),
 

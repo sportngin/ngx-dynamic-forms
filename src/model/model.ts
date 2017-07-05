@@ -87,7 +87,7 @@ export abstract class Model {
 
         layout
             .addHelper(text, cssClass)
-            .addConditions({ key: `${fieldKey}:${errorKey}`, method: 'displayValidation' });
+            .addConditions({ key: `${fieldKey}:${errorKey}`, method: 'validateDisplay', required: true });
 
         return layout;
     }

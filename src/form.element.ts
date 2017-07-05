@@ -3,22 +3,22 @@ import { AbstractControl, FormGroup }   from '@angular/forms';
 
 import { every, isFunction } from 'lodash';
 
-import { BehaviorService }  from './behavior/behavior.service';
-import { BehaviorFn }       from './behavior/behaviors';
-import { ModelControl }     from './model/control/model.control';
+import { BehaviorService }                      from './behavior/behavior.service';
+import { BehaviorFn, BehaviorType, DisplayValidationHandler } from './behavior/behaviors';
+import { ModelControl }                         from './model/control/model.control';
 
-export class FormElement {
+export class FormElement implements DisplayValidationHandler {
 
     @Input() public form: FormGroup;
 
-    private handlers: { [buttonEvent: string]: any } = {
-        displayValidation: this
-    };
+    private handlers: { [buttonEvent: string]: any } = {};
 
     constructor(
         protected injector: Injector,
         private behaviorService: BehaviorService
-    ) {}
+    ) {
+        this.handlers[BehaviorType.validateDisplay] = behaviorService.getHandler(BehaviorType.validateDisplay, this, false);
+    }
 
     private getHandler(behaviorType: string, optional: boolean): BehaviorFn {
         if (!this.handlers[behaviorType]) {
@@ -36,7 +36,7 @@ export class FormElement {
         return this.handlers[behaviorType];
     }
 
-    public displayValidation(form: AbstractControl, fieldKey: string, errorKey: string): boolean {
+    public validateDisplay(form: AbstractControl, fieldKey: string, errorKey: string): boolean {
         let group = form as FormGroup;
         if (!group) {
             return true;
@@ -78,8 +78,8 @@ export class FormElement {
 
             // FIXME: for some reason, using IsRenderedMethods.parent causes the error "Object prototype may only be an Object or null: undefined
             // if (condition === 'parent') { // IsRenderedMethods.parent) {
-            // console.log('isRendered', condition.key, this.constructor, this.form);
-                return this.handleBehavior(`${condition.method || 'isRendered'}:${condition.key}`, this.form, true);
+            // console.log('isRendered', condition.key, this.constructor, this.form, !condition.required);
+                return this.handleBehavior(`${condition.method || 'isRendered'}:${condition.key}`, this.form, condition.required ? undefined : true);
             // }
 
             // return true;
