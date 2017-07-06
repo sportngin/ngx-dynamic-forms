@@ -55,7 +55,7 @@ export abstract class FormComponentHost<TState extends FormState = FormState> im
                 this.state.error = null;
                 this.state.submitting = false;
                 this.state.submitted = true;
-                if (result.state) {
+                if (result && result.state) {
                     extend(this.state, result.state);
                 }
             }, err => {
