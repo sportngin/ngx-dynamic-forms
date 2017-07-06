@@ -78,11 +78,11 @@ export const BUILT_IN_BEHAVIORS: Behavior[] = [
 export const BUILT_IN_BEHAVIORS_MAP: { [key: string]: Behavior } = {};
 for (let index = 0; index < BUILT_IN_BEHAVIORS.length; index++) {
     let b = BUILT_IN_BEHAVIORS[index];
-    BUILT_IN_BEHAVIORS_MAP[b.type] = b;
+    BUILT_IN_BEHAVIORS_MAP[b.type.toString()] = b;
 }
 
 export function behaviorProvider(implementation: Type<any>, type: BehaviorType): Provider {
-    return { provide: BUILT_IN_BEHAVIORS_MAP[type].token, useExisting: implementation };
+    return { provide: BUILT_IN_BEHAVIORS_MAP[type.toString()].token, useExisting: implementation };
 }
 
 // export function behaviorProviders(implementation: Type<any>, ...types: BehaviorType[]): Provider[] {
