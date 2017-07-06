@@ -27,33 +27,56 @@ export interface Behavior {
 export interface EditItemHandler {
     onEditItemClick(form: AbstractControl): void;
 }
+export function editItemHandlerAccessor<T extends EditItemHandler>(implementation: T): BehaviorFn {
+    return implementation.onEditItemClick;
+}
 
 export interface SaveItemHandler {
     onSaveItemClick(form: AbstractControl): void;
+}
+export function saveItemHandlerAccessor<T extends SaveItemHandler>(implementation: T): BehaviorFn {
+    return implementation.onSaveItemClick;
 }
 
 export interface RemoveItemHandler {
     onRemoveItemClick(form: AbstractControl): void;
 }
+export function removeItemHandlerAccessor<T extends RemoveItemHandler>(implementation: T): BehaviorFn {
+    return implementation.onRemoveItemClick;
+}
 
 export interface ResetItemHandler {
     onResetItemClick(form: AbstractControl): void;
+}export function resetItemHandlerAccessor<T extends ResetItemHandler>(implementation: T): BehaviorFn {
+    return implementation.onResetItemClick;
 }
 
 export interface IsDisabledHandler {
     isDisabled(form: AbstractControl): boolean;
 }
+export function isDisabledHandlerAccessor<T extends IsDisabledHandler>(implementation: T): BehaviorFn {
+    return implementation.isDisabled;
+}
 
 export interface IsRenderedHandler {
     isChildRendered(form: AbstractControl, key?: string): boolean;
+}
+export function isRenderedHandlerAccessor<T extends IsRenderedHandler>(implementation: T): BehaviorFn {
+    return implementation.isChildRendered;
 }
 
 export interface IsListItemControlRenderedHandler {
     isListItemControlRendered(form: AbstractControl, key: string): boolean;
 }
+export function isListItemControlRenderedHandlerAccessor<T extends IsListItemControlRenderedHandler>(implementation: T): BehaviorFn {
+    return implementation.isListItemControlRendered;
+}
 
 export interface DisplayValidationHandler {
     validateDisplay(form: AbstractControl, fieldKey: string, errorKey: string): boolean;
+}
+export function displayValidationHandlerAccessor<T extends DisplayValidationHandler>(implementation: T): BehaviorFn {
+    return implementation.validateDisplay;
 }
 
 export function getInjectionToken<T>(type: BehaviorType | string): InjectionToken<T> {
@@ -64,14 +87,14 @@ export function behavior<T>(type: BehaviorType | string, accessor: BehaviorFnAcc
     return { type, token: getInjectionToken<T>(type), accessor };
 }
 
-export const BEHAVIOR_EDIT_ITEM = behavior<EditItemHandler>(BehaviorType.editItem, h => h.onEditItemClick);
-export const BEHAVIOR_IS_DISABLED = behavior<IsDisabledHandler>(BehaviorType.isDisabled, h => h.isDisabled);
-export const BEHAVIOR_IS_LIST_ITEM_CONTROL_RENDERED = behavior<IsListItemControlRenderedHandler>(BehaviorType.isListItemControlRendered, h => h.isListItemControlRendered);
-export const BEHAVIOR_IS_RENDERED = behavior<IsRenderedHandler>(BehaviorType.isRendered, h => h.isChildRendered);
-export const BEHAVIOR_REMOVE_ITEM = behavior<RemoveItemHandler>(BehaviorType.removeItem, h => h.onRemoveItemClick);
-export const BEHAVIOR_RESET_ITEM = behavior<ResetItemHandler>(BehaviorType.resetItem, h => h.onResetItemClick);
-export const BEHAVIOR_SAVE_ITEM = behavior<SaveItemHandler>(BehaviorType.saveItem, h => h.onSaveItemClick);
-export const BEHAVIOR_VALIDATE_DISPLAY = behavior<DisplayValidationHandler>(BehaviorType.validateDisplay, h => h.validateDisplay);
+export const BEHAVIOR_EDIT_ITEM = behavior<EditItemHandler>(BehaviorType.editItem, editItemHandlerAccessor);
+export const BEHAVIOR_IS_DISABLED = behavior<IsDisabledHandler>(BehaviorType.isDisabled, isDisabledHandlerAccessor);
+export const BEHAVIOR_IS_LIST_ITEM_CONTROL_RENDERED = behavior<IsListItemControlRenderedHandler>(BehaviorType.isListItemControlRendered, isListItemControlRenderedHandlerAccessor);
+export const BEHAVIOR_IS_RENDERED = behavior<IsRenderedHandler>(BehaviorType.isRendered, isRenderedHandlerAccessor);
+export const BEHAVIOR_REMOVE_ITEM = behavior<RemoveItemHandler>(BehaviorType.removeItem, removeItemHandlerAccessor);
+export const BEHAVIOR_RESET_ITEM = behavior<ResetItemHandler>(BehaviorType.resetItem, resetItemHandlerAccessor);
+export const BEHAVIOR_SAVE_ITEM = behavior<SaveItemHandler>(BehaviorType.saveItem, saveItemHandlerAccessor);
+export const BEHAVIOR_VALIDATE_DISPLAY = behavior<DisplayValidationHandler>(BehaviorType.validateDisplay, displayValidationHandlerAccessor);
 
 export const BUILT_IN_BEHAVIORS: Behavior[] = [
     BEHAVIOR_EDIT_ITEM,
@@ -93,16 +116,8 @@ export const BUILT_IN_BEHAVIORS_MAP: { [key: string]: Behavior } = {
     resetItem: BEHAVIOR_RESET_ITEM,
     saveItem: BEHAVIOR_SAVE_ITEM,
     validateDisplay: BEHAVIOR_VALIDATE_DISPLAY
-}
+};
 
 export function behaviorProvider(implementation: Type<any>, type: BehaviorType): Provider {
     return { provide: BUILT_IN_BEHAVIORS_MAP[type.toString()].token, useExisting: implementation };
 }
-
-// export function behaviorProviders(implementation: Type<any>, ...types: BehaviorType[]): Provider[] {
-//     let result = [];
-//     for (let index = 0; index < types.length; index++) {
-//         result.push(behaviorProvider(implementation, types[index]));
-//     }
-//     return result;
-// }
