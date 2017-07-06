@@ -5,7 +5,7 @@ import { By }                           from '@angular/platform-browser';
 
 import { expect } from 'chai';
 
-import { FORM_COMPONENT_HOST_PROVIDERS } from '../../../test/fixtures';
+import { FORM_COMPONENT_HOST_PROVIDERS } from '../../test/fixtures';
 
 import { FormControlType }      from '../form.control.type';
 import { Model }                from '../model/model';

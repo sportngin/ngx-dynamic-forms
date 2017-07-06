@@ -6,7 +6,7 @@ import { expect } from 'chai';
 
 import * as moment from 'moment';
 
-import { FORM_COMPONENT_HOST_PROVIDERS } from '../../../test/fixtures';
+import { FORM_COMPONENT_HOST_PROVIDERS } from '../../test/fixtures';
 
 import { DatePickerComponent }  from './date.picker.component';
 
