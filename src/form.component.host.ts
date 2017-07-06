@@ -1,6 +1,8 @@
 import { EventEmitter, OnDestroy, Provider, Type }  from '@angular/core';
 import { AbstractControl }                          from '@angular/forms';
 
+import { extend } from 'lodash';
+
 import { Observable }   from 'rxjs/Observable';
 import { Observer }     from 'rxjs/Observer';
 
@@ -49,10 +51,13 @@ export abstract class FormComponentHost<TState extends FormState = FormState> im
     public submit(e: Event): void {
         e.preventDefault();
         this.doSubmit()
-            .then(() => {
+            .then(result => {
                 this.state.error = null;
                 this.state.submitting = false;
                 this.state.submitted = true;
+                if (result.state) {
+                    extend(this.state, result.state);
+                }
             }, err => {
                 this.state.error = err;
                 this.state.submitting = false;
@@ -61,7 +66,7 @@ export abstract class FormComponentHost<TState extends FormState = FormState> im
         this.state.submitting = true;
     }
 
-    protected abstract doSubmit(): Promise<any>;
+    protected abstract doSubmit(): Promise<any | { state: FormState }>;
 
     public get form(): DynamicFormComponent {
         return this._form;
