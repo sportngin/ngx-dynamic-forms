@@ -56,7 +56,7 @@ export interface DisplayValidationHandler {
     validateDisplay(form: AbstractControl, fieldKey: string, errorKey: string): boolean;
 }
 
-function getInjectionToken<T>(type: BehaviorType | string): InjectionToken<T> {
+export function getInjectionToken<T>(type: BehaviorType | string): InjectionToken<T> {
     return new InjectionToken<T>(`${type}BehaviorHandler`)
 }
 
@@ -64,21 +64,35 @@ export function behavior<T>(type: BehaviorType | string, accessor: BehaviorFnAcc
     return { type, token: getInjectionToken<T>(type), accessor };
 }
 
+export const BEHAVIOR_EDIT_ITEM = behavior<EditItemHandler>(BehaviorType.editItem, h => h.onEditItemClick);
+export const BEHAVIOR_IS_DISABLED = behavior<IsDisabledHandler>(BehaviorType.isDisabled, h => h.isDisabled);
+export const BEHAVIOR_IS_LIST_ITEM_CONTROL_RENDERED = behavior<IsListItemControlRenderedHandler>(BehaviorType.isListItemControlRendered, h => h.isListItemControlRendered);
+export const BEHAVIOR_IS_RENDERED = behavior<IsRenderedHandler>(BehaviorType.isRendered, h => h.isChildRendered);
+export const BEHAVIOR_REMOVE_ITEM = behavior<RemoveItemHandler>(BehaviorType.removeItem, h => h.onRemoveItemClick);
+export const BEHAVIOR_RESET_ITEM = behavior<ResetItemHandler>(BehaviorType.resetItem, h => h.onResetItemClick);
+export const BEHAVIOR_SAVE_ITEM = behavior<SaveItemHandler>(BehaviorType.saveItem, h => h.onSaveItemClick);
+export const BEHAVIOR_VALIDATE_DISPLAY = behavior<DisplayValidationHandler>(BehaviorType.validateDisplay, h => h.validateDisplay);
+
 export const BUILT_IN_BEHAVIORS: Behavior[] = [
-    behavior<DisplayValidationHandler>(BehaviorType.validateDisplay, h => h.validateDisplay),
-    behavior<EditItemHandler>(BehaviorType.editItem, h => h.onEditItemClick),
-    behavior<IsDisabledHandler>(BehaviorType.isDisabled, h => h.isDisabled),
-    behavior<IsListItemControlRenderedHandler>(BehaviorType.isListItemControlRendered, h => h.isListItemControlRendered),
-    behavior<IsRenderedHandler>(BehaviorType.isRendered, h => h.isChildRendered),
-    behavior<RemoveItemHandler>(BehaviorType.removeItem, h => h.onRemoveItemClick),
-    behavior<ResetItemHandler>(BehaviorType.resetItem, h => h.onResetItemClick),
-    behavior<SaveItemHandler>(BehaviorType.saveItem, h => h.onSaveItemClick)
+    BEHAVIOR_EDIT_ITEM,
+    BEHAVIOR_IS_DISABLED,
+    BEHAVIOR_IS_LIST_ITEM_CONTROL_RENDERED,
+    BEHAVIOR_IS_RENDERED,
+    BEHAVIOR_REMOVE_ITEM,
+    BEHAVIOR_RESET_ITEM,
+    BEHAVIOR_SAVE_ITEM,
+    BEHAVIOR_VALIDATE_DISPLAY
 ];
 
-export const BUILT_IN_BEHAVIORS_MAP: { [key: string]: Behavior } = {};
-for (let index = 0; index < BUILT_IN_BEHAVIORS.length; index++) {
-    let b = BUILT_IN_BEHAVIORS[index];
-    BUILT_IN_BEHAVIORS_MAP[b.type.toString()] = b;
+export const BUILT_IN_BEHAVIORS_MAP: { [key: string]: Behavior } = {
+    editItem: BEHAVIOR_EDIT_ITEM,
+    isDisabled: BEHAVIOR_IS_DISABLED,
+    isListItemControlRendered: BEHAVIOR_IS_LIST_ITEM_CONTROL_RENDERED,
+    isRendered: BEHAVIOR_IS_RENDERED,
+    removeItem: BEHAVIOR_REMOVE_ITEM,
+    resetItem: BEHAVIOR_RESET_ITEM,
+    saveItem: BEHAVIOR_SAVE_ITEM,
+    validateDisplay: BEHAVIOR_VALIDATE_DISPLAY
 }
 
 export function behaviorProvider(implementation: Type<any>, type: BehaviorType): Provider {
