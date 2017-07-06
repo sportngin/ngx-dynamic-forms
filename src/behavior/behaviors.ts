@@ -119,5 +119,5 @@ export const BUILT_IN_BEHAVIORS_MAP: { [key: string]: Behavior } = {
 };
 
 export function behaviorProvider(implementation: Type<any>, type: BehaviorType): Provider {
-    return { provide: BUILT_IN_BEHAVIORS_MAP[type.toString()].token, useExisting: implementation };
+    return { provide: BUILT_IN_BEHAVIORS_MAP[type].token, useExisting: implementation };
 }
