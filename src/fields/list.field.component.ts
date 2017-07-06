@@ -24,7 +24,6 @@ const TOKENS = {
     selector: 'list-field',
     templateUrl: './list.field.pug',
     viewProviders: [
-        hostProviders(ListFieldComponent),
         behaviorProvider(ListFieldComponent, BehaviorType.editItem),
         behaviorProvider(ListFieldComponent, BehaviorType.isListItemControlRendered),
         behaviorProvider(ListFieldComponent, BehaviorType.removeItem),
