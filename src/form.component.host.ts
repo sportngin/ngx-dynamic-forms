@@ -4,7 +4,7 @@ import { AbstractControl }                          from '@angular/forms';
 import { Observable }   from 'rxjs/Observable';
 import { Observer }     from 'rxjs/Observer';
 
-import { behaviorProviders, BehaviorType, IsRenderedHandler } from './behavior/behaviors';
+import { behaviorProvider, BehaviorType, IsRenderedHandler } from './behavior/behaviors';
 import { DynamicFormComponent } from './dynamic.form.component';
 import { Model }                from './model/model';
 
@@ -14,8 +14,8 @@ export function hostProviders(implementation: Type<any>): Provider[] {
             provide: FormComponentHost,
             useExisting: implementation
         },
-        behaviorProviders(implementation, BehaviorType.isRendered)
-    ]
+        behaviorProvider(implementation, BehaviorType.isRendered)
+    ];
 }
 
 export interface ControlValueInjection {

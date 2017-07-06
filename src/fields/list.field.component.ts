@@ -12,6 +12,7 @@ import { ArrayControl }             from '../model/control/array.control';
 import { FieldBase }                from './field.base';
 import { ListFieldEntryDirective }  from './list.field.entry.directive';
 import {
+    behaviorProvider,
     behaviorProviders, BehaviorType, EditItemHandler, IsListItemControlRenderedHandler, RemoveItemHandler,
     ResetItemHandler, SaveItemHandler
 } from '../behavior/behaviors';
@@ -24,6 +25,7 @@ const TOKENS = {
     selector: 'list-field',
     templateUrl: './list.field.pug',
     viewProviders: [
+        behaviorProvider(ListFieldComponent, BehaviorType.editItem),
         behaviorProviders(ListFieldComponent,
             BehaviorType.editItem,
             BehaviorType.isListItemControlRendered,

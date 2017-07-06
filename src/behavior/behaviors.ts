@@ -1,8 +1,6 @@
 import { InjectionToken, Provider, Type } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 
-import { chain, map } from 'lodash';
-
 export enum BehaviorType {
     editItem = 'editItem',
     isDisabled = 'isDisabled',
@@ -77,8 +75,20 @@ export const BUILT_IN_BEHAVIORS: Behavior[] = [
     behavior<SaveItemHandler>(BehaviorType.saveItem, h => h.onSaveItemClick)
 ];
 
-const BUILT_IN_BEHAVIORS_MAP: { [key: string]: Behavior } = chain(BUILT_IN_BEHAVIORS).map(entry => [entry.type, entry]).fromPairs().value();
+export const BUILT_IN_BEHAVIORS_MAP: { [key: string]: Behavior } = {};
+for (let index = 0; index < BUILT_IN_BEHAVIORS.length; index++) {
+    let b = BUILT_IN_BEHAVIORS[index];
+    BUILT_IN_BEHAVIORS_MAP[b.type] = b;
+}
 
-export function behaviorProviders(implementor: Type<any>, ...types: BehaviorType[]): Provider[] {
-    return map(types, type => ({ provide: BUILT_IN_BEHAVIORS_MAP[type].token, useExisting: implementor }));
+export function behaviorProvider(implementation: Type<any>, type: BehaviorType): Provider {
+    return { provide: BUILT_IN_BEHAVIORS_MAP[type].token, useExisting: implementation };
+}
+
+export function behaviorProviders(implementation: Type<any>, ...types: BehaviorType[]): Provider[] {
+    let result = [];
+    for (let index = 0; index < types.length; index++) {
+        result.push(behaviorProvider(implementation, types[index]));
+    }
+    return result;
 }
