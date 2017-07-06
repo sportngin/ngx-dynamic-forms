@@ -6,14 +6,13 @@ import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/for
 
 import { each, extend, last } from 'lodash';
 
-import { FormComponentHost }        from '../form.component.host';
+import { FormComponentHost, hostProviders }        from '../form.component.host';
 import { Model }                    from '../model/model';
 import { ArrayControl }             from '../model/control/array.control';
 import { FieldBase }                from './field.base';
 import { ListFieldEntryDirective }  from './list.field.entry.directive';
 import {
-    behaviorProvider,
-    behaviorProviders, BehaviorType, EditItemHandler, IsListItemControlRenderedHandler, RemoveItemHandler,
+    behaviorProvider, BehaviorType, EditItemHandler, IsListItemControlRenderedHandler, RemoveItemHandler,
     ResetItemHandler, SaveItemHandler
 } from '../behavior/behaviors';
 
@@ -25,13 +24,13 @@ const TOKENS = {
     selector: 'list-field',
     templateUrl: './list.field.pug',
     viewProviders: [
-        behaviorProviders(ListFieldComponent,
-            BehaviorType.editItem,
-            BehaviorType.isListItemControlRendered,
-            BehaviorType.removeItem,
-            BehaviorType.resetItem,
-            BehaviorType.saveItem
-        )],
+        hostProviders(ListFieldComponent),
+        behaviorProvider(ListFieldComponent, BehaviorType.editItem),
+        behaviorProvider(ListFieldComponent, BehaviorType.isListItemControlRendered),
+        behaviorProvider(ListFieldComponent, BehaviorType.removeItem),
+        behaviorProvider(ListFieldComponent, BehaviorType.resetItem),
+        behaviorProvider(ListFieldComponent, BehaviorType.saveItem)
+    ],
     styleUrls: ['./list.field.component.scss'],
     encapsulation: ViewEncapsulation.None
 })

@@ -85,10 +85,10 @@ export function behaviorProvider(implementation: Type<any>, type: BehaviorType):
     return { provide: BUILT_IN_BEHAVIORS_MAP[type].token, useExisting: implementation };
 }
 
-export function behaviorProviders(implementation: Type<any>, ...types: BehaviorType[]): Provider[] {
-    let result = [];
-    for (let index = 0; index < types.length; index++) {
-        result.push(behaviorProvider(implementation, types[index]));
-    }
-    return result;
-}
+// export function behaviorProviders(implementation: Type<any>, ...types: BehaviorType[]): Provider[] {
+//     let result = [];
+//     for (let index = 0; index < types.length; index++) {
+//         result.push(behaviorProvider(implementation, types[index]));
+//     }
+//     return result;
+// }

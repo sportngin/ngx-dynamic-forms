@@ -1,7 +1,7 @@
 import { Component }        from '@angular/core';
 import { AbstractControl }  from '@angular/forms';
 
-import { behaviorProviders, BehaviorType, hostProviders, IsDisabledHandler, IsRenderedHandler } from '@siplay/ng-dynamic-forms';
+import { behaviorProvider, BehaviorType, hostProviders, IsDisabledHandler, IsRenderedHandler } from '@siplay/ng-dynamic-forms';
 
 import { FieldTestComponent }   from '../field.test.component';
 import { FormTestModel }        from './form.test.model';
@@ -11,7 +11,8 @@ import { FormTestModel }        from './form.test.model';
     templateUrl: '../field.test.pug',
     viewProviders: [
         hostProviders(FormTestComponent),
-        behaviorProviders(FormTestComponent, BehaviorType.isDisabled, BehaviorType.isRendered),
+        behaviorProvider(FormTestComponent, BehaviorType.isDisabled),
+        behaviorProvider(FormTestComponent, BehaviorType.isRendered),
         { provide: 'error', useExisting: FormTestComponent }
     ]
 })
