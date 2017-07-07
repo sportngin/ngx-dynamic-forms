@@ -21,7 +21,7 @@ mixin fields(displayOnly, formVarName, formGroup)
         type='button',
         *ngIf='control.elementType === "button" && isRendered(control)',
         [class]='"btn btn-" + control.member.buttonClass + " " + control.cssClass',
-        (click)=`handleButtonEvent(control.member.buttonAction, ${formVarName || 'form'})`,
+        (click)=`handleBehavior(control.member.buttonAction, ${formVarName || 'form'})`,
         [attr.disabled]='control.disabled ? "" : null',
         [disabled]='isDisabled(control)'
         ) {{getText(control.text)}}
