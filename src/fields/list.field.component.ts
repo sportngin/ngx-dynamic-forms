@@ -197,11 +197,11 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
             case 'reset': return this.isLastEntry(form);
 
             case 'save':
+                let isLastEntry = this.isLastEntry(form);
                 return (
-                    this.control.getPermission(this.control.canEditItem, form.value) ||
-                    this.control.getPermission(this.control.canAddItem, form.value)
-                    ) &&
-                (!this.isLastEntry(form) || !this.control.canAddItem);
+                    (!isLastEntry && this.control.getPermission(this.control.canEditItem, form.value)) ||
+                    (isLastEntry && this.control.getPermission(this.control.canAddItem, form.value))
+                );
         }
         return true;
     }
