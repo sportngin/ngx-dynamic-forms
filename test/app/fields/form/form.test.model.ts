@@ -1,7 +1,6 @@
 import { Validators } from '@angular/forms';
 
-import { Model, PasswordValidator } from '@siplay/ng-dynamic-forms';
-import { ButtonClass } from '../../../../src/model/member/button.member';
+import { ButtonClass, Model, PasswordValidator } from '@siplay/ng-dynamic-forms';
 
 const buttonText = {
     default: 'Submit',
@@ -25,6 +24,12 @@ export class FormTestModel extends Model {
             ]))
                 .addLabel('Password')
                 .addHelper('At least two letters and two numbers.'),
+
+            Model.member('privacy', 'privacy')
+                .addHelper('You must be 13 years or older to create an account.', '.alert.alert-warning'),
+
+            Model.checkbox('marketingOptIn', () => true)
+                .addLabel('I want to receive newsletters and other offers from SI Play'),
 
             Model.submitButton(ButtonClass.success, buttonText, true),
 
