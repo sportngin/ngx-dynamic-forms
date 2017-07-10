@@ -78,7 +78,9 @@ export interface IsRenderedHandler {
 export function isRenderedHandlerAccessor<T extends IsRenderedHandler>(implementation: T): BehaviorFn {
     return implementation.isChildRendered;
 }
-export const IS_RENDERED_HANDLER = getInjectionToken<IsRenderedHandler>(BehaviorType.isRendered);
+// export const IS_RENDERED_HANDLER = getInjectionToken<IsRenderedHandler>(BehaviorType.isRendered);
+export const IS_RENDERED_HANDLER = new InjectionToken<IsRenderedHandler>('IsRenderedHandler');
+IS_RENDERED_HANDLER['foo'] = 'bar';
 
 export interface IsListItemControlRenderedHandler {
     isListItemControlRendered(form: AbstractControl, key: string): boolean;
@@ -102,7 +104,7 @@ export const BEHAVIOR_IS_LIST_ITEM_CONTROL_RENDERED = behavior<IsListItemControl
 export const BEHAVIOR_IS_RENDERED = behavior<IsRenderedHandler>(BehaviorType.isRendered, IS_RENDERED_HANDLER, isRenderedHandlerAccessor);
 export const BEHAVIOR_REMOVE_ITEM = behavior<RemoveItemHandler>(BehaviorType.removeItem, REMOVE_ITEM_HANDLER, removeItemHandlerAccessor);
 export const BEHAVIOR_RESET_ITEM = behavior<ResetItemHandler>(BehaviorType.resetItem, RESET_ITEM_HANDLER, resetItemHandlerAccessor);
-export const BEHAVIOR_SAVE_ITEM = behavior<SaveItemHandler>(BehaviorType.saveItem,SAVE_ITEM_HANDLER, saveItemHandlerAccessor);
+export const BEHAVIOR_SAVE_ITEM = behavior<SaveItemHandler>(BehaviorType.saveItem, SAVE_ITEM_HANDLER, saveItemHandlerAccessor);
 export const BEHAVIOR_VALIDATE_DISPLAY = behavior<DisplayValidationHandler>(BehaviorType.validateDisplay, DISPLAY_VALIDATION_HANDLER, displayValidationHandlerAccessor);
 
 export const BUILT_IN_BEHAVIORS: Behavior[] = [
