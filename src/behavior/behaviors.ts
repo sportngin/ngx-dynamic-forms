@@ -24,10 +24,6 @@ export interface Behavior {
 
 }
 
-export function getInjectionToken<T>(type: BehaviorType | string): InjectionToken<T> {
-    return new InjectionToken<T>(`${type}BehaviorHandler`)
-}
-
 export function behavior<T>(type: BehaviorType | string, token: InjectionToken<T>, accessor: BehaviorFnAccessor<T>): Behavior {
     return { type, token, accessor };
 }
@@ -38,7 +34,7 @@ export interface EditItemHandler {
 export function editItemHandlerAccessor<T extends EditItemHandler>(implementation: T): BehaviorFn {
     return implementation.onEditItemClick;
 }
-export const EDIT_ITEM_HANDLER = getInjectionToken<EditItemHandler>(BehaviorType.editItem);
+export const EDIT_ITEM_HANDLER = new InjectionToken<EditItemHandler>(BehaviorType.editItem);
 
 export interface SaveItemHandler {
     onSaveItemClick(form: AbstractControl): void;
@@ -46,7 +42,7 @@ export interface SaveItemHandler {
 export function saveItemHandlerAccessor<T extends SaveItemHandler>(implementation: T): BehaviorFn {
     return implementation.onSaveItemClick;
 }
-export const SAVE_ITEM_HANDLER = getInjectionToken<SaveItemHandler>(BehaviorType.saveItem);
+export const SAVE_ITEM_HANDLER = new InjectionToken<SaveItemHandler>(BehaviorType.saveItem);
 
 export interface RemoveItemHandler {
     onRemoveItemClick(form: AbstractControl): void;
@@ -54,7 +50,7 @@ export interface RemoveItemHandler {
 export function removeItemHandlerAccessor<T extends RemoveItemHandler>(implementation: T): BehaviorFn {
     return implementation.onRemoveItemClick;
 }
-export const REMOVE_ITEM_HANDLER = getInjectionToken<RemoveItemHandler>(BehaviorType.removeItem);
+export const REMOVE_ITEM_HANDLER = new InjectionToken<RemoveItemHandler>(BehaviorType.removeItem);
 
 export interface ResetItemHandler {
     onResetItemClick(form: AbstractControl): void;
@@ -62,7 +58,7 @@ export interface ResetItemHandler {
 export function resetItemHandlerAccessor<T extends ResetItemHandler>(implementation: T): BehaviorFn {
     return implementation.onResetItemClick;
 }
-export const RESET_ITEM_HANDLER = getInjectionToken<ResetItemHandler>(BehaviorType.resetItem);
+export const RESET_ITEM_HANDLER = new InjectionToken<ResetItemHandler>(BehaviorType.resetItem);
 
 export interface IsDisabledHandler {
     isDisabled(form: AbstractControl): boolean;
@@ -70,7 +66,7 @@ export interface IsDisabledHandler {
 export function isDisabledHandlerAccessor<T extends IsDisabledHandler>(implementation: T): BehaviorFn {
     return implementation.isDisabled;
 }
-export const IS_DISABLED_HANDLER = getInjectionToken<IsDisabledHandler>(BehaviorType.isDisabled);
+export const IS_DISABLED_HANDLER = new InjectionToken<IsDisabledHandler>(BehaviorType.isDisabled);
 
 export interface IsRenderedHandler {
     isChildRendered(form: AbstractControl, key?: string): boolean;
@@ -78,8 +74,8 @@ export interface IsRenderedHandler {
 export function isRenderedHandlerAccessor<T extends IsRenderedHandler>(implementation: T): BehaviorFn {
     return implementation.isChildRendered;
 }
-// export const IS_RENDERED_HANDLER = getInjectionToken<IsRenderedHandler>(BehaviorType.isRendered);
-export const IS_RENDERED_HANDLER = new InjectionToken<IsRenderedHandler>('IsRenderedHandler');
+// export const IS_RENDERED_HANDLER = new InjectionToken<IsRenderedHandler>(BehaviorType.isRendered);
+export const IS_RENDERED_HANDLER = new InjectionToken<IsRenderedHandler>(BehaviorType.isRendered);
 IS_RENDERED_HANDLER['foo'] = 'bar';
 
 export interface IsListItemControlRenderedHandler {
@@ -88,7 +84,7 @@ export interface IsListItemControlRenderedHandler {
 export function isListItemControlRenderedHandlerAccessor<T extends IsListItemControlRenderedHandler>(implementation: T): BehaviorFn {
     return implementation.isListItemControlRendered;
 }
-export const IS_LIST_ITEM_CONTROL_RENDERED_HANDLER = getInjectionToken<IsListItemControlRenderedHandler>(BehaviorType.isListItemControlRendered);
+export const IS_LIST_ITEM_CONTROL_RENDERED_HANDLER = new InjectionToken<IsListItemControlRenderedHandler>(BehaviorType.isListItemControlRendered);
 
 export interface DisplayValidationHandler {
     validateDisplay(form: AbstractControl, fieldKey: string, errorKey: string): boolean;
@@ -96,7 +92,7 @@ export interface DisplayValidationHandler {
 export function displayValidationHandlerAccessor<T extends DisplayValidationHandler>(implementation: T): BehaviorFn {
     return implementation.validateDisplay;
 }
-export const DISPLAY_VALIDATION_HANDLER = getInjectionToken<DisplayValidationHandler>(BehaviorType.validateDisplay);
+export const DISPLAY_VALIDATION_HANDLER = new InjectionToken<DisplayValidationHandler>(BehaviorType.validateDisplay);
 
 export const BEHAVIOR_EDIT_ITEM = behavior<EditItemHandler>(BehaviorType.editItem, EDIT_ITEM_HANDLER, editItemHandlerAccessor);
 export const BEHAVIOR_IS_DISABLED = behavior<IsDisabledHandler>(BehaviorType.isDisabled, IS_DISABLED_HANDLER, isDisabledHandlerAccessor);
