@@ -1,10 +1,10 @@
-import { Component }        from '@angular/core';
-import { AbstractControl }  from '@angular/forms';
+import { Component } from '@angular/core';
+import { AbstractControl } from '@angular/forms';
 
-import { behaviorProvider, BehaviorType, hostProviders, IsDisabledHandler, IsRenderedHandler } from '@siplay/ng-dynamic-forms';
+import { behaviorProvider, BehaviorType, hostProviders, IsDisabledHandler } from '@siplay/ng-dynamic-forms';
 
-import { FieldTestComponent }   from '../field.test.component';
-import { FormTestModel }        from './form.test.model';
+import { FieldTestComponent } from '../field.test.component';
+import { FormTestModel } from './form.test.model';
 
 @Component({
     selector: 'form-test',
@@ -12,11 +12,10 @@ import { FormTestModel }        from './form.test.model';
     viewProviders: [
         hostProviders(FormTestComponent),
         behaviorProvider(FormTestComponent, BehaviorType.isDisabled),
-        behaviorProvider(FormTestComponent, BehaviorType.isRendered),
         { provide: 'error', useExisting: FormTestComponent }
     ]
 })
-export class FormTestComponent extends FieldTestComponent implements IsDisabledHandler, IsRenderedHandler {
+export class FormTestComponent extends FieldTestComponent implements IsDisabledHandler {
 
     constructor() {
         super(new FormTestModel());
@@ -32,10 +31,6 @@ export class FormTestComponent extends FieldTestComponent implements IsDisabledH
 
     public isDisabled(form: AbstractControl): boolean {
         return false;
-    }
-
-    public isChildRendered(form: AbstractControl, key: string): boolean {
-        return true;
     }
 
 }

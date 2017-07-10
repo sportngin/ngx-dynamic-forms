@@ -7,10 +7,10 @@ let behaviors: { [key: string]: Behavior } = {};
 
 export class BehaviorServiceConfig implements ClassProvider {
 
-    public with<T>(type: BehaviorType | string, accessor: BehaviorFnAccessor<T>): BehaviorServiceConfig {
-        behaviors[type] = behavior<T>(type, accessor);
-        return this;
-    }
+    // public with<T>(type: BehaviorType | string, accessor: BehaviorFnAccessor<T>): BehaviorServiceConfig {
+    //     behaviors[type] = behavior<T>(type, accessor);
+    //     return this;
+    // }
 
     public readonly provide = BehaviorService;
     public readonly useClass = BehaviorService;
@@ -26,9 +26,9 @@ export class BehaviorService {
         });
     }
 
-    public static with<T>(type: BehaviorType | string, accessor: BehaviorFnAccessor<T>): BehaviorServiceConfig {
-        return new BehaviorServiceConfig().with<T>(type, accessor);
-    }
+    // public static with<T>(type: BehaviorType | string, accessor: BehaviorFnAccessor<T>): BehaviorServiceConfig {
+    //     return new BehaviorServiceConfig().with<T>(type, accessor);
+    // }
 
     private getBehavior(type: BehaviorType | string, optional: boolean): Behavior {
         let behavior = behaviors[type];

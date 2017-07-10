@@ -1,14 +1,14 @@
-import { EventEmitter, OnDestroy, Provider, Type }  from '@angular/core';
-import { AbstractControl }                          from '@angular/forms';
+import { EventEmitter, OnDestroy, Provider, Type } from '@angular/core';
+import { AbstractControl } from '@angular/forms';
 
 import { extend } from 'lodash';
 
-import { Observable }   from 'rxjs/Observable';
-import { Observer }     from 'rxjs/Observer';
+import { Observable } from 'rxjs/Observable';
+import { Observer } from 'rxjs/Observer';
 
 import { behaviorProvider, BehaviorType, IsRenderedHandler } from './behavior/behaviors';
 import { DynamicFormComponent } from './dynamic.form.component';
-import { Model }                from './model/model';
+import { Model } from './model/model';
 
 export function hostProviders(implementation: Type<any>): Provider[] {
     return [
@@ -99,6 +99,7 @@ export abstract class FormComponentHost<TState extends FormState = FormState> im
     }
 
     public isChildRendered(form: AbstractControl, key?: string): boolean {
+        console.log('FormComponentHost.isChildRendered', form, key, this.state);
         switch (key) {
             case 'error': return !!this.state.error;
             case 'submitting': return this.state.submitting;
