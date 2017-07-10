@@ -99,7 +99,6 @@ export abstract class FormComponentHost<TState extends FormState = FormState> im
     }
 
     public isChildRendered(form: AbstractControl, key?: string): boolean {
-        console.log('FormComponentHost.isChildRendered', form, key, this.state);
         switch (key) {
             case 'error': return !!this.state.error;
             case 'submitting': return this.state.submitting;

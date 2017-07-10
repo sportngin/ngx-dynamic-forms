@@ -74,9 +74,7 @@ export interface IsRenderedHandler {
 export function isRenderedHandlerAccessor<T extends IsRenderedHandler>(implementation: T): BehaviorFn {
     return implementation.isChildRendered;
 }
-// export const IS_RENDERED_HANDLER = new InjectionToken<IsRenderedHandler>(BehaviorType.isRendered);
 export const IS_RENDERED_HANDLER = new InjectionToken<IsRenderedHandler>(BehaviorType.isRendered);
-IS_RENDERED_HANDLER['foo'] = 'bar';
 
 export interface IsListItemControlRenderedHandler {
     isListItemControlRendered(form: AbstractControl, key: string): boolean;
