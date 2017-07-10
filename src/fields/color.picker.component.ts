@@ -1,8 +1,8 @@
 import { Component, ElementRef, Host, Injector, Renderer2, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
-import { FormComponentHost }    from '../form.component.host';
-import { FieldBase }            from './field.base';
+import { FormComponentHost } from '../form.component.host';
+import { FieldBase } from './field.base';
 
 @Component({
     selector: 'color-picker',
@@ -26,7 +26,7 @@ export class ColorPickerComponent extends FieldBase<FormControl> {
     }
 
     set value(color: string) {
-        this.formControl.setValue(color);
+        setTimeout(() => this.formControl.setValue(color));
     }
 
     onToggleChange(toggled: boolean): void {
