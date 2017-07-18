@@ -1,3 +1,4 @@
+import 'zone.js';
 import './scss/style.scss';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 

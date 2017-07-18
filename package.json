@@ -1,6 +1,6 @@
 {
   "name": "@siplay/ng-dynamic-forms",
-  "version": "0.2.0-alpha.20",
+  "version": "0.2.0-alpha.21",
   "description": "",
   "author": "SI Play",
   "repository": {
@@ -27,8 +27,8 @@
     "test:watch": "rimraf .tmp && mocha-webpack --opts config/mocha/mocha-webpack.opts --watch",
     "test:report": "rimraf .tmp && mocha-webpack --opts config/mocha/mocha-webpack.opts --reporter=xunit --reporter-options output=tests-report.xml",
     "test:coverage": "rimraf .tmp && nyc --reporter=text --reporter=cobertura mocha-webpack --opts config/mocha/mocha-webpack.opts",
-    "test:server": "webpack-dev-server --config config/webpack.test.browser.js --inline --progress --port 8888",
-    "dev": "webpack-dev-server --config config/webpack.dev.js --history-api-fallback true --inline --progress --port 8888"
+    "test:server": "webpack-dev-server --config config/webpack.test.browser.js --inline --progress",
+    "dev": "webpack-dev-server --config config/webpack.dev.js --history-api-fallback true --inline --progress"
   },
   "peerDependencies": {
     "@angular/common": "^4.0.0",
@@ -42,23 +42,23 @@
   "dependencies": {
     "lodash": "^4.17.0",
     "moment": "^2.18.0",
-    "ngx-color-picker": "^4.0.3"
+    "ngx-color-picker": "^4.1.0"
   },
   "devDependencies": {
-    "@angular/common": "^4.2.6",
-    "@angular/compiler": "^4.2.6",
-    "@angular/compiler-cli": "^4.2.6",
-    "@angular/core": "^4.2.6",
-    "@angular/forms": "^4.2.6",
-    "@angular/platform-browser": "^4.2.6",
-    "@angular/platform-browser-dynamic": "^4.2.6",
-    "@angular/router": "^4.2.6",
+    "@angular/common": "^4.3.0",
+    "@angular/compiler": "^4.3.0",
+    "@angular/compiler-cli": "^4.3.0",
+    "@angular/core": "^4.3.0",
+    "@angular/forms": "^4.3.0",
+    "@angular/platform-browser": "^4.3.0",
+    "@angular/platform-browser-dynamic": "^4.3.0",
+    "@angular/router": "^4.3.0",
     "@types/chai": "^4.0.1",
     "@types/core-js": "^0.9.42",
-    "@types/lodash": "^4.14.68",
+    "@types/lodash": "^4.14.70",
     "@types/mocha": "^2.2.41",
-    "@types/node": "^8.0.10",
-    "@types/sinon": "^2.3.2",
+    "@types/node": "^8.0.14",
+    "@types/sinon": "^2.3.3",
     "angular2-template-loader": "0.6.2",
     "awesome-typescript-loader": "3.2.1",
     "bootstrap": "^4.0.0-alpha.6",
