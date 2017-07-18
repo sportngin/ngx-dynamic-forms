@@ -2,14 +2,14 @@ doctype html
 
 div.form-inline.ngdf-date-picker([formGroup]='dateForm')
 
-    select.form-control(formControlName='year', (touched)='onTouched', value='(year)')
+    select.form-control(formControlName='year', (touched)='onTouched', value='Year')
         option(selected, hidden) (year)
         option(*ngFor='let year of years', [ngValue]='year') {{year}}
 
     select.form-control(formControlName='month', (touched)='onTouched')
-        option(selected, hidden) (month)
+        option(selected, hidden) Month
         option(*ngFor='let month of months', [ngValue]='month.value') {{month.name}}
 
     select.form-control(formControlName='day', (touched)='onTouched')
-        option(selected, hidden) (day)
+        option(selected, hidden) Day
         option(*ngFor='let day of days', [ngValue]='day') {{day}}
