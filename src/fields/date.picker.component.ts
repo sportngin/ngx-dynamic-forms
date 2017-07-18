@@ -49,9 +49,9 @@ export class DatePickerComponent extends FieldBase<FormControl> implements Contr
         super(injector, host);
 
         this.dateForm = fb.group({
-            year: ['(year)', Validators.required],
-            month: ['(month)', Validators.required],
-            day: ['(day)', Validators.required]
+            year: ['Year', Validators.required],
+            month: ['Month', Validators.required],
+            day: ['Day', Validators.required]
         });
     }
 
