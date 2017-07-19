@@ -11,6 +11,7 @@ div([formGroup]='form')
             *ngFor='let entry of formControl.controls; let i = index',
             listEntry,
             [formGroupName]='i',
+            [class]='control.itemCssClass',
             [ngClass]='{ "ngdf-list-editing": entryState[i].editing }',
             (keydown.enter)='onSaveItemClick(entry)'
         )

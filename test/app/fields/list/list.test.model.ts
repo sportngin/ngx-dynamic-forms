@@ -63,6 +63,7 @@ export class ListTestModel extends Model {
                 .allowEditItem(value => !value.cantTouchThis)
                 .allowRemoveItem(value => !value.cantTouchThis)
                 .addLabel('List')
+                .addItemCssClass('item-css-class')
         );
     }
 }

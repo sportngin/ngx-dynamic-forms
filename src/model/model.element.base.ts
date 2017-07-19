@@ -1,11 +1,8 @@
-import { chain, extend, map } from 'lodash';
+import { extend, map } from 'lodash';
 
 import { ControlPosition } from './control.position';
+import { cleanCssClass, getCssClassArray, getCssClassFromArray } from './css.helper';
 import { ElementHelper, ModelElementBuilder, ModelElementRenderCondition, ModelElementType } from './model.element';
-
-function cleanCssClass(cssClass) {
-    return cssClass.replace(/\./g, ' ').trim();
-}
 
 /**
  * Provides a base implementation of {@link ModelElement} and {@link ModelElementBuilder}.
@@ -26,7 +23,7 @@ export class ModelElementBase<T extends ModelElementBase<T>> implements ModelEle
 
     private cssClasses: string[];
     public get cssClass(): string {
-        return this.cssClasses ? this.cssClasses.join(' ') : null;
+        return getCssClassFromArray(this.cssClasses);
     }
 
     public readonly elementType: ModelElementType;
@@ -37,10 +34,7 @@ export class ModelElementBase<T extends ModelElementBase<T>> implements ModelEle
     public data: { [key: string]: any };
 
     public addCssClass(...cssClass: string[]): T {
-        cssClass = chain(cssClass)
-            .map(entry => cleanCssClass(entry).split(' '))
-            .flatten()
-            .value() as string[];
+        cssClass = getCssClassArray(...cssClass);
         if (!this.cssClasses) {
             this.cssClasses = cssClass;
         } else {
