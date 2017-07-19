@@ -1,5 +1,5 @@
-import { Component, Host, Injector } from '@angular/core';
-import { FormControl }               from '@angular/forms';
+import { Component, Host, Injector, ViewEncapsulation } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 import { FormComponentHost }    from '../form.component.host';
 import { FormControlType }      from '../form.control.type';
@@ -8,7 +8,9 @@ import { FieldBase }            from './field.base';
 
 @Component({
     selector: 'text-field',
-    templateUrl: './text.field.pug'
+    templateUrl: './text.field.pug',
+    styleUrls: ['./text.field.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 export class TextFieldComponent extends FieldBase<FormControl> {
 
