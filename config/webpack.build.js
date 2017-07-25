@@ -3,6 +3,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
+const TypedocWebpackPlugin = require('typedoc-webpack-plugin');
 
 module.exports = merge(require('./webpack.common'), {
 
@@ -37,5 +38,11 @@ module.exports = merge(require('./webpack.common'), {
         // 'reflect-metadata',
         'rxjs/Rx',
         'zone.js'
+    ],
+
+    plugins: [
+        new TypedocWebpackPlugin({
+
+        })
     ]
 });

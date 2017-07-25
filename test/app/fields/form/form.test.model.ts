@@ -14,6 +14,10 @@ export class FormTestModel extends Model {
 
     constructor() {
         super(
+            Model.layout('error')
+                .addHelper('There was an error checking your e-mail address.<br>Please try again.', '.alert.alert-danger')
+                .addConditions({ key: 'error' }),
+
             Model.validationMessage('email', 'email', 'Please enter a valid email address.', '.alert.alert-danger'),
             Model.textMember('email', Validators.required, Validators.email)
                 .addLabel('Email'),

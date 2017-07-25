@@ -1,6 +1,7 @@
 import { FormBuilder, FormGroup, ValidatorFn } from '@angular/forms';
 
 import { FormControlType }                  from '../form.control.type';
+import { FormText }                         from '../form.text';
 import { ModelControl }                     from './control/model.control';
 import { ArrayMember }                      from './member/array.member';
 import { ButtonAction, ButtonClass, ButtonMember } from './member/button.member';
@@ -13,7 +14,6 @@ import { SimpleMember }                     from './member/simple.member';
 import { TemplatedMember }                  from './member/templated.member';
 import { ModelElement, ModelElementType }   from './model.element';
 import { ModelHelper }                      from './model.helper';
-import { FormText } from '../form.text';
 
 /**
  * The base class used by form Models

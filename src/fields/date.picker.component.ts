@@ -60,7 +60,6 @@ export class DatePickerComponent extends FieldBase<FormControl> implements Contr
             this.dateForm.disable();
         } else {
             this.dateForm.valueChanges.subscribe(() => this.checkForm());
-            console.log(this.formControl.value);
             this.writeValue(this.formControl.value);
         }
     }
