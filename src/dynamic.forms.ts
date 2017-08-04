@@ -5,6 +5,7 @@
 export * from './dynamic.forms.module';
 
 export * from './behavior/behaviors';
+export * from './color.readability.validator';
 // export * from './dynamic.form.component';
 export * from './dynamic.forms.config';
 export * from './element.base';

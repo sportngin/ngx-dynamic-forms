@@ -37,4 +37,9 @@ export class ColorPickerComponent extends FieldBase<FormControl> {
         }
     }
 
+    onChange(): void {
+        this.formControl.markAsDirty();
+        this.formControl.markAsTouched();
+    }
+
 }

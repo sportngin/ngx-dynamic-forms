@@ -9,6 +9,7 @@ import 'zone.js/dist/zone';
 
 import { CheckboxTestComponent } from './fields/checkbox/checkbox.test.component';
 import { ColorPickerTestComponent } from './fields/colorpicker/color.picker.test.component';
+import { ColorPreviewComponent } from './fields/colorpicker/color.preview.component';
 import { DatePickerTestComponent } from './fields/datepicker/date.picker.test.component';
 import { DropdownTestComponent } from './fields/dropdown/dropdown.test.component';
 import { FormTestComponent } from './fields/form/form.test.component';
@@ -28,12 +29,14 @@ import { TestHomeComponent } from './test.home.component';
 @NgModule({
     bootstrap:      [ TestAppComponent ],
     entryComponents: [
+        ColorPreviewComponent,
         PrivacyFieldComponent
     ],
     declarations:   [
         TestAppComponent,
         TestHomeComponent,
 
+        ColorPreviewComponent,
         PrivacyFieldComponent,
 
         TestFieldsComponent,
@@ -51,6 +54,7 @@ import { TestHomeComponent } from './test.home.component';
         ReactiveFormsModule,
         DynamicFormsModule.withConfig({
             mappings: [
+                { type: 'color-preview', component: ColorPreviewComponent },
                 { type: 'privacy', component: PrivacyFieldComponent }
             ]
         }),

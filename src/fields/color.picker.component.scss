@@ -2,18 +2,6 @@
 
 color-picker.ngdf-colorpicker-toggled > color-picker {
 
-  //&:before {
-  //  position: fixed;
-  //  z-index: 100;
-  //  content: '';
-  //  display: block;
-  //  top: 0;
-  //  left: 0;
-  //  width: 100%;
-  //  height: 100%;
-  //  background-color: rgba(255, 255, 255, 0.75);
-  //}
-
   > .color-picker {
 
     .button-area {
@@ -30,5 +18,18 @@ color-picker.ngdf-colorpicker-toggled > color-picker {
     .type-policy {
       display: none;
     }
+  }
+}
+
+.ngdf-colorpicker {
+
+  &.form-control {
+    padding: 0.25rem;
+  }
+
+  >.form-control {
+    border-width: 0;
+    border-radius: 0.15rem;
+    height: 1.75rem;
   }
 }

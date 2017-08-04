@@ -11,7 +11,8 @@ export enum ModelElementType {
     layout = 'layout',
     page = 'page',
     pageRoot = 'pageRoot',
-    submit = 'submit'
+    submit = 'submit',
+    validator = 'validator'
 }
 
 export interface ModelElementRenderCondition {

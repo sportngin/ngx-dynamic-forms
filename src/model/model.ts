@@ -21,6 +21,7 @@ import { ModelHelper }                      from './model.helper';
 export abstract class Model {
 
     protected members: ModelElement[];
+    protected validator: ValidatorFn;
 
     constructor(...members: ModelElement[]) {
         this.members = members;
@@ -93,7 +94,7 @@ export abstract class Model {
     }
 
     toFormGroup(fb: FormBuilder): FormGroup {
-        return ModelHelper.createFormGroup(fb, this.members);
+        return ModelHelper.createFormGroup(fb, this.members, this.validator);
     }
 
     toControlGroup(): ModelControl[] {

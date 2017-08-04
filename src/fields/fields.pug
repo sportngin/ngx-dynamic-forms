@@ -16,7 +16,7 @@ mixin fields(displayOnly, formVarName, formGroup)
         [class]='"btn btn-" + control.member.buttonClass',
         [attr.disabled]='control.disabled ? "" : null',
         [disabled]='isDisabled(control)'
-        )
+    )
     button(
         type='button',
         *ngIf='control.elementType === "button" && isRendered(control)',

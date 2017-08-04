@@ -3,15 +3,15 @@ import { AbstractControl, FormGroup }   from '@angular/forms';
 
 import { every, isFunction } from 'lodash';
 
-import { BehaviorService }                      from './behavior/behavior.service';
+import { BehaviorService }  from './behavior/behavior.service';
 import { BehaviorFn, BehaviorType, DisplayValidationHandler } from './behavior/behaviors';
-import { ModelControl }                         from './model/control/model.control';
+import { ModelControl }     from './model/control/model.control';
 
 export class FormElement implements DisplayValidationHandler {
 
     @Input() public form: FormGroup;
 
-    private handlers: { [buttonEvent: string]: any } = {};
+    private handlers: { [behaviorType: string]: any } = {};
 
     constructor(
         protected injector: Injector,
@@ -26,7 +26,7 @@ export class FormElement implements DisplayValidationHandler {
 
             if (!handler) {
                 if (!optional) {
-                    console.error('No handler has been configured for button action', behaviorType);
+                    console.error('No handler has been configured for behavior type', behaviorType);
                 }
                 return;
             }
@@ -44,10 +44,18 @@ export class FormElement implements DisplayValidationHandler {
         if (!group.controls[fieldKey]) {
             throw new Error('Field does not exist!');
         }
-        return group.controls[fieldKey].errors && group.controls[fieldKey].errors[errorKey];
+
+        // don't show if the field is pristine
+        if (group.controls[fieldKey].pristine) {
+            return false;
+        }
+        // validators applied to a specific control will add errors to the control instance
+        let controlErrors = group.controls[fieldKey].errors && group.controls[fieldKey].errors[errorKey];
+        // validators applied to a group in order to do multi-control validation will add errors to the group instance
+        let groupErrors = group.errors && group.errors[fieldKey] && group.errors[fieldKey][errorKey];
+        return controlErrors || groupErrors;
     }
 
-    // FIXME: find a better/more generic name, since these are no longer specific to buttons
     public handleBehavior(behaviorAndArgs: string, form: AbstractControl, defaultValue?: any): any {
 
         let optional = typeof defaultValue !== 'undefined';
@@ -57,7 +65,7 @@ export class FormElement implements DisplayValidationHandler {
 
         if (!handler) {
             if (!optional) {
-                console.error('Could not find a handler for button action', behaviorType);
+                console.error('Could not find a handler for behavior', behaviorType);
             }
             return defaultValue;
         }

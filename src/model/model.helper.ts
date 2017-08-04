@@ -1,4 +1,4 @@
-import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidatorFn } from '@angular/forms';
 
 import { chain, map } from 'lodash';
 
@@ -41,13 +41,17 @@ export class ModelHelper {
         });
     }
 
-    static createFormGroup(fb: FormBuilder, members: ModelElement[]): FormGroup {
+    static createFormGroup(fb: FormBuilder, members: ModelElement[], validator: ValidatorFn): FormGroup {
         return fb.group(chain(ModelHelper.collectMembers(fb, members))
             .flattenDeep()
-            .filter((member: ModelElement) => member.elementType !== ModelElementType.button && member.elementType !== ModelElementType.submit)
+            .filter((member: ModelElement) =>
+                member.elementType !== ModelElementType.button &&
+                member.elementType !== ModelElementType.submit &&
+                member.elementType !== ModelElementType.validator
+            )
             .map((member: ModelMember) => [member.name, ModelHelper.modelMemberToFormControl(fb, member)])
             .fromPairs()
-            .value());
+            .value(), { validator });
     }
 
     static modelElementToModelControl(member: ModelElement, index?: number): ModelControl {

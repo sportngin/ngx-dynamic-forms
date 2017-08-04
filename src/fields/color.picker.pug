@@ -1,8 +1,6 @@
 doctype html
 
-input.form-control(
-    [formControl]='formControl',
-    autocomplete='off',
+.ngdf-colorpicker.form-control(
     [ngClass]='{ "form-control-success": formControl.validator && formControl.valid, "form-control-danger": formControl.validator && !formControl.valid && formControl.touched }',
     [(colorPicker)]='value',
     [cpPosition]='"bottom"',
@@ -13,6 +11,9 @@ input.form-control(
     [cpSaveClickOutside]='false',
     [cpAlphaChannel]='"disabled"',
     (cpToggleChange)='onToggleChange($event)',
-    [style.background-color]='value',
-    [attr.disabled]='control.disabled ? "" : null',
+    (colorPickerChange)='onChange($event)',
+    [attr.disabled]='control.disabled ? "" : null'
 )
+    .ngdf-colorpicker-display.form-control(
+        [style.background-color]='value'
+    )
