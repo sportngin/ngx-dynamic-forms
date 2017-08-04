@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs/Observable';
+
 import { Model } from '@siplay/ng-dynamic-forms';
 
 export class PageOneModel extends Model {
@@ -20,7 +22,7 @@ export class PageThreeModel extends Model {
 
 export class PageTestModel extends Model {
 
-    constructor(startPage: Promise<number>, updatePage: (pageIndex: number) => void) {
+    constructor(startPage: Observable<number>, updatePage: (pageIndex: number) => void) {
         super(
             Model.pages(startPage, updatePage,
                 Model.page('pageOne', new PageOneModel()),

@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs/Observable';
+
 import { PageMember, RootPageMember }           from '../member/page.member';
 import { ModelHelper }                          from '../model.helper';
 import { ModelControlBase, ModelMemberControl } from './model.control';
@@ -11,7 +13,7 @@ export class RootPageControl extends ModelControlBase<RootPageMember> {
         this.updatePage = container.updatePage;
     }
 
-    public startPage: Promise<number>;
+    public startPage: Observable<number>;
     public updatePage: (pageIndex: number) => void;
 }
 

@@ -46,7 +46,7 @@ export class FormPageRootComponent extends HostedElement implements OnInit {
     }
 
     ngOnInit(): void {
-        this.control.startPage.then(startPage => {
+        this.control.startPage.subscribe(startPage => {
             if (typeof startPage === 'number') {
                 this._currentPage = startPage;
             } else if (!isNaN(startPage)) {

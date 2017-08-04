@@ -25,7 +25,7 @@ export class PageTestComponent extends FieldTestComponent implements IsDisabledH
         private router: Router
     ) {
         super(new PageTestModel(
-            new Promise((resolve) => route.params.subscribe(params => resolve(params.page))),
+            route.params.map(params => params.page),
             pageIndex => this.router.navigate(['field/paged', { page: pageIndex }])
         ));
     }

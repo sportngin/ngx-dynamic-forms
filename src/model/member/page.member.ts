@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs/Observable';
+
 import { FormControlType }                          from '../../form.control.type';
 import { Model }                                    from '../model';
 import { ModelElementBuilder, ModelElementType }    from '../model.element';
@@ -32,7 +34,7 @@ export class PageMember extends TemplatedMember {
 export class RootPageMember extends ContainerMemberBase<RootPageMember> implements RootPageMemberBuilder<RootPageMember> {
 
     constructor(
-        public startPage: Promise<number>,
+        public startPage: Observable<number>,
         public updatePage: (pageIndex: number) => void,
         members: PageMember[]
     ) {

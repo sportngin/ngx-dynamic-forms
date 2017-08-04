@@ -14,6 +14,7 @@ import { SimpleMember }                     from './member/simple.member';
 import { TemplatedMember }                  from './member/templated.member';
 import { ModelElement, ModelElementType }   from './model.element';
 import { ModelHelper }                      from './model.helper';
+import { Observable } from 'rxjs/Observable';
 
 /**
  * The base class used by form Models
@@ -44,13 +45,13 @@ export abstract class Model {
     }
 
     static pages(
-        startPageOrFirstMember: Promise<number> | PageMember,
+        startPageOrFirstMember: Observable<number> | PageMember,
         updatePageOrSecondMember: (pageIndex: number) => void | PageMember,
         ...members: PageMember[]): RootPageMember {
 
-        let startPage: Promise<number> = Promise.resolve(0);
-        if (startPageOrFirstMember['then']) {
-            startPage = startPageOrFirstMember as Promise<number>;
+        let startPage: Observable<number> = Observable.create([0]);
+        if (startPageOrFirstMember['subscribe']) {
+            startPage = startPageOrFirstMember as Observable<number>;
         } else {
             members.unshift(startPageOrFirstMember as PageMember);
         }
