@@ -49,6 +49,8 @@ export class FormPageRootComponent extends HostedElement implements OnInit {
         this.control.startPage.then(startPage => {
             if (typeof startPage === 'number') {
                 this._currentPage = startPage;
+            } else if (!isNaN(startPage)) {
+                this._currentPage = parseInt(startPage, 10);
             }
         });
     }
