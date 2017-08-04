@@ -7,7 +7,12 @@ export class RootPageControl extends ModelControlBase<RootPageMember> {
         super(container);
 
         this.childControls = ModelHelper.createModelControls(container.members);
+        this.startPage = container.startPage;
+        this.updatePage = container.updatePage;
     }
+
+    public startPage: Promise<number>;
+    public updatePage: (pageIndex: number) => void;
 }
 
 export class PageControl extends ModelMemberControl<PageMember> {

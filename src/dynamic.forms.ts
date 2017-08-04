@@ -12,6 +12,7 @@ export * from './element.base';
 export * from './form.component.host';
 export * from './form.control.type';
 export * from './form.page.component';
+export * from './form.page.root.component';
 // export * from './hosted.element';
 // export * from './layout.component';
 export * from './password.validator';

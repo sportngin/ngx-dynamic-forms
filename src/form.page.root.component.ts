@@ -1,24 +1,39 @@
-import { Component, Host, Injector, Input } from '@angular/core';
-import { FormGroup }                        from '@angular/forms';
+import { Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 import { FormComponentHost }    from './form.component.host';
 import { HostedElement }        from './hosted.element';
 import { RootPageControl }      from './model/control/page.control';
 import { ModelControl }         from './model/control/model.control';
-import { BehaviorService } from './behavior/behavior.service';
+import { BehaviorService }      from './behavior/behavior.service';
 
 @Component({
     selector: 'form-page-root',
     templateUrl: './form.page.root.pug'
 })
-export class FormPageRootComponent extends HostedElement {
+export class FormPageRootComponent extends HostedElement implements OnInit {
 
     get childControls(): ModelControl[] { return this.control ? this.control.childControls : null; }
 
     @Input() formGroup: FormGroup;
     @Input() control: RootPageControl;
 
-    currentPage: number = 0;
+    @Output() pageChanged: EventEmitter<number> = new EventEmitter<number>();
+
+    private _currentPage: number = 0;
+
+    get currentPage(): number {
+        return this._currentPage;
+    }
+    set currentPage(currentPage: number) {
+        if (currentPage !== this._currentPage) {
+            this._currentPage = currentPage;
+            this.pageChanged.next(this._currentPage);
+            if (this.control.updatePage) {
+                this.control.updatePage(this._currentPage);
+            }
+        }
+    }
 
     constructor(
         injector: Injector,
@@ -28,6 +43,14 @@ export class FormPageRootComponent extends HostedElement {
     ) {
         // FIXME: see above
         super(injector, behaviorService, (injector as any).view.component.host);
+    }
+
+    ngOnInit(): void {
+        this.control.startPage.then(startPage => {
+            if (typeof startPage === 'number') {
+                this._currentPage = startPage;
+            }
+        });
     }
 
     nextPage(): void {

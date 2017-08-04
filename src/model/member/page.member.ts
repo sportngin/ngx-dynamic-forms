@@ -32,6 +32,8 @@ export class PageMember extends TemplatedMember {
 export class RootPageMember extends ContainerMemberBase<RootPageMember> implements RootPageMemberBuilder<RootPageMember> {
 
     constructor(
+        public startPage: Promise<number>,
+        public updatePage: (pageIndex: number) => void,
         members: PageMember[]
     ) {
         super(ModelElementType.pageRoot, members);

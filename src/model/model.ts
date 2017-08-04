@@ -43,8 +43,26 @@ export abstract class Model {
         return new PageMember(pageId, model);
     }
 
-    static pages(...members: PageMember[]): RootPageMember {
-        return new RootPageMember(members);
+    static pages(
+        startPageOrFirstMember: Promise<number> | PageMember,
+        updatePageOrSecondMember: (pageIndex: number) => void | PageMember,
+        ...members: PageMember[]): RootPageMember {
+
+        let startPage: Promise<number> = Promise.resolve(0);
+        if (startPageOrFirstMember['then']) {
+            startPage = startPageOrFirstMember as Promise<number>;
+        } else {
+            members.unshift(startPageOrFirstMember as PageMember);
+        }
+
+        let updatePage: (pageIndex: number) => void;
+        if (typeof updatePageOrSecondMember === 'function') {
+            updatePage = updatePageOrSecondMember;
+        } else {
+            members.unshift(updatePageOrSecondMember);
+        }
+
+        return new RootPageMember(startPage, updatePage, members);
     }
 
     static textMember(name: string, ...validators: ValidatorFn[]): SimpleMember {

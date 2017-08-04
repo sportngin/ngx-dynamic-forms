@@ -49,7 +49,7 @@ export class InputSelectorComponent implements ControlValueAccessor, OnInit {
         private formControlTypeMappings: FormControlTypeMappings
     ) {}
 
-    ngOnInit(): void {
+    init(): void {
         this.formControl = this.form.controls[this.control.name] as AbstractControl;
 
         // TODO: determine unique id based on parent - is this part of an array or collection?
@@ -81,6 +81,10 @@ export class InputSelectorComponent implements ControlValueAccessor, OnInit {
         let componentInstance = factory.create(injector);
 
         this.container.insert(componentInstance.hostView);
+    }
+
+    ngOnInit(): void {
+        this.init();
     }
 
     get value(): any {
