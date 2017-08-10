@@ -4,6 +4,7 @@ import { ReactiveFormsModule }              from '@angular/forms';
 
 import { ColorPickerModule } from 'ngx-color-picker';
 
+import { BehaviorService }          from './behavior/behavior.service';
 import { DynamicFormComponent }     from './dynamic.form.component';
 import { FormControlTypeMappings }  from './form.control.type';
 import { FormPageComponent }        from './form.page.component';
@@ -24,7 +25,6 @@ import { ListFieldComponent }       from './fields/list.field.component';
 import { ListFieldEntryDirective }  from './fields/list.field.entry.directive';
 import { PasswordFieldComponent }   from './fields/password.field.component';
 import { TextFieldComponent }       from './fields/text.field.component';
-import { BehaviorService } from './behavior/behavior.service';
 
 @NgModule({
     declarations:   [

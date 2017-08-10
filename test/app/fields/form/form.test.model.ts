@@ -18,16 +18,19 @@ export class FormTestModel extends Model {
                 .addHelper('There was an error checking your e-mail address.<br>Please try again.', '.alert.alert-danger')
                 .addConditions({ key: 'error' }),
 
-            Model.validationMessage('email', 'email', 'Please enter a valid email address.', '.alert.alert-danger'),
+            // Model.validationMessage('email', 'email', 'Please enter a valid email address.', '.alert.alert-danger'),
             Model.textMember('email', Validators.required, Validators.email)
-                .addLabel('Email'),
+                .addLabel('Email')
+                .addValidationMessage('required', 'Please enter your email address')
+                .addValidationMessage('email', 'Please enter a valid email address'),
 
             Model.passwordMember('password', Validators.required, PasswordValidator.validator([
                 { description: 'At least two letters', pattern: /[A-Za-z].*[A-Za-z]/ },
                 { description: 'At least two numbers', pattern: /\d.*\d/ },
             ]))
                 .addLabel('Password')
-                .addHelper('At least two letters and two numbers.'),
+                .addHelper('At least two letters and two numbers.')
+                .addValidationMessage('required', 'Please enter a password.'),
 
             Model.member('privacy', 'privacy')
                 .addHelper('You must be 13 years or older to create an account.', '.alert.alert-warning'),

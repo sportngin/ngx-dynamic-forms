@@ -43,14 +43,14 @@ export class ModelElementBase<T extends ModelElementBase<T>> implements ModelEle
         return this.self;
     }
 
-    public addHelper(text: string, cssClass?: string, position: ControlPosition = ControlPosition   .after): T {
+    public addHelper(text: string, cssClass?: string, position: ControlPosition = ControlPosition.after, ...renderConditions: ModelElementRenderCondition[]): T {
         if (!this.helpers) {
             this.helpers = [];
         }
         if (cssClass) {
             cssClass = cleanCssClass(cssClass);
         }
-        this.helpers.push({ text, cssClass, position });
+        this.helpers.push({ text, cssClass, position, renderConditions });
 
         return this.self;
     }

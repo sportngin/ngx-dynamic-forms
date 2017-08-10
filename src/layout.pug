@@ -2,4 +2,6 @@ doctype html
 include fields/fields
 
 ng-template(ngFor let-control [ngForOf]='childControls')
+    +helpers('before')
     +fields('displayOnly', 'form', true)
+    +helpers('after')

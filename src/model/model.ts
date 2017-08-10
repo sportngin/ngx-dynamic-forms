@@ -1,5 +1,8 @@
 import { FormBuilder, FormGroup, ValidatorFn } from '@angular/forms';
 
+import { Observable } from 'rxjs/Observable';
+
+import { BehaviorType }                     from '../behavior/behaviors';
 import { FormControlType }                  from '../form.control.type';
 import { FormText }                         from '../form.text';
 import { ModelControl }                     from './control/model.control';
@@ -14,7 +17,6 @@ import { SimpleMember }                     from './member/simple.member';
 import { TemplatedMember }                  from './member/templated.member';
 import { ModelElement, ModelElementType }   from './model.element';
 import { ModelHelper }                      from './model.helper';
-import { Observable } from 'rxjs/Observable';
 
 /**
  * The base class used by form Models
@@ -107,7 +109,7 @@ export abstract class Model {
 
         layout
             .addHelper(text, cssClass)
-            .addConditions({ key: `${fieldKey}:${errorKey}`, method: 'validateDisplay', required: true });
+            .addConditions({ key: `${fieldKey}:${errorKey}`, method: BehaviorType.validateDisplay, required: true });
 
         return layout;
     }

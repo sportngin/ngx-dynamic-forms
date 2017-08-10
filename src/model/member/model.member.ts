@@ -2,9 +2,13 @@ import { FormControl, ValidatorFn } from '@angular/forms';
 
 import { first, isArray } from 'lodash';
 
+import { BehaviorType }     from '../../behavior/behaviors';
 import { FormControlType }  from '../../form.control.type';
 import { ControlPosition }  from '../control.position';
-import { ElementHelper, ModelElement, ModelElementBuilder, ModelElementType } from '../model.element';
+import {
+    ElementHelper, ModelElement, ModelElementBuilder, ModelElementRenderCondition,
+    ModelElementType
+} from '../model.element';
 import { ModelElementBase } from '../model.element.base';
 
 export interface ModelMember extends ModelElement {
@@ -18,6 +22,7 @@ export interface ModelMember extends ModelElement {
 
 export interface ModelMemberBuilder<T extends ModelMemberBuilder<T>> extends ModelMember, ModelElementBuilder<T> {
     addLabel: (label: string) => T;
+    addValidationMessage: (key: string, text: string, cssClass?: string, position?: ControlPosition) => T;
 }
 
 export abstract class ModelMemberBase<T extends ModelMemberBase<T>> extends ModelElementBase<T> implements ModelMemberBuilder<T> {
@@ -46,6 +51,11 @@ export abstract class ModelMemberBase<T extends ModelMemberBase<T>> extends Mode
     public addLabel(label: string): T {
         this.label = label;
         return this.self;
+    }
+
+    public addValidationMessage(errorKey: string, text: string, cssClass?: string, position: ControlPosition = ControlPosition.after): T {
+        let renderCondition: ModelElementRenderCondition = { key: `${this.name}:${errorKey}`, method: BehaviorType.validateDisplay, required: true };
+        return this.addHelper(text, cssClass, position, renderCondition);
     }
 
     public createFormControl(): FormControl {

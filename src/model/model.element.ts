@@ -25,6 +25,7 @@ export interface ElementHelper {
     text: string;
     cssClass?: string;
     position?: ControlPosition;
+    renderConditions?: ModelElementRenderCondition[]
 }
 
 /**
@@ -71,7 +72,7 @@ export interface ModelElementBuilder<T extends ModelElementBuilder<T>> extends M
      * @param cssClass
      * @param position
      */
-    addHelper: (text: string, cssClass?: string, position?: ControlPosition) => T;
+    addHelper: (text: string, cssClass?: string, position?: ControlPosition, renderCondition?: ModelElementRenderCondition) => T;
 
     addData: (key: string, value: any) => T;
 

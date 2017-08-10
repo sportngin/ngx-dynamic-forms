@@ -1,5 +1,4 @@
 mixin fields(displayOnly, formVarName, formGroup)
-    +helpers('before')
     div(layout, *ngIf='control.elementType === "layout" && isRendered(control)', [class]='control.cssClass', [control]='control', [form]=`${formVarName || 'form' }`, [displayOnly]=`${displayOnly || false}`)
     form-page-root(*ngIf='(control.elementType === "page" || control.elementType === "pageRoot") && isRendered(control)', [form]=`${formVarName || 'form'}`, [control]='control')
     if formGroup
@@ -7,7 +6,7 @@ mixin fields(displayOnly, formVarName, formGroup)
             +controls(formVarName)
     else
         +controls(formVarName)
-    div(*ngIf='displayOnly && control.elementType !== "layout" && !control.hidden && isRendered(control)')
+    ng-container(*ngIf='displayOnly && control.elementType !== "layout" && !control.hidden && isRendered(control)')
         | {{control.name && #{formVarName || 'form'}.controls[control.name] && #{formVarName || 'form'}.controls[control.name].displayValue || #{formVarName || 'form'}.value[control.name]}}
     input(
         *ngIf='control.elementType === "submit" && isRendered(control)',
@@ -25,7 +24,6 @@ mixin fields(displayOnly, formVarName, formGroup)
         [attr.disabled]='control.disabled ? "" : null',
         [disabled]='isDisabled(control)'
         ) {{getText(control.text)}}
-    +helpers('after')
 
 
 mixin controls(formVarName)
@@ -35,4 +33,4 @@ mixin controls(formVarName)
 
 mixin helpers(position, controlVar)
     ng-template(ngFor let-helper [ngForOf]=`${controlVar || 'control'}.member.helpers | position:'${position}'`)
-        p(*ngIf=`isRendered(${controlVar || 'control'})`, [class]='"helper " + (helper.cssClass || "")', [innerHTML]='helper.text')
+        p(*ngIf=`isRendered(${controlVar || 'control'}) && isRendered(helper)`, [class]='"helper " + (helper.cssClass || "")', [innerHTML]='helper.text')

@@ -45,8 +45,8 @@ export class FormElement implements DisplayValidationHandler {
             throw new Error('Field does not exist!');
         }
 
-        // don't show if the field is pristine
-        if (group.controls[fieldKey].pristine) {
+        // don't show if the field is pristine or untouched
+        if (group.controls[fieldKey].pristine || group.controls[fieldKey].untouched) {
             return false;
         }
         // validators applied to a specific control will add errors to the control instance
@@ -75,6 +75,7 @@ export class FormElement implements DisplayValidationHandler {
     }
 
     public isRendered(control: ModelControl): boolean {
+
         if (!control.renderConditions) {
             return true;
         }

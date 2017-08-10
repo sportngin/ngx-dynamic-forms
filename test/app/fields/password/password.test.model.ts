@@ -6,7 +6,9 @@ export class PasswordTestModel extends Model {
 
     constructor() {
         super(
-            Model.passwordMember('simplePassword', Validators.required).addLabel('Simple Password'),
+            Model.passwordMember('simplePassword', Validators.required)
+                .addLabel('Simple Password')
+                .addValidationMessage('required', 'Please enter a password.', '.alert.alert-danger'),
 
             Model.passwordMember('strengthValidatedPassword', Validators.required, PasswordValidator.validator([
                 { description: 'At least two letters', pattern: /[A-Za-z].*[A-Za-z]/ },
