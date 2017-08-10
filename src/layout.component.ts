@@ -1,4 +1,4 @@
-import { Component, ElementRef, Injector, Input, Renderer2, OnInit } from '@angular/core';
+import { Component, ElementRef, Injector, Input, Renderer2, OnInit, ViewEncapsulation } from '@angular/core';
 
 import { BehaviorService }      from './behavior/behavior.service';
 import { FormComponentHost }    from './form.component.host';
@@ -7,8 +7,10 @@ import { LayoutControl }        from './model/control/layout.control';
 import { ModelControl }         from './model/control/model.control';
 
 @Component({
-    selector: '[layout]',
-    templateUrl: 'layout.pug'
+    selector: 'layout',
+    templateUrl: 'layout.pug',
+    styleUrls: ['./layout.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 export class LayoutComponent extends HostedElement implements OnInit {
 
