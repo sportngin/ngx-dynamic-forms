@@ -55,7 +55,7 @@ import { TestHomeComponent }        from './test.home.component';
         BrowserModule,
         ReactiveFormsModule,
         DynamicFormsModule.withConfig({
-            mappings: [
+            fields: [
                 { type: 'color-preview', component: ColorPreviewComponent },
                 { type: 'privacy', component: PrivacyFieldComponent }
             ]

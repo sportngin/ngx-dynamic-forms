@@ -1,16 +1,11 @@
-import { Component, Host, InjectionToken, Injector, Input, OnInit } from '@angular/core';
-import { FormControl }                                              from '@angular/forms';
+import { Component, Host, Inject, Injector, OnInit, Optional } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 import { isFunction, map } from 'lodash';
 
 import { FormComponentHost }    from '../form.component.host';
 import { FieldBase }            from './field.base';
-
-const TOKENS = {
-    itemValue: new InjectionToken<string>('itemValue'),
-    itemLabel: new InjectionToken<string>('itemLabel'),
-    dependentControls: new InjectionToken<string[]>('dependentControls')
-};
+import { ELEMENT_DATA_PROVIDER, ElementData } from './element.data';
 
 @Component({
     selector: 'dropdown-field',
@@ -18,25 +13,25 @@ const TOKENS = {
 })
 export class DropdownFieldComponent extends FieldBase<FormControl> implements OnInit {
 
-    @Input() public itemValue: string;
-    @Input() public itemLabel: string;
-    @Input() public data: any;
-    @Input() public dependentControls: string[];
-
     private dataFn: Function;
     private lastValues: any = {};
 
     public pendingPrerequisites: boolean = false;
 
     constructor(
+        @Inject(ELEMENT_DATA_PROVIDER) elementData: ElementData,
+        @Inject('itemValue') public itemValue: string,
+        @Inject('itemLabel') public itemLabel: string,
+
+        @Optional() @Inject('data') public data: any,
+        @Optional() @Inject('dependentControls') public dependentControls: string[],
+
         injector: Injector,
-        @Host() host: FormComponentHost
+        @Host() host: FormComponentHost,
     ) {
-        super(injector, host);
+        super(elementData, injector, host);
 
-        this.setProperties(TOKENS);
 
-        let data: any = injector.get('data', null);
         if (isFunction(data)) {
             this.dataFn = data;
         } else {

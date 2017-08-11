@@ -1,8 +1,9 @@
-import { Component, ElementRef, Host, Injector, Renderer2, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, Host, Inject, Injector, Renderer2, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
-import { FormComponentHost } from '../form.component.host';
-import { FieldBase } from './field.base';
+import { FormComponentHost }    from '../form.component.host';
+import { FieldBase }            from './field.base';
+import { ELEMENT_DATA_PROVIDER, ElementData } from './element.data';
 
 @Component({
     selector: 'color-picker',
@@ -13,12 +14,13 @@ import { FieldBase } from './field.base';
 export class ColorPickerComponent extends FieldBase<FormControl> {
 
     constructor(
+        @Inject(ELEMENT_DATA_PROVIDER) elementData: ElementData,
         injector: Injector,
         @Host() host: FormComponentHost,
         private elementRef: ElementRef,
         private renderer: Renderer2
     ) {
-        super(injector, host);
+        super(elementData, injector, host);
     }
 
     get value(): string {

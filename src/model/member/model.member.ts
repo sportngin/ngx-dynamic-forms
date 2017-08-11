@@ -3,17 +3,17 @@ import { FormControl, ValidatorFn } from '@angular/forms';
 import { first, isArray } from 'lodash';
 
 import { BehaviorType }     from '../../behavior/behaviors';
-import { FormControlType }  from '../../form.control.type';
+import { ElementType }      from '../../element.type';
+import { FieldType }        from '../../field.type';
 import { ControlPosition }  from '../control.position';
 import {
-    ElementHelper, ModelElement, ModelElementBuilder, ModelElementRenderCondition,
-    ModelElementType
+    ElementHelper, ModelElement, ModelElementBuilder, ModelElementRenderCondition
 } from '../model.element';
 import { ModelElementBase } from '../model.element.base';
 
 export interface ModelMember extends ModelElement {
     name: string;
-    controlType: any;
+    fieldType: any;
     validator: ValidatorFn;
     validators: ValidatorFn | ValidatorFn[];
     label: string;
@@ -27,16 +27,16 @@ export interface ModelMemberBuilder<T extends ModelMemberBuilder<T>> extends Mod
 
 export abstract class ModelMemberBase<T extends ModelMemberBase<T>> extends ModelElementBase<T> implements ModelMemberBuilder<T> {
 
-    constructor(elementType: ModelElementType, controlType: FormControlType | string, name: string, validators?: ValidatorFn | ValidatorFn[], data?: { [key: string]: any }) {
+    constructor(elementType: ElementType, fieldType: FieldType | string, name: string, validators?: ValidatorFn | ValidatorFn[], data?: { [key: string]: any }) {
         super(elementType);
 
-        this.controlType = controlType;
+        this.fieldType = fieldType;
         this.name = name;
         this.validators = validators;
     }
 
     public name: string;
-    public controlType: FormControlType | string;
+    public fieldType: FieldType | string;
     public validators: ValidatorFn | ValidatorFn[];
     public get validator(): ValidatorFn {
         if (!isArray(this.validators)) {

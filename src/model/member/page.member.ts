@@ -1,10 +1,11 @@
 import { Observable } from 'rxjs/Observable';
 
-import { FormControlType }                          from '../../form.control.type';
-import { Model }                                    from '../model';
-import { ModelElementBuilder, ModelElementType }    from '../model.element';
-import { ContainerMemberBase }                      from './container.member';
-import { TemplatedMember }                          from './templated.member';
+import { ElementType }          from '../../element.type';
+import { FieldType }            from '../../field.type';
+import { Model }                from '../model';
+import { ModelElementBuilder }  from '../model.element';
+import { ContainerMemberBase }  from './container.member';
+import { TemplatedMember }      from './templated.member';
 
 export interface RootPageContainer<T extends RootPageContainer<T>> extends ModelElementBuilder<T> {
 
@@ -26,7 +27,7 @@ export class PageMember extends TemplatedMember {
         pageId: string | number,
         template: Model
     ) {
-        super(ModelElementType.page, FormControlType.group, pageId.toString(), template);
+        super(ElementType.page, FieldType.group, pageId.toString(), template);
     }
 
 }
@@ -38,7 +39,7 @@ export class RootPageMember extends ContainerMemberBase<RootPageMember> implemen
         public updatePage: (pageIndex: number) => void,
         members: PageMember[]
     ) {
-        super(ModelElementType.pageRoot, members);
+        super(ElementType.pageRoot, members);
     }
 
     public setPrevText(prevText: string): RootPageMember {

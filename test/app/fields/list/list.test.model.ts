@@ -1,6 +1,6 @@
 import { Validators } from '@angular/forms';
 
-import { ButtonAction, ButtonClass, FormControlType, Model } from '@siplay/ng-dynamic-forms';
+import { ButtonAction, ButtonClass, FieldType, Model } from '@siplay/ng-dynamic-forms';
 
 export class ListTestModelItem extends Model {
 
@@ -16,7 +16,7 @@ export class ListTestModelItem extends Model {
                         .addConditions({ key: 'cant-touch-this' }),
                     Model.textMember('name', Validators.required).addLabel('Name')
                 ),
-                Model.layout('.col-3', Model.defaultValueMember('default', 'default', FormControlType.text).addLabel('Default')),
+                Model.layout('.col-3', Model.defaultValueMember('default', 'default', FieldType.text).addLabel('Default')),
                 Model.layout('.col-3',
                     Model.selectionMember('selectSomething')
                         .addData('data', [{ id: 1, name: 'option 1' }, { id: 2, name: 'option 2' }])

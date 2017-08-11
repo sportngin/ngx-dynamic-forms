@@ -1,35 +1,34 @@
 mixin fields(displayOnly = false, formVarName = 'form', formGroup = false, controlVarName = 'control')
-    layout(*ngIf=`${controlVarName}.elementType === "layout" && isRendered(${controlVarName})`, [class]='control.cssClass', [control]='control', [form]=`${formVarName }`, [displayOnly]=`${displayOnly}`)
-    form-page-root(*ngIf='(control.elementType === "page" || control.elementType === "pageRoot") && isRendered(control)', [form]=`${formVarName}`, [control]='control')
+    layout(*ngIf=`${controlVarName}.elementType === 'layout' && isRendered(${controlVarName})`, [class]=`${controlVarName}.cssClass`, [control]=`${controlVarName}`, [form]=`${formVarName}`, [displayOnly]=`${displayOnly}`)
+    form-page-root(*ngIf=`(${controlVarName}.elementType === 'page' || ${controlVarName}.elementType === 'pageRoot') && isRendered(${controlVarName})`, [form]=`${formVarName}`, [control]=`${controlVarName}`)
     if formGroup
-        span(*ngIf='!displayOnly && control.elementType !== "layout" && isRendered(control)', [formGroup]=`${formVarName}`)
-            +controls(formVarName)
+        span(*ngIf=`!displayOnly && ${controlVarName}.elementType !== 'layout' && isRendered(${controlVarName})`, [formGroup]=`${formVarName}`)
+            +controls(formVarName, controlVarName)
     else
-        +controls(formVarName)
-    ng-container(*ngIf='displayOnly && control.elementType !== "layout" && !control.hidden && isRendered(control)')
-        | {{control.name && #{formVarName}.controls[control.name] && #{formVarName}.controls[control.name].displayValue || #{formVarName}.value[control.name]}}
+        +controls(formVarName, controlVarName)
+    ng-container(*ngIf=`displayOnly && ${controlVarName}.elementType !== 'layout' && !${controlVarName}.hidden && isRendered(${controlVarName})`)
+        | {{#{controlVarName}.name && #{formVarName}.controls[#{controlVarName}.name] && #{formVarName}.controls[#{controlVarName}.name].displayValue || #{formVarName}.value[#{controlVarName}.name]}}
     input(
-        *ngIf='control.elementType === "submit" && isRendered(control)',
+        *ngIf=`${controlVarName}.elementType === 'submit' && isRendered(${controlVarName})`,
         type='submit',
-        [value]='getText(control.text)',
-        [class]='"btn btn-" + control.member.buttonClass',
-        [attr.disabled]='control.disabled ? "" : null',
-        [disabled]='isDisabled(control)'
+        [value]=`getText(${controlVarName}.text)`,
+        [class]=`'btn btn-' + ${controlVarName}.member.buttonClass`,
+        [attr.disabled]=`${controlVarName}.disabled ? '' : null`,
+        [disabled]=`isDisabled(${controlVarName})`
     )
     button(
         type='button',
-        *ngIf='control.elementType === "button" && isRendered(control)',
-        [class]='"btn btn-" + control.member.buttonClass + " " + control.cssClass',
-        (click)=`handleBehavior(control.member.buttonAction, ${formVarName})`,
-        [attr.disabled]='control.disabled ? "" : null',
-        [disabled]='isDisabled(control)'
-        ) {{getText(control.text)}}
+        *ngIf=`${controlVarName}.elementType === 'button' && isRendered(${controlVarName})`,
+        [class]=`'btn btn-' + ${controlVarName}.member.buttonClass + ' ' + ${controlVarName}.cssClass`,
+        (click)=`handleBehavior(${controlVarName}.member.buttonAction, ${formVarName})`,
+        [attr.disabled]=`${controlVarName}.disabled ? '' : null`,
+        [disabled]=`isDisabled(${controlVarName})`
+        ) {{getText(#{controlVarName}.text)}}
 
 
-mixin controls(formVarName)
-    dyn-field(*ngIf='control.elementType === "control" && isRendered(control)', [control]='control', [form]=`${formVarName}`, [formControlName]='control.name')
-    dyn-field(*ngIf='control.elementType === "array" && isRendered(control)',   [control]='control', [form]=`${formVarName}`, [formArrayName]='control.name')
-
+mixin controls(formVarName, controlVarName = 'control')
+    dyn-field.form-group(*ngIf=`${controlVarName}.elementType === 'control' && isRendered(${controlVarName})`, [control]=`${controlVarName}`, [form]=`${formVarName}`, [formControlName]=`${controlVarName}.name`)
+    dyn-field.form-group(*ngIf=`${controlVarName}.elementType === 'array' && isRendered(${controlVarName})`, [control]=`${controlVarName}`, [form]=`${formVarName}`, [formArrayName]=`${controlVarName}.name`)
 
 mixin helpers(position, controlVarName = 'control')
     ng-template(ngFor let-helper [ngForOf]=`${controlVarName}.member.helpers | position:'${position}'`)

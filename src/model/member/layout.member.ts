@@ -1,7 +1,8 @@
 import { extend } from 'lodash';
 
-import { ModelElement, ModelElementType }   from '../model.element';
-import { ContainerMemberBase }              from './container.member';
+import { ElementType }          from '../../element.type';
+import { ModelElement }         from '../model.element';
+import { ContainerMemberBase }  from './container.member';
 
 export class LayoutMember extends ContainerMemberBase<LayoutMember> {
 
@@ -11,7 +12,7 @@ export class LayoutMember extends ContainerMemberBase<LayoutMember> {
         cssClass: string,
         members: ModelElement[]
     ) {
-        super(ModelElementType.layout, members);
+        super(ElementType.layout, members);
 
         this.addCssClass(cssClass.replace(/\./g, ' ').trim());
     }

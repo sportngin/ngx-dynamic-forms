@@ -2,6 +2,8 @@ import { AbstractControl, FormBuilder, FormGroup, ValidatorFn } from '@angular/f
 
 import { chain, map } from 'lodash';
 
+import { ElementType }                      from '../element.type';
+import { FieldType }                        from '../field.type';
 import { ArrayControl }                     from './control/array.control';
 import { ButtonControl }                    from './control/button.control';
 import { LayoutControl }                    from './control/layout.control';
@@ -17,24 +19,30 @@ import { PageMember, RootPageMember }       from './member/page.member';
 import { PasswordMember }                   from './member/password.member';
 import { SimpleMember }                     from './member/simple.member';
 import { TemplatedMember }                  from './member/templated.member';
-import { ModelElement, ModelElementType }   from './model.element';
+import { ModelElement }                     from './model.element';
 
 export class ModelHelper {
 
     static modelMemberToFormControl(fb: FormBuilder, member: ModelMember): AbstractControl {
         switch (member.elementType) {
-            case ModelElementType.array: return fb.array([(member as TemplatedMember).template.toFormGroup(fb)], member.validator);
-            case ModelElementType.control: return (member as SimpleMember).createFormControl();
-            case ModelElementType.page:
-            case ModelElementType.group:
+
+            case ElementType.input:
+                if (member.fieldType === FieldType.list) {
+                    return fb.array([(member as TemplatedMember).template.toFormGroup(fb)], member.validator);
+                }
+                return (member as SimpleMember).createFormControl();
+
+            // case ElementType.group:
+            case ElementType.page:
                 return (member as TemplatedMember).template.toFormGroup(fb);
+
             default: throw new Error(`Invalid MemberType ${member.elementType}`);
         }
     }
 
     private static collectMembers(fb: FormBuilder, members: ModelElement[]): any {
         return map(members, (member: ModelElement) => {
-            if (member.elementType === ModelElementType.layout || member.elementType === ModelElementType.pageRoot) {
+            if (member.elementType === ElementType.layout || member.elementType === ElementType.pageRoot) {
                 return ModelHelper.collectMembers(fb, (member as ContainerMember).members);
             }
             return member;
@@ -45,9 +53,9 @@ export class ModelHelper {
         return fb.group(chain(ModelHelper.collectMembers(fb, members))
             .flattenDeep()
             .filter((member: ModelElement) =>
-                member.elementType !== ModelElementType.button &&
-                member.elementType !== ModelElementType.submit &&
-                member.elementType !== ModelElementType.validator
+                member.elementType !== ElementType.button //&&
+                // member.elementType !== ElementType.submit &&
+                // member.elementType !== ElementType.validator
             )
             .map((member: ModelMember) => [member.name, ModelHelper.modelMemberToFormControl(fb, member)])
             .fromPairs()
@@ -55,23 +63,26 @@ export class ModelHelper {
     }
 
     static modelElementToModelControl(member: ModelElement, index?: number): ModelControl {
-        if (member.elementType === ModelElementType.button || member.elementType === ModelElementType.submit) {
+        if (member.elementType === ElementType.button) {
             return new ButtonControl(member as ButtonMember);
         }
-        if (member.elementType === ModelElementType.layout) {
+        if (member.elementType === ElementType.layout) {
             return new LayoutControl(member as LayoutMember);
         }
-        if (member.elementType === ModelElementType.page) {
+        if (member.elementType === ElementType.page) {
             return new PageControl(member as PageMember, index);
         }
-        if (member.elementType === ModelElementType.pageRoot) {
+        if (member.elementType === ElementType.pageRoot) {
             return new RootPageControl(member as RootPageMember);
         }
-        if (member.elementType === ModelElementType.array) {
-            return new ArrayControl(member as ArrayMember);
-        }
-        if (member instanceof PasswordMember) {
-            return new PasswordControl(member as PasswordMember);
+        if (member.elementType === ElementType.input) {
+            let modelMember = member as ModelMember;
+            if (modelMember.fieldType === FieldType.list) {
+                return new ArrayControl(member as ArrayMember);
+            }
+            if (modelMember.fieldType === FieldType.password) {
+                return new PasswordControl(member as PasswordMember);
+            }
         }
         return new ModelMemberControl(member as ModelMember);
     }

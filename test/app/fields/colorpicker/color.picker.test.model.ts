@@ -1,21 +1,21 @@
 import { Validators } from '@angular/forms';
 
-import { ColorReadabilityValidator, ControlPosition, FormControlType, Model } from '@siplay/ng-dynamic-forms';
+import { ColorReadabilityValidator, ControlPosition, FieldType, Model } from '@siplay/ng-dynamic-forms';
 
 export class ColorPickerTestModel extends Model {
 
     constructor() {
         super(
-            Model.member('colorPicker', FormControlType.color)
+            Model.member('colorPicker', FieldType.color)
                 .addLabel('Color Picker (optional)'),
 
-            Model.member('colorPickerRequired', FormControlType.color, Validators.required)
+            Model.member('colorPickerRequired', FieldType.color, Validators.required)
                 .addLabel('Color Picker (required)'),
 
-            Model.defaultValueMember('colorPickerWithDefault', '#f00', FormControlType.color)
+            Model.defaultValueMember('colorPickerWithDefault', '#f00', FieldType.color)
                 .addLabel('Color Picker with Default'),
 
-            Model.member('validateForeground', FormControlType.color, ColorReadabilityValidator.validatorForForeground('validateForeground', 'white'))
+            Model.member('validateForeground', FieldType.color, ColorReadabilityValidator.validatorForForeground('validateForeground', 'white'))
                 .addLabel('Validate Foreground Readability Against a Color'),
 
             Model.member('color-preview1', 'color-preview')
@@ -23,7 +23,7 @@ export class ColorPickerTestModel extends Model {
                 .addData('backgroundColor', 'white')
                 .addData('text', 'Your Foreground'),
 
-            Model.member('validateBackground', FormControlType.color, ColorReadabilityValidator.validatorForBackground('white', 'validateBackground'))
+            Model.member('validateBackground', FieldType.color, ColorReadabilityValidator.validatorForBackground('white', 'validateBackground'))
                 .addLabel('Validate Background Readability Against a Color'),
 
             Model.member('color-preview2', 'color-preview')
@@ -33,11 +33,11 @@ export class ColorPickerTestModel extends Model {
 
             Model.layout('.row',
                 Model.layout('.col-6',
-                    Model.defaultValueMember('foreground', '#fff', FormControlType.color)
+                    Model.defaultValueMember('foreground', '#fff', FieldType.color)
                         .addLabel('Foreground Color')
                 ),
                 Model.layout('.col-6',
-                    Model.defaultValueMember('background', '#f0f0f0', FormControlType.color)
+                    Model.defaultValueMember('background', '#f0f0f0', FieldType.color)
                         .addLabel('Background Color')
                 )
             )

@@ -7,7 +7,7 @@ import { expect } from 'chai';
 
 import { FORM_COMPONENT_HOST_PROVIDERS } from '../../test/fixtures';
 
-import { FormControlType }      from '../form.control.type';
+import { FieldType }      from '../field.type';
 import { Model }                from '../model/model';
 import { ModelHelper }          from '../model/model.helper';
 import { ColorPickerComponent } from './color.picker.component';
@@ -20,7 +20,7 @@ describe('ColorPickerComponent', () => {
     let de;
 
     beforeEach(() => {
-        let member = Model.defaultValueMember('color', '#f00', FormControlType.color);
+        let member = Model.defaultValueMember('color', '#f00', FieldType.color);
         let control = ModelHelper.modelElementToModelControl(member);
         let fb = new FormBuilder();
         formControl = ModelHelper.modelMemberToFormControl(fb, member);

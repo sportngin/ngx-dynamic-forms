@@ -2,7 +2,7 @@ doctype html
 
 input.form-control(
     [type]='type',
-    [formControl]='formControl',
+    [formControl]='input',
     [attr.disabled]='control.disabled ? "" : null',
-    [ngClass]='{ "form-control-success": formControl.validator && formControl.valid, "form-control-danger": formControl.validator && !formControl.valid && formControl.touched }'
+    [ngClass]='{ "form-control-success": input.validator && input.valid, "form-control-danger": input.validator && !input.valid && input.touched }'
 )

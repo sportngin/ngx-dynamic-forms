@@ -5,6 +5,7 @@ import { FormComponentHost, FormState } from './form.component.host';
 import { FormElement }                  from './form.element';
 import { FormText, getText }            from './form.text';
 import { DisableBehavior }              from './model/disable.behavior';
+import { FormGroup } from '@angular/forms';
 
 export abstract class HostedElement extends FormElement {
 
@@ -12,11 +13,12 @@ export abstract class HostedElement extends FormElement {
     protected host: FormComponentHost;
 
     constructor(
+        form: FormGroup,
         injector: Injector,
         behaviorService: BehaviorService,
         host: FormComponentHost
     ) {
-        super(injector, behaviorService);
+        super(form, injector, behaviorService);
 
         if (host) {
             this.host = host;

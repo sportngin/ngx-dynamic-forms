@@ -1,14 +1,19 @@
-import { FormControlType }      from '../../form.control.type';
-import { ControlPosition }      from '../control.position';
-import { ElementHelper, ModelElement, ModelElementRenderCondition, ModelElementType } from '../model.element';
-import { ModelMember }          from '../member/model.member';
-import { TemplatedMember }      from '../member/templated.member';
+import { InjectionToken }   from '@angular/core';
+
+import { ElementType }      from '../../element.type';
+import { FieldType }        from '../../field.type';
+import { ControlPosition }  from '../control.position';
+import { ElementHelper, ModelElement, ModelElementRenderCondition } from '../model.element';
+import { ModelMember }      from '../member/model.member';
+import { TemplatedMember }  from '../member/templated.member';
 
 export interface ModelControl extends ModelElement {
     member: ModelElement;
     childControls: ModelControl[];
     hidden: boolean;
 }
+
+export const MODEL_CONTROL_PROVIDER = new InjectionToken<ModelControl>('ModelControl');
 
 export abstract class ModelControlBase<TMember extends ModelElement> implements ModelControl {
     constructor(member: TMember) {
@@ -23,7 +28,7 @@ export abstract class ModelControlBase<TMember extends ModelElement> implements 
     }
 
     public member: TMember;
-    public elementType: ModelElementType;
+    public elementType: ElementType;
     public cssClass: string;
     public childControls: ModelControl[];
     public renderConditions: ModelElementRenderCondition[];
@@ -52,7 +57,7 @@ export class ModelMemberControl<TModelMember extends ModelMember = ModelMember> 
     public label: string;
     public labelPosition: ControlPosition;
 
-    public get hidden() { return this.member.controlType === FormControlType.hidden; }
+    public get hidden() { return this.member.fieldType === FieldType.hidden; }
 
 }
 

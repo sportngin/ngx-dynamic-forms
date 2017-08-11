@@ -1,4 +1,4 @@
-import { Component, forwardRef, Host, Injector, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, forwardRef, Host, Inject, Injector, OnInit, ViewEncapsulation } from '@angular/core';
 import {
     ControlValueAccessor, FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR,
     Validators
@@ -9,6 +9,7 @@ import * as moment              from 'moment';
 
 import { FormComponentHost }    from '../form.component.host';
 import { FieldBase }            from './field.base';
+import { ELEMENT_DATA_PROVIDER, ElementData } from './element.data';
 
 @Component({
     selector: 'date-picker',
@@ -42,11 +43,12 @@ export class DatePickerComponent extends FieldBase<FormControl> implements Contr
     private onTouchedHandler: Function;
 
     constructor(
+        @Inject(ELEMENT_DATA_PROVIDER) elementData: ElementData,
         fb: FormBuilder,
         injector: Injector,
         @Host() host: FormComponentHost
     ) {
-        super(injector, host);
+        super(elementData, injector, host);
 
         this.dateForm = fb.group({
             year: ['Year', Validators.required],

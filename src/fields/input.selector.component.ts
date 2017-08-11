@@ -1,42 +1,28 @@
 import {
-    Component, ComponentFactoryResolver, Input, ReflectiveInjector, ViewChild,
-    ViewContainerRef, OnInit
+    Component, ComponentFactoryResolver, Inject, Injector, Provider, ViewChild,
+    ViewContainerRef
 } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormGroup } from '@angular/forms';
 
 import { extend } from 'lodash';
 
-import { FormControlTypeMappings }  from '../form.control.type';
-import { ModelMemberControl }       from '../model/control/model.control';
+import { BehaviorService }          from '../behavior/behavior.service';
+import { ControlSelectorComponent } from '../control.selector.component';
+import { FieldTypeMappings }        from '../field.type.mappings';
+import { MODEL_CONTROL_PROVIDER, ModelMemberControl } from '../model/control/model.control';
 import { CheckboxMember }           from '../model/member/checkbox.member';
 import { SelectionMember }          from '../model/member/selection.member';
 import { TemplatedMember }          from '../model/member/templated.member';
-
-interface InputData {
-
-    form: FormGroup;
-    formControl: AbstractControl;
-    controlName: string;
-
-    checked?: boolean | (() => boolean);
-    childControls?: ModelMemberControl[];
-    dependentControls?: string[];
-    template?: any;
-
-    [key: string]: any;
-
-}
+import { ELEMENT_DATA_PROVIDER, ElementData } from './element.data';
 
 @Component({
     selector: 'input-selector',
-    template: '<span #container></span>',
+    templateUrl: '../control.selector.pug'
 })
-export class InputSelectorComponent implements ControlValueAccessor, OnInit {
+export class InputSelectorComponent extends ControlSelectorComponent<ModelMemberControl> implements ControlValueAccessor{
 
     @ViewChild('container', { read: ViewContainerRef }) container: ViewContainerRef;
 
-    @Input() control: ModelMemberControl;
-    @Input() form: FormGroup;
     disabled: boolean;
 
     private innerValue: any;
@@ -44,47 +30,66 @@ export class InputSelectorComponent implements ControlValueAccessor, OnInit {
     private onTouched: () => void;
     public formControl: AbstractControl;
 
+    private _inputData: ElementData;
+
     constructor(
-        private resolver: ComponentFactoryResolver,
-        private formControlTypeMappings: FormControlTypeMappings
-    ) {}
+        form: FormGroup,
+        @Inject(MODEL_CONTROL_PROVIDER) control: ModelMemberControl,
+        resolver: ComponentFactoryResolver,
+        private fieldTypeMappings: FieldTypeMappings,
+        injector: Injector,
+        behaviorService: BehaviorService
+    ) {
+        super(form, resolver, ModelMemberControl, injector, behaviorService);
 
-    init(): void {
-        this.formControl = this.form.controls[this.control.name] as AbstractControl;
-
-        // TODO: determine unique id based on parent - is this part of an array or collection?
-        let mergedInputData: InputData = extend({
-            form: this.form,
-            formControl: this.formControl,
-            control: this.control,
-            controlName: this.control.name,
-            childControls: this.control.childControls as ModelMemberControl[]
-        }, this.control.member.data || {});
-
-        if (this.control.member instanceof CheckboxMember) {
-            mergedInputData.checked = (this.control.member as CheckboxMember).checked;
-        }
-
-        if (this.control.member instanceof SelectionMember) {
-            mergedInputData.dependentControls = (this.control.member as SelectionMember).dependentControls;
-        }
-
-        if (this.control.member instanceof TemplatedMember) {
-            mergedInputData.template = (this.control.member as TemplatedMember).template;
-        }
-
-        let inputProviders = Object.keys(mergedInputData).map(name => ({ provide: name, useValue: mergedInputData[name] }));
-        let resolvedInputs = ReflectiveInjector.resolve(inputProviders);
-        let injector = ReflectiveInjector.fromResolvedProviders(resolvedInputs, this.container.parentInjector);
-        let componentType = this.formControlTypeMappings.getComponentType(this.control.member.controlType);
-        let factory = this.resolver.resolveComponentFactory(componentType);
-        let componentInstance = factory.create(injector);
-
-        this.container.insert(componentInstance.hostView);
+        this.control = control;
     }
 
     ngOnInit(): void {
-        this.init();
+        this.formControl = this.form.controls[this.control.name] as AbstractControl;
+        super.ngOnInit();
+    }
+
+    private get inputData(): ElementData {
+        if (!this._inputData) {
+            // TODO: determine unique id based on parent - is this part of an array or collection?
+            let inputData: ElementData = {
+                form: this.form,
+                control: this.control,
+                formControl: this.formControl,
+                childControls: this.control.childControls as ModelMemberControl[]
+            };
+
+            if (this.control.member instanceof CheckboxMember) {
+                inputData.checked = (this.control.member as CheckboxMember).checked;
+            }
+
+            if (this.control.member instanceof SelectionMember) {
+                inputData.dependentControls = (this.control.member as SelectionMember).dependentControls;
+            }
+
+            if (this.control.member instanceof TemplatedMember) {
+                inputData.template = (this.control.member as TemplatedMember).template;
+            }
+
+            this._inputData = inputData;
+        }
+        return this._inputData;
+    }
+
+    protected getInputData(): { [key: string]: any } {
+        return this.inputData;
+    }
+
+    protected getControlComponentType(): any {
+        return this.fieldTypeMappings.getComponentType(this.control.member.fieldType);
+    }
+
+    protected getInputProviders(): Provider[] {
+        return [{
+            provide: ELEMENT_DATA_PROVIDER,
+            useValue: this.inputData
+        }]
     }
 
     get value(): any {

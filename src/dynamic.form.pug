@@ -1,7 +1,6 @@
 doctype html
-include fields/fields
 
 form([formGroup]='form', autocomplete='off', (ngSubmit)='submit($event)', novalidate)
 
     ng-template(ngFor let-control [ngForOf]='modelControls')
-        +fields()
+        element-selector([control]='control', [form]='form')

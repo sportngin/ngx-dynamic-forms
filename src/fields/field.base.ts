@@ -1,32 +1,26 @@
-import { Injector, Input, InjectionToken }          from '@angular/core';
-import { AbstractControl, FormControl, FormGroup }  from '@angular/forms';
+import { Injector } from '@angular/core';
+import { AbstractControl, FormControl } from '@angular/forms';
 
 import { BehaviorService }      from '../behavior/behavior.service';
 import { ElementBase }          from '../element.base';
 import { FormComponentHost }    from '../form.component.host';
 import { ModelControl }         from '../model/control/model.control';
+import { ElementData }          from './element.data';
 
 export abstract class FieldBase<
     TControl extends AbstractControl = FormControl,
     TModelControl extends ModelControl = ModelControl
     > extends ElementBase<TModelControl> {
 
-    @Input() public formControl: TControl;
-    @Input() public controlName: string;
-
-    public readonly tokens: any = {
-        form: new InjectionToken<FormGroup>('form'),
-        formControl: new InjectionToken<TControl>('formControl'),
-        controlName: new InjectionToken<string>('controlName')
-    };
+    public get formControl(): TControl {
+        return this.elementData.formControl as TControl;
+    }
 
     constructor(
+        elementData: ElementData,
         injector: Injector,
-        host: FormComponentHost,
-        ...tokens: any[]) {
-        super(injector, injector.get(BehaviorService), host, ...tokens);
-
-        this.setProperties(this.tokens);
+        host: FormComponentHost) {
+        super(elementData, injector, injector.get(BehaviorService), host);
 
         this.host = host;
         this.state = host.state;

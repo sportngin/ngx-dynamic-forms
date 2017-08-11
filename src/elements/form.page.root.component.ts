@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { FormComponentHost }    from './form.component.host';
-import { HostedElement }        from './hosted.element';
-import { RootPageControl }      from './model/control/page.control';
-import { ModelControl }         from './model/control/model.control';
-import { BehaviorService }      from './behavior/behavior.service';
+import { FormComponentHost }    from '../form.component.host';
+import { HostedElement }        from '../hosted.element';
+import { RootPageControl }      from '../model/control/page.control';
+import { ModelControl }         from '../model/control/model.control';
+import { BehaviorService }      from '../behavior/behavior.service';
 
 @Component({
     selector: 'form-page-root',
@@ -36,13 +36,14 @@ export class FormPageRootComponent extends HostedElement implements OnInit {
     }
 
     constructor(
+        form: FormGroup,
         injector: Injector,
         behaviorService: BehaviorService,
         // FIXME: for some reason, using this here causes a "No provider for FormComponentHost" error to be thrown
         // @Host() host: FormComponentHost
     ) {
         // FIXME: see above
-        super(injector, behaviorService, (injector as any).view.component.host);
+        super(form, injector, behaviorService, (injector as any).view.component.host);
     }
 
     ngOnInit(): void {

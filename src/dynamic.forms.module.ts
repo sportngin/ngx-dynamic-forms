@@ -4,15 +4,21 @@ import { ReactiveFormsModule }              from '@angular/forms';
 
 import { ColorPickerModule } from 'ngx-color-picker';
 
-import { BehaviorService }          from './behavior/behavior.service';
-import { DynamicFormComponent }     from './dynamic.form.component';
-import { FormControlTypeMappings }  from './form.control.type';
-import { FormPageComponent }        from './form.page.component';
-import { FormPageRootComponent }    from './form.page.root.component';
-import { LayoutComponent }          from './layout.component';
-import { PositionPipe }             from './position.pipe';
+import { BehaviorService }      from './behavior/behavior.service';
+import { DynamicFormComponent } from './dynamic.form.component';
+import { ElementTypeMappings }  from './element.type.mappings';
+import { FieldTypeMappings }    from './field.type.mappings';
+import { PositionPipe }         from './position.pipe';
 
 import { DYNAMIC_FORMS_CONFIG, DynamicFormsConfig } from './dynamic.forms.config';
+
+import { ButtonComponent }          from './elements/button.component';
+import { ButtonTypeMappings }       from './elements/button.type';
+import { ElementSelectorComponent } from './elements/element.selector.component';
+import { FormPageComponent }        from './elements/form.page.component';
+import { FormPageRootComponent }    from './elements/form.page.root.component';
+import { LayoutComponent }          from './elements/layout.component';
+import { SubmitButtonComponent }    from './elements/submit.button.component';
 
 import { CheckboxFieldComponent }   from './fields/checkbox.field.component';
 import { ColorPickerComponent }     from './fields/color.picker.component';
@@ -28,12 +34,14 @@ import { TextFieldComponent }       from './fields/text.field.component';
 
 @NgModule({
     declarations:   [
+        ButtonComponent,
         CheckboxFieldComponent,
         ColorPickerComponent,
         DatePickerComponent,
         DropdownFieldComponent,
         DynamicFieldComponent,
         DynamicFormComponent,
+        ElementSelectorComponent,
         FormPageComponent,
         FormPageRootComponent,
         GroupFieldComponent,
@@ -43,15 +51,18 @@ import { TextFieldComponent }       from './fields/text.field.component';
         ListFieldEntryDirective,
         PasswordFieldComponent,
         PositionPipe,
+        SubmitButtonComponent,
         TextFieldComponent
     ],
     exports: [
+        ButtonComponent,
         CheckboxFieldComponent,
         ColorPickerComponent,
         DatePickerComponent,
         DropdownFieldComponent,
         DynamicFieldComponent,
         DynamicFormComponent,
+        ElementSelectorComponent,
         FormPageComponent,
         FormPageRootComponent,
         GroupFieldComponent,
@@ -61,16 +72,21 @@ import { TextFieldComponent }       from './fields/text.field.component';
         ListFieldEntryDirective,
         PasswordFieldComponent,
         PositionPipe,
+        SubmitButtonComponent,
         TextFieldComponent
     ],
     entryComponents: [
+        ButtonComponent,
         CheckboxFieldComponent,
         ColorPickerComponent,
         DatePickerComponent,
         DropdownFieldComponent,
         GroupFieldComponent,
+        InputSelectorComponent,
+        LayoutComponent,
         ListFieldComponent,
         PasswordFieldComponent,
+        SubmitButtonComponent,
         TextFieldComponent
     ],
     imports:        [
@@ -80,7 +96,9 @@ import { TextFieldComponent }       from './fields/text.field.component';
     ],
     providers:      [
         BehaviorService,
-        FormControlTypeMappings
+        ButtonTypeMappings,
+        ElementTypeMappings,
+        FieldTypeMappings
     ]
 })
 export class DynamicFormsModule {
@@ -91,7 +109,7 @@ export class DynamicFormsModule {
             providers: [
                 { provide: DYNAMIC_FORMS_CONFIG, useValue: userConfig }
             ]
-        }
+        };
     }
 
 }

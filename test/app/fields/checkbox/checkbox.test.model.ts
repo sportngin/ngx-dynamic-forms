@@ -1,10 +1,10 @@
-import { FormControlType, Model } from '@siplay/ng-dynamic-forms';
+import { FieldType, Model } from '@siplay/ng-dynamic-forms';
 
 export class CheckboxTestModel extends Model {
 
     constructor() {
         super(
-            Model.member('checkbox', FormControlType.checkbox)
+            Model.member('checkbox', FieldType.checkbox)
                 .addLabel('Checkbox')
         );
     }

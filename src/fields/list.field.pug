@@ -1,14 +1,13 @@
 doctype html
-include fields
 
 div([formGroup]='form')
 
     //.no-entries(*ngIf='!hasEntries')
     //    | No entries
 
-    ul([formArrayName]='controlName')
+    ul([formArrayName]='control.name')
         li.ngdf-list-item(
-            *ngFor='let entry of formControl.controls; let i = index',
+            *ngFor='let entry of input.controls; let i = index',
             listEntry,
             [formGroupName]='i',
             [class]='control.itemCssClass',
@@ -17,7 +16,7 @@ div([formGroup]='form')
         )
             .ngdf-list-editable((click)='editEntry(i)', *ngIf='!entryState[i].editing')
                 ng-template(ngFor let-control [ngForOf]='childControls')
-                    +fields(true, 'entry', null)
+                    element-selector([control]='control', [form]='form', [displayOnly]=true)
             .ngdf-list-editor(*ngIf='entryState[i].editing')
                 ng-template(ngFor let-control [ngForOf]='childControls')
-                    +fields(false, 'entry', null)
+                    element-selector([control]='control', [form]='form')

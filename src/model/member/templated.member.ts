@@ -1,14 +1,14 @@
 import { ValidatorFn } from '@angular/forms';
 
-import { FormControlType }  from '../../form.control.type';
+import { ElementType }      from '../../element.type';
+import { FieldType }        from '../../field.type';
 import { Model }            from '../model';
-import { ModelElementType } from '../model.element';
 import { ModelMemberBase }  from './model.member';
 import { getCssClassArray, getCssClassFromArray } from '../css.helper';
 
 export class TemplatedMember extends ModelMemberBase<TemplatedMember> {
 
-    constructor(elementType: ModelElementType, controlType: FormControlType | string, name: string, template: Model, validators?: ValidatorFn | ValidatorFn[], data?: {}) {
+    constructor(elementType: ElementType, controlType: FieldType | string, name: string, template: Model, validators?: ValidatorFn | ValidatorFn[], data?: {}) {
         super(elementType, controlType, name, validators, data);
 
         this.template = template;

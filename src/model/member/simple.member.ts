@@ -1,13 +1,13 @@
 import { FormControl, ValidatorFn } from '@angular/forms';
 
-import { FormControlType }      from '../../form.control.type';
-import { ModelElementType }     from '../model.element';
-import { ModelMemberBase }      from './model.member';
+import { ElementType }      from '../../element.type';
+import { FieldType }        from '../../field.type';
+import { ModelMemberBase }  from './model.member';
 
 export class SimpleMember extends ModelMemberBase<SimpleMember> {
 
-    constructor(controlType: FormControlType | string, name: string, validators?: ValidatorFn | ValidatorFn[], defaultValue?: any, data?: { [key: string]: any }) {
-        super(ModelElementType.control, controlType, name, validators, data);
+    constructor(controlType: FieldType | string, name: string, validators?: ValidatorFn | ValidatorFn[], defaultValue?: any, data?: { [key: string]: any }) {
+        super(ElementType.input, controlType, name, validators, data);
 
         this.defaultValue = defaultValue;
     }

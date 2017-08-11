@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup, ValidatorFn } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 
 import { BehaviorType }                     from '../behavior/behaviors';
-import { FormControlType }                  from '../form.control.type';
+import { ButtonType }                       from '../elements/button.type';
+import { FieldType }                        from '../field.type';
 import { FormText }                         from '../form.text';
 import { ModelControl }                     from './control/model.control';
 import { ArrayMember }                      from './member/array.member';
@@ -15,8 +16,9 @@ import { PasswordMember }                   from './member/password.member';
 import { SelectionMember }                  from './member/selection.member';
 import { SimpleMember }                     from './member/simple.member';
 import { TemplatedMember }                  from './member/templated.member';
-import { ModelElement, ModelElementType }   from './model.element';
+import { ModelElement }                     from './model.element';
 import { ModelHelper }                      from './model.helper';
+import { ElementType } from '../element.type';
 
 /**
  * The base class used by form Models
@@ -31,11 +33,12 @@ export abstract class Model {
     };
 
     static submitButton(buttonClass: ButtonClass, text: FormText, disableWhenInvalid: boolean = true): ButtonMember {
-        return new ButtonMember(ModelElementType.submit, ButtonAction.submit, buttonClass, text, disableWhenInvalid);
+        return new ButtonMember(ButtonType
+            .submit, ButtonAction.submit, buttonClass, text, disableWhenInvalid);
     }
 
     static button(buttonAction: ButtonAction | string, buttonClass: ButtonClass, text?: FormText, disableWhenInvalid: boolean = false): ButtonMember {
-        return new ButtonMember(ModelElementType.button, buttonAction, buttonClass, text, disableWhenInvalid);
+        return new ButtonMember(ButtonType.button, buttonAction, buttonClass, text, disableWhenInvalid);
     }
 
     static layout(cssClass: string, ...members: ModelElement[]): LayoutMember {
@@ -69,11 +72,11 @@ export abstract class Model {
     }
 
     static textMember(name: string, ...validators: ValidatorFn[]): SimpleMember {
-        return Model.member(name, FormControlType.text, ...validators);
+        return Model.member(name, FieldType.text, ...validators);
     }
 
     static hiddenMember(name: string): SimpleMember {
-        return Model.member(name, FormControlType.hidden);
+        return Model.member(name, FieldType.hidden);
     }
 
     static passwordMember(name: string, ...validators: ValidatorFn[]): PasswordMember {
@@ -84,7 +87,7 @@ export abstract class Model {
         return new CheckboxMember(name, checked);
     }
 
-    static member(name: string, controlType: FormControlType | string, ...validators: ValidatorFn[]): SimpleMember {
+    static member(name: string, controlType: FieldType | string, ...validators: ValidatorFn[]): SimpleMember {
         return Model.defaultValueMember(name, '', controlType, ...validators);
     }
 
@@ -92,7 +95,7 @@ export abstract class Model {
         return new SelectionMember(name, validators);
     }
 
-    static defaultValueMember(name: string, value: any, controlType: FormControlType | string, ...validators: ValidatorFn[]): SimpleMember {
+    static defaultValueMember(name: string, value: any, controlType: FieldType | string, ...validators: ValidatorFn[]): SimpleMember {
         return new SimpleMember(controlType, name, validators, value);
     }
 
@@ -100,9 +103,9 @@ export abstract class Model {
         return new ArrayMember(name, template, validator);
     }
 
-    static groupMember(name: string, template: any, validator?: ValidatorFn): TemplatedMember {
-        return new TemplatedMember(ModelElementType.group, FormControlType.group, name, template, validator);
-    }
+    // static groupMember(name: string, template: any, validator?: ValidatorFn): TemplatedMember {
+    //     return new TemplatedMember(ModelElementType.group, FieldType.group, name, template, validator);
+    // }
 
     static validationMessage(fieldKey: string, errorKey: string, text: string, cssClass?: string): LayoutMember {
         let layout = Model.layout('');

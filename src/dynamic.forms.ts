@@ -10,15 +10,20 @@ export * from './color.readability.validator';
 export * from './dynamic.forms.config';
 export * from './element.base';
 export * from './form.component.host';
-export * from './form.control.type';
-export * from './form.page.component';
-export * from './form.page.root.component';
+export * from './element.type';
+export * from './element.type.mappings';
+export * from './field.type';
+export * from './field.type.mappings';
 // export * from './hosted.element';
 // export * from './layout.component';
 export * from './password.validator';
 export * from './position.pipe';
 export * from './validators';
 
+export * from './elements/form.page.component';
+export * from './elements/form.page.root.component';
+
+export * from './fields/element.data';
 // export * from './fields/checkbox.field.component';
 // export * from './fields/color.picker.component';
 // export * from './fields/date.picker.component';

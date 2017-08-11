@@ -1,19 +1,20 @@
-import { ControlPosition } from './control.position';
+import { ElementType }      from '../element.type';
+import { ControlPosition }  from './control.position';
 
 /**
  * Contains an enumeration of valid ModelElementType values;
  */
-export enum ModelElementType {
-    array = 'array',
-    button = 'button',
-    control = 'control',
-    group = 'group',
-    layout = 'layout',
-    page = 'page',
-    pageRoot = 'pageRoot',
-    submit = 'submit',
-    validator = 'validator'
-}
+// export enum ModelElementType {
+//     array = 'array',
+//     button = 'button',
+//     control = 'control',
+//     group = 'group',
+//     layout = 'layout',
+//     page = 'page',
+//     pageRoot = 'pageRoot',
+//     submit = 'submit',
+//     validator = 'validator'
+// }
 
 export interface ModelElementRenderCondition {
     key: string;
@@ -33,7 +34,7 @@ export interface ElementHelper {
  */
 export interface ModelElement {
     /** the type of element */
-    elementType: ModelElementType;
+    elementType: ElementType;
     /** the CSS class to render on the element */
     cssClass: string;
     /** an optional array of helpers to be rendered for the element */

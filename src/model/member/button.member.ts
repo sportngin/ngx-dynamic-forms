@@ -1,7 +1,9 @@
-import { FormText }                         from '../../form.text';
-import { DisableBehavior }                  from '../disable.behavior';
-import { ElementHelper, ModelElementType }  from '../model.element';
-import { ModelElementBase }                 from '../model.element.base';
+import { ElementType }      from '../../element.type';
+import { ButtonType }       from '../../elements/button.type';
+import { FormText }         from '../../form.text';
+import { DisableBehavior }  from '../disable.behavior';
+import { ElementHelper }    from '../model.element';
+import { ModelElementBase } from '../model.element.base';
 
 export enum ButtonClass {
     primary = 'primary',
@@ -22,8 +24,8 @@ export enum ButtonAction {
 
 export class ButtonMember extends ModelElementBase<ButtonMember> implements DisableBehavior {
 
-    constructor(elementType: ModelElementType, buttonAction: ButtonAction | string, buttonClass: ButtonClass, text: FormText, disableWhenInvalid: boolean = false) {
-        super(elementType);
+    constructor(buttonType: ButtonType, buttonAction: ButtonAction | string, buttonClass: ButtonClass, text: FormText, disableWhenInvalid: boolean = false) {
+        super(ElementType.button);
 
         this.buttonAction = buttonAction;
         this.buttonClass = buttonClass;
@@ -31,6 +33,7 @@ export class ButtonMember extends ModelElementBase<ButtonMember> implements Disa
         this.disableWhenInvalid = disableWhenInvalid;
     }
 
+    public buttonType: ButtonType | string;
     public buttonAction: ButtonAction | string;
     public buttonClass: ButtonClass;
     public text: FormText;

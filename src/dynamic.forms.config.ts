@@ -1,15 +1,22 @@
 import { InjectionToken } from '@angular/core';
 
-import { FormControlType } from './form.control.type';
+import { ElementType }  from './element.type';
+import { FieldType }    from './field.type';
 
-export interface FormControlTypeHandlerMapping {
-    type: FormControlType | string;
-    component: any
+export interface ElementTypeHandlerMapping {
+    type: ElementType | string;
+    component: any;
+}
+
+export interface FieldTypeHandlerMapping {
+    type: FieldType | string;
+    component: any;
 }
 
 export interface DynamicFormsConfig {
 
-    mappings: FormControlTypeHandlerMapping[]
+    elements?: ElementTypeHandlerMapping[];
+    fields?: FieldTypeHandlerMapping[];
 
 }
 

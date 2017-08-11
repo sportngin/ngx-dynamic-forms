@@ -1,0 +1,10 @@
+doctype html
+
+mixin helpers(position)
+    ng-template(ngFor let-helper [ngForOf]=`control.member.helpers | position:'${position}'`)
+        p(*ngIf='isRendered(control) && isRendered(helper)', [class]='"helper " + (helper.cssClass || "")', [innerHTML]='helper.text')
+
++helpers('before')
+ng-container(#container)
++helpers('after')
+

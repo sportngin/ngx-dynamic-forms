@@ -1,12 +1,12 @@
 import { ValidatorFn }          from '@angular/forms';
 
-import { FormControlType }  from '../../form.control.type';
+import { FieldType }  from '../../field.type';
 import { SimpleMember }     from './simple.member';
 
 export class PasswordMember extends SimpleMember {
 
     constructor(name: string, validators?: ValidatorFn | ValidatorFn[]) {
-        super(FormControlType.password, name, validators);
+        super(FieldType.password, name, validators);
     }
 
     public canShowPassword: boolean;

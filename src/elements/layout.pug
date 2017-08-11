@@ -1,0 +1,6 @@
+doctype html
+
+| childControls: {{childControls}}
+
+ng-template(ngFor let-childControl [ngForOf]='childControls')
+    element-selector([control]='childControl', [form]='form')

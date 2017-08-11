@@ -1,5 +1,6 @@
-import { ModelElement, ModelElementType }   from '../model.element';
-import { ModelElementBase }                 from '../model.element.base';
+import { ElementType }      from '../../element.type';
+import { ModelElement }     from '../model.element';
+import { ModelElementBase } from '../model.element.base';
 
 export interface ContainerMember extends ModelElement {
 
@@ -10,10 +11,10 @@ export interface ContainerMember extends ModelElement {
 export class ContainerMemberBase<T extends ContainerMemberBase<T>> extends ModelElementBase<T> implements ContainerMember {
 
     constructor(
-        memberType: ModelElementType,
+        elementType: ElementType,
         members: ModelElement[]
     ) {
-        super(memberType);
+        super(elementType);
 
         this.members = members;
     }

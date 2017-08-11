@@ -1,12 +1,9 @@
-import { Component, Host, InjectionToken, Injector, Input } from '@angular/core';
-import { FormControl }                                      from '@angular/forms';
+import { Component, Host, Inject, Injector } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 import { FormComponentHost }    from '../form.component.host';
 import { FieldBase }            from './field.base';
-
-const TOKENS = {
-    showPassword: new InjectionToken<boolean>('showPassword'),
-};
+import { ELEMENT_DATA_PROVIDER, ElementData } from './element.data';
 
 @Component({
     selector: 'password-field',
@@ -15,13 +12,16 @@ const TOKENS = {
 })
 export class PasswordFieldComponent extends FieldBase<FormControl> {
 
-    @Input() public showPassword: boolean = false;
+    public showPassword: boolean = false;
 
     constructor(
+        @Inject(ELEMENT_DATA_PROVIDER) elementData: ElementData,
         injector: Injector,
         @Host() host: FormComponentHost
     ) {
-        super(injector, host, TOKENS);
+        super(elementData, injector, host);
+
+        this.showPassword = elementData.showPassword;
     }
 
     toggleShowPassword() {

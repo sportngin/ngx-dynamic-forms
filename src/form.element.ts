@@ -1,4 +1,4 @@
-import { Injector, Input }              from '@angular/core';
+import { Injector }                     from '@angular/core';
 import { AbstractControl, FormGroup }   from '@angular/forms';
 
 import { every, isFunction } from 'lodash';
@@ -7,13 +7,12 @@ import { BehaviorService }  from './behavior/behavior.service';
 import { BehaviorFn, BehaviorType, DisplayValidationHandler } from './behavior/behaviors';
 import { ModelControl }     from './model/control/model.control';
 
-export class FormElement implements DisplayValidationHandler {
-
-    @Input() public form: FormGroup;
+export abstract class FormElement implements DisplayValidationHandler {
 
     private handlers: { [behaviorType: string]: any } = {};
 
     constructor(
+        public form: FormGroup,
         protected injector: Injector,
         private behaviorService: BehaviorService
     ) {

@@ -25,19 +25,14 @@ export class DynamicFormComponent extends HostedElement {
         @Host() host: FormComponentHost,
         injector: Injector
     ) {
-        super(injector, behaviorService, host);
+        super(host.modelDef.toFormGroup(fb), injector, behaviorService, host);
 
         this.modelControls = this.createControls(host.modelDef);
-        this.form = this.createForm(host.modelDef);
         host.form = this;
     }
 
     private createControls(modelDef: Model): ModelControl[] {
         return modelDef.toControlGroup();
-    }
-
-    private createForm(modelDef: Model): FormGroup {
-        return modelDef.toFormGroup(this.fb);
     }
 
     public get value(): any {

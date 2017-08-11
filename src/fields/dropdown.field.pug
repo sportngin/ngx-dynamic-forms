@@ -1,9 +1,9 @@
 doctype html
 
 select.form-control(
-    [formControl]='formControl',
+    [formControl]='input',
     autocomplete='off',
-    [ngClass]='{ "form-control-success": formControl.validator && formControl.valid, "form-control-danger": formControl.validator && !formControl.valid && formControl.touched }',
+    [ngClass]='{ "form-control-success": input.validator && input.valid, "form-control-danger": input.validator && !input.valid && input.touched }',
     [attr.disabled]='(control.disabled || pendingPrerequisites) ? "" : null'
 )
     option(

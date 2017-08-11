@@ -2,7 +2,8 @@ import { extend, map } from 'lodash';
 
 import { ControlPosition } from './control.position';
 import { cleanCssClass, getCssClassArray, getCssClassFromArray } from './css.helper';
-import { ElementHelper, ModelElementBuilder, ModelElementRenderCondition, ModelElementType } from './model.element';
+import { ElementHelper, ModelElementBuilder, ModelElementRenderCondition } from './model.element';
+import { ElementType } from '../element.type';
 
 /**
  * Provides a base implementation of {@link ModelElement} and {@link ModelElementBuilder}.
@@ -13,7 +14,7 @@ export class ModelElementBase<T extends ModelElementBase<T>> implements ModelEle
      *
      * @param {ModelElementType} elementType
      */
-    constructor(elementType: ModelElementType) {
+    constructor(elementType: ElementType) {
         this.elementType = elementType;
     }
 
@@ -26,7 +27,7 @@ export class ModelElementBase<T extends ModelElementBase<T>> implements ModelEle
         return getCssClassFromArray(this.cssClasses);
     }
 
-    public readonly elementType: ModelElementType;
+    public readonly elementType: ElementType;
     public helpers: ElementHelper[];
     public renderConditions: ModelElementRenderCondition[];
     public disabled: boolean;

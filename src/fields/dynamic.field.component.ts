@@ -1,12 +1,12 @@
 import {
     Component, ElementRef, forwardRef, Injector, Input, NgZone, OnInit, Renderer2,
-    ViewChild
+    ViewChild, ViewEncapsulation
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { BehaviorService }          from '../behavior/behavior.service';
 import { FormComponentHost }        from '../form.component.host';
-import { FormControlType }          from '../form.control.type';
+import { FieldType }          from '../field.type';
 import { HostedElement }            from '../hosted.element';
 import { ModelMemberControl }       from '../model/control/model.control';
 import { InputSelectorComponent }   from './input.selector.component';
@@ -14,6 +14,8 @@ import { InputSelectorComponent }   from './input.selector.component';
 @Component({
     selector: 'dyn-field',
     templateUrl: './dynamic.field.pug',
+    styleUrls: ['./dynamic.field.component.scss'],
+    encapsulation: ViewEncapsulation.None,
     providers: [{
         provide: NG_VALUE_ACCESSOR,
         useExisting: forwardRef(() => DynamicFieldComponent),
@@ -26,11 +28,12 @@ export class DynamicFieldComponent extends HostedElement implements ControlValue
     @ViewChild('input', { read: InputSelectorComponent }) input: ControlValueAccessor;
 
     constructor(
+        form: FormGroup,
         injector: Injector,
         behaviorService: BehaviorService,
         host: FormComponentHost
     ) {
-        super(injector, behaviorService, host);
+        super(form, injector, behaviorService, host);
     }
 
     ngOnInit(): void {
@@ -39,7 +42,7 @@ export class DynamicFieldComponent extends HostedElement implements ControlValue
         let zone = this.injector.get(NgZone);
         zone.runOutsideAngular(() => {
             renderer.addClass(elementRef.nativeElement, `ngdf-field`);
-            renderer.addClass(elementRef.nativeElement, `ngdf-${FormControlType[this.control.member.controlType]}`);
+            renderer.addClass(elementRef.nativeElement, `ngdf-${FieldType[this.control.member.fieldType]}`);
         });
     }
 

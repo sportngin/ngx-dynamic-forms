@@ -1,24 +1,21 @@
 import {
-    Component, Host, InjectionToken, Injector, Input, OnInit, ViewChildren, QueryList,
-    AfterViewInit, ViewEncapsulation
+    Component, Host, InjectionToken, Injector, OnInit, ViewChildren, QueryList,
+    AfterViewInit, ViewEncapsulation, Inject
 } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/forms';
 
 import { each, extend, last } from 'lodash';
 
-import { FormComponentHost, hostProviders }        from '../form.component.host';
+import { FormComponentHost }        from '../form.component.host';
 import { Model }                    from '../model/model';
 import { ArrayControl }             from '../model/control/array.control';
-import { FieldBase }                from './field.base';
-import { ListFieldEntryDirective }  from './list.field.entry.directive';
 import {
     behaviorProvider, BehaviorType, EditItemHandler, IsListItemControlRenderedHandler, RemoveItemHandler,
     ResetItemHandler, SaveItemHandler
 } from '../behavior/behaviors';
-
-const TOKENS = {
-    template: new InjectionToken<Model>('template')
-};
+import { FieldBase }                from './field.base';
+import { ListFieldEntryDirective }  from './list.field.entry.directive';
+import { ELEMENT_DATA_PROVIDER, ElementData } from './element.data';
 
 @Component({
     selector: 'list-field',
@@ -38,17 +35,20 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
     EditItemHandler, SaveItemHandler, RemoveItemHandler, ResetItemHandler,
     IsListItemControlRenderedHandler {
 
-    @Input() template: Model;
     @ViewChildren(ListFieldEntryDirective) inputs: QueryList<ListFieldEntryDirective>;
 
+    public template: Model;
     public entryState: { submitted: boolean, editing: boolean }[] = [];
 
     constructor(
+        @Inject(ELEMENT_DATA_PROVIDER) elementData: ElementData,
         private fb: FormBuilder,
         @Host() host: FormComponentHost,
         injector: Injector
     ) {
-        super(injector, host, TOKENS);
+        super(elementData, injector, host);
+
+        this.template = elementData.template;
     }
 
     ngOnInit(): void {
@@ -158,7 +158,7 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
     }
 
     private get formArray(): FormArray {
-        return this.form.controls[this.controlName] as FormArray;
+        return this.form.controls[this.control.name] as FormArray;
     }
 
     private getFormIndex(form: AbstractControl): number {

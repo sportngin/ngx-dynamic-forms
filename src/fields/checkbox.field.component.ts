@@ -1,14 +1,11 @@
-import { Component, Host, InjectionToken, Injector, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Host, Injector, Input, OnInit, ViewEncapsulation, Inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { isBoolean, isFunction } from 'lodash';
 
 import { FormComponentHost }    from '../form.component.host';
 import { FieldBase }            from './field.base';
-
-const TOKENS = {
-    checked: new InjectionToken<boolean | (() => boolean)>('checked')
-};
+import { ELEMENT_DATA_PROVIDER, ElementData } from './element.data';
 
 @Component({
     selector: 'checkbox-field',
@@ -21,10 +18,11 @@ export class CheckboxFieldComponent extends FieldBase<FormControl> implements On
     @Input() protected checked: boolean | (() => boolean);
 
     constructor(
+        @Inject(ELEMENT_DATA_PROVIDER) inputData: ElementData,
         injector: Injector,
         @Host() host: FormComponentHost
     ) {
-        super(injector, host, TOKENS);
+        super(inputData, injector, host);
     }
 
     ngOnInit(): void {
