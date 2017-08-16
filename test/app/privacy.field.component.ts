@@ -4,7 +4,7 @@ import { FIELD_DATA_PROVIDER, FieldData, FieldBase } from '@siplay/ng-dynamic-fo
 
 @Component({
     selector: 'privacy-field',
-    templateUrl: './privacy.field.pug'
+    templateUrl: './privacy.field.component.pug'
 })
 export class PrivacyFieldComponent extends FieldBase {
 

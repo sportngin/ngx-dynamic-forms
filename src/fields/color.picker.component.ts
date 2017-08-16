@@ -6,7 +6,7 @@ import { FIELD_DATA_PROVIDER, FieldData }   from './element.data';
 
 @Component({
     selector: 'color-picker',
-    templateUrl: './color.picker.pug',
+    templateUrl: './color.picker.component.pug',
     styleUrls: ['./color.picker.component.scss'],
     encapsulation: ViewEncapsulation.None
 })

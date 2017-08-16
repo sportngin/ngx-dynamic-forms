@@ -7,7 +7,7 @@ import { ListFieldEntryEditableComponent } from './list.field.entry.editable.com
 
 @Component({
     selector: '[list-field-entry-display]',
-    templateUrl: './list.field.entry.display.pug',
+    templateUrl: './list.field.entry.display.component.pug',
     providers: [
         { provide: VIEW_CONTAINER_ACCESSOR, useExisting: ListFieldEntryDisplayComponent }
     ]

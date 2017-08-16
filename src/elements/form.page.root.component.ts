@@ -8,7 +8,7 @@ import { RootPageControl }      from '../model/control/page.control';
 
 @Component({
     selector: 'form-page-root',
-    templateUrl: './form.page.root.pug'
+    templateUrl: './form.page.root.component.pug'
 })
 export class FormPageRootComponent extends HostedElement implements OnInit {
 

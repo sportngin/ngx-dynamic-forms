@@ -8,7 +8,7 @@ import { ListTestModel }        from './list.test.model';
 
 @Component({
     selector: 'list-test',
-    templateUrl: '../field.test.pug',
+    templateUrl: '../field.test.component.pug',
     viewProviders: [
         hostProviders(ListTestComponent)
     ],

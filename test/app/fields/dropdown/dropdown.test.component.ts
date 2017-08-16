@@ -7,7 +7,7 @@ import { DropdownTestModel }    from './dropdown.test.model';
 
 @Component({
     selector: 'dropdown-test',
-    templateUrl: '../field.test.pug',
+    templateUrl: '../field.test.component.pug',
     viewProviders: [
         hostProviders(DropdownTestComponent)
     ]

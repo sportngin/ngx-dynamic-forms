@@ -6,7 +6,7 @@ import { FieldBase }                        from './field.base';
 
 @Component({
     selector: 'group-field',
-    templateUrl: './group.field.pug'
+    templateUrl: './group.field.component.pug'
 })
 export class GroupFieldComponent extends FieldBase<FormGroup> {
 

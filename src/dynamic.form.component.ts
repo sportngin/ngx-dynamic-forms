@@ -13,7 +13,7 @@ import { VIEW_CONTAINER_ACCESSOR, ViewContainerAccessor } from './view.container
 
 @Component({
     selector: 'dynamic-form',
-    templateUrl: './dynamic.form.pug',
+    templateUrl: './dynamic.form.component.pug',
     styleUrls: ['./dynamic.form.component.scss'],
     encapsulation: ViewEncapsulation.None,
     viewProviders: [

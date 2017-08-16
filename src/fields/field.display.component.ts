@@ -5,7 +5,7 @@ import { HostedElement }                from '../hosted.element';
 
 @Component({
     selector: 'field-display',
-    templateUrl: 'field.display.pug'
+    templateUrl: 'field.display.component.pug'
 })
 export class FieldDisplayComponent extends HostedElement {
 

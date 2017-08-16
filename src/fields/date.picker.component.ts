@@ -12,7 +12,7 @@ import { FIELD_DATA_PROVIDER, FieldData }   from './element.data';
 
 @Component({
     selector: 'date-picker',
-    templateUrl: './date.picker.pug',
+    templateUrl: './date.picker.component.pug',
     providers: [{
         provide: NG_VALUE_ACCESSOR,
         useExisting: forwardRef(() => DatePickerComponent),

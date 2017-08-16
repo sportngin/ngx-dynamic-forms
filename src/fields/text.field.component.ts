@@ -8,7 +8,7 @@ import { FIELD_DATA_PROVIDER, FieldData } from './element.data';
 
 @Component({
     selector: 'text-field',
-    templateUrl: './text.field.pug',
+    templateUrl: './text.field.component.pug',
     styleUrls: ['./text.field.component.scss'],
     encapsulation: ViewEncapsulation.None
 })

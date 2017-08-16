@@ -7,7 +7,7 @@ import { FieldTestComponent }   from '../field.test.component';
 
 @Component({
     selector: 'color-picker-test',
-    templateUrl: '../field.test.pug',
+    templateUrl: '../field.test.component.pug',
     viewProviders: [
         hostProviders(ColorPickerTestComponent)
     ]

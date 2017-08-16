@@ -19,7 +19,7 @@ import { FIELD_DATA_PROVIDER, FieldData } from './element.data';
 
 @Component({
     selector: 'form-input',
-    templateUrl: './dynamic.input.pug',
+    templateUrl: './dynamic.input.component.pug',
     styleUrls: ['./dynamic.input.component.scss'],
     encapsulation: ViewEncapsulation.None,
     providers: [{

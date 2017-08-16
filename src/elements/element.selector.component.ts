@@ -6,13 +6,14 @@ import {
 import { ControlSelectorComponent } from '../control.selector.component';
 import { ElementType }              from '../element.type';
 import { ElementTypeMappings }      from '../element.type.mappings';
+import { FieldType }                from '../field.type';
 import { FieldDisplayComponent }    from '../fields/field.display.component';
-import { MODEL_CONTROL_PROVIDER }   from '../model/control/model.control';
+import { MODEL_CONTROL_PROVIDER, ModelMemberControl } from '../model/control/model.control';
 import { INPUT_CONTAINER_PROVIDER, InputContainer } from './input.container';
 
 @Component({
     selector: 'form-element',
-    templateUrl: './element.selector.pug',
+    templateUrl: './element.selector.component.pug',
     styleUrls: ['./element.selector.component.scss'],
     encapsulation: ViewEncapsulation.None,
     providers: [
@@ -36,7 +37,7 @@ export class ElementSelectorComponent extends ControlSelectorComponent implement
     }
 
     protected getControlComponentType(): any {
-        if (this.control.elementType === ElementType.input && this.displayOnly) {
+        if (this.control.elementType === ElementType.input && this.displayOnly && (this.control as ModelMemberControl).fieldType !== FieldType.hidden) {
             return FieldDisplayComponent;
         }
         return this.elementTypeMappings.getComponentType(this.control.elementType);

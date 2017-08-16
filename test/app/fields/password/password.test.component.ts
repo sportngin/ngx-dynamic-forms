@@ -7,7 +7,7 @@ import { PasswordTestModel }    from './password.test.model';
 
 @Component({
     selector: 'password-test',
-    templateUrl: '../field.test.pug',
+    templateUrl: '../field.test.component.pug',
     viewProviders: [
         hostProviders(PasswordTestComponent)
     ]

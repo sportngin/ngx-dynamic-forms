@@ -47,6 +47,7 @@ export class ModelMemberControl<TModelMember extends ModelMember = ModelMember> 
         this.name = member.name;
         this.label = member.label;
         this.labelPosition = member.labelPosition;
+        this.fieldType = member.fieldType;
 
         if (member instanceof TemplatedMember) {
             this.childControls = (member as TemplatedMember).template.toControlGroup();
@@ -56,6 +57,7 @@ export class ModelMemberControl<TModelMember extends ModelMember = ModelMember> 
     public name: string;
     public label: string;
     public labelPosition: ControlPosition;
+    public fieldType: FieldType;
 
     public get hidden() { return this.member.fieldType === FieldType.hidden; }
 

@@ -6,7 +6,7 @@ import * as tinyColor from 'tinycolor2';
 
 @Component({
     selector: 'color-preview',
-    templateUrl: './color.preview.pug',
+    templateUrl: './color.preview.component.pug',
     styleUrls: ['./color.preview.component.scss'],
     encapsulation: ViewEncapsulation.None
 })

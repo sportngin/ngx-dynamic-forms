@@ -7,7 +7,7 @@ import { ButtonControl }            from '../model/control/button.control';
 
 @Component({
     selector: 'form-button',
-    templateUrl: './button.pug'
+    templateUrl: './button.component.pug'
 })
 export class ButtonComponent extends HostedElement<ButtonControl> {
 

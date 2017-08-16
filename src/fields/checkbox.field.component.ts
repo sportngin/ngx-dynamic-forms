@@ -8,7 +8,7 @@ import { FIELD_DATA_PROVIDER, FieldData }   from './element.data';
 
 @Component({
     selector: 'checkbox-field',
-    templateUrl: 'checkbox.field.pug',
+    templateUrl: 'checkbox.field.component.pug',
     styleUrls: ['./checkbox.field.component.scss'],
     encapsulation: ViewEncapsulation.None
 })

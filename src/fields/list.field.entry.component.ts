@@ -8,7 +8,7 @@ import { EntryState }                   from './list.field.component';
 
 @Component({
     selector: 'li [list-entry]',
-    templateUrl: './list.field.entry.pug'
+    templateUrl: './list.field.entry.component.pug'
 })
 export class ListFieldEntryComponent extends HostedElement {
 

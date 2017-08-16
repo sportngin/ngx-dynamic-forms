@@ -11,7 +11,7 @@ import { PageTestModel }        from './page.test.model';
 
 @Component({
     selector: 'form-test',
-    templateUrl: '../field.test.pug',
+    templateUrl: '../field.test.component.pug',
     viewProviders: [
         hostProviders(PageTestComponent),
         behaviorProvider(PageTestComponent, BehaviorType.isDisabled),

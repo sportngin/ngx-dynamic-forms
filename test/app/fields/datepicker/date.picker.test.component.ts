@@ -7,7 +7,7 @@ import { DatePickerTestModel }    from './date.picker.test.model';
 
 @Component({
     selector: 'date-picker-test',
-    templateUrl: '../field.test.pug',
+    templateUrl: '../field.test.component.pug',
     viewProviders: [
         hostProviders(DatePickerTestComponent)
     ]

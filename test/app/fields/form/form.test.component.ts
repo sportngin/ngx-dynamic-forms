@@ -8,7 +8,7 @@ import { FormTestModel } from './form.test.model';
 
 @Component({
     selector: 'form-test',
-    templateUrl: '../field.test.pug',
+    templateUrl: '../field.test.component.pug',
     viewProviders: [
         hostProviders(FormTestComponent),
         behaviorProvider(FormTestComponent, BehaviorType.isDisabled),

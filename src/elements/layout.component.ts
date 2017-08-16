@@ -10,7 +10,7 @@ import { VIEW_CONTAINER_ACCESSOR, ViewContainerAccessor } from '../view.containe
 
 @Component({
     selector: 'layout',
-    templateUrl: 'layout.pug',
+    templateUrl: 'layout.component.pug',
     styleUrls: ['./layout.component.scss'],
     encapsulation: ViewEncapsulation.None,
     viewProviders: [

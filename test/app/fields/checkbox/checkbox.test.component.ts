@@ -7,7 +7,7 @@ import { CheckboxTestModel }    from './checkbox.test.model';
 
 @Component({
     selector: 'checkbox-test',
-    templateUrl: '../field.test.pug',
+    templateUrl: '../field.test.component.pug',
     viewProviders: [
         hostProviders(CheckboxTestComponent)
     ]

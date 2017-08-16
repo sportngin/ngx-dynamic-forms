@@ -23,7 +23,7 @@ export interface EntryState {
 
 @Component({
     selector: 'ul [list-field]',
-    templateUrl: './list.field.pug',
+    templateUrl: './list.field.component.pug',
     viewProviders: [
         behaviorProvider(ListFieldComponent, BehaviorType.editItem),
         behaviorProvider(ListFieldComponent, BehaviorType.isListItemControlRendered),

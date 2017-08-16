@@ -8,7 +8,7 @@ import { FIELD_DATA_PROVIDER, FieldData }   from './element.data';
 
 @Component({
     selector: 'dropdown-field',
-    templateUrl: './dropdown.field.pug'
+    templateUrl: './dropdown.field.component.pug'
 })
 export class DropdownFieldComponent extends FieldBase<FormControl> implements OnInit {
 
