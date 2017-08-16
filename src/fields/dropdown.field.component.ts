@@ -5,7 +5,7 @@ import { isFunction, map } from 'lodash';
 
 import { FormComponentHost }    from '../form.component.host';
 import { FieldBase }            from './field.base';
-import { ELEMENT_DATA_PROVIDER, ElementData } from './element.data';
+import { FIELD_DATA_PROVIDER, FieldData } from './element.data';
 
 @Component({
     selector: 'dropdown-field',
@@ -19,7 +19,7 @@ export class DropdownFieldComponent extends FieldBase<FormControl> implements On
     public pendingPrerequisites: boolean = false;
 
     constructor(
-        @Inject(ELEMENT_DATA_PROVIDER) elementData: ElementData,
+        @Inject(FIELD_DATA_PROVIDER) elementData: FieldData,
         @Inject('itemValue') public itemValue: string,
         @Inject('itemLabel') public itemLabel: string,
 

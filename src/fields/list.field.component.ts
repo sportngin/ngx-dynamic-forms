@@ -1,5 +1,5 @@
 import {
-    Component, Host, InjectionToken, Injector, OnInit, ViewChildren, QueryList,
+    Component, Host, Injector, OnInit, ViewChildren, QueryList,
     AfterViewInit, ViewEncapsulation, Inject
 } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/forms';
@@ -15,7 +15,8 @@ import {
 } from '../behavior/behaviors';
 import { FieldBase }                from './field.base';
 import { ListFieldEntryDirective }  from './list.field.entry.directive';
-import { ELEMENT_DATA_PROVIDER, ElementData } from './element.data';
+import { FIELD_DATA_PROVIDER, FieldData } from './element.data';
+import { ModelControl } from '../model/control/model.control';
 
 @Component({
     selector: 'list-field',
@@ -39,9 +40,10 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
 
     public template: Model;
     public entryState: { submitted: boolean, editing: boolean }[] = [];
+    get childControls(): ModelControl[] { return this.control ? this.control.childControls : null; }
 
     constructor(
-        @Inject(ELEMENT_DATA_PROVIDER) elementData: ElementData,
+        @Inject(FIELD_DATA_PROVIDER) elementData: FieldData,
         private fb: FormBuilder,
         @Host() host: FormComponentHost,
         injector: Injector

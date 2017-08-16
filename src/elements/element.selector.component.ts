@@ -1,37 +1,70 @@
-import { Component, ComponentFactoryResolver, Injector, Input } from '@angular/core';
+import {
+    Component, ComponentFactoryResolver, ElementRef, Injector,
+    Input, OnInit, Renderer2, ViewEncapsulation
+} from '@angular/core';
 
-import { BehaviorService }          from '../behavior/behavior.service';
 import { ControlSelectorComponent } from '../control.selector.component';
+import { ElementType }              from '../element.type';
 import { ElementTypeMappings }      from '../element.type.mappings';
 import { MODEL_CONTROL_PROVIDER }   from '../model/control/model.control';
+import { INPUT_CONTAINER_PROVIDER, InputContainer } from './input.container';
+import { FieldDisplayComponent } from '../fields/field.display.component';
 
 @Component({
-    selector: 'element-selector',
-    templateUrl: '../control.selector.pug'
+    selector: 'form-element',
+    templateUrl: './element.selector.pug',
+    styleUrls: ['./element.selector.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    providers: [
+        { provide: INPUT_CONTAINER_PROVIDER, useExisting: ElementSelectorComponent }
+    ]
 })
-export class ElementSelectorComponent extends ControlSelectorComponent {
+export class ElementSelectorComponent extends ControlSelectorComponent implements OnInit, InputContainer {
 
-    @Input() displayOnly: boolean = false;
+    @Input() displayOnly: boolean;
+
+    private classMap: { [name: string]: boolean } = {};
 
     constructor(
         resolver: ComponentFactoryResolver,
         private elementTypeMappings: ElementTypeMappings,
         injector: Injector,
-        behaviorService: BehaviorService
+        private renderer: Renderer2,
+        private elementRef: ElementRef
     ) {
-        super(null, resolver, MODEL_CONTROL_PROVIDER, injector, behaviorService);
+        super(null, resolver, MODEL_CONTROL_PROVIDER, injector);
     }
 
-    protected getControlComponentType() {
+    protected getControlComponentType(): any {
+        if (this.control.elementType === ElementType.input && this.displayOnly) {
+            console.log('rendering display for', this.control.elementType, this.displayOnly);
+            return FieldDisplayComponent;
+        }
         return this.elementTypeMappings.getComponentType(this.control.elementType);
     }
 
-    protected getInputData(): { [key: string]: any; } {
+    protected getElementData(): { [key: string]: any; } {
         return {
             form: this.form,
             control: this.control,
             displayOnly: this.displayOnly
         };
+    }
+
+    public addCssClass(cssClass: string): void {
+        if (this.classMap[cssClass]) {
+            return;
+        }
+        this.renderer.addClass(this.elementRef.nativeElement, cssClass);
+        this.classMap[cssClass] = true;
+    }
+
+    public removeCssClass(cssClass: string): void {
+        if (!this.classMap[cssClass]) {
+            return;
+        }
+        this.renderer.removeClass(this.elementRef.nativeElement, cssClass);
+        this.classMap[cssClass] = false;
     }
 
 }

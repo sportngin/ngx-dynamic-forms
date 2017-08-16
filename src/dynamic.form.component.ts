@@ -1,11 +1,10 @@
 import 'reflect-metadata';
 
-import { Component, Host, Injector }                from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup }  from '@angular/forms';
+import { Component, Host, Injector, ViewEncapsulation } from '@angular/core';
+import { AbstractControl, FormBuilder } from '@angular/forms';
 
 import { Observable } from 'rxjs/Observable';
 
-import { BehaviorService }      from './behavior/behavior.service';
 import { FormComponentHost }    from './form.component.host';
 import { Model }                from './model/model';
 import { ModelControl }         from './model/control/model.control';
@@ -13,7 +12,9 @@ import { HostedElement }        from './hosted.element';
 
 @Component({
     selector: 'dynamic-form',
-    templateUrl: 'dynamic.form.pug'
+    templateUrl: './dynamic.form.pug',
+    styleUrls: ['./dynamic.form.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 export class DynamicFormComponent extends HostedElement {
 
@@ -21,11 +22,10 @@ export class DynamicFormComponent extends HostedElement {
 
     constructor(
         private fb: FormBuilder,
-        behaviorService: BehaviorService,
         @Host() host: FormComponentHost,
         injector: Injector
     ) {
-        super(host.modelDef.toFormGroup(fb), injector, behaviorService, host);
+        super({ form: host.modelDef.toFormGroup(fb), control: null }, injector, host);
 
         this.modelControls = this.createControls(host.modelDef);
         host.form = this;

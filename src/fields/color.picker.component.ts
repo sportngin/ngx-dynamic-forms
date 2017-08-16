@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 
 import { FormComponentHost }    from '../form.component.host';
 import { FieldBase }            from './field.base';
-import { ELEMENT_DATA_PROVIDER, ElementData } from './element.data';
+import { FIELD_DATA_PROVIDER, FieldData } from './element.data';
 
 @Component({
     selector: 'color-picker',
@@ -14,7 +14,7 @@ import { ELEMENT_DATA_PROVIDER, ElementData } from './element.data';
 export class ColorPickerComponent extends FieldBase<FormControl> {
 
     constructor(
-        @Inject(ELEMENT_DATA_PROVIDER) elementData: ElementData,
+        @Inject(FIELD_DATA_PROVIDER) elementData: FieldData,
         injector: Injector,
         @Host() host: FormComponentHost,
         private elementRef: ElementRef,

@@ -1,7 +1,7 @@
-import { Component, Host, Injector, Input, Optional } from '@angular/core';
-import { FormGroup }                        from '@angular/forms';
+import { Component, Host, Inject, Injector, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
-import { BehaviorService }      from '../behavior/behavior.service';
+import { ELEMENT_DATA, ElementData } from './element.data';
 import { FormComponentHost }    from '../form.component.host';
 import { HostedElement }        from '../hosted.element';
 import { PageControl }          from '../model/control/page.control';
@@ -24,13 +24,12 @@ export class FormPageComponent extends HostedElement {
     currentPage: number = 0;
 
     constructor(
-        form: FormGroup,
+        @Inject(ELEMENT_DATA) elementData: ElementData,
         injector: Injector,
-        behaviorService: BehaviorService,
         // FIXME: for some reason, using this here causes a "No provider for FormComponentHost" error to be thrown
         // @Host() host: FormComponentHost
     ) {
         // FIXME: see above
-        super(form, injector, behaviorService, (injector as any).view.component.host);
+        super(elementData, injector, (injector as any).view.component.host);
     }
 }

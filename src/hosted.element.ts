@@ -1,29 +1,35 @@
 import { Injector } from '@angular/core';
 
-import { BehaviorService }              from './behavior/behavior.service';
+import { ElementData }                  from './elements/element.data';
 import { FormComponentHost, FormState } from './form.component.host';
 import { FormElement }                  from './form.element';
 import { FormText, getText }            from './form.text';
+import { ModelControl }                 from './model/control/model.control';
 import { DisableBehavior }              from './model/disable.behavior';
-import { FormGroup } from '@angular/forms';
 
-export abstract class HostedElement extends FormElement {
+export abstract class HostedElement<TModelControl extends ModelControl = ModelControl> extends FormElement {
 
-    public state: FormState;
-    protected host: FormComponentHost;
+    public get state(): FormState {
+        if (!this.host) {
+            return null;
+        }
+        return this.host.state;
+    }
+
+    public get control(): TModelControl {
+        return this.elementData.control as TModelControl;
+    }
+
+    public displayOnly: boolean = false;
 
     constructor(
-        form: FormGroup,
+        protected elementData: ElementData,
         injector: Injector,
-        behaviorService: BehaviorService,
-        host: FormComponentHost
+        protected host: FormComponentHost
     ) {
-        super(form, injector, behaviorService);
+        super(elementData.form, injector);
 
-        if (host) {
-            this.host = host;
-            this.state = host.state;
-        }
+        this.displayOnly = elementData.displayOnly || this.displayOnly;
     }
 
     getText(text: FormText): string {

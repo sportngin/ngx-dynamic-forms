@@ -4,7 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { FieldBase, FormComponentHost } from '@siplay/ng-dynamic-forms';
 
 import * as tinyColor from 'tinycolor2';
-import { ELEMENT_DATA_PROVIDER, ElementData } from '../../../../src/fields/element.data';
+import { FIELD_DATA_PROVIDER, FieldData } from '../../../../src/fields/element.data';
 
 @Component({
     selector: 'color-preview',
@@ -33,7 +33,7 @@ export class ColorPreviewComponent extends FieldBase {
     }
 
     constructor(
-        @Inject(ELEMENT_DATA_PROVIDER) elementData: ElementData,
+        @Inject(FIELD_DATA_PROVIDER) elementData: FieldData,
         injector: Injector,
         host: FormComponentHost
     ) {

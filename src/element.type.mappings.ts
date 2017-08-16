@@ -7,7 +7,7 @@ import { LayoutComponent }          from './elements/layout.component';
 import { FormPageComponent }        from './elements/form.page.component';
 import { FormPageRootComponent }    from './elements/form.page.root.component';
 
-import { InputSelectorComponent }   from './fields/input.selector.component';
+import { DynamicInputComponent }    from './fields/dynamic.input.component';
 
 import { ElementType }              from './element.type';
 import { TypeMappingService }       from './type.mapping.service';
@@ -26,7 +26,7 @@ export class ElementTypeMappings extends TypeMappingService<ElementType> {
 
     protected addStaticMappings(): void {
         this.addMapping(ElementType.button, ButtonComponent);
-        this.addMapping(ElementType.input, InputSelectorComponent);
+        this.addMapping(ElementType.input, DynamicInputComponent);
         this.addMapping(ElementType.layout, LayoutComponent);
         this.addMapping(ElementType.page, FormPageComponent);
         this.addMapping(ElementType.pageRoot, FormPageRootComponent);

@@ -1,21 +1,18 @@
 import { InjectionToken }   from '@angular/core';
-import { AbstractControl, FormGroup } from '@angular/forms';
+import { AbstractControl }  from '@angular/forms';
 
-import { ModelControl, ModelMemberControl } from '../model/control/model.control';
+import { ElementData }          from '../elements/element.data';
+import { ModelMemberControl }   from '../model/control/model.control';
 
-export interface ElementData {
+export interface FieldData extends ElementData {
 
-    form: FormGroup;
-    control: ModelControl;
     formControl: AbstractControl;
 
-    // checked?: boolean | (() => boolean);
     childControls?: ModelMemberControl[];
     dependentControls?: string[];
-    // template?: any;
 
     [key: string]: any;
 
 }
 
-export const ELEMENT_DATA_PROVIDER = new InjectionToken<ElementData>('ElementData');
+export const FIELD_DATA_PROVIDER = new InjectionToken<FieldData>('FieldData');

@@ -8,7 +8,6 @@ export * from './behavior/behaviors';
 export * from './color.readability.validator';
 // export * from './dynamic.form.component';
 export * from './dynamic.forms.config';
-export * from './element.base';
 export * from './form.component.host';
 export * from './element.type';
 export * from './element.type.mappings';

@@ -1,0 +1,5 @@
+doctype html
+
+label([for]='control.name', *ngIf='control.label && control.labelPosition === "before"') {{control.label}}
+ng-container(#container)
+label([for]='control.name', *ngIf='control.label && control.labelPosition === "after"') {{control.label}}

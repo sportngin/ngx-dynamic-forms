@@ -5,7 +5,7 @@ import { FormComponentHost }    from '../form.component.host';
 import { FieldType }            from '../field.type';
 import { ModelMember }          from '../model/member/model.member';
 import { FieldBase }            from './field.base';
-import { ELEMENT_DATA_PROVIDER, ElementData } from './element.data';
+import { FIELD_DATA_PROVIDER, FieldData } from './element.data';
 
 @Component({
     selector: 'text-field',
@@ -18,7 +18,7 @@ export class TextFieldComponent extends FieldBase<FormControl> {
     public type: string;
 
     constructor(
-        @Inject(ELEMENT_DATA_PROVIDER) elementData: ElementData,
+        @Inject(FIELD_DATA_PROVIDER) elementData: FieldData,
         injector: Injector,
         @Host() host: FormComponentHost
     ) {

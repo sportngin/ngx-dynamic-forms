@@ -36,7 +36,7 @@ export interface ModelElement {
     /** the type of element */
     elementType: ElementType;
     /** the CSS class to render on the element */
-    cssClass: string;
+    cssClasses: string[];
     /** an optional array of helpers to be rendered for the element */
     helpers?: ElementHelper[];
     /** an optional array of conditions to help determine whether the element should be rendered */

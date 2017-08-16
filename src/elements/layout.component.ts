@@ -1,13 +1,12 @@
 import {
     Component, ElementRef, Injector, Input, Renderer2, OnInit, ViewEncapsulation, Inject
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 
-import { BehaviorService }      from '../behavior/behavior.service';
+import { ElementData, ELEMENT_DATA } from './element.data';
 import { FormComponentHost }    from '../form.component.host';
 import { HostedElement }        from '../hosted.element';
 import { LayoutControl }        from '../model/control/layout.control';
-import { MODEL_CONTROL_PROVIDER, ModelControl } from '../model/control/model.control';
+import { ModelControl }         from '../model/control/model.control';
 
 @Component({
     selector: 'layout',
@@ -19,34 +18,28 @@ export class LayoutComponent extends HostedElement implements OnInit {
 
     get childControls(): ModelControl[] { return this.control ? this.control.childControls : null; }
 
-    @Input() displayOnly: boolean = false;
-
     public control: LayoutControl;
 
     constructor(
-        form: FormGroup,
+        @Inject(ELEMENT_DATA) elementData: ElementData,
         injector: Injector,
-        behaviorService: BehaviorService,
         host: FormComponentHost,
         private elementRef: ElementRef,
-        private renderer: Renderer2,
-        @Inject(MODEL_CONTROL_PROVIDER) control: ModelControl
+        private renderer: Renderer2
     ) {
-        super(form, injector, behaviorService, host);
+        super(elementData, injector, host);
 
-        this.control = control as LayoutControl;
-
-        console.log('LayoutComponent control', control);
-
+        // this.control = control as LayoutControl;
     }
 
     ngOnInit(): void {
-        if (this.control && this.control.attributes) {
-            Object.keys(this.control.attributes).forEach(name => {
-                this.renderer.setAttribute(this.elementRef.nativeElement, name, this.control.attributes[name]);
-            });
+        if (this.control) {
+            if (this.control.attributes) {
+                Object.keys(this.control.attributes).forEach(name => {
+                    this.renderer.setAttribute(this.elementRef.nativeElement, name, this.control.attributes[name]);
+                });
+            }
+            this.control.cssClasses.forEach(cssClass => this.renderer.addClass(this.elementRef.nativeElement, cssClass));
         }
-
-        console.log('LayoutComponent.ngOnInit this.control', this.control);
     }
 }

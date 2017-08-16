@@ -1,25 +1,34 @@
 import {
-    Component, ComponentFactoryResolver, Inject, Injector, Provider, ViewChild,
-    ViewContainerRef
+    AfterViewChecked,
+    Component, ComponentFactoryResolver, ElementRef, forwardRef, Host, Inject, Injector, NgZone, Provider, Renderer2,
+    ViewChild, ViewContainerRef, ViewEncapsulation
 } from '@angular/core';
-import { AbstractControl, ControlValueAccessor, FormGroup } from '@angular/forms';
+import { AbstractControl, ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { extend } from 'lodash';
-
-import { BehaviorService }          from '../behavior/behavior.service';
 import { ControlSelectorComponent } from '../control.selector.component';
+import { INPUT_CONTAINER_PROVIDER, InputContainer } from '../elements/input.container';
+import { FieldType }                from '../field.type';
 import { FieldTypeMappings }        from '../field.type.mappings';
 import { MODEL_CONTROL_PROVIDER, ModelMemberControl } from '../model/control/model.control';
 import { CheckboxMember }           from '../model/member/checkbox.member';
 import { SelectionMember }          from '../model/member/selection.member';
 import { TemplatedMember }          from '../model/member/templated.member';
-import { ELEMENT_DATA_PROVIDER, ElementData } from './element.data';
+import { FIELD_DATA_PROVIDER, FieldData } from './element.data';
+import { ValidatorDisplay }         from '../validator.display';
+import { ElementData } from '../elements/element.data';
 
 @Component({
-    selector: 'input-selector',
-    templateUrl: '../control.selector.pug'
+    selector: 'form-input',
+    templateUrl: './dynamic.input.pug',
+    styleUrls: ['./dynamic.input.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    providers: [{
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: forwardRef(() => DynamicInputComponent),
+        multi: true
+    }]
 })
-export class InputSelectorComponent extends ControlSelectorComponent<ModelMemberControl> implements ControlValueAccessor{
+export class DynamicInputComponent extends ControlSelectorComponent<ModelMemberControl> implements ControlValueAccessor, AfterViewChecked {
 
     @ViewChild('container', { read: ViewContainerRef }) container: ViewContainerRef;
 
@@ -30,7 +39,7 @@ export class InputSelectorComponent extends ControlSelectorComponent<ModelMember
     private onTouched: () => void;
     public formControl: AbstractControl;
 
-    private _inputData: ElementData;
+    private _inputData: FieldData;
 
     constructor(
         form: FormGroup,
@@ -38,9 +47,13 @@ export class InputSelectorComponent extends ControlSelectorComponent<ModelMember
         resolver: ComponentFactoryResolver,
         private fieldTypeMappings: FieldTypeMappings,
         injector: Injector,
-        behaviorService: BehaviorService
+        @Host() @Inject(INPUT_CONTAINER_PROVIDER) private inputContainer: InputContainer,
+        private renderer: Renderer2,
+        private elementRef: ElementRef,
+        private zone: NgZone,
+        private validatorDisplay: ValidatorDisplay
     ) {
-        super(form, resolver, ModelMemberControl, injector, behaviorService);
+        super(form, resolver, ModelMemberControl, injector);
 
         this.control = control;
     }
@@ -48,12 +61,36 @@ export class InputSelectorComponent extends ControlSelectorComponent<ModelMember
     ngOnInit(): void {
         this.formControl = this.form.controls[this.control.name] as AbstractControl;
         super.ngOnInit();
+
+        this.zone.runOutsideAngular(() => {
+            this.renderer.addClass(this.elementRef.nativeElement, `ngdf-field`);
+            this.renderer.addClass(this.elementRef.nativeElement, `ngdf-${FieldType[this.control.member.fieldType]}`);
+        });
+
+        this.inputContainer.addCssClass('form-group');
     }
 
-    private get inputData(): ElementData {
+    ngAfterViewChecked(): void {
+        this.checkValidator();
+    }
+
+    private checkValidator(): void {
+        if (this.validatorDisplay.isSuccess(this.formControl)) {
+            this.inputContainer.addCssClass('has-success');
+        } else {
+            this.inputContainer.removeCssClass('has-success');
+        }
+        if (this.validatorDisplay.isError(this.formControl)) {
+            this.inputContainer.addCssClass('has-danger');
+        } else {
+            this.inputContainer.removeCssClass('has-danger');
+        }
+    }
+
+    private get inputData(): FieldData {
         if (!this._inputData) {
             // TODO: determine unique id based on parent - is this part of an array or collection?
-            let inputData: ElementData = {
+            let inputData: FieldData = {
                 form: this.form,
                 control: this.control,
                 formControl: this.formControl,
@@ -77,7 +114,7 @@ export class InputSelectorComponent extends ControlSelectorComponent<ModelMember
         return this._inputData;
     }
 
-    protected getInputData(): { [key: string]: any } {
+    protected getElementData(): ElementData {
         return this.inputData;
     }
 
@@ -87,7 +124,7 @@ export class InputSelectorComponent extends ControlSelectorComponent<ModelMember
 
     protected getInputProviders(): Provider[] {
         return [{
-            provide: ELEMENT_DATA_PROVIDER,
+            provide: FIELD_DATA_PROVIDER,
             useValue: this.inputData
         }]
     }

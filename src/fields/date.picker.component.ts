@@ -9,7 +9,7 @@ import * as moment              from 'moment';
 
 import { FormComponentHost }    from '../form.component.host';
 import { FieldBase }            from './field.base';
-import { ELEMENT_DATA_PROVIDER, ElementData } from './element.data';
+import { FIELD_DATA_PROVIDER, FieldData } from './element.data';
 
 @Component({
     selector: 'date-picker',
@@ -43,7 +43,7 @@ export class DatePickerComponent extends FieldBase<FormControl> implements Contr
     private onTouchedHandler: Function;
 
     constructor(
-        @Inject(ELEMENT_DATA_PROVIDER) elementData: ElementData,
+        @Inject(FIELD_DATA_PROVIDER) elementData: FieldData,
         fb: FormBuilder,
         injector: Injector,
         @Host() host: FormComponentHost

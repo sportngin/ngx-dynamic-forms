@@ -19,7 +19,7 @@ export abstract class ModelControlBase<TMember extends ModelElement> implements 
     constructor(member: TMember) {
         this.member = member;
         this.elementType = member.elementType;
-        this.cssClass = member.cssClass;
+        this.cssClasses = member.cssClasses;
         this.renderConditions = member.renderConditions;
         this.helpers = member.helpers;
         this.disabled = member.disabled;
@@ -29,7 +29,7 @@ export abstract class ModelControlBase<TMember extends ModelElement> implements 
 
     public member: TMember;
     public elementType: ElementType;
-    public cssClass: string;
+    public cssClasses: string[];
     public childControls: ModelControl[];
     public renderConditions: ModelElementRenderCondition[];
     public helpers: ElementHelper[];

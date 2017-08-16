@@ -6,9 +6,9 @@ import { FormGroup } from '@angular/forms';
 
 import { extend, omit } from 'lodash';
 
-import { BehaviorService } from './behavior/behavior.service';
 import { FormElement }  from './form.element';
 import { ModelControl } from './model/control/model.control';
+import { ELEMENT_DATA } from './elements/element.data';
 
 export abstract class ControlSelectorComponent<TControl extends ModelControl = ModelControl> extends FormElement implements OnInit {
 
@@ -21,32 +21,30 @@ export abstract class ControlSelectorComponent<TControl extends ModelControl = M
         form: FormGroup,
         protected resolver: ComponentFactoryResolver,
         private modelControlType: Type<TControl> | InjectionToken<TControl>,
-        injector: Injector,
-        behaviorService: BehaviorService
+        injector: Injector
     ) {
-        super(form, injector, behaviorService);
+        super(null, injector);
+
+        this.form = form;
     }
 
     ngOnInit(): void {
-        console.log(`${this.constructor.name}.ngOnInit this.control`, this.control);
-
         this.init();
     }
 
     private init(): void {
-        let mergedInputData = omit(extend(this.getInputData(), this.control.member.data || {}), 'form', 'control');
-        console.log(`${this.constructor.name}.init mergedInputData`, mergedInputData);
+        let elementData = this.getElementData();
+        let mergedInputData = omit(extend(elementData, this.control.member.data || {}), 'form', 'control');
 
         let inputProviders: Provider[] = Object.keys(mergedInputData).map(name => ({ provide: name, useValue: mergedInputData[name] }));
         inputProviders.push(
             { provide: FormGroup, useValue: this.form },
             { provide: this.modelControlType, useValue: this.control },
+            { provide: ELEMENT_DATA, useValue: elementData },
             ...this.getInputProviders()
         );
-        console.log(`${this.constructor.name}.init inputProviders`, inputProviders);
 
         let resolvedInputs = ReflectiveInjector.resolve(inputProviders);
-        console.log(`${this.constructor.name}.init resolvedInputs`, resolvedInputs);
 
         let injector = ReflectiveInjector.fromResolvedProviders(resolvedInputs, this.container.parentInjector);
 
@@ -59,7 +57,7 @@ export abstract class ControlSelectorComponent<TControl extends ModelControl = M
 
     protected abstract getControlComponentType(): any;
 
-    protected abstract getInputData(): { [key: string]: any };
+    protected abstract getElementData(): { [key: string]: any };
 
     protected getInputProviders(): Provider[] {
         return [];

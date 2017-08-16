@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-    selector: 'input[type=submit]',
+    selector: 'submit-button',
     template: ''
 })
 export class SubmitButtonComponent {

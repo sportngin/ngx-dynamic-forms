@@ -4,10 +4,10 @@ input.custom-control-input(
     type='checkbox',
     [id]='control.name',
     (click)='toggle()',
-    [formControl]='input',
+    [formControl]='formControl',
     [attr.disabled]='control.disabled ? "" : null'
 )
 .fa.ngdf-checkbox-indicator(
-    [ngClass]='{ "fa-square-o": !input.value, "fa-check-square-o": input.value }',
+    [ngClass]='{ "fa-square-o": !formControl.value, "fa-check-square-o": formControl.value }',
     (click)='toggle()'
 )

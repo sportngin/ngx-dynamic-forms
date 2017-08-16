@@ -9,6 +9,7 @@ import { DynamicFormComponent } from './dynamic.form.component';
 import { ElementTypeMappings }  from './element.type.mappings';
 import { FieldTypeMappings }    from './field.type.mappings';
 import { PositionPipe }         from './position.pipe';
+import { ValidatorDisplay }     from './validator.display';
 
 import { DYNAMIC_FORMS_CONFIG, DynamicFormsConfig } from './dynamic.forms.config';
 
@@ -24,8 +25,8 @@ import { CheckboxFieldComponent }   from './fields/checkbox.field.component';
 import { ColorPickerComponent }     from './fields/color.picker.component';
 import { DatePickerComponent }      from './fields/date.picker.component';
 import { DropdownFieldComponent }   from './fields/dropdown.field.component';
-import { DynamicFieldComponent }    from './fields/dynamic.field.component';
-import { InputSelectorComponent }   from './fields/input.selector.component';
+import { DynamicInputComponent }    from './fields/dynamic.input.component';
+import { FieldDisplayComponent }    from './fields/field.display.component';
 import { GroupFieldComponent }      from './fields/group.field.component';
 import { ListFieldComponent }       from './fields/list.field.component';
 import { ListFieldEntryDirective }  from './fields/list.field.entry.directive';
@@ -39,13 +40,13 @@ import { TextFieldComponent }       from './fields/text.field.component';
         ColorPickerComponent,
         DatePickerComponent,
         DropdownFieldComponent,
-        DynamicFieldComponent,
         DynamicFormComponent,
+        DynamicInputComponent,
         ElementSelectorComponent,
+        FieldDisplayComponent,
         FormPageComponent,
         FormPageRootComponent,
         GroupFieldComponent,
-        InputSelectorComponent,
         LayoutComponent,
         ListFieldComponent,
         ListFieldEntryDirective,
@@ -60,13 +61,13 @@ import { TextFieldComponent }       from './fields/text.field.component';
         ColorPickerComponent,
         DatePickerComponent,
         DropdownFieldComponent,
-        DynamicFieldComponent,
         DynamicFormComponent,
+        DynamicInputComponent,
         ElementSelectorComponent,
+        FieldDisplayComponent,
         FormPageComponent,
         FormPageRootComponent,
         GroupFieldComponent,
-        InputSelectorComponent,
         LayoutComponent,
         ListFieldComponent,
         ListFieldEntryDirective,
@@ -81,8 +82,9 @@ import { TextFieldComponent }       from './fields/text.field.component';
         ColorPickerComponent,
         DatePickerComponent,
         DropdownFieldComponent,
+        DynamicInputComponent,
+        FieldDisplayComponent,
         GroupFieldComponent,
-        InputSelectorComponent,
         LayoutComponent,
         ListFieldComponent,
         PasswordFieldComponent,
@@ -98,7 +100,8 @@ import { TextFieldComponent }       from './fields/text.field.component';
         BehaviorService,
         ButtonTypeMappings,
         ElementTypeMappings,
-        FieldTypeMappings
+        FieldTypeMappings,
+        ValidatorDisplay
     ]
 })
 export class DynamicFormsModule {

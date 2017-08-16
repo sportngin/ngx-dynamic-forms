@@ -1,8 +1,0 @@
-doctype html
-//include fields
-
-//+helpers('before')
-label([for]='control.name', *ngIf='control.label && control.labelPosition === "before"') {{control.label}}
-input-selector(#input, [control]='control', [form]='form')
-label([for]='control.name', *ngIf='control.label && control.labelPosition === "after"') {{control.label}}
-//+helpers('after')

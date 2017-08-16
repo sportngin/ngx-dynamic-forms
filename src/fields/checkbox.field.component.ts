@@ -5,7 +5,7 @@ import { isBoolean, isFunction } from 'lodash';
 
 import { FormComponentHost }    from '../form.component.host';
 import { FieldBase }            from './field.base';
-import { ELEMENT_DATA_PROVIDER, ElementData } from './element.data';
+import { FIELD_DATA_PROVIDER, FieldData } from './element.data';
 
 @Component({
     selector: 'checkbox-field',
@@ -18,7 +18,7 @@ export class CheckboxFieldComponent extends FieldBase<FormControl> implements On
     @Input() protected checked: boolean | (() => boolean);
 
     constructor(
-        @Inject(ELEMENT_DATA_PROVIDER) inputData: ElementData,
+        @Inject(FIELD_DATA_PROVIDER) inputData: FieldData,
         injector: Injector,
         @Host() host: FormComponentHost
     ) {

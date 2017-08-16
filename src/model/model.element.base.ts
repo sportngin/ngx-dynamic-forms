@@ -22,10 +22,7 @@ export class ModelElementBase<T extends ModelElementBase<T>> implements ModelEle
         return this as any as T;
     }
 
-    private cssClasses: string[];
-    public get cssClass(): string {
-        return getCssClassFromArray(this.cssClasses);
-    }
+    public cssClasses: string[];
 
     public readonly elementType: ElementType;
     public helpers: ElementHelper[];
@@ -34,12 +31,12 @@ export class ModelElementBase<T extends ModelElementBase<T>> implements ModelEle
     public displaysValidation: boolean = true;
     public data: { [key: string]: any };
 
-    public addCssClass(...cssClass: string[]): T {
-        cssClass = getCssClassArray(...cssClass);
+    public addCssClass(...cssClasses: string[]): T {
+        cssClasses = getCssClassArray(...cssClasses);
         if (!this.cssClasses) {
-            this.cssClasses = cssClass;
+            this.cssClasses = cssClasses;
         } else {
-            this.cssClasses.push(...cssClass);
+            this.cssClasses.push(...cssClasses);
         }
         return this.self;
     }

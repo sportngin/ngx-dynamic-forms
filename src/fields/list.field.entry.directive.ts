@@ -12,7 +12,7 @@ export class ListFieldEntryDirective {
 
     // FIXME: this should be done with the renderer, but I'm not sure how
     public focusFirstInput(): void {
-        this.elementRef.nativeElement.querySelector('input').focus();
+        // this.elementRef.nativeElement.querySelector('input').focus();
     }
 
 }

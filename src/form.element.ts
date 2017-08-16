@@ -11,12 +11,14 @@ export abstract class FormElement implements DisplayValidationHandler {
 
     private handlers: { [behaviorType: string]: any } = {};
 
+    private behaviorService: BehaviorService;
+
     constructor(
         public form: FormGroup,
-        protected injector: Injector,
-        private behaviorService: BehaviorService
+        protected injector: Injector
     ) {
-        this.handlers[BehaviorType.validateDisplay] = behaviorService.getHandler(BehaviorType.validateDisplay, this, false);
+        this.behaviorService = injector.get(BehaviorService);
+        this.handlers[BehaviorType.validateDisplay] = this.behaviorService.getHandler(BehaviorType.validateDisplay, this, false);
     }
 
     private getHandler(behaviorType: string, optional: boolean): BehaviorFn {

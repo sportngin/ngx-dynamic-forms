@@ -1,5 +1,5 @@
 mixin fields(displayOnly = false, formVarName = 'form', formGroup = false, controlVarName = 'control')
-    layout(*ngIf=`${controlVarName}.elementType === 'layout' && isRendered(${controlVarName})`, [class]=`${controlVarName}.cssClass`, [control]=`${controlVarName}`, [form]=`${formVarName}`, [displayOnly]=`${displayOnly}`)
+    layout(*ngIf=`${controlVarName}.elementType === 'layout' && isRendered(${controlVarName})`, [class]=`${controlVarName}.cssClasses`, [control]=`${controlVarName}`, [form]=`${formVarName}`, [displayOnly]=`${displayOnly}`)
     form-page-root(*ngIf=`(${controlVarName}.elementType === 'page' || ${controlVarName}.elementType === 'pageRoot') && isRendered(${controlVarName})`, [form]=`${formVarName}`, [control]=`${controlVarName}`)
     if formGroup
         span(*ngIf=`!displayOnly && ${controlVarName}.elementType !== 'layout' && isRendered(${controlVarName})`, [formGroup]=`${formVarName}`)
@@ -19,7 +19,7 @@ mixin fields(displayOnly = false, formVarName = 'form', formGroup = false, contr
     button(
         type='button',
         *ngIf=`${controlVarName}.elementType === 'button' && isRendered(${controlVarName})`,
-        [class]=`'btn btn-' + ${controlVarName}.member.buttonClass + ' ' + ${controlVarName}.cssClass`,
+        [class]=`'btn btn-' + ${controlVarName}.member.buttonClass + ' ' + ${controlVarName}.cssClasses`,
         (click)=`handleBehavior(${controlVarName}.member.buttonAction, ${formVarName})`,
         [attr.disabled]=`${controlVarName}.disabled ? '' : null`,
         [disabled]=`isDisabled(${controlVarName})`
@@ -32,4 +32,4 @@ mixin controls(formVarName, controlVarName = 'control')
 
 mixin helpers(position, controlVarName = 'control')
     ng-template(ngFor let-helper [ngForOf]=`${controlVarName}.member.helpers | position:'${position}'`)
-        p(*ngIf=`isRendered(${controlVarName}) && isRendered(helper)`, [class]='"helper " + (helper.cssClass || "")', [innerHTML]='helper.text')
+        p(*ngIf=`isRendered(${controlVarName}) && isRendered(helper)`, [class]='"helper " + (helper.cssClasses || "")', [innerHTML]='helper.text')
