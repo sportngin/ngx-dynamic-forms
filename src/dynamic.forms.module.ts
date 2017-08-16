@@ -29,7 +29,9 @@ import { DynamicInputComponent }    from './fields/dynamic.input.component';
 import { FieldDisplayComponent }    from './fields/field.display.component';
 import { GroupFieldComponent }      from './fields/group.field.component';
 import { ListFieldComponent }       from './fields/list.field.component';
+import { ListFieldEntryComponent }  from './fields/list.field.entry.component';
 import { ListFieldEntryDirective }  from './fields/list.field.entry.directive';
+import { ListFieldEntryDisplayComponent } from './fields/list.field.entry.display.component';
 import { PasswordFieldComponent }   from './fields/password.field.component';
 import { TextFieldComponent }       from './fields/text.field.component';
 
@@ -49,7 +51,9 @@ import { TextFieldComponent }       from './fields/text.field.component';
         GroupFieldComponent,
         LayoutComponent,
         ListFieldComponent,
+        ListFieldEntryComponent,
         ListFieldEntryDirective,
+        ListFieldEntryDisplayComponent,
         PasswordFieldComponent,
         PositionPipe,
         SubmitButtonComponent,

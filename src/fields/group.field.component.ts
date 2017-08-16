@@ -1,9 +1,8 @@
-import { Component, Host, Inject, Injector, Input } from '@angular/core';
-import { FormGroup }                        from '@angular/forms';
+import { Component, Inject, Injector, Input }   from '@angular/core';
+import { FormGroup }                            from '@angular/forms';
 
-import { FormComponentHost }    from '../form.component.host';
-import { FieldBase }            from './field.base';
-import { FIELD_DATA_PROVIDER, FieldData } from './element.data';
+import { FIELD_DATA_PROVIDER, FieldData }   from './element.data';
+import { FieldBase }                        from './field.base';
 
 @Component({
     selector: 'group-field',
@@ -15,10 +14,9 @@ export class GroupFieldComponent extends FieldBase<FormGroup> {
 
     constructor(
         @Inject(FIELD_DATA_PROVIDER) elementData: FieldData,
-        injector: Injector,
-        @Host() host: FormComponentHost
+        injector: Injector
     ) {
-        super(elementData, injector, host);
+        super(elementData, injector);
     }
 
 }

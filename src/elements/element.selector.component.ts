@@ -1,14 +1,14 @@
 import {
     Component, ComponentFactoryResolver, ElementRef, Injector,
-    Input, OnInit, Renderer2, ViewEncapsulation
+    Input, Renderer2, ViewEncapsulation
 } from '@angular/core';
 
 import { ControlSelectorComponent } from '../control.selector.component';
 import { ElementType }              from '../element.type';
 import { ElementTypeMappings }      from '../element.type.mappings';
+import { FieldDisplayComponent }    from '../fields/field.display.component';
 import { MODEL_CONTROL_PROVIDER }   from '../model/control/model.control';
 import { INPUT_CONTAINER_PROVIDER, InputContainer } from './input.container';
-import { FieldDisplayComponent } from '../fields/field.display.component';
 
 @Component({
     selector: 'form-element',
@@ -19,7 +19,7 @@ import { FieldDisplayComponent } from '../fields/field.display.component';
         { provide: INPUT_CONTAINER_PROVIDER, useExisting: ElementSelectorComponent }
     ]
 })
-export class ElementSelectorComponent extends ControlSelectorComponent implements OnInit, InputContainer {
+export class ElementSelectorComponent extends ControlSelectorComponent implements InputContainer {
 
     @Input() displayOnly: boolean;
 
@@ -37,7 +37,6 @@ export class ElementSelectorComponent extends ControlSelectorComponent implement
 
     protected getControlComponentType(): any {
         if (this.control.elementType === ElementType.input && this.displayOnly) {
-            console.log('rendering display for', this.control.elementType, this.displayOnly);
             return FieldDisplayComponent;
         }
         return this.elementTypeMappings.getComponentType(this.control.elementType);

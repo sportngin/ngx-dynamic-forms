@@ -13,12 +13,11 @@ export class ButtonComponent extends HostedElement<ButtonControl> {
 
     constructor(
         @Inject(ELEMENT_DATA) elementData: ElementData,
-        injector: Injector,
-        host: FormComponentHost) {
+        injector: Injector
+    ) {
         super(
             elementData,
-            injector,
-            host
+            injector
         );
     }
 

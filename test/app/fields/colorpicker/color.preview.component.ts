@@ -1,10 +1,8 @@
 import { Component, Inject, Injector, ViewEncapsulation } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 
-import { FieldBase, FormComponentHost } from '@siplay/ng-dynamic-forms';
+import { FIELD_DATA_PROVIDER, FieldData, FieldBase } from '@siplay/ng-dynamic-forms';
 
 import * as tinyColor from 'tinycolor2';
-import { FIELD_DATA_PROVIDER, FieldData } from '../../../../src/fields/element.data';
 
 @Component({
     selector: 'color-preview',
@@ -34,10 +32,9 @@ export class ColorPreviewComponent extends FieldBase {
 
     constructor(
         @Inject(FIELD_DATA_PROVIDER) elementData: FieldData,
-        injector: Injector,
-        host: FormComponentHost
+        injector: Injector
     ) {
-        super(elementData, injector, host);
+        super(elementData, injector);
 
         // disabling prevents the control from being included in the parent form's value output
         setTimeout(() => this.formControl.disable());

@@ -21,13 +21,11 @@
 
 }
 
-list-field {
-  ul {
-    list-style-type: none;
-    padding: 0;
+ul[list-field] {
+  list-style-type: none;
+  padding: 0;
 
-    .ngdf-list-item {
-      display: block;
-    }
+  .ngdf-list-item {
+    display: block;
   }
 }

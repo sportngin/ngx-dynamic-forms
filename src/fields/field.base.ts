@@ -1,11 +1,10 @@
 import { Injector } from '@angular/core';
 import { AbstractControl, FormControl } from '@angular/forms';
 
-import { FormComponentHost }    from '../form.component.host';
 import { HostedElement }        from '../hosted.element';
 import { ModelControl }         from '../model/control/model.control';
 import { ValidatorDisplay }     from '../validator.display';
-import { FieldData }          from './element.data';
+import { FieldData }            from './element.data';
 
 export abstract class FieldBase<
     TControl extends AbstractControl = FormControl,
@@ -28,9 +27,9 @@ export abstract class FieldBase<
 
     constructor(
         public elementData: FieldData,
-        injector: Injector,
-        host: FormComponentHost,) {
-        super(elementData, injector, host);
+        injector: Injector
+    ) {
+        super(elementData, injector);
         this.validatorDisplay = injector.get(ValidatorDisplay);
     }
 }

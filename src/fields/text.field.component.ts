@@ -1,7 +1,6 @@
-import { Component, Host, Inject, Injector, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, Injector, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
-import { FormComponentHost }    from '../form.component.host';
 import { FieldType }            from '../field.type';
 import { ModelMember }          from '../model/member/model.member';
 import { FieldBase }            from './field.base';
@@ -19,10 +18,9 @@ export class TextFieldComponent extends FieldBase<FormControl> {
 
     constructor(
         @Inject(FIELD_DATA_PROVIDER) elementData: FieldData,
-        injector: Injector,
-        @Host() host: FormComponentHost
+        injector: Injector
     ) {
-        super(elementData, injector, host);
+        super(elementData, injector);
 
         if ((this.control.member as ModelMember).fieldType === FieldType.hidden) {
             this.type = 'hidden';

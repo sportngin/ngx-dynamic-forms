@@ -1,6 +1,6 @@
 import { Component, Inject, Injector } from '@angular/core';
 
-import { FIELD_DATA_PROVIDER, FieldData, FieldBase, FormComponentHost } from '@siplay/ng-dynamic-forms';
+import { FIELD_DATA_PROVIDER, FieldData, FieldBase } from '@siplay/ng-dynamic-forms';
 
 @Component({
     selector: 'privacy-field',
@@ -15,10 +15,9 @@ export class PrivacyFieldComponent extends FieldBase {
 
     constructor(
         @Inject(FIELD_DATA_PROVIDER) elementData: FieldData,
-        injector: Injector,
-        host: FormComponentHost
+        injector: Injector
     ) {
-        super(elementData, injector, host);
+        super(elementData, injector);
 
         // disabling prevents the control from being included in the parent form's value output
         setTimeout(() => this.formControl.disable());

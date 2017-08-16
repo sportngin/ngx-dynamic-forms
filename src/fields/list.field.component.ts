@@ -1,14 +1,13 @@
 import {
-    Component, Host, Injector, OnInit, ViewChildren, QueryList,
-    AfterViewInit, ViewEncapsulation, Inject
+    Component, Injector, OnInit, ViewChildren, QueryList, AfterViewInit, ViewEncapsulation, Inject
 } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/forms';
 
 import { each, extend, last } from 'lodash';
 
-import { FormComponentHost }        from '../form.component.host';
 import { Model }                    from '../model/model';
 import { ArrayControl }             from '../model/control/array.control';
+import { ModelControl }             from '../model/control/model.control';
 import {
     behaviorProvider, BehaviorType, EditItemHandler, IsListItemControlRenderedHandler, RemoveItemHandler,
     ResetItemHandler, SaveItemHandler
@@ -16,10 +15,14 @@ import {
 import { FieldBase }                from './field.base';
 import { ListFieldEntryDirective }  from './list.field.entry.directive';
 import { FIELD_DATA_PROVIDER, FieldData } from './element.data';
-import { ModelControl } from '../model/control/model.control';
+
+export interface EntryState {
+    submitted: boolean,
+    editing: boolean;
+}
 
 @Component({
-    selector: 'list-field',
+    selector: 'ul [list-field]',
     templateUrl: './list.field.pug',
     viewProviders: [
         behaviorProvider(ListFieldComponent, BehaviorType.editItem),
@@ -39,16 +42,15 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
     @ViewChildren(ListFieldEntryDirective) inputs: QueryList<ListFieldEntryDirective>;
 
     public template: Model;
-    public entryState: { submitted: boolean, editing: boolean }[] = [];
+    public entryState: EntryState[] = [];
     get childControls(): ModelControl[] { return this.control ? this.control.childControls : null; }
 
     constructor(
         @Inject(FIELD_DATA_PROVIDER) elementData: FieldData,
         private fb: FormBuilder,
-        @Host() host: FormComponentHost,
         injector: Injector
     ) {
-        super(elementData, injector, host);
+        super(elementData, injector);
 
         this.template = elementData.template;
     }

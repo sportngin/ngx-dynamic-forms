@@ -1,4 +1,5 @@
 import {
+    AfterContentInit,
     ComponentFactoryResolver, InjectionToken, Injector, Input, OnInit, Provider, ReflectiveInjector, Type, ViewChild,
     ViewContainerRef
 } from '@angular/core';
@@ -6,11 +7,12 @@ import { FormGroup } from '@angular/forms';
 
 import { extend, omit } from 'lodash';
 
+import { ELEMENT_DATA } from './elements/element.data';
 import { FormElement }  from './form.element';
 import { ModelControl } from './model/control/model.control';
-import { ELEMENT_DATA } from './elements/element.data';
+import { VIEW_CONTAINER_ACCESSOR } from './view.container.accessor';
 
-export abstract class ControlSelectorComponent<TControl extends ModelControl = ModelControl> extends FormElement implements OnInit {
+export abstract class ControlSelectorComponent<TControl extends ModelControl = ModelControl> extends FormElement implements AfterContentInit {
 
     @ViewChild('container', { read: ViewContainerRef }) public container: ViewContainerRef;
 
@@ -28,7 +30,7 @@ export abstract class ControlSelectorComponent<TControl extends ModelControl = M
         this.form = form;
     }
 
-    ngOnInit(): void {
+    ngAfterContentInit(): void {
         this.init();
     }
 
@@ -52,7 +54,8 @@ export abstract class ControlSelectorComponent<TControl extends ModelControl = M
         let factory = this.resolver.resolveComponentFactory(componentType);
         let componentInstance = factory.create(injector);
 
-        this.container.insert(componentInstance.hostView);
+        let targetContainerAccessor = this.injector.get(VIEW_CONTAINER_ACCESSOR);
+        setTimeout(() => targetContainerAccessor.container.insert(componentInstance.hostView));
     }
 
     protected abstract getControlComponentType(): any;

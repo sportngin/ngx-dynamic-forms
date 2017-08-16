@@ -2,7 +2,6 @@ import { Component, EventEmitter, Injector, Input, OnInit, Output, Inject } from
 import { FormGroup } from '@angular/forms';
 
 import { ELEMENT_DATA, ElementData } from './element.data';
-import { FormComponentHost }    from '../form.component.host';
 import { HostedElement }        from '../hosted.element';
 import { ModelControl }         from '../model/control/model.control';
 import { RootPageControl }      from '../model/control/page.control';
@@ -37,12 +36,10 @@ export class FormPageRootComponent extends HostedElement implements OnInit {
 
     constructor(
         @Inject(ELEMENT_DATA) elementData: ElementData,
-        injector: Injector,
-        // FIXME: for some reason, using this here causes a "No provider for FormComponentHost" error to be thrown
-        // @Host() host: FormComponentHost
+        injector: Injector
     ) {
         // FIXME: see above
-        super(elementData, injector, (injector as any).view.component.host);
+        super(elementData, injector);
     }
 
     ngOnInit(): void {

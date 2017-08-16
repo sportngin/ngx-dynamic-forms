@@ -20,12 +20,20 @@ export abstract class HostedElement<TModelControl extends ModelControl = ModelCo
         return this.elementData.control as TModelControl;
     }
 
+    private _host: FormComponentHost;
+
+    public get host(): FormComponentHost {
+        if (!this._host) {
+            this._host = this.injector.get(FormComponentHost);
+        }
+        return this._host;
+    }
+
     public displayOnly: boolean = false;
 
     constructor(
         protected elementData: ElementData,
-        injector: Injector,
-        protected host: FormComponentHost
+        injector: Injector
     ) {
         super(elementData.form, injector);
 

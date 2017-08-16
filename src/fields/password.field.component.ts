@@ -1,9 +1,8 @@
-import { Component, Host, Inject, Injector } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, Inject, Injector }  from '@angular/core';
+import { FormControl }                  from '@angular/forms';
 
-import { FormComponentHost }    from '../form.component.host';
-import { FieldBase }            from './field.base';
-import { FIELD_DATA_PROVIDER, FieldData } from './element.data';
+import { FIELD_DATA_PROVIDER, FieldData }   from './element.data';
+import { FieldBase }                        from './field.base';
 
 @Component({
     selector: 'password-field',
@@ -16,10 +15,9 @@ export class PasswordFieldComponent extends FieldBase<FormControl> {
 
     constructor(
         @Inject(FIELD_DATA_PROVIDER) elementData: FieldData,
-        injector: Injector,
-        @Host() host: FormComponentHost
+        injector: Injector
     ) {
-        super(elementData, injector, host);
+        super(elementData, injector);
 
         this.showPassword = elementData.showPassword;
     }

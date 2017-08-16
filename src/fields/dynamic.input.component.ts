@@ -1,21 +1,21 @@
 import {
-    AfterViewChecked,
-    Component, ComponentFactoryResolver, ElementRef, forwardRef, Host, Inject, Injector, NgZone, Provider, Renderer2,
-    ViewChild, ViewContainerRef, ViewEncapsulation
+    AfterViewChecked, Component, ComponentFactoryResolver, ElementRef, forwardRef, Host, Inject, Injector, NgZone, OnInit, Provider,
+    Renderer2, ViewChild, ViewContainerRef, ViewEncapsulation
 } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { ControlSelectorComponent } from '../control.selector.component';
 import { INPUT_CONTAINER_PROVIDER, InputContainer } from '../elements/input.container';
+import { ElementData }              from '../elements/element.data';
 import { FieldType }                from '../field.type';
 import { FieldTypeMappings }        from '../field.type.mappings';
 import { MODEL_CONTROL_PROVIDER, ModelMemberControl } from '../model/control/model.control';
 import { CheckboxMember }           from '../model/member/checkbox.member';
 import { SelectionMember }          from '../model/member/selection.member';
 import { TemplatedMember }          from '../model/member/templated.member';
-import { FIELD_DATA_PROVIDER, FieldData } from './element.data';
 import { ValidatorDisplay }         from '../validator.display';
-import { ElementData } from '../elements/element.data';
+import { VIEW_CONTAINER_ACCESSOR, ViewContainerAccessor } from '../view.container.accessor';
+import { FIELD_DATA_PROVIDER, FieldData } from './element.data';
 
 @Component({
     selector: 'form-input',
@@ -26,9 +26,12 @@ import { ElementData } from '../elements/element.data';
         provide: NG_VALUE_ACCESSOR,
         useExisting: forwardRef(() => DynamicInputComponent),
         multi: true
+    }, {
+        provide: VIEW_CONTAINER_ACCESSOR,
+        useExisting: DynamicInputComponent
     }]
 })
-export class DynamicInputComponent extends ControlSelectorComponent<ModelMemberControl> implements ControlValueAccessor, AfterViewChecked {
+export class DynamicInputComponent extends ControlSelectorComponent<ModelMemberControl> implements ControlValueAccessor, AfterViewChecked, OnInit, ViewContainerAccessor {
 
     @ViewChild('container', { read: ViewContainerRef }) container: ViewContainerRef;
 
@@ -60,7 +63,6 @@ export class DynamicInputComponent extends ControlSelectorComponent<ModelMemberC
 
     ngOnInit(): void {
         this.formControl = this.form.controls[this.control.name] as AbstractControl;
-        super.ngOnInit();
 
         this.zone.runOutsideAngular(() => {
             this.renderer.addClass(this.elementRef.nativeElement, `ngdf-field`);

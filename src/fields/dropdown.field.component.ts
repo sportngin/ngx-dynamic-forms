@@ -1,11 +1,10 @@
-import { Component, Host, Inject, Injector, OnInit, Optional } from '@angular/core';
+import { Component, Inject, Injector, OnInit, Optional } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { isFunction, map } from 'lodash';
 
-import { FormComponentHost }    from '../form.component.host';
-import { FieldBase }            from './field.base';
-import { FIELD_DATA_PROVIDER, FieldData } from './element.data';
+import { FieldBase }                        from './field.base';
+import { FIELD_DATA_PROVIDER, FieldData }   from './element.data';
 
 @Component({
     selector: 'dropdown-field',
@@ -26,10 +25,9 @@ export class DropdownFieldComponent extends FieldBase<FormControl> implements On
         @Optional() @Inject('data') public data: any,
         @Optional() @Inject('dependentControls') public dependentControls: string[],
 
-        injector: Injector,
-        @Host() host: FormComponentHost,
+        injector: Injector
     ) {
-        super(elementData, injector, host);
+        super(elementData, injector);
 
 
         if (isFunction(data)) {

@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 
-import { Component, Host, Injector, ViewEncapsulation } from '@angular/core';
+import { Component, Host, Injector, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, FormBuilder } from '@angular/forms';
 
 import { Observable } from 'rxjs/Observable';
@@ -9,14 +9,20 @@ import { FormComponentHost }    from './form.component.host';
 import { Model }                from './model/model';
 import { ModelControl }         from './model/control/model.control';
 import { HostedElement }        from './hosted.element';
+import { VIEW_CONTAINER_ACCESSOR, ViewContainerAccessor } from './view.container.accessor';
 
 @Component({
     selector: 'dynamic-form',
     templateUrl: './dynamic.form.pug',
     styleUrls: ['./dynamic.form.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
+    viewProviders: [
+        { provide: VIEW_CONTAINER_ACCESSOR, useExisting: DynamicFormComponent }
+    ]
 })
-export class DynamicFormComponent extends HostedElement {
+export class DynamicFormComponent extends HostedElement implements ViewContainerAccessor {
+
+    @ViewChild('container', { read: ViewContainerRef }) public container: ViewContainerRef;
 
     public modelControls: ModelControl[];
 
@@ -25,7 +31,7 @@ export class DynamicFormComponent extends HostedElement {
         @Host() host: FormComponentHost,
         injector: Injector
     ) {
-        super({ form: host.modelDef.toFormGroup(fb), control: null }, injector, host);
+        super({ form: host.modelDef.toFormGroup(fb), control: null }, injector);
 
         this.modelControls = this.createControls(host.modelDef);
         host.form = this;

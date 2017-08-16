@@ -1,11 +1,10 @@
-import { Component, Host, Injector, Input, OnInit, ViewEncapsulation, Inject } from '@angular/core';
+import { Component, Injector, Input, OnInit, ViewEncapsulation, Inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { isBoolean, isFunction } from 'lodash';
 
-import { FormComponentHost }    from '../form.component.host';
-import { FieldBase }            from './field.base';
-import { FIELD_DATA_PROVIDER, FieldData } from './element.data';
+import { FieldBase }                        from './field.base';
+import { FIELD_DATA_PROVIDER, FieldData }   from './element.data';
 
 @Component({
     selector: 'checkbox-field',
@@ -19,10 +18,9 @@ export class CheckboxFieldComponent extends FieldBase<FormControl> implements On
 
     constructor(
         @Inject(FIELD_DATA_PROVIDER) inputData: FieldData,
-        injector: Injector,
-        @Host() host: FormComponentHost
+        injector: Injector
     ) {
-        super(inputData, injector, host);
+        super(inputData, injector);
     }
 
     ngOnInit(): void {
