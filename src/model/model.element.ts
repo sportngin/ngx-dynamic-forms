@@ -1,5 +1,6 @@
 import { ElementType }      from '../element.type';
 import { ControlPosition }  from './control.position';
+import { InjectionToken } from '@angular/core';
 
 /**
  * Contains an enumeration of valid ModelElementType values;
@@ -28,6 +29,8 @@ export interface ElementHelper {
     position?: ControlPosition;
     renderConditions?: ModelElementRenderCondition[]
 }
+
+export const ELEMENT_HELPER = new InjectionToken<ElementHelper>('ELEMENT_HELPER');
 
 /**
  * The simplest representation of a piece of a model

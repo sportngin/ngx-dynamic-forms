@@ -14,11 +14,9 @@ export class FormPageComponent extends HostedElement {
 
     get childControls(): ModelControl[] { return this.control ? this.control.childControls : null; }
 
-    @Input() formGroup: FormGroup;
-    @Input() control: PageControl;
-    @Input() set form(form: FormGroup) {
-        this.form = form;
-    }
+    @Input() public formGroup: FormGroup;
+    @Input() public control: PageControl;
+    @Input() public form: FormGroup;
 
     currentPage: number = 0;
 

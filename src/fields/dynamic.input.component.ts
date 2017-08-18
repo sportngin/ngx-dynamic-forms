@@ -1,11 +1,10 @@
 import {
-    AfterViewChecked, Component, ComponentFactoryResolver, ElementRef, forwardRef, Host, Inject, Injector, NgZone, OnInit, Provider,
-    Renderer2, ViewChild, ViewContainerRef, ViewEncapsulation
+    AfterViewChecked, Component, ComponentFactoryResolver, forwardRef, Inject, Injector, NgZone, OnInit, Provider,
+    ViewChild, ViewContainerRef, ViewEncapsulation
 } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { ControlSelectorComponent } from '../control.selector.component';
-import { INPUT_CONTAINER_PROVIDER, InputContainer } from '../elements/input.container';
 import { ElementData }              from '../elements/element.data';
 import { FieldType }                from '../field.type';
 import { FieldTypeMappings }        from '../field.type.mappings';
@@ -50,9 +49,6 @@ export class DynamicInputComponent extends ControlSelectorComponent<ModelMemberC
         resolver: ComponentFactoryResolver,
         private fieldTypeMappings: FieldTypeMappings,
         injector: Injector,
-        @Host() @Inject(INPUT_CONTAINER_PROVIDER) private inputContainer: InputContainer,
-        private renderer: Renderer2,
-        private elementRef: ElementRef,
         private zone: NgZone,
         private validatorDisplay: ValidatorDisplay
     ) {
@@ -65,11 +61,11 @@ export class DynamicInputComponent extends ControlSelectorComponent<ModelMemberC
         this.formControl = this.form.controls[this.control.name] as AbstractControl;
 
         this.zone.runOutsideAngular(() => {
-            this.renderer.addClass(this.elementRef.nativeElement, `ngdf-field`);
-            this.renderer.addClass(this.elementRef.nativeElement, `ngdf-${FieldType[this.control.member.fieldType]}`);
+            this.addCssClass(`ngdf-field`);
+            this.addCssClass(`ngdf-${FieldType[this.control.member.fieldType]}`);
         });
 
-        this.inputContainer.addCssClass('form-group');
+        this.addCssClass('form-group');
     }
 
     ngAfterViewChecked(): void {
@@ -78,14 +74,14 @@ export class DynamicInputComponent extends ControlSelectorComponent<ModelMemberC
 
     private checkValidator(): void {
         if (this.validatorDisplay.isSuccess(this.formControl)) {
-            this.inputContainer.addCssClass('has-success');
+            this.addCssClass('has-success');
         } else {
-            this.inputContainer.removeCssClass('has-success');
+            this.removeCssClass('has-success');
         }
         if (this.validatorDisplay.isError(this.formControl)) {
-            this.inputContainer.addCssClass('has-danger');
+            this.addCssClass('has-danger');
         } else {
-            this.inputContainer.removeCssClass('has-danger');
+            this.removeCssClass('has-danger');
         }
     }
 

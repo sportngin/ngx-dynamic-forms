@@ -1,17 +1,33 @@
-import { Injector }                     from '@angular/core';
-import { AbstractControl, FormGroup }   from '@angular/forms';
+import { ElementRef, Injector, Renderer2 } from '@angular/core';
+import { AbstractControl, FormGroup } from '@angular/forms';
 
 import { every, isFunction } from 'lodash';
 
 import { BehaviorService }  from './behavior/behavior.service';
 import { BehaviorFn, BehaviorType, DisplayValidationHandler } from './behavior/behaviors';
 import { ModelControl }     from './model/control/model.control';
+import { ElementHelper }    from './model/model.element';
 
 export abstract class FormElement implements DisplayValidationHandler {
 
     private handlers: { [behaviorType: string]: any } = {};
-
     private behaviorService: BehaviorService;
+    private _renderer: Renderer2;
+    private _elementRef: ElementRef;
+
+    private get renderer(): Renderer2 {
+        if (!this._renderer) {
+            this._renderer = this.injector.get(Renderer2);
+        }
+        return this._renderer;
+    }
+
+    private get elementRef(): ElementRef {
+        if (!this._elementRef) {
+            this._elementRef = this.injector.get(ElementRef);
+        }
+        return this._elementRef;
+    }
 
     constructor(
         public form: FormGroup,
@@ -19,6 +35,18 @@ export abstract class FormElement implements DisplayValidationHandler {
     ) {
         this.behaviorService = injector.get(BehaviorService);
         this.handlers[BehaviorType.validateDisplay] = this.behaviorService.getHandler(BehaviorType.validateDisplay, this, false);
+    }
+
+    protected addCssClass(...cssClasses: string[]): void {
+        cssClasses.forEach(cssClass => cssClass && this.renderer.addClass(this.elementRef.nativeElement, cssClass));
+    }
+
+    protected removeCssClass(...cssClasses: string[]): void {
+        cssClasses.forEach(cssClass => cssClass && this.renderer.removeClass(this.elementRef.nativeElement, cssClass));
+    }
+
+    protected setAttribute(name: string, value: any, namespace?: string): void {
+        this.renderer.setAttribute(this.elementRef.nativeElement, name, value, namespace);
     }
 
     private getHandler(behaviorType: string, optional: boolean): BehaviorFn {
@@ -75,7 +103,7 @@ export abstract class FormElement implements DisplayValidationHandler {
 
     }
 
-    public isRendered(control: ModelControl): boolean {
+    public isRendered(control: ModelControl | ElementHelper): boolean {
 
         if (!control.renderConditions) {
             return true;

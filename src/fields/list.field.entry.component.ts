@@ -7,7 +7,7 @@ import { ModelControl }                 from '../model/control/model.control';
 import { EntryState }                   from './list.field.component';
 
 @Component({
-    selector: 'li [list-entry]',
+    selector: 'li [list-field-entry]',
     templateUrl: './list.field.entry.component.pug'
 })
 export class ListFieldEntryComponent extends HostedElement {

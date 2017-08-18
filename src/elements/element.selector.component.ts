@@ -1,37 +1,37 @@
 import {
-    Component, ComponentFactoryResolver, ElementRef, Injector,
-    Input, Renderer2, ViewEncapsulation
+    Component, ComponentFactoryResolver, ComponentRef, DoCheck, Injector, Input, ViewEncapsulation
 } from '@angular/core';
 
+import { chain } from 'lodash';
+
+import { ComponentInfo }            from '../component.info';
 import { ControlSelectorComponent } from '../control.selector.component';
 import { ElementType }              from '../element.type';
 import { ElementTypeMappings }      from '../element.type.mappings';
 import { FieldType }                from '../field.type';
 import { FieldDisplayComponent }    from '../fields/field.display.component';
+import { ControlPosition }          from '../model/control.position';
+import { ELEMENT_HELPER }           from '../model/model.element';
 import { MODEL_CONTROL_PROVIDER, ModelMemberControl } from '../model/control/model.control';
-import { INPUT_CONTAINER_PROVIDER, InputContainer } from './input.container';
+import { PlaceholderComponent }     from '../placeholder.component';
+import { HelperComponent }          from './helper.component';
 
 @Component({
     selector: 'form-element',
     templateUrl: './element.selector.component.pug',
     styleUrls: ['./element.selector.component.scss'],
-    encapsulation: ViewEncapsulation.None,
-    providers: [
-        { provide: INPUT_CONTAINER_PROVIDER, useExisting: ElementSelectorComponent }
-    ]
+    encapsulation: ViewEncapsulation.None
 })
-export class ElementSelectorComponent extends ControlSelectorComponent implements InputContainer {
+export class ElementSelectorComponent extends ControlSelectorComponent implements DoCheck {
 
     @Input() displayOnly: boolean;
 
-    private classMap: { [name: string]: boolean } = {};
+    private managedComponents: ComponentInfo[];
 
     constructor(
         resolver: ComponentFactoryResolver,
         private elementTypeMappings: ElementTypeMappings,
-        injector: Injector,
-        private renderer: Renderer2,
-        private elementRef: ElementRef
+        injector: Injector
     ) {
         super(null, resolver, MODEL_CONTROL_PROVIDER, injector);
     }
@@ -51,20 +51,94 @@ export class ElementSelectorComponent extends ControlSelectorComponent implement
         };
     }
 
-    public addCssClass(cssClass: string): void {
-        if (this.classMap[cssClass]) {
-            return;
-        }
-        this.renderer.addClass(this.elementRef.nativeElement, cssClass);
-        this.classMap[cssClass] = true;
+    protected createAndInsertComponents(): void {
+        this.managedComponents = [
+            ...this.createHelpers(ControlPosition.before),
+            this.createControlComponent(),
+            ...this.createHelpers(ControlPosition.after)
+        ];
+        this.insertComponents(...this.managedComponents);
     }
 
-    public removeCssClass(cssClass: string): void {
-        if (!this.classMap[cssClass]) {
-            return;
-        }
-        this.renderer.removeClass(this.elementRef.nativeElement, cssClass);
-        this.classMap[cssClass] = false;
+    private createHelpers(position: ControlPosition): ComponentInfo[] {
+        return chain(this.control.helpers)
+            .filter(helper => (helper.position === position || helper.position === ControlPosition.both))
+            .map(helper => {
+                let providers = [
+                    { provide: ELEMENT_HELPER, useValue: helper }
+                ];
+                return this.createComponent(helper, HelperComponent, providers);
+            })
+            .value();
     }
 
+    ngDoCheck(): void {
+        if (!this.managedComponents) {
+            return;
+        }
+        if (!this.controlsInserted) {
+            setTimeout(() => this.ngDoCheck());
+            return;
+        }
+        this.managedComponents.forEach(componentInfo => {
+            let shouldRender = this.isRendered(componentInfo.control);
+            if (componentInfo.rendered !== shouldRender) {
+                this.replace(componentInfo, shouldRender ? componentInfo.factory : () => this.createPlaceholderComponent());
+            }
+        });
+    }
+
+    private replace(componentInfo: ComponentInfo, replacementFactory: () => ComponentRef<any>): void {
+        let index = componentInfo.container.indexOf(componentInfo.component.hostView);
+        componentInfo.component = replacementFactory();
+        componentInfo.container.remove(index);
+        componentInfo.container.insert(componentInfo.component.hostView, index);
+        componentInfo.rendered = !componentInfo.rendered;
+    }
+
+    protected createPlaceholderComponent(): ComponentRef<PlaceholderComponent> {
+        return this.resolver.resolveComponentFactory(PlaceholderComponent).create(this.container.parentInjector);
+    }
 }
+
+// class PlaceholderViewRef extends ViewRef {
+//
+//     _view: any = {
+//         def: {
+//             nodes: []
+//         },
+//         renderer: {
+//             parentNode: () => null,
+//             nextSibling: () => null,
+//
+//         }
+//     };
+//
+//     attachToViewContainerRef(x: any): void {
+//     }
+//
+//     destroyed: boolean;
+//
+//     destroy(): void {
+//     }
+//
+//     onDestroy(callback: Function): any {
+//         return undefined;
+//     }
+//
+//     markForCheck(): void {
+//     }
+//
+//     detach(): void {
+//     }
+//
+//     detectChanges(): void {
+//     }
+//
+//     checkNoChanges(): void {
+//     }
+//
+//     reattach(): void {
+//     }
+//
+// }

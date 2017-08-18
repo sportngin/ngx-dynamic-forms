@@ -1,5 +1,5 @@
 import {
-    Component, ElementRef, Injector, Renderer2, OnInit, ViewEncapsulation, Inject, ViewChild, ViewContainerRef
+    Component, Injector, OnInit, ViewEncapsulation, Inject, ViewChild, ViewContainerRef
 } from '@angular/core';
 
 import { ElementData, ELEMENT_DATA } from './element.data';
@@ -27,9 +27,7 @@ export class LayoutComponent extends HostedElement implements OnInit, ViewContai
 
     constructor(
         @Inject(ELEMENT_DATA) elementData: ElementData,
-        injector: Injector,
-        private elementRef: ElementRef,
-        private renderer: Renderer2
+        injector: Injector
     ) {
         super(elementData, injector);
 
@@ -40,10 +38,10 @@ export class LayoutComponent extends HostedElement implements OnInit, ViewContai
         if (this.control) {
             if (this.control.attributes) {
                 Object.keys(this.control.attributes).forEach(name => {
-                    this.renderer.setAttribute(this.elementRef.nativeElement, name, this.control.attributes[name]);
+                    this.setAttribute(name, this.control.attributes[name]);
                 });
             }
-            this.control.cssClasses.forEach(cssClass => this.renderer.addClass(this.elementRef.nativeElement, cssClass));
+            this.addCssClass(...this.control.cssClasses);
         }
     }
 }

@@ -16,9 +16,7 @@ export abstract class HostedElement<TModelControl extends ModelControl = ModelCo
         return this.host.state;
     }
 
-    public get control(): TModelControl {
-        return this.elementData.control as TModelControl;
-    }
+    public control: TModelControl;
 
     private _host: FormComponentHost;
 
@@ -37,6 +35,7 @@ export abstract class HostedElement<TModelControl extends ModelControl = ModelCo
     ) {
         super(elementData.form, injector);
 
+        this.control = this.elementData.control as TModelControl;
         this.displayOnly = elementData.displayOnly || this.displayOnly;
     }
 

@@ -7,7 +7,9 @@ import { ColorPickerModule } from 'ngx-color-picker';
 import { BehaviorService }      from './behavior/behavior.service';
 import { DynamicFormComponent } from './dynamic.form.component';
 import { ElementTypeMappings }  from './element.type.mappings';
+import { HelperComponent }      from './elements/helper.component';
 import { FieldTypeMappings }    from './field.type.mappings';
+import { PlaceholderComponent } from './placeholder.component';
 import { PositionPipe }         from './position.pipe';
 import { ValidatorDisplay }     from './validator.display';
 
@@ -32,6 +34,7 @@ import { ListFieldComponent }       from './fields/list.field.component';
 import { ListFieldEntryComponent }  from './fields/list.field.entry.component';
 import { ListFieldEntryDirective }  from './fields/list.field.entry.directive';
 import { ListFieldEntryDisplayComponent } from './fields/list.field.entry.display.component';
+import { ListFieldEntryEditorComponent } from './fields/list.field.entry.editor.component';
 import { PasswordFieldComponent }   from './fields/password.field.component';
 import { TextFieldComponent }       from './fields/text.field.component';
 
@@ -49,12 +52,15 @@ import { TextFieldComponent }       from './fields/text.field.component';
         FormPageComponent,
         FormPageRootComponent,
         GroupFieldComponent,
+        HelperComponent,
         LayoutComponent,
         ListFieldComponent,
         ListFieldEntryComponent,
         ListFieldEntryDirective,
         ListFieldEntryDisplayComponent,
+        ListFieldEntryEditorComponent,
         PasswordFieldComponent,
+        PlaceholderComponent,
         PositionPipe,
         SubmitButtonComponent,
         TextFieldComponent
@@ -72,6 +78,7 @@ import { TextFieldComponent }       from './fields/text.field.component';
         FormPageComponent,
         FormPageRootComponent,
         GroupFieldComponent,
+        HelperComponent,
         LayoutComponent,
         ListFieldComponent,
         ListFieldEntryDirective,
@@ -88,10 +95,14 @@ import { TextFieldComponent }       from './fields/text.field.component';
         DropdownFieldComponent,
         DynamicInputComponent,
         FieldDisplayComponent,
+        FormPageRootComponent,
+        FormPageComponent,
         GroupFieldComponent,
+        HelperComponent,
         LayoutComponent,
         ListFieldComponent,
         PasswordFieldComponent,
+        PlaceholderComponent,
         SubmitButtonComponent,
         TextFieldComponent
     ],

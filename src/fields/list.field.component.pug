@@ -8,7 +8,7 @@ ng-container([formGroup]='form')
     ng-container([formArrayName]='control.name')
         li.ngdf-list-item(
             *ngFor='let entryForm of formControl.controls; let i = index',
-            list-entry,
+            list-field-entry,
             [form]='entryForm',
             [formGroupName]='i',
             [class]='control.itemCssClass',

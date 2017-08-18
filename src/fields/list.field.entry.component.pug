@@ -8,6 +8,9 @@ doctype html
     (click)='onEditEntry()'
 )
 
-//.ngdf-list-editor(*ngIf='entryState[i].editing')
-//    ng-template(ngFor let-childControl [ngForOf]='childControls')
-//        //form-element([control]='childControl', [form]='entryForm')
+.ngdf-list-editor(
+    list-field-entry-editor,
+    *ngIf='entryState.editing',
+    [childControls]='childControls',
+    [form]='form'
+)

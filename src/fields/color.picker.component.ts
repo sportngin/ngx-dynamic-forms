@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, Injector, Renderer2, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, Injector, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { FieldBase }                        from './field.base';
@@ -14,9 +14,7 @@ export class ColorPickerComponent extends FieldBase<FormControl> {
 
     constructor(
         @Inject(FIELD_DATA_PROVIDER) elementData: FieldData,
-        injector: Injector,
-        private elementRef: ElementRef,
-        private renderer: Renderer2
+        injector: Injector
     ) {
         super(elementData, injector);
     }
@@ -31,9 +29,9 @@ export class ColorPickerComponent extends FieldBase<FormControl> {
 
     onToggleChange(toggled: boolean): void {
         if (toggled) {
-            this.renderer.addClass(this.elementRef.nativeElement, 'ngdf-colorpicker-toggled');
+            this.addCssClass('ngdf-colorpicker-toggled');
         } else {
-            this.renderer.removeClass(this.elementRef.nativeElement, 'ngdf-colorpicker-toggled');
+            this.removeCssClass('ngdf-colorpicker-toggled');
         }
     }
 
