@@ -1,110 +1,98 @@
 import {
-    AfterContentInit, ComponentFactoryResolver, InjectionToken, Injector, Input, Provider,
-    ReflectiveInjector, Type, ViewChild, ViewContainerRef
+    AfterViewInit, ComponentFactoryResolver, Injector, Provider, ReflectiveInjector, ViewChild, ViewContainerRef
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { extend, omit } from 'lodash';
+import { chain, extend } from 'lodash';
 
-import { ComponentInfo }    from './component.info';
-import { ELEMENT_DATA }     from './elements/element.data';
-import { FormElement }      from './form.element';
+import { COMPONENT_INFO, ComponentInfo } from './component.info';
+import { ElementData }      from './elements/element.data';
+import { HelperComponent }  from './elements/helper.component';
 import { ModelControl }     from './model/control/model.control';
-import { ElementHelper }    from './model/model.element';
-import { VIEW_CONTAINER_ACCESSOR } from './view.container.accessor';
+import { HostedElement }    from './hosted.element';
+import { ELEMENT_HELPER, ElementHelper } from './model/model.element';
+import { ControlPosition }  from './model/control.position';
 
-export abstract class ControlSelectorComponent<TControl extends ModelControl = ModelControl> extends FormElement implements AfterContentInit {
+export abstract class ControlSelectorComponent<TControl extends ModelControl = ModelControl> extends HostedElement<TControl> implements AfterViewInit {
 
     @ViewChild('container', { read: ViewContainerRef }) public container: ViewContainerRef;
 
-    @Input() public form: FormGroup;
-    @Input() public set control(control: TControl) {
-        this._control = control;
-    }
-    public get control(): TControl {
-        return this._control;
-    }
-
-    private _control: TControl;
-    private _targetContainer: ViewContainerRef;
-
-    private get targetContainer(): ViewContainerRef {
-        if (!this._targetContainer) {
-            let targetContainerAccessor = this.injector.get(VIEW_CONTAINER_ACCESSOR);
-            this._targetContainer = targetContainerAccessor.container;
-        }
-        return this._targetContainer;
-    }
-
-    protected controlsInserted: boolean = false;
+    private resolver: ComponentFactoryResolver;
 
     constructor(
-        form: FormGroup,
-        protected resolver: ComponentFactoryResolver,
-        private modelControlType: Type<TControl> | InjectionToken<TControl>,
+        elementData: ElementData,
         injector: Injector
     ) {
-        super(null, injector);
+        super(elementData, injector);
 
-        this.form = form;
+        this.resolver = this.injector.get(ComponentFactoryResolver);
     }
 
-    ngAfterContentInit(): void {
-        this.createAndInsertComponents();
-    }
-
-    protected createAndInsertComponents(): void {
-        this.insertComponents(this.createControlComponent());
-    }
+    protected abstract createComponents(): ComponentInfo[];
 
     protected getProvidersFromInputData(inputData: { [key: string]: any }): Provider[] {
         return Object.keys(inputData).map(name => ({ provide: name, useValue: inputData[name] }));
     }
 
-    protected createControlComponent(): ComponentInfo {
+    protected createComponent(control: ModelControl | ElementHelper, componentType: any, providers: Provider[], createHelpers: boolean = true): ComponentInfo[] {
 
-        let elementData = this.getElementData();
-        let mergedInputData = omit(extend(elementData, this.control.member.data || {}), 'form', 'control');
-
-        let inputProviders: Provider[] = this.getProvidersFromInputData(mergedInputData);
-        inputProviders.push(
+        let info: any = {};
+        providers.push(
+            { provide: COMPONENT_INFO, useValue: info },
             { provide: FormGroup, useValue: this.form },
-            { provide: this.modelControlType, useValue: this.control },
-            { provide: ELEMENT_DATA, useValue: elementData },
-            ...this.getInputProviders()
         );
-
-        return this.createComponent(this.control, this.getControlComponentType(), inputProviders);
-    }
-
-    protected createComponent(control: ModelControl | ElementHelper, componentType: any, providers: Provider[]): ComponentInfo {
-
         let resolvedInputs = ReflectiveInjector.resolve(providers);
         let injector = ReflectiveInjector.fromResolvedProviders(resolvedInputs, this.container.parentInjector);
         let componentFactory = this.resolver.resolveComponentFactory(componentType);
-        let factory = () => componentFactory.create(injector);
+        let component = componentFactory.create(injector);
 
-        return { control, component: factory(), factory, rendered: true, container: this.targetContainer };
+        extend(info, { control, component, container: this.container });
+
+        if (!createHelpers || componentType === HelperComponent) {
+            return [info];
+        }
+        return [
+            ...this.createHelpers(control as ModelControl, ControlPosition.before),
+            info,
+            ...this.createHelpers(control as ModelControl, ControlPosition.after)
+        ];
     }
 
-    protected insertComponents(...components: ComponentInfo[]): void {
-        setTimeout(() => {
-            components.forEach(componentInfo => {
-                componentInfo.container.insert(componentInfo.component.hostView);
-            });
-            this.controlsInserted = true;
+    private createHelpers(control: ModelControl, position: ControlPosition): ComponentInfo[] {
+        return chain(control.helpers)
+            .filter(helper => (helper.position === position || helper.position === ControlPosition.both))
+            .map(helper => {
+                let providers = [
+                    { provide: ELEMENT_HELPER, useValue: helper }
+                ];
+                return this.createComponent(helper, HelperComponent, providers);
+            })
+            .flatten()
+            .value() as ComponentInfo[];
+    }
+
+    public insertComponents(...components: ComponentInfo[]): void {
+
+        components.forEach(componentInfo => {
+            // componentInfo.component.hostView.detach();
+            componentInfo.container.insert(componentInfo.component.hostView);
+            componentInfo.component.hostView.detectChanges();
         });
+
+        // setTimeout(() => {
+        //     components.forEach(componentInfo => {
+        //         if (!componentInfo.component.hostView.destroyed) {
+        //             componentInfo.component.hostView.reattach();
+        //         } else {
+        //             console.warn('already destroyed!', componentInfo.control);
+        //         }
+        //     });
+        // });
     }
 
-    protected abstract getControlComponentType(): any;
-
-    protected abstract getElementData(): { [key: string]: any };
-
-    protected getInputProviders(): Provider[] {
-        return [];
-    }
-
-    public isRendered(control: ModelControl | ElementHelper): boolean {
-        return super.isRendered(control) && (this.control === control || super.isRendered(this.control));
+    ngAfterViewInit(): void {
+        this.insertComponents(
+            ...this.createComponents()
+        );
     }
 }

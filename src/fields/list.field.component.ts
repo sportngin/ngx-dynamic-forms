@@ -41,7 +41,7 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
 
     @ViewChildren(ListFieldEntryDirective) inputs: QueryList<ListFieldEntryDirective>;
 
-    public template: Model;
+    public itemTemplate: Model;
     public entryState: EntryState[] = [];
     get childControls(): ModelControl[] { return this.control ? this.control.childControls : null; }
 
@@ -84,7 +84,7 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
     addEmptyEntryIfNeeded(): void {
         let lastEntry = last(this.entryState);
         if (this.control.canAddItem && (lastEntry.submitted || !lastEntry.editing)) {
-            let form = this.template.toFormGroup(this.fb);
+            let form = this.itemTemplate.toFormGroup(this.fb);
             this.formControl.push(form);
             this.entryState.push({ submitted: false, editing: true });
         }
@@ -116,7 +116,7 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
     setEntry(value: any, index: number): void {
         let form;
         if (index >= this.formControl.length) {
-            form = this.template.toFormGroup(this.fb);
+            form = this.itemTemplate.toFormGroup(this.fb);
             this.formControl.push(form);
             let state = { submitted: form.valid, editing: false};
             this.entryState.push(state);

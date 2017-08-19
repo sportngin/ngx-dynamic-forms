@@ -1,5 +1,5 @@
 import { CommonModule }                     from '@angular/common';
-import { ModuleWithProviders, NgModule }    from '@angular/core';
+import { ModuleWithProviders, NgModule, Optional } from '@angular/core';
 import { ReactiveFormsModule }              from '@angular/forms';
 
 import { ColorPickerModule } from 'ngx-color-picker';
@@ -13,11 +13,15 @@ import { PlaceholderComponent } from './placeholder.component';
 import { PositionPipe }         from './position.pipe';
 import { ValidatorDisplay }     from './validator.display';
 
-import { DYNAMIC_FORMS_CONFIG, DynamicFormsConfig } from './dynamic.forms.config';
+import {
+    DYNAMIC_FORMS_CONFIG, DYNAMIC_FORMS_DEFAULT_CONFIG, DYNAMIC_FORMS_USER_CONFIG,
+    DynamicFormsConfig, configFactory
+} from './dynamic.forms.config';
+import { DEFAULT_CONFIG } from './dynamic.forms.default.config';
 
 import { ButtonComponent }          from './elements/button.component';
 import { ButtonTypeMappings }       from './elements/button.type';
-import { ElementSelectorComponent } from './elements/element.selector.component';
+// import { ElementSelectorComponent } from './elements/element.selector.component';
 import { FormPageComponent }        from './elements/form.page.component';
 import { FormPageRootComponent }    from './elements/form.page.root.component';
 import { LayoutComponent }          from './elements/layout.component';
@@ -47,7 +51,7 @@ import { TextFieldComponent }       from './fields/text.field.component';
         DropdownFieldComponent,
         DynamicFormComponent,
         DynamicInputComponent,
-        ElementSelectorComponent,
+        // ElementSelectorComponent,
         FieldDisplayComponent,
         FormPageComponent,
         FormPageRootComponent,
@@ -73,7 +77,7 @@ import { TextFieldComponent }       from './fields/text.field.component';
         DropdownFieldComponent,
         DynamicFormComponent,
         DynamicInputComponent,
-        ElementSelectorComponent,
+        // ElementSelectorComponent,
         FieldDisplayComponent,
         FormPageComponent,
         FormPageRootComponent,
@@ -116,7 +120,13 @@ import { TextFieldComponent }       from './fields/text.field.component';
         ButtonTypeMappings,
         ElementTypeMappings,
         FieldTypeMappings,
-        ValidatorDisplay
+        ValidatorDisplay,
+        {
+            provide: DYNAMIC_FORMS_DEFAULT_CONFIG, useValue: DEFAULT_CONFIG
+        },
+        {
+            provide: DYNAMIC_FORMS_CONFIG, useFactory: configFactory, deps: [DYNAMIC_FORMS_DEFAULT_CONFIG, [new Optional(), DYNAMIC_FORMS_USER_CONFIG]]
+        }
     ]
 })
 export class DynamicFormsModule {
@@ -125,7 +135,7 @@ export class DynamicFormsModule {
         return {
             ngModule: DynamicFormsModule,
             providers: [
-                { provide: DYNAMIC_FORMS_CONFIG, useValue: userConfig }
+                { provide: DYNAMIC_FORMS_USER_CONFIG, useValue: userConfig }
             ]
         };
     }

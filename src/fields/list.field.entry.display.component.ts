@@ -2,17 +2,17 @@ import { Component, Inject, Injector, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { ELEMENT_DATA, ElementData } from '../elements/element.data';
-import { ViewContainerAccessor, VIEW_CONTAINER_ACCESSOR } from '../view.container.accessor';
+// import { ViewContainerAccessor, VIEW_CONTAINER_ACCESSOR } from '../view.container.accessor';
 import { ListFieldEntryEditableComponent } from './list.field.entry.editable.component';
 
 @Component({
     selector: '[list-field-entry-display]',
     templateUrl: './list.field.entry.display.component.pug',
-    providers: [
+    /*providers: [
         { provide: VIEW_CONTAINER_ACCESSOR, useExisting: ListFieldEntryDisplayComponent }
-    ]
+    ]*/
 })
-export class ListFieldEntryDisplayComponent extends ListFieldEntryEditableComponent implements ViewContainerAccessor {
+export class ListFieldEntryDisplayComponent extends ListFieldEntryEditableComponent /*implements ViewContainerAccessor*/ {
 
     @Input() form: FormGroup;
 

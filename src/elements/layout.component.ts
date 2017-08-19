@@ -1,37 +1,21 @@
-import {
-    Component, Injector, OnInit, ViewEncapsulation, Inject, ViewChild, ViewContainerRef
-} from '@angular/core';
+import { Component, Injector, OnInit, Inject } from '@angular/core';
 
-import { ElementData, ELEMENT_DATA } from './element.data';
-import { HostedElement }        from '../hosted.element';
-import { LayoutControl }        from '../model/control/layout.control';
-import { ModelControl }         from '../model/control/model.control';
-import { VIEW_CONTAINER_ACCESSOR, ViewContainerAccessor } from '../view.container.accessor';
+import { LayoutControl }                from '../model/control/layout.control';
+import { TEMPLATE }                     from '../parent.component';
+import { StructuralComponent }          from '../structural.component';
+import { ElementData, ELEMENT_DATA }    from './element.data';
 
 @Component({
     selector: 'layout',
-    templateUrl: 'layout.component.pug',
-    styleUrls: ['./layout.component.scss'],
-    encapsulation: ViewEncapsulation.None,
-    viewProviders: [
-        { provide: VIEW_CONTAINER_ACCESSOR, useExisting: LayoutComponent }
-    ]
+    template: TEMPLATE
 })
-export class LayoutComponent extends HostedElement implements OnInit, ViewContainerAccessor {
-
-    @ViewChild('container', { read: ViewContainerRef }) public container: ViewContainerRef;
-
-    get childControls(): ModelControl[] { return this.control ? this.control.childControls : null; }
-
-    public control: LayoutControl;
+export class LayoutComponent extends StructuralComponent<LayoutControl> implements OnInit {
 
     constructor(
         @Inject(ELEMENT_DATA) elementData: ElementData,
         injector: Injector
     ) {
-        super(elementData, injector);
-
-        // this.control = control as LayoutControl;
+        super(elementData, elementData.control.childControls, injector);
     }
 
     ngOnInit(): void {

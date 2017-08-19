@@ -1,19 +1,20 @@
 import {
-    AfterViewChecked, Component, ComponentFactoryResolver, forwardRef, Inject, Injector, NgZone, OnInit, Provider,
-    ViewChild, ViewContainerRef, ViewEncapsulation
+    AfterViewChecked, Component, forwardRef, Inject, Injector, NgZone, OnInit, Provider, ViewEncapsulation
 } from '@angular/core';
-import { AbstractControl, ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
+import { extend, omit } from 'lodash';
+
+import { ComponentInfo }            from '../component.info';
 import { ControlSelectorComponent } from '../control.selector.component';
-import { ElementData }              from '../elements/element.data';
+import { ELEMENT_DATA, ElementData } from '../elements/element.data';
 import { FieldType }                from '../field.type';
 import { FieldTypeMappings }        from '../field.type.mappings';
-import { MODEL_CONTROL_PROVIDER, ModelMemberControl } from '../model/control/model.control';
+import { ModelMemberControl }       from '../model/control/model.control';
 import { CheckboxMember }           from '../model/member/checkbox.member';
 import { SelectionMember }          from '../model/member/selection.member';
 import { TemplatedMember }          from '../model/member/templated.member';
 import { ValidatorDisplay }         from '../validator.display';
-import { VIEW_CONTAINER_ACCESSOR, ViewContainerAccessor } from '../view.container.accessor';
 import { FIELD_DATA_PROVIDER, FieldData } from './element.data';
 
 @Component({
@@ -25,14 +26,9 @@ import { FIELD_DATA_PROVIDER, FieldData } from './element.data';
         provide: NG_VALUE_ACCESSOR,
         useExisting: forwardRef(() => DynamicInputComponent),
         multi: true
-    }, {
-        provide: VIEW_CONTAINER_ACCESSOR,
-        useExisting: DynamicInputComponent
     }]
 })
-export class DynamicInputComponent extends ControlSelectorComponent<ModelMemberControl> implements ControlValueAccessor, AfterViewChecked, OnInit, ViewContainerAccessor {
-
-    @ViewChild('container', { read: ViewContainerRef }) container: ViewContainerRef;
+export class DynamicInputComponent extends ControlSelectorComponent<ModelMemberControl> implements ControlValueAccessor, AfterViewChecked, OnInit {
 
     disabled: boolean;
 
@@ -44,17 +40,13 @@ export class DynamicInputComponent extends ControlSelectorComponent<ModelMemberC
     private _inputData: FieldData;
 
     constructor(
-        form: FormGroup,
-        @Inject(MODEL_CONTROL_PROVIDER) control: ModelMemberControl,
-        resolver: ComponentFactoryResolver,
+        @Inject(ELEMENT_DATA) elementData: ElementData,
         private fieldTypeMappings: FieldTypeMappings,
         injector: Injector,
         private zone: NgZone,
         private validatorDisplay: ValidatorDisplay
     ) {
-        super(form, resolver, ModelMemberControl, injector);
-
-        this.control = control;
+        super(elementData, injector);
     }
 
     ngOnInit(): void {
@@ -116,8 +108,23 @@ export class DynamicInputComponent extends ControlSelectorComponent<ModelMemberC
         return this.inputData;
     }
 
-    protected getControlComponentType(): any {
-        return this.fieldTypeMappings.getComponentType(this.control.member.fieldType);
+    protected createComponents(): ComponentInfo[] {
+        return this.createControlComponent();
+    }
+
+    protected createControlComponent(): ComponentInfo[] {
+
+        let elementData = this.getElementData();
+        let mergedInputData = omit(extend(elementData, this.control.member.data || {}), 'form', 'control');
+
+        let inputProviders: Provider[] = this.getProvidersFromInputData(mergedInputData);
+        inputProviders.push(
+            { provide: ELEMENT_DATA, useValue: elementData },
+            ...this.getInputProviders()
+        );
+        let componentType = this.fieldTypeMappings.getComponentType(this.control.member.fieldType);
+
+        return this.createComponent(this.control, componentType, inputProviders, false);
     }
 
     protected getInputProviders(): Provider[] {

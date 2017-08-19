@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 
 @Component({
     selector: 'placeholder',
     template: ''
 })
-export class PlaceholderComponent {}
+export class PlaceholderComponent {
+    @ViewChild(TemplateRef) public template: TemplateRef<any>;
+}
