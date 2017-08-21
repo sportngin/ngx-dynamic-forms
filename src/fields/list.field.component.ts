@@ -52,7 +52,7 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
     ) {
         super(elementData, injector);
 
-        this.template = elementData.template;
+        this.itemTemplate = elementData.template;
     }
 
     ngOnInit(): void {

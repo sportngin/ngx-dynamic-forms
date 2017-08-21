@@ -6,12 +6,13 @@ import { FormGroup } from '@angular/forms';
 import { chain, extend } from 'lodash';
 
 import { COMPONENT_INFO, ComponentInfo } from './component.info';
-import { ElementData }      from './elements/element.data';
+import { ELEMENT_DATA, ElementData } from './elements/element.data';
 import { HelperComponent }  from './elements/helper.component';
 import { ModelControl }     from './model/control/model.control';
 import { HostedElement }    from './hosted.element';
 import { ELEMENT_HELPER, ElementHelper } from './model/model.element';
 import { ControlPosition }  from './model/control.position';
+import { PlaceholderComponent } from './placeholder.component';
 
 export abstract class ControlSelectorComponent<TControl extends ModelControl = ModelControl> extends HostedElement<TControl> implements AfterViewInit {
 
@@ -36,6 +37,8 @@ export abstract class ControlSelectorComponent<TControl extends ModelControl = M
 
     protected createComponent(control: ModelControl | ElementHelper, componentType: any, providers: Provider[], createHelpers: boolean = true): ComponentInfo[] {
 
+        // console.log(`${this.constructor.name}.createComponent`, control, componentType, providers);
+
         let info: any = {};
         providers.push(
             { provide: COMPONENT_INFO, useValue: info },
@@ -43,10 +46,14 @@ export abstract class ControlSelectorComponent<TControl extends ModelControl = M
         );
         let resolvedInputs = ReflectiveInjector.resolve(providers);
         let injector = ReflectiveInjector.fromResolvedProviders(resolvedInputs, this.container.parentInjector);
-        let componentFactory = this.resolver.resolveComponentFactory(componentType);
-        let component = componentFactory.create(injector);
+        let resolvedComponentFactory = this.resolver.resolveComponentFactory(componentType);
+        let resolvedPlaceholderFactory = this.resolver.resolveComponentFactory(PlaceholderComponent);
+        let componentFactory = () => resolvedComponentFactory.create(injector);
+        let placeholderFactory = () => resolvedPlaceholderFactory.create(injector);
+        let isRendered = this.isRendered(control);
+        let component = isRendered ? componentFactory() : placeholderFactory();
 
-        extend(info, { control, component, container: this.container });
+        extend(info, { control, component, container: this.container, componentFactory, placeholderFactory });
 
         if (!createHelpers || componentType === HelperComponent) {
             return [info];
@@ -63,7 +70,8 @@ export abstract class ControlSelectorComponent<TControl extends ModelControl = M
             .filter(helper => (helper.position === position || helper.position === ControlPosition.both))
             .map(helper => {
                 let providers = [
-                    { provide: ELEMENT_HELPER, useValue: helper }
+                    { provide: ELEMENT_HELPER, useValue: helper },
+                    { provide: ELEMENT_DATA, useValue: this.elementData }
                 ];
                 return this.createComponent(helper, HelperComponent, providers);
             })
@@ -72,7 +80,6 @@ export abstract class ControlSelectorComponent<TControl extends ModelControl = M
     }
 
     public insertComponents(...components: ComponentInfo[]): void {
-
         components.forEach(componentInfo => {
             // componentInfo.component.hostView.detach();
             componentInfo.container.insert(componentInfo.component.hostView);

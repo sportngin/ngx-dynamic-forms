@@ -6,15 +6,12 @@ import { PlaceholderComponent } from './placeholder.component';
 
 export interface ComponentInfo {
 
-    component: ComponentRef<TemplatedComponent>;
+    component: ComponentRef<any>;
+    componentFactory: () => ComponentRef<any>
+    placeholderFactory: () => ComponentRef<PlaceholderComponent>;
     control: ModelControl | ElementHelper;
     container: ViewContainerRef;
-    placeholder: ComponentRef<PlaceholderComponent>;
 
-}
-
-export interface TemplatedComponent {
-    template: TemplateRef<any>
 }
 
 export const COMPONENT_INFO = new InjectionToken<ComponentInfo>('ComponentInfo');

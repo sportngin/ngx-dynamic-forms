@@ -18,7 +18,7 @@ export class HelperComponent extends HostedElement {
         super(elementData, injector);
     }
 
-    protected checkedControl(): ElementHelper {
+    protected get checkedControl(): ElementHelper {
         return this.helper;
     }
 

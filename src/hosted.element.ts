@@ -1,9 +1,6 @@
-import {
-    ChangeDetectorRef, ComponentRef, DoCheck, Injector, OnDestroy, OnInit, TemplateRef,
-    ViewChild
-} from '@angular/core';
+import { ChangeDetectorRef, ComponentRef, DoCheck, Injector, OnDestroy } from '@angular/core';
 
-import { COMPONENT_INFO, ComponentInfo, TemplatedComponent } from './component.info';
+import { COMPONENT_INFO, ComponentInfo } from './component.info';
 import { ElementData }                  from './elements/element.data';
 import { FormComponentHost, FormState } from './form.component.host';
 import { FormElement }                  from './form.element';
@@ -12,14 +9,19 @@ import { ModelControl }                 from './model/control/model.control';
 import { DisableBehavior }              from './model/disable.behavior';
 import { ElementHelper }                from './model/model.element';
 
-export abstract class HostedElement<TModelControl extends ModelControl = ModelControl> extends FormElement implements DoCheck, OnDestroy, OnInit {
+export abstract class HostedElement<TModelControl extends ModelControl = ModelControl> extends FormElement implements DoCheck, OnDestroy {
 
-    @ViewChild(TemplateRef) public template: TemplateRef<any>;
     public displayOnly: boolean = false;
-    public control: TModelControl;
 
-    private currentlyRendered: boolean = true;
+    public get control(): TModelControl {
+        return this.elementData.control as TModelControl;
+    };
+
+    protected id: number;
     protected cdf: ChangeDetectorRef;
+    protected get isPlaceholder(): boolean {
+        return false;
+    }
 
     public get state(): FormState {
         if (!this.host) {
@@ -50,7 +52,6 @@ export abstract class HostedElement<TModelControl extends ModelControl = ModelCo
     ) {
         super(elementData.form, injector);
 
-        this.control = this.elementData.control as TModelControl;
         this.displayOnly = elementData.displayOnly || this.displayOnly;
         this.cdf = this.injector.get(ChangeDetectorRef);
     }
@@ -70,10 +71,10 @@ export abstract class HostedElement<TModelControl extends ModelControl = ModelCo
     }
 
     public isRendered(control: ModelControl | ElementHelper): boolean {
-        return super.isRendered(control) && (this.control === control || super.isRendered(this.control));
+        return super.isRendered(control) && (!this.control || this.control === control || super.isRendered(this.control));
     }
 
-    protected checkedControl(): ModelControl | ElementHelper {
+    protected get checkedControl(): ModelControl | ElementHelper {
         return this.control;
     }
 
@@ -81,51 +82,29 @@ export abstract class HostedElement<TModelControl extends ModelControl = ModelCo
         if (!this.control) {
             return;
         }
-        // console.log('info', info, info.container.indexOf(info.component.hostView));
-        if (!this.template) {
-            // console.log('template?', this.injector.get(TemplateRef));
-            // console.warn('no template', this);
-            // return;
-        }
-        // console.log(`${this.constructor.name}.ngDoCheck`, this.control, this.template);
-        let shouldRender = this.isRendered(this.checkedControl());
-        if (shouldRender !== this.currentlyRendered) {
-            console.log('changing rendering', this.componentInfo.container.indexOf(this.componentInfo.component.hostView));
-            // if (shouldRender) {
-            //     console.log('replacing placeholder with component');
-            //     this.replace(this.componentInfo.placeholder, this.componentInfo.component);
-            // } else {
-            //     console.log('replacing component with placeholder');
-            //     this.replace(this.componentInfo.component, this.componentInfo.placeholder);
-            // }
+        let shouldRender = this.isRendered(this.checkedControl);
+        let isRendered = !this.isPlaceholder;
+        if (shouldRender !== isRendered) {
+            if (shouldRender) {
+                this.replace(this.componentInfo.componentFactory);
+            } else {
+                this.replace(this.componentInfo.placeholderFactory);
+            }
         }
     }
 
-    private replace(replacedComponent: ComponentRef<TemplatedComponent>, replacementComponent: ComponentRef<TemplatedComponent>): void {
-        console.log('componentInfo', this.control, {
-            replacedComponent: replacedComponent.instance.constructor.name,
-            replacementComponent: replacementComponent.instance.constructor.name
+    private replace(replacementComponentFactory: () => ComponentRef<any>): void {
+        setTimeout(() => {
+            let index = this.componentInfo.container.indexOf(this.componentInfo.component.hostView);
+            this.componentInfo.container.remove(index);
+            let replacement = replacementComponentFactory();
+            this.componentInfo.component = replacement;
+            this.componentInfo.container.insert(replacement.hostView, index);
         });
-        let index = this.componentInfo.container.indexOf(replacedComponent.hostView);
-        replacedComponent.hostView.detach();
-        this.componentInfo.container.remove(index);
-        if (replacementComponent.instance.template) {
-            console.log('createEmbeddedView');
-            this.componentInfo.container.createEmbeddedView(replacementComponent.instance.template, index);
-        } else {
-            console.log('insert', replacementComponent.instance.constructor.name, replacementComponent.hostView.destroyed);
-            this.componentInfo.container.insert(replacementComponent.hostView, index);
-        }
-        this.currentlyRendered = !this.currentlyRendered;
     }
 
     ngOnDestroy(): void {
-        console.log(`${this.constructor.name}.ngOnDestroy`);
         this.cdf.detach();
-    }
-
-    ngOnInit(): void {
-        setTimeout(() => console.log(`${this.constructor.name}.ngOnInit`, this.template));
     }
 
 }
