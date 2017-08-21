@@ -4,7 +4,7 @@ import { FormControl } from '@angular/forms';
 import { isFunction, map } from 'lodash';
 
 import { FieldBase }                        from './field.base';
-import { FIELD_DATA_PROVIDER, FieldData }   from './element.data';
+import { FIELD_DATA, FieldData }   from './element.data';
 
 @Component({
     selector: 'dropdown-field',
@@ -18,7 +18,7 @@ export class DropdownFieldComponent extends FieldBase<FormControl> implements On
     public pendingPrerequisites: boolean = false;
 
     constructor(
-        @Inject(FIELD_DATA_PROVIDER) elementData: FieldData,
+        @Inject(FIELD_DATA) elementData: FieldData,
         @Inject('itemValue') public itemValue: string,
         @Inject('itemLabel') public itemLabel: string,
 

@@ -15,4 +15,4 @@ export interface FieldData extends ElementData {
 
 }
 
-export const FIELD_DATA_PROVIDER = new InjectionToken<FieldData>('FieldData');
+export const FIELD_DATA = new InjectionToken<FieldData>('FieldData');

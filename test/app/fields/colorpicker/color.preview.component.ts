@@ -1,6 +1,6 @@
 import { Component, Inject, Injector, ViewEncapsulation } from '@angular/core';
 
-import { FIELD_DATA_PROVIDER, FieldData, FieldBase } from '@siplay/ng-dynamic-forms';
+import { FIELD_DATA, FieldData, FieldBase } from '@siplay/ng-dynamic-forms';
 
 import * as tinyColor from 'tinycolor2';
 
@@ -31,7 +31,7 @@ export class ColorPreviewComponent extends FieldBase {
     }
 
     constructor(
-        @Inject(FIELD_DATA_PROVIDER) elementData: FieldData,
+        @Inject(FIELD_DATA) elementData: FieldData,
         injector: Injector
     ) {
         super(elementData, injector);

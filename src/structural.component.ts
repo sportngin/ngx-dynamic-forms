@@ -7,7 +7,7 @@ import { ELEMENT_DATA, ElementData }    from './elements/element.data';
 import { MODEL_CONTROL_PROVIDER, ModelControl } from './model/control/model.control';
 import { ParentComponent }              from './parent.component';
 
-export abstract class StructuralComponent<TControl extends ModelControl> extends ParentComponent<TControl> {
+export abstract class StructuralComponent<TControl extends ModelControl = ModelControl> extends ParentComponent<TControl> {
 
     constructor(
         elementData: ElementData,

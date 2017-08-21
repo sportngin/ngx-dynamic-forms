@@ -4,7 +4,7 @@ import { FormControl } from '@angular/forms';
 import { FieldType }            from '../field.type';
 import { ModelMember }          from '../model/member/model.member';
 import { FieldBase }            from './field.base';
-import { FIELD_DATA_PROVIDER, FieldData } from './element.data';
+import { FIELD_DATA, FieldData } from './element.data';
 
 @Component({
     selector: 'text-field',
@@ -17,7 +17,7 @@ export class TextFieldComponent extends FieldBase<FormControl> {
     public type: string;
 
     constructor(
-        @Inject(FIELD_DATA_PROVIDER) elementData: FieldData,
+        @Inject(FIELD_DATA) elementData: FieldData,
         injector: Injector
     ) {
         super(elementData, injector);

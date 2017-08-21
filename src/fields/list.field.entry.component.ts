@@ -12,7 +12,14 @@ import { EntryState }                   from './list.field.component';
 })
 export class ListFieldEntryComponent extends HostedElement {
 
-    @Input() form: FormGroup;
+    private _form: FormGroup;
+    @Input() public set form(form: FormGroup) {
+        console.log('set form', form, this.elementData);
+        this._form = form;
+    }
+    public get form(): FormGroup {
+        return this._form;
+    }
     @Input() entryState: EntryState;
     @Input() childControls: ModelControl[];
 
@@ -26,6 +33,8 @@ export class ListFieldEntryComponent extends HostedElement {
             elementData,
             injector
         );
+
+        console.log('ListFieldEntryComponent.ctr', elementData.form, this.form);
     }
 
     public onEditEntry(): void {

@@ -4,7 +4,7 @@ import { FormControl } from '@angular/forms';
 import { isBoolean, isFunction } from 'lodash';
 
 import { FieldBase }                        from './field.base';
-import { FIELD_DATA_PROVIDER, FieldData }   from './element.data';
+import { FIELD_DATA, FieldData }   from './element.data';
 
 @Component({
     selector: 'checkbox-field',
@@ -17,7 +17,7 @@ export class CheckboxFieldComponent extends FieldBase<FormControl> implements On
     @Input() protected checked: boolean | (() => boolean);
 
     constructor(
-        @Inject(FIELD_DATA_PROVIDER) inputData: FieldData,
+        @Inject(FIELD_DATA) inputData: FieldData,
         injector: Injector
     ) {
         super(inputData, injector);

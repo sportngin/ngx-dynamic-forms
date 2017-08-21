@@ -1,24 +1,34 @@
-import { Injector, ViewChild, ViewContainerRef, Input } from '@angular/core';
+import { Injector, ViewChild, ViewContainerRef, Input, Component, Inject } from '@angular/core';
 
-import { HostedElement } from '../hosted.element';
-import { ElementData } from '../elements/element.data';
+import { ELEMENT_DATA, ElementData } from '../elements/element.data';
+import { StructuralComponent } from '../structural.component';
+import { TEMPLATE } from '../parent.component';
 import { EntryState } from './list.field.component';
-import { ModelControl } from "../model/control/model.control";
 
-export abstract class ListFieldEntryEditableComponent extends HostedElement {
+@Component({
+    selector: '[list-field-editable]',
+    template: TEMPLATE
+})
+export class ListFieldEntryEditableComponent extends StructuralComponent {
 
     @ViewChild('container', { read: ViewContainerRef }) public container: ViewContainerRef;
+
     @Input() entryState: EntryState;
-    @Input() childControls: ModelControl[];
+    @Input() set displayOnly(displayOnly: boolean) {
+        this.elementData.displayOnly = displayOnly;
+    }
 
     constructor(
-        elementData: ElementData,
+        @Inject(ELEMENT_DATA) elementData: ElementData,
         injector: Injector
     ) {
         super(
             elementData,
+            elementData.control.childControls,
             injector
         );
+
+        console.log('ListFieldEntryEditableComponent.ctr', elementData);
     }
 
 }

@@ -11,7 +11,9 @@ import { ElementHelper }                from './model/model.element';
 
 export abstract class HostedElement<TModelControl extends ModelControl = ModelControl> extends FormElement implements DoCheck, OnDestroy {
 
-    public displayOnly: boolean = false;
+    public get displayOnly(): boolean {
+        return this.elementData.displayOnly || false;
+    };
 
     public get control(): TModelControl {
         return this.elementData.control as TModelControl;
@@ -52,7 +54,6 @@ export abstract class HostedElement<TModelControl extends ModelControl = ModelCo
     ) {
         super(elementData.form, injector);
 
-        this.displayOnly = elementData.displayOnly || this.displayOnly;
         this.cdf = this.injector.get(ChangeDetectorRef);
     }
 

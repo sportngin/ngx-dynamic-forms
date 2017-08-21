@@ -14,7 +14,7 @@ import {
 } from '../behavior/behaviors';
 import { FieldBase }                from './field.base';
 import { ListFieldEntryDirective }  from './list.field.entry.directive';
-import { FIELD_DATA_PROVIDER, FieldData } from './element.data';
+import { FIELD_DATA, FieldData } from './element.data';
 
 export interface EntryState {
     submitted: boolean,
@@ -46,7 +46,7 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
     get childControls(): ModelControl[] { return this.control ? this.control.childControls : null; }
 
     constructor(
-        @Inject(FIELD_DATA_PROVIDER) elementData: FieldData,
+        @Inject(FIELD_DATA) elementData: FieldData,
         private fb: FormBuilder,
         injector: Injector
     ) {

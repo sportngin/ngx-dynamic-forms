@@ -21,7 +21,6 @@ import { DEFAULT_CONFIG } from './dynamic.forms.default.config';
 
 import { ButtonComponent }          from './elements/button.component';
 import { ButtonTypeMappings }       from './elements/button.type';
-// import { ElementSelectorComponent } from './elements/element.selector.component';
 import { FormPageComponent }        from './elements/form.page.component';
 import { FormPageRootComponent }    from './elements/form.page.root.component';
 import { LayoutComponent }          from './elements/layout.component';
@@ -35,10 +34,10 @@ import { DynamicInputComponent }    from './fields/dynamic.input.component';
 import { FieldDisplayComponent }    from './fields/field.display.component';
 import { GroupFieldComponent }      from './fields/group.field.component';
 import { ListFieldComponent }       from './fields/list.field.component';
+import { ListFieldEntriesComponent } from './fields/list.field.entries.component';
 import { ListFieldEntryComponent }  from './fields/list.field.entry.component';
 import { ListFieldEntryDirective }  from './fields/list.field.entry.directive';
-import { ListFieldEntryDisplayComponent } from './fields/list.field.entry.display.component';
-import { ListFieldEntryEditorComponent } from './fields/list.field.entry.editor.component';
+import { ListFieldEntryEditableComponent } from './fields/list.field.entry.editable.component';
 import { PasswordFieldComponent }   from './fields/password.field.component';
 import { TextFieldComponent }       from './fields/text.field.component';
 
@@ -51,7 +50,6 @@ import { TextFieldComponent }       from './fields/text.field.component';
         DropdownFieldComponent,
         DynamicFormComponent,
         DynamicInputComponent,
-        // ElementSelectorComponent,
         FieldDisplayComponent,
         FormPageComponent,
         FormPageRootComponent,
@@ -59,10 +57,10 @@ import { TextFieldComponent }       from './fields/text.field.component';
         HelperComponent,
         LayoutComponent,
         ListFieldComponent,
+        ListFieldEntriesComponent,
         ListFieldEntryComponent,
         ListFieldEntryDirective,
-        ListFieldEntryDisplayComponent,
-        ListFieldEntryEditorComponent,
+        ListFieldEntryEditableComponent,
         PasswordFieldComponent,
         PlaceholderComponent,
         PositionPipe,
@@ -77,7 +75,6 @@ import { TextFieldComponent }       from './fields/text.field.component';
         DropdownFieldComponent,
         DynamicFormComponent,
         DynamicInputComponent,
-        // ElementSelectorComponent,
         FieldDisplayComponent,
         FormPageComponent,
         FormPageRootComponent,
@@ -85,7 +82,9 @@ import { TextFieldComponent }       from './fields/text.field.component';
         HelperComponent,
         LayoutComponent,
         ListFieldComponent,
+        ListFieldEntriesComponent,
         ListFieldEntryDirective,
+        ListFieldEntryEditableComponent,
         PasswordFieldComponent,
         PositionPipe,
         SubmitButtonComponent,

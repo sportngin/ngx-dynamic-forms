@@ -15,7 +15,7 @@ import { CheckboxMember }           from '../model/member/checkbox.member';
 import { SelectionMember }          from '../model/member/selection.member';
 import { TemplatedMember }          from '../model/member/templated.member';
 import { ValidatorDisplay }         from '../validator.display';
-import { FIELD_DATA_PROVIDER, FieldData } from './element.data';
+import { FIELD_DATA, FieldData } from './element.data';
 
 @Component({
     selector: 'form-input',
@@ -47,10 +47,11 @@ export class DynamicInputComponent extends ControlSelectorComponent<ModelMemberC
         private validatorDisplay: ValidatorDisplay
     ) {
         super(elementData, injector);
+        console.log('DynamicInputComponent.ctr', this.form, elementData);
+        this.formControl = this.form.controls[this.control.name] as AbstractControl;
     }
 
     ngOnInit(): void {
-        this.formControl = this.form.controls[this.control.name] as AbstractControl;
 
         this.zone.runOutsideAngular(() => {
             this.addCssClass(`ngdf-field`);
@@ -129,7 +130,7 @@ export class DynamicInputComponent extends ControlSelectorComponent<ModelMemberC
 
     protected getInputProviders(): Provider[] {
         return [{
-            provide: FIELD_DATA_PROVIDER,
+            provide: FIELD_DATA,
             useValue: this.inputData
         }]
     }
