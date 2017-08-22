@@ -49,12 +49,13 @@ export abstract class HostedElement<TModelControl extends ModelControl = ModelCo
     }
 
     constructor(
-        protected elementData: ElementData,
+        public elementData: ElementData,
         injector: Injector
     ) {
         super(elementData.form, injector);
 
         this.cdf = this.injector.get(ChangeDetectorRef);
+        console.log(`${this.constructor.name}.ctr`, elementData);
     }
 
     getText(text: FormText): string {

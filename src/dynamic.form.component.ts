@@ -6,8 +6,8 @@ import { AbstractControl, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 
 import { FormComponentHost }    from './form.component.host';
-import { ModelControl } from './model/control/model.control';
-import { StructuralComponent } from './structural.component';
+import { ModelControl }         from './model/control/model.control';
+import { StructuralComponent }  from './structural.component';
 
 @Component({
     selector: 'dynamic-form',

@@ -40,6 +40,7 @@ import { ListFieldEntryDirective }  from './fields/list.field.entry.directive';
 import { ListFieldEntryEditableComponent } from './fields/list.field.entry.editable.component';
 import { PasswordFieldComponent }   from './fields/password.field.component';
 import { TextFieldComponent }       from './fields/text.field.component';
+import { ControlManager } from './control.manager';
 
 @NgModule({
     declarations:   [
@@ -117,6 +118,7 @@ import { TextFieldComponent }       from './fields/text.field.component';
     providers:      [
         BehaviorService,
         ButtonTypeMappings,
+        ControlManager,
         ElementTypeMappings,
         FieldTypeMappings,
         ValidatorDisplay,

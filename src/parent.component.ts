@@ -1,4 +1,4 @@
-import { Injector, Provider } from '@angular/core';
+import { Injector } from '@angular/core';
 
 import { ComponentInfo }                    from './component.info';
 import { ControlSelectorComponent }         from './control.selector.component';
@@ -31,10 +31,6 @@ export abstract class ParentComponent<TControl extends ModelControl> extends Con
             return FieldDisplayComponent;
         }
         return this.elementTypeMappings.getComponentType(control.elementType);
-    }
-
-    protected getProvidersFromInputData(inputData: { [key: string]: any }): Provider[] {
-        return Object.keys(inputData).map(name => ({ provide: name, useValue: inputData[name] }));
     }
 
     protected getElementData(control: ModelControl): { [key: string]: any; } {

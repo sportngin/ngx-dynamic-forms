@@ -1,5 +1,5 @@
 import {
-    Component, Injector, OnInit, ViewChildren, QueryList, AfterViewInit, ViewEncapsulation, Inject
+    Component, Injector, OnInit, ViewChildren, QueryList, AfterViewInit, ViewEncapsulation, Inject, ViewContainerRef
 } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/forms';
 
@@ -48,6 +48,7 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
     constructor(
         @Inject(FIELD_DATA) elementData: FieldData,
         private fb: FormBuilder,
+        container: ViewContainerRef,
         injector: Injector
     ) {
         super(elementData, injector);

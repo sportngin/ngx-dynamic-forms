@@ -11,7 +11,7 @@ import { FIELD_DATA, FieldData } from './element.data';
 
 @Component({
     selector: '[list-field-entries]',
-    templateUrl: TEMPLATE
+    template: TEMPLATE
 })
 export class ListFieldEntriesComponent extends ParentComponent<ArrayControl> {
 
@@ -23,6 +23,7 @@ export class ListFieldEntriesComponent extends ParentComponent<ArrayControl> {
     }
 
     protected createComponents(): ComponentInfo[] {
+        console.log('ListFieldEntriesComponent.createComponents');
         return chain(this.form[this.control.name].controls)
             .map(entryForm => {
                 let providers = [
