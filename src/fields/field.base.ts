@@ -16,11 +16,11 @@ export abstract class FieldBase<
     }
 
     public get validatorSuccess(): boolean {
-        return this.validatorDisplay.isSuccess(this.formControl);
+        return this.validatorDisplay && this.validatorDisplay.isSuccess(this.formControl);
     }
 
     public get validatorError(): boolean {
-        return this.validatorDisplay.isError(this.formControl);
+        return this.validatorDisplay && this.validatorDisplay.isError(this.formControl);
     }
 
     private validatorDisplay: ValidatorDisplay;

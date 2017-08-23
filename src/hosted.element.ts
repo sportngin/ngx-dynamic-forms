@@ -19,7 +19,6 @@ export abstract class HostedElement<TModelControl extends ModelControl = ModelCo
         return this.elementData.control as TModelControl;
     };
 
-    protected id: number;
     protected cdf: ChangeDetectorRef;
     protected get isPlaceholder(): boolean {
         return false;
@@ -55,7 +54,6 @@ export abstract class HostedElement<TModelControl extends ModelControl = ModelCo
         super(elementData.form, injector);
 
         this.cdf = this.injector.get(ChangeDetectorRef);
-        console.log(`${this.constructor.name}.ctr`, elementData);
     }
 
     getText(text: FormText): string {

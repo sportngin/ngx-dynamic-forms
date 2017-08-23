@@ -25,9 +25,6 @@ export abstract class ControlSelectorComponent<TControl extends ModelControl = M
     protected abstract createComponents(): ComponentInfo[];
 
     protected createComponent(control: ModelControl | ElementHelper, componentType: any, providers: Provider[], createHelpers: boolean = true): ComponentInfo[] {
-
-        console.log(`${this.constructor.name}.createComponent`, control, componentType, providers);
-
         return this.controlManager.createComponent(this, control, componentType, providers, createHelpers);
     }
 

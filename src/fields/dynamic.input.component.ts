@@ -47,7 +47,7 @@ export class DynamicInputComponent extends ControlSelectorComponent<ModelMemberC
         private validatorDisplay: ValidatorDisplay
     ) {
         super(elementData, injector);
-        console.log('DynamicInputComponent.ctr', this.form, elementData);
+
         this.formControl = this.form.controls[this.control.name] as AbstractControl;
     }
 

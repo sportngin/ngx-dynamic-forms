@@ -1,9 +1,13 @@
-import { Injector, ViewChild, ViewContainerRef, Input, Component, Inject } from '@angular/core';
+import {
+    Injector, ViewChild, ViewContainerRef, Input, Component, Inject
+} from '@angular/core';
 
-import { ELEMENT_DATA, ElementData } from '../elements/element.data';
-import { StructuralComponent } from '../structural.component';
-import { TEMPLATE } from '../parent.component';
-import { EntryState } from './list.field.component';
+import { extend } from 'lodash';
+
+import { ELEMENT_DATA, ElementData }    from '../elements/element.data';
+import { TEMPLATE }                     from '../parent.component';
+import { StructuralComponent }          from '../structural.component';
+import { EntryState }                   from './list.field.component';
 
 @Component({
     selector: '[list-field-editable]',
@@ -13,9 +17,12 @@ export class ListFieldEntryEditableComponent extends StructuralComponent {
 
     @ViewChild('container', { read: ViewContainerRef }) public container: ViewContainerRef;
 
-    @Input() entryState: EntryState;
-    @Input() set displayOnly(displayOnly: boolean) {
+    @Input() public entryState: EntryState;
+    @Input() public set displayOnly(displayOnly: boolean) {
         this.elementData.displayOnly = displayOnly;
+    }
+    public get displayOnly(): boolean {
+        return this.elementData.displayOnly;
     }
 
     constructor(
@@ -23,12 +30,10 @@ export class ListFieldEntryEditableComponent extends StructuralComponent {
         injector: Injector
     ) {
         super(
-            elementData,
+            extend({}, elementData), // must clone or it will be reused between this and the other editable
             elementData.control.childControls,
             injector
         );
-
-        console.log('ListFieldEntryEditableComponent.ctr', elementData);
     }
 
 }

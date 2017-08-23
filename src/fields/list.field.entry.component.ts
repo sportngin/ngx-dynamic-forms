@@ -1,44 +1,67 @@
-import { Component, EventEmitter, Inject, Injector, Input, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import {
+    Component, EventEmitter, Inject, Injector, OnDestroy, Output, TemplateRef, ViewChild,
+    ViewContainerRef, DoCheck
+} from '@angular/core';
 
-import { ELEMENT_DATA, ElementData }    from '../elements/element.data';
-import { HostedElement }                from '../hosted.element';
-import { ModelControl }                 from '../model/control/model.control';
-import { EntryState }                   from './list.field.component';
+import { ELEMENT_DATA }     from '../elements/element.data';
+import { HostedElement }    from '../hosted.element';
+import { ListEntryData }    from './list.field.component';
 
 @Component({
     selector: 'li [list-field-entry]',
     templateUrl: './list.field.entry.component.pug'
 })
-export class ListFieldEntryComponent extends HostedElement {
+export class ListFieldEntryComponent extends HostedElement implements DoCheck, OnDestroy {
 
-    private _form: FormGroup;
-    @Input() public set form(form: FormGroup) {
-        console.log('set form', form, this.elementData);
-        this._form = form;
-    }
-    public get form(): FormGroup {
-        return this._form;
-    }
-    @Input() entryState: EntryState;
-    @Input() childControls: ModelControl[];
+    @ViewChild('display', { read: TemplateRef }) displayTemplate: TemplateRef<any>;
+    @ViewChild('editor', { read: TemplateRef }) editorTemplate: TemplateRef<any>;
+    @ViewChild('container', { read: ViewContainerRef }) container: ViewContainerRef;
+
+    private isEditing: boolean;
 
     @Output() editEntry: EventEmitter<void> = new EventEmitter<void>();
 
     constructor(
-        @Inject(ELEMENT_DATA) elementData: ElementData,
+        @Inject(ELEMENT_DATA) public elementData: ListEntryData,
         injector: Injector
     ) {
         super(
             elementData,
             injector
         );
+    }
 
-        console.log('ListFieldEntryComponent.ctr', elementData.form, this.form);
+    private renderView(): void {
+        this.container.clear();
+        if (this.elementData.entryState.editing) {
+            this.container.createEmbeddedView(this.editorTemplate);
+        } else {
+            this.container.createEmbeddedView(this.displayTemplate);
+        }
+        this.isEditing = this.elementData.entryState.editing;
     }
 
     public onEditEntry(): void {
         this.editEntry.next();
+    }
+
+    private check(): void {
+        if (this.isEditing !== this.elementData.entryState.editing) {
+            this.renderView();
+            if (this.isEditing) {
+                this.addCssClass('ngdf-list-editing');
+            } else {
+                this.removeCssClass('ngdf-list-editing');
+            }
+        }
+    }
+
+    ngDoCheck(): void {
+        this.check();
+    }
+
+    ngOnDestroy(): void {
+        this.editEntry.complete();
     }
 
 }

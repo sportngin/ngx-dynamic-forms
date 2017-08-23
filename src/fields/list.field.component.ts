@@ -1,29 +1,39 @@
 import {
-    Component, Injector, OnInit, ViewChildren, QueryList, AfterViewInit, ViewEncapsulation, Inject, ViewContainerRef
+    Component, Injector, OnInit, ViewChildren, QueryList, AfterViewInit, ViewEncapsulation, Inject, ViewContainerRef,
+    ViewChild, AfterContentChecked
 } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/forms';
 
-import { each, extend, last } from 'lodash';
+import { chain, each, extend, find, last } from 'lodash';
 
+import { ComponentInfo }            from '../component.info';
+import { ControlManager }           from '../control.manager';
+import { ELEMENT_DATA }             from '../elements/element.data';
 import { Model }                    from '../model/model';
 import { ArrayControl }             from '../model/control/array.control';
-import { ModelControl }             from '../model/control/model.control';
+import { ModelControl, ModelMemberControl } from '../model/control/model.control';
 import {
     behaviorProvider, BehaviorType, EditItemHandler, IsListItemControlRenderedHandler, RemoveItemHandler,
     ResetItemHandler, SaveItemHandler
 } from '../behavior/behaviors';
+import { TEMPLATE }                 from '../parent.component';
+import { FIELD_DATA, FieldData }    from './element.data';
 import { FieldBase }                from './field.base';
+import { ListFieldEntryComponent }  from './list.field.entry.component';
 import { ListFieldEntryDirective }  from './list.field.entry.directive';
-import { FIELD_DATA, FieldData } from './element.data';
 
 export interface EntryState {
     submitted: boolean,
     editing: boolean;
 }
 
+export interface ListEntryData extends FieldData {
+    entryState: EntryState
+}
+
 @Component({
     selector: 'ul [list-field]',
-    templateUrl: './list.field.component.pug',
+    template: TEMPLATE,
     viewProviders: [
         behaviorProvider(ListFieldComponent, BehaviorType.editItem),
         behaviorProvider(ListFieldComponent, BehaviorType.isListItemControlRendered),
@@ -35,20 +45,23 @@ export interface EntryState {
     encapsulation: ViewEncapsulation.None
 })
 export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> implements
-    OnInit, AfterViewInit,
+    OnInit, AfterViewInit, AfterContentChecked,
     EditItemHandler, SaveItemHandler, RemoveItemHandler, ResetItemHandler,
     IsListItemControlRenderedHandler {
 
-    @ViewChildren(ListFieldEntryDirective) inputs: QueryList<ListFieldEntryDirective>;
+    @ViewChild('container', { read: ViewContainerRef }) public container: ViewContainerRef;
+    @ViewChildren(ListFieldEntryDirective) private inputs: QueryList<ListFieldEntryDirective>;
 
     public itemTemplate: Model;
     public entryState: EntryState[] = [];
-    get childControls(): ModelControl[] { return this.control ? this.control.childControls : null; }
+    public get childControls(): ModelControl[] { return this.control ? this.control.childControls : null; }
+
+    private initialized: boolean = false;
 
     constructor(
         @Inject(FIELD_DATA) elementData: FieldData,
+        private controlManager: ControlManager,
         private fb: FormBuilder,
-        container: ViewContainerRef,
         injector: Injector
     ) {
         super(elementData, injector);
@@ -74,7 +87,56 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
         });
     }
 
+    private createComponent(entry: FormGroup, entryState: EntryState): ComponentInfo[] {
+        let entryData: ListEntryData = {
+            form: entry,
+            formControl: entry,
+            entryState,
+            control: this.control,
+            childControls: this.childControls as ModelMemberControl[]
+        };
+        let providers = [
+            { provide: ELEMENT_DATA, useValue: entryData }
+        ];
+        let components = this.controlManager.createComponent(this, this.control, ListFieldEntryComponent, providers);
+
+        let entryComponent = find(components, componentInfo => componentInfo.component.instance.constructor === ListFieldEntryComponent);
+        let componentInstance: ListFieldEntryComponent = entryComponent.component.instance as ListFieldEntryComponent;
+        componentInstance.editEntry.subscribe(() => {
+            console.log('editEntry', componentInstance.form);
+            this.editEntry(componentInstance.form)
+        });
+
+        return components;
+    }
+
+    private createComponents(entries: FormGroup[], startIndex: number = 0): ComponentInfo[] {
+        return chain(entries)
+            .map((entry, index) => this.createComponent(entry as FormGroup, this.entryState[startIndex + index]))
+            .flatten()
+            .value() as ComponentInfo[];
+    }
+
+    ngAfterContentChecked(): void {
+        if (!this.initialized) {
+            return;
+        }
+        if (this.formControl.controls.length > this.container.length) {
+            this.controlManager.insertComponents(
+                ...this.createComponents(
+                    this.formControl.controls.slice(this.container.length) as FormGroup[],
+                    this.container.length
+                )
+            );
+        }
+    }
+
     ngAfterViewInit(): void {
+        this.controlManager.insertComponents(
+            ...this.createComponents(this.formControl.controls as FormGroup[])
+        );
+        this.initialized = true;
+
         this.inputs.changes.subscribe((changes: QueryList<ListFieldEntryDirective>) => {
             if (changes.last && last(this.entryState).editing) {
                 changes.last.focusFirstInput();
@@ -108,6 +170,7 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
 
         this.formControl.removeAt(index);
         this.entryState.splice(index, 1);
+        this.container.remove(index);
     }
 
     onResetItemClick(form: AbstractControl): void {
@@ -125,11 +188,12 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
         } else {
             form = this.formControl.controls[index];
             let state = { submitted: form.valid, editing: false };
-            this.entryState[index] = state;
+            extend(this.entryState[index], state);
+            // this.entryState[index] = state;
             this.patchAndCheck(form, value, state);
         }
         if (!form.valid) {
-            this.editEntry(index);
+            this.editEntry(form);
         }
     }
 
@@ -139,7 +203,7 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
             this.checkDirty(form);
             extend(state, { submitted: form.valid, editing: false });
             if (!form.valid) {
-                this.editEntry(this.getFormIndex(form));
+                this.editEntry(form);
             }
         });
     }
@@ -171,11 +235,11 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
     }
 
     onEditItemClick(form: AbstractControl): void {
-        let index = this.getFormIndex(form);
-        this.editEntry(index);
+        this.editEntry(form);
     }
 
-    editEntry(index: number) {
+    editEntry(entry: AbstractControl) {
+        let index = this.formArray.controls.indexOf(entry);
         if (this.control.getPermission(this.control.canEditItem, this.formArray.value[index])) {
             this.entryState[index].editing = true;
         }

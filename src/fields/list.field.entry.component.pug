@@ -1,13 +1,15 @@
 doctype html
 
-.ngdf-list-editable(
-    list-field-editable,
-    [displayOnly]='true',
-    *ngIf='!entryState.editing',
-    (click)='onEditEntry()'
-)
+ng-container(#container)
 
-//.ngdf-list-editor(
-//    list-field-entry-editor,
-//    *ngIf='entryState.editing'
-//)
+ng-template(#display)
+    .ngdf-list-editable(
+        list-field-editable,
+        [displayOnly]='true',
+        (click)='onEditEntry()'
+    )
+
+ng-template(#editor)
+    .ngdf-list-editor(
+        list-field-editable
+    )

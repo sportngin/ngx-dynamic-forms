@@ -5,6 +5,7 @@ import { ReactiveFormsModule }              from '@angular/forms';
 import { ColorPickerModule } from 'ngx-color-picker';
 
 import { BehaviorService }      from './behavior/behavior.service';
+import { ControlManager }       from './control.manager';
 import { DynamicFormComponent } from './dynamic.form.component';
 import { ElementTypeMappings }  from './element.type.mappings';
 import { HelperComponent }      from './elements/helper.component';
@@ -34,13 +35,11 @@ import { DynamicInputComponent }    from './fields/dynamic.input.component';
 import { FieldDisplayComponent }    from './fields/field.display.component';
 import { GroupFieldComponent }      from './fields/group.field.component';
 import { ListFieldComponent }       from './fields/list.field.component';
-import { ListFieldEntriesComponent } from './fields/list.field.entries.component';
 import { ListFieldEntryComponent }  from './fields/list.field.entry.component';
 import { ListFieldEntryDirective }  from './fields/list.field.entry.directive';
 import { ListFieldEntryEditableComponent } from './fields/list.field.entry.editable.component';
 import { PasswordFieldComponent }   from './fields/password.field.component';
 import { TextFieldComponent }       from './fields/text.field.component';
-import { ControlManager } from './control.manager';
 
 @NgModule({
     declarations:   [
@@ -58,7 +57,6 @@ import { ControlManager } from './control.manager';
         HelperComponent,
         LayoutComponent,
         ListFieldComponent,
-        ListFieldEntriesComponent,
         ListFieldEntryComponent,
         ListFieldEntryDirective,
         ListFieldEntryEditableComponent,
@@ -83,7 +81,6 @@ import { ControlManager } from './control.manager';
         HelperComponent,
         LayoutComponent,
         ListFieldComponent,
-        ListFieldEntriesComponent,
         ListFieldEntryDirective,
         ListFieldEntryEditableComponent,
         PasswordFieldComponent,
@@ -105,6 +102,7 @@ import { ControlManager } from './control.manager';
         HelperComponent,
         LayoutComponent,
         ListFieldComponent,
+        ListFieldEntryComponent,
         PasswordFieldComponent,
         PlaceholderComponent,
         SubmitButtonComponent,
