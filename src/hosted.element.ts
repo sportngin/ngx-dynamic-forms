@@ -19,6 +19,10 @@ export abstract class HostedElement<TModelControl extends ModelControl = ModelCo
         return this.elementData.control as TModelControl;
     };
 
+    public set control(control: TModelControl) {
+        this.elementData.control = control;
+    }
+
     protected cdf: ChangeDetectorRef;
     protected get isPlaceholder(): boolean {
         return false;

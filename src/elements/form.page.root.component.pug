@@ -1,8 +1,10 @@
 doctype html
 
-//ng-template(ngFor let-page [ngForOf]='childControls')
-.page(*ngFor='let page of childControls')
-    form-page(*ngIf='currentPage === page.pageIndex', [form]='form.controls[page.member.name]', [control]='page')
+ng-template(ngFor let-page [ngForOf]='childControls')
+    form-page(
+        *ngIf='currentPage === page.pageIndex',
+        [form]='elementData.form.controls[page.member.name]',
+        [control]='page')
 
 div
     button.btn.btn-default(

@@ -1,30 +1,46 @@
 import { Component, Inject, Injector, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 
-import { ELEMENT_DATA, ElementData } from './element.data';
-import { HostedElement }        from '../hosted.element';
+import { FieldData }            from '../fields/element.data';
 import { PageControl }          from '../model/control/page.control';
-import { ModelControl }         from '../model/control/model.control';
+import { TEMPLATE }             from '../parent.component';
+import { StructuralComponent }  from '../structural.component';
+import { ELEMENT_DATA, ElementData } from './element.data';
+import { FormGroup } from '@angular/forms';
 
 @Component({
     selector: 'form-page',
-    templateUrl: './form.page.component.pug'
+    template: TEMPLATE
 })
-export class FormPageComponent extends HostedElement {
+export class FormPageComponent extends StructuralComponent<PageControl> {
 
-    get childControls(): ModelControl[] { return this.control ? this.control.childControls : null; }
+    private getEmptyElementData(): ElementData {
+        return {
+            form: null,
+            control: null
+        }
+    }
 
-    @Input() public formGroup: FormGroup;
-    @Input() public control: PageControl;
-    @Input() public form: FormGroup;
-
-    currentPage: number = 0;
+    @Input() set form(form: FormGroup) {
+        if (!this.elementData) {
+            this.elementData = this.getEmptyElementData();
+        }
+        this.elementData.form = form;
+    }
+    get form(): FormGroup {
+        return this.elementData.form;
+    }
+    @Input() set control(control: PageControl) {
+        if (!this.elementData) {
+            this.elementData = this.getEmptyElementData();
+        }
+        this.elementData.control = control;
+        this.childControls = control.childControls;
+    }
 
     constructor(
-        @Inject(ELEMENT_DATA) elementData: ElementData,
+        @Inject(ELEMENT_DATA) elementData: FieldData,
         injector: Injector
     ) {
-        // FIXME: see above
-        super(elementData, injector);
+        super({ form: null, control: null }, null, injector);
     }
 }

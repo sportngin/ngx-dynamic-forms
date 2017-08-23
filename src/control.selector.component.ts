@@ -32,9 +32,11 @@ export abstract class ControlSelectorComponent<TControl extends ModelControl = M
         return Object.keys(inputData).map(name => ({ provide: name, useValue: inputData[name] }));
     }
 
+    protected insertComponents(components: ComponentInfo[]): void {
+        this.controlManager.insertComponents(...components)
+    }
+
     ngAfterViewInit(): void {
-        this.controlManager.insertComponents(
-            ...this.createComponents()
-        );
+        this.insertComponents(this.createComponents());
     }
 }

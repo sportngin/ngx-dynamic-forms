@@ -1,21 +1,17 @@
-import { Component, EventEmitter, Injector, Input, OnInit, Output, Inject } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Component, EventEmitter, Injector, OnInit, Output, Inject } from '@angular/core';
 
-import { ELEMENT_DATA, ElementData } from './element.data';
-import { HostedElement }        from '../hosted.element';
-import { ModelControl }         from '../model/control/model.control';
-import { RootPageControl }      from '../model/control/page.control';
+import { HostedElement }                from '../hosted.element';
+import { ModelControl }                 from '../model/control/model.control';
+import { RootPageControl }              from '../model/control/page.control';
+import { ELEMENT_DATA, ElementData }    from './element.data';
 
 @Component({
     selector: 'form-page-root',
     templateUrl: './form.page.root.component.pug'
 })
-export class FormPageRootComponent extends HostedElement implements OnInit {
+export class FormPageRootComponent extends HostedElement<RootPageControl> implements OnInit {
 
     get childControls(): ModelControl[] { return this.control ? this.control.childControls : null; }
-
-    @Input() formGroup: FormGroup;
-    @Input() control: RootPageControl;
 
     @Output() pageChanged: EventEmitter<number> = new EventEmitter<number>();
 
@@ -38,7 +34,6 @@ export class FormPageRootComponent extends HostedElement implements OnInit {
         @Inject(ELEMENT_DATA) elementData: ElementData,
         injector: Injector
     ) {
-        // FIXME: see above
         super(elementData, injector);
     }
 
