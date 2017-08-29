@@ -2,7 +2,7 @@ import { Component, Inject, Injector, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { FieldBase }                        from './field.base';
-import { FIELD_DATA, FieldData }   from './element.data';
+import { FieldData }   from './field.data';
 
 @Component({
     selector: 'color-picker',
@@ -13,7 +13,7 @@ import { FIELD_DATA, FieldData }   from './element.data';
 export class ColorPickerComponent extends FieldBase<FormControl> {
 
     constructor(
-        @Inject(FIELD_DATA) elementData: FieldData,
+        elementData: FieldData,
         injector: Injector
     ) {
         super(elementData, injector);

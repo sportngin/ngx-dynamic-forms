@@ -1,9 +1,9 @@
-import { Component, EventEmitter, Injector, OnInit, Output, Inject } from '@angular/core';
+import { Component, EventEmitter, Injector, OnInit, Output } from '@angular/core';
 
-import { HostedElement }                from '../hosted.element';
-import { ModelControl }                 from '../model/control/model.control';
-import { RootPageControl }              from '../model/control/page.control';
-import { ELEMENT_DATA, ElementData }    from './element.data';
+import { HostedElement }    from '../hosted.element';
+import { ModelControl }     from '../model/control/model.control';
+import { RootPageControl }  from '../model/control/page.control';
+import { ElementData }      from './element.data';
 
 @Component({
     selector: 'form-page-root',
@@ -31,7 +31,7 @@ export class FormPageRootComponent extends HostedElement<RootPageControl> implem
     }
 
     constructor(
-        @Inject(ELEMENT_DATA) elementData: ElementData,
+        elementData: ElementData,
         injector: Injector
     ) {
         super(elementData, injector);

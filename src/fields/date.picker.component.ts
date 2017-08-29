@@ -8,7 +8,7 @@ import { isEqual, map, range }  from 'lodash';
 import * as moment              from 'moment';
 
 import { FieldBase }                        from './field.base';
-import { FIELD_DATA, FieldData }   from './element.data';
+import { FieldData }   from './field.data';
 
 @Component({
     selector: 'date-picker',
@@ -42,7 +42,7 @@ export class DatePickerComponent extends FieldBase<FormControl> implements Contr
     private onTouchedHandler: Function;
 
     constructor(
-        @Inject(FIELD_DATA) elementData: FieldData,
+        elementData: FieldData,
         fb: FormBuilder,
         injector: Injector
     ) {

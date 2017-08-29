@@ -1,7 +1,7 @@
 import { Component, Inject, Injector, Input }   from '@angular/core';
 import { FormGroup }                            from '@angular/forms';
 
-import { FIELD_DATA, FieldData }   from './element.data';
+import { FieldData }   from './field.data';
 import { FieldBase }                        from './field.base';
 
 @Component({
@@ -13,7 +13,7 @@ export class GroupFieldComponent extends FieldBase<FormGroup> {
     @Input() public fieldForm: FormGroup;
 
     constructor(
-        @Inject(FIELD_DATA) elementData: FieldData,
+        elementData: FieldData,
         injector: Injector
     ) {
         super(elementData, injector);

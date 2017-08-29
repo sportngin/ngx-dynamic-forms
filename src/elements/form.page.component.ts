@@ -1,11 +1,10 @@
-import { Component, Inject, Injector, Input } from '@angular/core';
+import { Component, Injector, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
-import { FieldData }            from '../fields/element.data';
 import { PageControl }          from '../model/control/page.control';
 import { TEMPLATE }             from '../parent.component';
 import { StructuralComponent }  from '../structural.component';
-import { ELEMENT_DATA, ElementData } from './element.data';
-import { FormGroup } from '@angular/forms';
+import { ElementData }          from './element.data';
 
 @Component({
     selector: 'form-page',
@@ -38,7 +37,6 @@ export class FormPageComponent extends StructuralComponent<PageControl> {
     }
 
     constructor(
-        @Inject(ELEMENT_DATA) elementData: FieldData,
         injector: Injector
     ) {
         super({ form: null, control: null }, null, injector);

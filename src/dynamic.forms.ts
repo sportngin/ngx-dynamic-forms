@@ -22,7 +22,7 @@ export * from './validators';
 export * from './elements/form.page.component';
 export * from './elements/form.page.root.component';
 
-export * from './fields/element.data';
+export * from './fields/field.data';
 // export * from './fields/checkbox.field.component';
 // export * from './fields/color.picker.component';
 // export * from './fields/date.picker.component';

@@ -2,10 +2,10 @@ import { Injector, Provider } from '@angular/core';
 
 import { chain } from 'lodash';
 
-import { ComponentInfo }                from './component.info';
-import { ELEMENT_DATA, ElementData }    from './elements/element.data';
+import { ComponentInfo }    from './component.info';
+import { ElementData }      from './elements/element.data';
 import { MODEL_CONTROL_PROVIDER, ModelControl } from './model/control/model.control';
-import { ParentComponent }              from './parent.component';
+import { ParentComponent }  from './parent.component';
 
 export abstract class StructuralComponent<TControl extends ModelControl = ModelControl> extends ParentComponent<TControl> {
 
@@ -19,7 +19,7 @@ export abstract class StructuralComponent<TControl extends ModelControl = ModelC
 
     private getProviders(control: ModelControl): Provider[] {
         return [
-            { provide: ELEMENT_DATA, useValue: this.getElementData(control) },
+            { provide: ElementData, useValue: this.getElementData(control) },
             { provide: MODEL_CONTROL_PROVIDER, useValue: control }
         ];
     }

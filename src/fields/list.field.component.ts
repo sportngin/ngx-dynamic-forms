@@ -8,7 +8,7 @@ import { chain, each, extend, find, last } from 'lodash';
 
 import { ComponentInfo }            from '../component.info';
 import { ControlManager }           from '../control.manager';
-import { ELEMENT_DATA }             from '../elements/element.data';
+import { ElementData }              from '../elements/element.data';
 import { Model }                    from '../model/model';
 import { ArrayControl }             from '../model/control/array.control';
 import { ModelControl, ModelMemberControl } from '../model/control/model.control';
@@ -17,8 +17,8 @@ import {
     ResetItemHandler, SaveItemHandler
 } from '../behavior/behaviors';
 import { TEMPLATE }                 from '../parent.component';
-import { FIELD_DATA, FieldData }    from './element.data';
 import { FieldBase }                from './field.base';
+import { FieldData }                from './field.data';
 import { ListFieldEntryComponent }  from './list.field.entry.component';
 import { ListFieldEntryDirective }  from './list.field.entry.directive';
 
@@ -59,7 +59,7 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
     private initialized: boolean = false;
 
     constructor(
-        @Inject(FIELD_DATA) elementData: FieldData,
+        elementData: FieldData,
         private controlManager: ControlManager,
         private fb: FormBuilder,
         injector: Injector
@@ -96,7 +96,7 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
             childControls: this.childControls as ModelMemberControl[]
         };
         let providers = [
-            { provide: ELEMENT_DATA, useValue: entryData }
+            { provide: ElementData, useValue: entryData }
         ];
         let components = this.controlManager.createComponent(this, this.control, ListFieldEntryComponent, providers);
 
@@ -104,7 +104,7 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
         let componentInstance: ListFieldEntryComponent = entryComponent.component.instance as ListFieldEntryComponent;
         componentInstance.editEntry.subscribe(() => {
             console.log('editEntry', componentInstance.form);
-            this.editEntry(componentInstance.form)
+            this.editEntry(componentInstance.form);
         });
 
         return components;

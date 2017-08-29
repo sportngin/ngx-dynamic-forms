@@ -1,6 +1,6 @@
-import { Component, Inject, Injector } from '@angular/core';
+import { Component, Injector } from '@angular/core';
 
-import { FIELD_DATA, FieldData, FieldBase } from '@siplay/ng-dynamic-forms';
+import { FieldData, FieldBase } from '@siplay/ng-dynamic-forms';
 
 @Component({
     selector: 'privacy-field',
@@ -14,7 +14,7 @@ export class PrivacyFieldComponent extends FieldBase {
     };
 
     constructor(
-        @Inject(FIELD_DATA) elementData: FieldData,
+        elementData: FieldData,
         injector: Injector
     ) {
         super(elementData, injector);

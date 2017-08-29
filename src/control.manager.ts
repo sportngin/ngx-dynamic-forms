@@ -5,7 +5,7 @@ import {
 import { chain, extend } from 'lodash';
 
 import { COMPONENT_INFO, ComponentInfo }    from './component.info';
-import { ELEMENT_DATA, ElementData }        from './elements/element.data';
+import { ElementData }                      from './elements/element.data';
 import { HelperComponent }                  from './elements/helper.component';
 import { ControlPosition }                  from './model/control.position';
 import { ModelControl }                     from './model/control/model.control';
@@ -61,7 +61,7 @@ export class ControlManager {
                 // TODO: replace with providers from createComponent call?
                 let providers = [
                     { provide: ELEMENT_HELPER, useValue: helper },
-                    { provide: ELEMENT_DATA, useValue: containerComponent.elementData }
+                    { provide: ElementData, useValue: containerComponent.elementData }
                 ];
                 return this.createComponent(containerComponent, helper, HelperComponent, providers);
             })

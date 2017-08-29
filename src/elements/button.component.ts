@@ -1,9 +1,8 @@
-import { Component, Inject, Injector } from '@angular/core';
+import { Component, Injector } from '@angular/core';
 
-import { ELEMENT_DATA, ElementData } from './element.data';
-import { FormComponentHost }        from '../form.component.host';
-import { HostedElement }            from '../hosted.element';
-import { ButtonControl }            from '../model/control/button.control';
+import { ElementData }      from './element.data';
+import { HostedElement }    from '../hosted.element';
+import { ButtonControl }    from '../model/control/button.control';
 
 @Component({
     selector: 'form-button',
@@ -12,7 +11,7 @@ import { ButtonControl }            from '../model/control/button.control';
 export class ButtonComponent extends HostedElement<ButtonControl> {
 
     constructor(
-        @Inject(ELEMENT_DATA) elementData: ElementData,
+        elementData: ElementData,
         injector: Injector
     ) {
         super(

@@ -1,9 +1,8 @@
 import {
-    Component, EventEmitter, Inject, Injector, OnDestroy, Output, TemplateRef, ViewChild,
-    ViewContainerRef, DoCheck
+    Component, EventEmitter, Injector, OnDestroy, Output, TemplateRef, ViewChild, ViewContainerRef, DoCheck, Inject
 } from '@angular/core';
 
-import { ELEMENT_DATA }     from '../elements/element.data';
+import { ElementData }      from '../elements/element.data';
 import { HostedElement }    from '../hosted.element';
 import { ListEntryData }    from './list.field.component';
 
@@ -22,7 +21,7 @@ export class ListFieldEntryComponent extends HostedElement implements DoCheck, O
     @Output() editEntry: EventEmitter<void> = new EventEmitter<void>();
 
     constructor(
-        @Inject(ELEMENT_DATA) public elementData: ListEntryData,
+        @Inject(ElementData) public elementData: ListEntryData,
         injector: Injector
     ) {
         super(

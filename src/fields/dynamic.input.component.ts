@@ -1,5 +1,5 @@
 import {
-    AfterViewChecked, Component, forwardRef, Inject, Injector, NgZone, OnInit, Provider, ViewEncapsulation
+    AfterViewChecked, Component, forwardRef, Injector, NgZone, OnInit, Provider, ViewEncapsulation
 } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -7,7 +7,7 @@ import { extend, omit } from 'lodash';
 
 import { ComponentInfo }            from '../component.info';
 import { ControlSelectorComponent } from '../control.selector.component';
-import { ELEMENT_DATA, ElementData } from '../elements/element.data';
+import { ElementData }              from '../elements/element.data';
 import { FieldType }                from '../field.type';
 import { FieldTypeMappings }        from '../field.type.mappings';
 import { ModelMemberControl }       from '../model/control/model.control';
@@ -15,7 +15,7 @@ import { CheckboxMember }           from '../model/member/checkbox.member';
 import { SelectionMember }          from '../model/member/selection.member';
 import { TemplatedMember }          from '../model/member/templated.member';
 import { ValidatorDisplay }         from '../validator.display';
-import { FIELD_DATA, FieldData } from './element.data';
+import { FieldData }                from './field.data';
 
 @Component({
     selector: 'form-input',
@@ -40,7 +40,7 @@ export class DynamicInputComponent extends ControlSelectorComponent<ModelMemberC
     private _inputData: FieldData;
 
     constructor(
-        @Inject(ELEMENT_DATA) elementData: ElementData,
+        elementData: ElementData,
         private fieldTypeMappings: FieldTypeMappings,
         injector: Injector,
         private zone: NgZone,
@@ -120,7 +120,7 @@ export class DynamicInputComponent extends ControlSelectorComponent<ModelMemberC
 
         let inputProviders: Provider[] = this.getProvidersFromInputData(mergedInputData);
         inputProviders.push(
-            { provide: ELEMENT_DATA, useValue: elementData },
+            { provide: ElementData, useValue: elementData },
             ...this.getInputProviders()
         );
         let componentType = this.fieldTypeMappings.getComponentType(this.control.member.fieldType);
@@ -130,7 +130,7 @@ export class DynamicInputComponent extends ControlSelectorComponent<ModelMemberC
 
     protected getInputProviders(): Provider[] {
         return [{
-            provide: FIELD_DATA,
+            provide: FieldData,
             useValue: this.inputData
         }]
     }

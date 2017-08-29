@@ -1,9 +1,9 @@
-import { Component, Injector, OnInit, Inject } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 
-import { LayoutControl }                from '../model/control/layout.control';
-import { TEMPLATE }                     from '../parent.component';
-import { StructuralComponent }          from '../structural.component';
-import { ElementData, ELEMENT_DATA }    from './element.data';
+import { LayoutControl }        from '../model/control/layout.control';
+import { TEMPLATE }             from '../parent.component';
+import { StructuralComponent }  from '../structural.component';
+import { ElementData }          from './element.data';
 
 @Component({
     selector: 'layout',
@@ -12,7 +12,7 @@ import { ElementData, ELEMENT_DATA }    from './element.data';
 export class LayoutComponent extends StructuralComponent<LayoutControl> implements OnInit {
 
     constructor(
-        @Inject(ELEMENT_DATA) elementData: ElementData,
+        elementData: ElementData,
         injector: Injector
     ) {
         super(elementData, elementData.control.childControls, injector);

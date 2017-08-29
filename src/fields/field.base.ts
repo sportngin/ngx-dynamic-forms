@@ -4,7 +4,7 @@ import { AbstractControl, FormControl } from '@angular/forms';
 import { HostedElement }        from '../hosted.element';
 import { ModelControl }         from '../model/control/model.control';
 import { ValidatorDisplay }     from '../validator.display';
-import { FieldData }            from './element.data';
+import { FieldData }            from './field.data';
 
 export abstract class FieldBase<
     TControl extends AbstractControl = FormControl,

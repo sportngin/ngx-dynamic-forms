@@ -1,6 +1,6 @@
 import { Component, Inject, Injector } from '@angular/core';
 
-import { ELEMENT_DATA, ElementData }    from '../elements/element.data';
+import { ElementData }    from '../elements/element.data';
 import { HostedElement }                from '../hosted.element';
 
 @Component({
@@ -10,7 +10,7 @@ import { HostedElement }                from '../hosted.element';
 export class FieldDisplayComponent extends HostedElement {
 
     constructor(
-        @Inject(ELEMENT_DATA) elementData: ElementData,
+        elementData: ElementData,
         injector: Injector) {
         super(elementData, injector);
     }

@@ -4,7 +4,7 @@ import {
 
 import { extend } from 'lodash';
 
-import { ELEMENT_DATA, ElementData }    from '../elements/element.data';
+import { ElementData }    from '../elements/element.data';
 import { TEMPLATE }                     from '../parent.component';
 import { StructuralComponent }          from '../structural.component';
 import { EntryState }                   from './list.field.component';
@@ -26,7 +26,7 @@ export class ListFieldEntryEditableComponent extends StructuralComponent {
     }
 
     constructor(
-        @Inject(ELEMENT_DATA) elementData: ElementData,
+        elementData: ElementData,
         injector: Injector
     ) {
         super(

@@ -1,7 +1,7 @@
 import { Component, Inject, Injector }  from '@angular/core';
 import { FormControl }                  from '@angular/forms';
 
-import { FIELD_DATA, FieldData }   from './element.data';
+import { FieldData }   from './field.data';
 import { FieldBase }                        from './field.base';
 
 @Component({
@@ -14,7 +14,7 @@ export class PasswordFieldComponent extends FieldBase<FormControl> {
     public showPassword: boolean = false;
 
     constructor(
-        @Inject(FIELD_DATA) elementData: FieldData,
+        elementData: FieldData,
         injector: Injector
     ) {
         super(elementData, injector);
