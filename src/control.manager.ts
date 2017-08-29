@@ -46,6 +46,7 @@ export class ControlManager {
         if (!createHelpers || componentType === HelperComponent) {
             return [info];
         }
+
         return [
             ...this.createHelpers(containerComponent, control as ModelControl, ControlPosition.before),
             info,

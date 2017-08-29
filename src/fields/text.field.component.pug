@@ -4,5 +4,5 @@ input.form-control(
     [type]='type',
     [formControl]='formControl',
     [attr.disabled]='control.disabled ? "" : null',
-    [ngClass]='{ "form-control-success": validatorSuccess, "form-control-danger": validatorError }'
+    [ngClass]='{ "is-valid": validatorSuccess, "is-invalid": validatorError }'
 )

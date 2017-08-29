@@ -1,7 +1,8 @@
 import { InjectionToken } from '@angular/core';
 
-import { find } from 'lodash';
+import { extend, find } from 'lodash';
 
+import { Behavior }     from './behavior/behaviors';
 import { ElementType }  from './element.type';
 import { ButtonType }   from './elements/button.type';
 import { FieldType }    from './field.type';
@@ -28,32 +29,49 @@ export interface FieldTypeHandlerMapping extends TypeHandlerMapping {
 
 export interface DynamicFormsConfig {
 
-    buttons?: ButtonTypeHandlerMapping[];
-    elements?: ElementTypeHandlerMapping[];
-    fields?: FieldTypeHandlerMapping[];
+    behaviors?: Behavior[];
+    mappings?: {
+        buttons?: ButtonTypeHandlerMapping[];
+        elements?: ElementTypeHandlerMapping[];
+        fields?: FieldTypeHandlerMapping[];
+    }
 
 }
 
 export function configFactory(defaultConfig: DynamicFormsConfig, userConfig: DynamicFormsConfig) {
-    let result: DynamicFormsConfig = {};
+    let result: DynamicFormsConfig = { behaviors: [], mappings: {} };
 
-    Object.keys(defaultConfig).forEach(key => {
-        result[key] = defaultConfig[key];
-        let usr: TypeHandlerMapping[] = userConfig[key];
+    // merge each mappings key
+    Object.keys(defaultConfig.mappings).forEach(key => {
+        result.mappings[key] = defaultConfig.mappings[key];
+        let usr: TypeHandlerMapping[] = userConfig.mappings[key];
         if (!usr) {
             return;
         }
 
         usr.forEach(usrMapping => {
-            let mapping = find(result[key], (mapping: TypeHandlerMapping) => mapping.type === usrMapping.type);
+            let mapping = find(result.mappings[key], (mapping: TypeHandlerMapping) => mapping.type === usrMapping.type);
             if (!mapping) {
-                result[key].push(usrMapping);
+                result.mappings[key].push(usrMapping);
                 return;
             }
             mapping.component = usrMapping.component;
         });
 
     });
+
+    // merge behaviors
+    result.behaviors.push(...defaultConfig.behaviors);
+    if (userConfig.behaviors) {
+        userConfig.behaviors.forEach(userBehavior => {
+            let builtInBehavior = find(defaultConfig.behaviors, builtInBehavior => builtInBehavior.type === userBehavior.type);
+            if (builtInBehavior) {
+                throw extend(new Error('Cannot override built-in behaviors'), { behavior: userBehavior });
+            }
+            result.behaviors.push(userBehavior)
+        });
+    }
+
 
     return result;
 }

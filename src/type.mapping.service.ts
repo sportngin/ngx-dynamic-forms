@@ -8,7 +8,7 @@ export abstract class TypeMappingService<TType extends string> {
         configKey: string,
         config: DynamicFormsConfig
     ) {
-        config[configKey].forEach(mapping => this.addMapping(mapping.type, mapping.component));
+        config.mappings[configKey].forEach(mapping => this.addMapping(mapping.type, mapping.component));
     }
 
     public addMapping(type: TType | string, component: any) {

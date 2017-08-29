@@ -28,8 +28,13 @@ export abstract class Model {
     protected members: ModelElement[];
     protected validator: ValidatorFn;
 
-    constructor(...members: ModelElement[]) {
+    constructor(validatorOrFirstMember: ValidatorFn | ModelElement, ...members: ModelElement[]) {
         this.members = members;
+        if (typeof validatorOrFirstMember === 'function') {
+            this.validator = validatorOrFirstMember;
+        } else {
+            this.members.unshift(validatorOrFirstMember);
+        }
     };
 
     static submitButton(buttonClass: ButtonClass, text: FormText, disableWhenInvalid: boolean = true): ButtonMember {
@@ -108,13 +113,11 @@ export abstract class Model {
     // }
 
     static validationMessage(fieldKey: string, errorKey: string, text: string, cssClass?: string): LayoutMember {
-        let layout = Model.layout('');
-
-        layout
-            .addHelper(text, cssClass)
+        return Model.layout('.validation-message-container',
+            Model.layout('.validation-message')
+                .addHelper(text, cssClass)
+            )
             .addConditions({ key: `${fieldKey}:${errorKey}`, method: BehaviorType.validateDisplay, required: true });
-
-        return layout;
     }
 
     toFormGroup(fb: FormBuilder): FormGroup {

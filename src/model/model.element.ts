@@ -25,7 +25,7 @@ export interface ModelElementRenderCondition {
 
 export interface ElementHelper {
     text: string;
-    cssClass?: string;
+    cssClasses?: string[];
     position?: ControlPosition;
     renderConditions?: ModelElementRenderCondition[]
 }

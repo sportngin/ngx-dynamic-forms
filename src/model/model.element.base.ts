@@ -45,10 +45,11 @@ export class ModelElementBase<T extends ModelElementBase<T>> implements ModelEle
         if (!this.helpers) {
             this.helpers = [];
         }
+        let cssClasses = [];
         if (cssClass) {
-            cssClass = cleanCssClass(cssClass);
+            cssClasses = getCssClassArray(cssClass);
         }
-        this.helpers.push({ text, cssClass, position, renderConditions });
+        this.helpers.push({ text, cssClasses, position, renderConditions });
 
         return this.self;
     }

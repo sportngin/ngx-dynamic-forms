@@ -1,5 +1,7 @@
 import { DynamicFormsConfig }       from './dynamic.forms.config';
 
+import { BUILT_IN_BEHAVIORS }       from './behavior/behaviors';
+
 import { ElementType }              from './element.type';
 import { ButtonComponent }          from './elements/button.component';
 import { ButtonType }               from './elements/button.type';
@@ -19,27 +21,31 @@ import { ListFieldComponent }       from './fields/list.field.component';
 import { PasswordFieldComponent }   from './fields/password.field.component';
 import { TextFieldComponent }       from './fields/text.field.component';
 
+
 export const DEFAULT_CONFIG: DynamicFormsConfig = {
-    buttons: [
-        { type: ButtonType.button, component: ButtonComponent },
-        { type: ButtonType.submit, component: SubmitButtonComponent },
-    ],
-    elements: [
-        { type: ElementType.button,     component: ButtonComponent },
-        { type: ElementType.input,      component: DynamicInputComponent },
-        { type: ElementType.layout,     component: LayoutComponent },
-        { type: ElementType.page,       component: FormPageComponent },
-        { type: ElementType.pageRoot,   component: FormPageRootComponent }
-    ],
-    fields: [
-        { type: FieldType.checkbox, component: CheckboxFieldComponent },
-        { type: FieldType.color,    component: ColorPickerComponent },
-        { type: FieldType.date,     component: DatePickerComponent },
-        { type: FieldType.dropdown, component: DropdownFieldComponent },
-        { type: FieldType.group,    component: GroupFieldComponent },
-        { type: FieldType.hidden,   component: TextFieldComponent },
-        { type: FieldType.list,     component: ListFieldComponent },
-        { type: FieldType.password, component: PasswordFieldComponent },
-        { type: FieldType.text,     component: TextFieldComponent },
-    ]
+    behaviors: BUILT_IN_BEHAVIORS,
+    mappings: {
+        buttons: [
+            { type: ButtonType.button,      component: ButtonComponent },
+            { type: ButtonType.submit,      component: SubmitButtonComponent },
+        ],
+        elements: [
+            { type: ElementType.button,     component: ButtonComponent },
+            { type: ElementType.input,      component: DynamicInputComponent },
+            { type: ElementType.layout,     component: LayoutComponent },
+            { type: ElementType.page,       component: FormPageComponent },
+            { type: ElementType.pageRoot,   component: FormPageRootComponent }
+        ],
+        fields: [
+            { type: FieldType.checkbox,     component: CheckboxFieldComponent },
+            { type: FieldType.color,        component: ColorPickerComponent },
+            { type: FieldType.date,         component: DatePickerComponent },
+            { type: FieldType.dropdown,     component: DropdownFieldComponent },
+            { type: FieldType.group,        component: GroupFieldComponent },
+            { type: FieldType.hidden,       component: TextFieldComponent },
+            { type: FieldType.list,         component: ListFieldComponent },
+            { type: FieldType.password,     component: PasswordFieldComponent },
+            { type: FieldType.text,         component: TextFieldComponent }
+        ]
+    }
 };

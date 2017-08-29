@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
+import { AbstractControl, FormGroup } from '@angular/forms';
 
 import { behaviorProvider, BehaviorType, hostProviders, IsDisabledHandler } from '@siplay/ng-dynamic-forms';
 
-import { FieldTestComponent } from '../field.test.component';
-import { FormTestModel } from './form.test.model';
+import { SUBMIT_ERROR_HANDLER, SubmitErrorHandler } from '../../submit.error.behavior';
+import { FieldTestComponent }   from '../field.test.component';
+import { FormTestModel }        from './form.test.model';
 
 @Component({
     selector: 'form-test',
@@ -12,10 +13,12 @@ import { FormTestModel } from './form.test.model';
     viewProviders: [
         hostProviders(FormTestComponent),
         behaviorProvider(FormTestComponent, BehaviorType.isDisabled),
+        { provide: SUBMIT_ERROR_HANDLER, useExisting: FormTestComponent },
+
         { provide: 'error', useExisting: FormTestComponent }
     ]
 })
-export class FormTestComponent extends FieldTestComponent implements IsDisabledHandler {
+export class FormTestComponent extends FieldTestComponent implements IsDisabledHandler, SubmitErrorHandler {
 
     constructor() {
         super(new FormTestModel());
@@ -31,6 +34,13 @@ export class FormTestComponent extends FieldTestComponent implements IsDisabledH
 
     public isDisabled(form: AbstractControl): boolean {
         return false;
+    }
+
+    public submitError(form: FormGroup, key: string): void {
+        let email = form.controls['email'];
+        email['fakeError'] = true;
+
+        form.updateValueAndValidity();
     }
 
 }

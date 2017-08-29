@@ -3,6 +3,7 @@ import { ReactiveFormsModule }  from '@angular/forms';
 import { BrowserModule }        from '@angular/platform-browser';
 
 import { DynamicFormsModule } from '@siplay/ng-dynamic-forms';
+
 import 'rxjs/add/operator/map';
 import 'zone.js/dist/long-stack-trace-zone';
 import 'zone.js/dist/zone';
@@ -21,6 +22,7 @@ import { TestFieldsComponent }      from './fields/test.fields.component';
 import { TestFieldsHomeComponent }  from './fields/test.fields.home.component';
 
 import { PrivacyFieldComponent }    from './privacy.field.component';
+import { SUBMIT_ERROR_BEHAVIOR }    from './submit.error.behavior';
 
 import { TestAppComponent }         from './test.app.component';
 import { routing, routingProviders } from './test.app.routing';
@@ -55,10 +57,15 @@ import { TestHomeComponent }        from './test.home.component';
         BrowserModule,
         ReactiveFormsModule,
         DynamicFormsModule.withConfig({
-            fields: [
-                { type: 'color-preview', component: ColorPreviewComponent },
-                { type: 'privacy', component: PrivacyFieldComponent }
-            ]
+            behaviors: [
+                SUBMIT_ERROR_BEHAVIOR
+            ],
+            mappings: {
+                fields: [
+                    { type: 'color-preview', component: ColorPreviewComponent },
+                    { type: 'privacy', component: PrivacyFieldComponent }
+                ]
+            }
         }),
         routing
     ],

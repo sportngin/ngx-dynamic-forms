@@ -1,34 +1,19 @@
-import { ClassProvider, Injectable, Injector } from '@angular/core';
-
-import { Behavior, BehaviorType, BehaviorFnAccessor, BehaviorFn, BUILT_IN_BEHAVIORS, behavior } from './behaviors';
+import { Inject, Injectable, Injector } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 
+import { DYNAMIC_FORMS_CONFIG, DynamicFormsConfig } from '../dynamic.forms.config';
+import { Behavior, BehaviorType, BehaviorFn }       from './behaviors';
+
 let behaviors: { [key: string]: Behavior } = {};
-
-export class BehaviorServiceConfig implements ClassProvider {
-
-    // public with<T>(type: BehaviorType | string, accessor: BehaviorFnAccessor<T>): BehaviorServiceConfig {
-    //     behaviors[type] = behavior<T>(type, accessor);
-    //     return this;
-    // }
-
-    public readonly provide = BehaviorService;
-    public readonly useClass = BehaviorService;
-
-}
 
 @Injectable()
 export class BehaviorService {
 
-    constructor() {
-        BUILT_IN_BEHAVIORS.forEach(behavior => {
+    constructor(@Inject(DYNAMIC_FORMS_CONFIG) config: DynamicFormsConfig) {
+        config.behaviors.forEach(behavior => {
             behaviors[behavior.type] = behavior;
         });
     }
-
-    // public static with<T>(type: BehaviorType | string, accessor: BehaviorFnAccessor<T>): BehaviorServiceConfig {
-    //     return new BehaviorServiceConfig().with<T>(type, accessor);
-    // }
 
     private getBehavior(type: BehaviorType | string, optional: boolean): Behavior {
         let behavior = behaviors[type];

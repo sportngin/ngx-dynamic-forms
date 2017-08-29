@@ -1,6 +1,6 @@
-import { Validators } from '@angular/forms';
+import { FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 
-import { ButtonClass, Model, PasswordValidator } from '@siplay/ng-dynamic-forms';
+import { BehaviorType, ButtonClass, Model, PasswordValidator } from '@siplay/ng-dynamic-forms';
 
 const buttonText = {
     default: 'Submit',
@@ -13,14 +13,20 @@ const buttonText = {
 export class FormTestModel extends Model {
 
     constructor() {
-        super(Model.layout('.form-test',
+        super(function checkedEmailValidator(form: FormGroup): null | ValidationErrors {
+            if (form.controls['email']['fakeError']) {
+                return {
+                    email: {
+                        fakeError: 'error'
+                    }
+                };
+            }
+            return null;
+        },
+            Model.layout('.form-test',
             Model.layout('.inner',
-                Model.layout('error')
-                    .addHelper('There was an error checking your e-mail address.<br>Please try again.', '.alert.alert-danger')
-                    .addConditions({ key: 'error' }),
-
-                // Model.validationMessage('email', 'email', 'Please enter a valid email address.', '.alert.alert-danger'),
-                Model.textMember('email', Validators.required, Validators.email)
+                Model.validationMessage('email', 'fakeError', 'There was an error checking your e-mail address.<br>Please try again.', '.alert.alert-danger'),
+                Model.textMember('email', Validators.required, Validators.email, )
                     .addLabel('Email')
                     .addValidationMessage('required', 'Please enter your email address')
                     .addValidationMessage('email', 'Please enter a valid email address'),
@@ -41,7 +47,7 @@ export class FormTestModel extends Model {
 
                 Model.submitButton(ButtonClass.success, buttonText, true),
 
-                Model.button('error', ButtonClass.danger, buttonText, true)
+                Model.button('submitError', ButtonClass.danger, buttonText, true)
                     .addData('error', true)
         )));
     }
