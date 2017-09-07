@@ -8,6 +8,7 @@ import { ModelMember }      from '../member/model.member';
 import { TemplatedMember }  from '../member/templated.member';
 
 export interface ModelControl extends ModelElement {
+    name?: string;
     member: ModelElement;
     childControls: ModelControl[];
     hidden: boolean;
