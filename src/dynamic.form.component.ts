@@ -8,14 +8,16 @@ import { Observable } from 'rxjs/Observable';
 import { FormComponentHost }    from './form.component.host';
 import { ModelControl }         from './model/control/model.control';
 import { StructuralComponent }  from './structural.component';
+import { behaviorProvider, BehaviorType, SubmitHandler } from './behavior/behaviors';
 
 @Component({
     selector: 'dynamic-form',
     templateUrl: './dynamic.form.component.pug',
     styleUrls: ['./dynamic.form.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
+    viewProviders: [behaviorProvider(DynamicFormComponent, BehaviorType.submit)]
 })
-export class DynamicFormComponent extends StructuralComponent<ModelControl> {
+export class DynamicFormComponent extends StructuralComponent<ModelControl> implements SubmitHandler {
 
     constructor(
         private fb: FormBuilder,
@@ -28,6 +30,10 @@ export class DynamicFormComponent extends StructuralComponent<ModelControl> {
 
     public get value(): any {
         return this.form.value;
+    }
+
+    public onSubmit(): void {
+        this.submit(null);
     }
 
     public submit(e: Event): void {

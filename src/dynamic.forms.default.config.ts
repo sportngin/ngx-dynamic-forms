@@ -4,12 +4,9 @@ import { BUILT_IN_BEHAVIORS }       from './behavior/behaviors';
 
 import { ElementType }              from './element.type';
 import { ButtonComponent }          from './elements/button.component';
-import { ButtonSelectorComponent }  from './elements/button.selector.component';
-import { ButtonType }               from './elements/button.type';
 import { FormPageComponent }        from './elements/form.page.component';
 import { FormPageRootComponent }    from './elements/form.page.root.component';
 import { LayoutComponent }          from './elements/layout.component';
-import { SubmitButtonComponent }    from './elements/submit.button.component';
 
 import { FieldType }                from './field.type';
 import { CheckboxFieldComponent }   from './fields/checkbox.field.component';
@@ -26,12 +23,8 @@ import { TextFieldComponent }       from './fields/text.field.component';
 export const DEFAULT_CONFIG: DynamicFormsConfig = {
     behaviors: BUILT_IN_BEHAVIORS,
     mappings: {
-        buttons: [
-            { type: ButtonType.button,      component: ButtonComponent },
-            { type: ButtonType.submit,      component: SubmitButtonComponent },
-        ],
         elements: [
-            { type: ElementType.button,     component: ButtonSelectorComponent },
+            { type: ElementType.button,     component: ButtonComponent },
             { type: ElementType.input,      component: DynamicInputComponent },
             { type: ElementType.layout,     component: LayoutComponent },
             { type: ElementType.page,       component: FormPageComponent },

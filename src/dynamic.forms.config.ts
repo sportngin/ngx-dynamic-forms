@@ -4,16 +4,10 @@ import { extend, find } from 'lodash';
 
 import { Behavior }     from './behavior/behaviors';
 import { ElementType }  from './element.type';
-import { ButtonType }   from './elements/button.type';
 import { FieldType }    from './field.type';
 
 export interface TypeHandlerMapping {
     type: string;
-    component: any
-}
-
-export interface ButtonTypeHandlerMapping extends TypeHandlerMapping {
-    type: ButtonType | string;
     component: any
 }
 
@@ -31,7 +25,6 @@ export interface DynamicFormsConfig {
 
     behaviors?: Behavior[];
     mappings?: {
-        buttons?: ButtonTypeHandlerMapping[];
         elements?: ElementTypeHandlerMapping[];
         fields?: FieldTypeHandlerMapping[];
     }

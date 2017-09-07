@@ -49,7 +49,9 @@ export abstract class FormComponentHost<TState extends FormState = FormState> im
     }
 
     public submit(e: Event): void {
-        e.preventDefault();
+        if (e) {
+            e.preventDefault();
+        }
         this.doSubmit()
             .then(result => {
                 this.state.error = null;

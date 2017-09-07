@@ -19,7 +19,6 @@ export * from './position.pipe';
 export * from './validators';
 
 export * from './elements/button.type';
-export * from './elements/button.type.mappings';
 export * from './elements/form.page.component';
 export * from './elements/form.page.root.component';
 

@@ -1,7 +1,7 @@
 doctype html
 
 button.btn(
-    type='button',
+    [type]='control.buttonType',
     [class]='"btn-" + control.member.buttonClass',
     [ngClass]='control.cssClasses',
     (click)='handleBehavior(control.member.buttonAction, form)',
