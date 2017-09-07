@@ -11,5 +11,6 @@ ng-template(#display)
 
 ng-template(#editor)
     .ngdf-list-editor(
-        list-field-editable
+        list-field-editable,
+        (keyup.enter)='saveItem()'
     )

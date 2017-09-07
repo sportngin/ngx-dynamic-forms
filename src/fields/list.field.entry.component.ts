@@ -4,6 +4,7 @@ import {
 
 import { ElementData }      from '../elements/element.data';
 import { HostedElement }    from '../hosted.element';
+import { ButtonAction }     from '../model/member/button.member';
 import { ListEntryData }    from './list.field.component';
 
 @Component({
@@ -39,6 +40,10 @@ export class ListFieldEntryComponent extends HostedElement implements DoCheck, O
 
     public onEditEntry(): void {
         this.editEntry.next();
+    }
+
+    public saveItem(): void {
+        this.handleBehavior(ButtonAction.saveItem, this.form);
     }
 
     private check(): void {

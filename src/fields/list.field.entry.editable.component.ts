@@ -1,13 +1,11 @@
-import {
-    Injector, ViewChild, ViewContainerRef, Input, Component, Inject
-} from '@angular/core';
+import { Injector, ViewChild, ViewContainerRef, Input, Component } from '@angular/core';
 
 import { extend } from 'lodash';
 
-import { ElementData }    from '../elements/element.data';
-import { TEMPLATE }                     from '../parent.component';
-import { StructuralComponent }          from '../structural.component';
-import { EntryState }                   from './list.field.component';
+import { ElementData }          from '../elements/element.data';
+import { TEMPLATE }             from '../parent.component';
+import { StructuralComponent }  from '../structural.component';
+import { EntryState }           from './list.field.component';
 
 @Component({
     selector: '[list-field-editable]',
