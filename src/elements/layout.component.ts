@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, Injector, OnInit, ViewEncapsulation } from '@angular/core';
 
 import { LayoutControl }        from '../model/control/layout.control';
 import { TEMPLATE }             from '../parent.component';
@@ -7,7 +7,9 @@ import { ElementData }          from './element.data';
 
 @Component({
     selector: 'layout',
-    template: TEMPLATE
+    template: TEMPLATE,
+    styleUrls: ['./layout.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 export class LayoutComponent extends StructuralComponent<LayoutControl> implements OnInit {
 
