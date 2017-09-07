@@ -38,12 +38,15 @@ export abstract class Model {
     };
 
     static submitButton(buttonClass: ButtonClass, text: FormText, disableWhenInvalid: boolean = true): ButtonMember {
-        return new ButtonMember(ButtonType
-            .submit, ButtonAction.submit, buttonClass, text, disableWhenInvalid);
+        return Model.customButton(ButtonType.submit, ButtonAction.submit, buttonClass, text, disableWhenInvalid);
     }
 
     static button(buttonAction: ButtonAction | string, buttonClass: ButtonClass, text?: FormText, disableWhenInvalid: boolean = false): ButtonMember {
-        return new ButtonMember(ButtonType.button, buttonAction, buttonClass, text, disableWhenInvalid);
+        return Model.customButton(ButtonType.button, buttonAction, buttonClass, text, disableWhenInvalid);
+    }
+
+    static customButton(buttonType: ButtonType, buttonAction: ButtonAction | string, buttonClass: ButtonClass, text?: FormText, disableWhenInvalid: boolean = false): ButtonMember {
+        return new ButtonMember(buttonType, buttonAction, buttonClass, text, disableWhenInvalid);
     }
 
     static layout(cssClass: string, ...members: ModelElement[]): LayoutMember {
