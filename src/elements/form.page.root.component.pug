@@ -4,7 +4,10 @@ ng-template(ngFor let-page [ngForOf]='childControls')
     form-page(
         *ngIf='currentPage === page.pageIndex',
         [form]='elementData.form.controls[page.member.name]',
-        [control]='page')
+        [control]='page',
+        (keyup.enter)='nextPage()',
+        (keyup.shift.enter)='prevPage()'
+    )
 
 div
     button.btn.btn-default(

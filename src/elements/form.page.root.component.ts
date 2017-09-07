@@ -49,13 +49,25 @@ export class FormPageRootComponent extends HostedElement<RootPageControl> implem
         });
     }
 
+    isPageValid(pageIndex: number): boolean {
+        let pageControl = this.childControls[pageIndex];
+        let pageForm = this.form.controls[pageControl.name];
+        return pageForm.valid;
+    }
+
     nextPage(): void {
+        if (!this.isPageValid(this.currentPage)) {
+            return;
+        }
         if (this.currentPage < this.childControls.length - 1) {
             this.currentPage++;
         }
     }
 
     prevPage(): void {
+        if (!this.isPageValid(this.currentPage)) {
+            return;
+        }
         if (this.currentPage > 0) {
             this.currentPage--;
         }
