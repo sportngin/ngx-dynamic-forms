@@ -13,6 +13,7 @@ export class ArrayMember extends TemplatedMember {
         super(ElementType.input, FieldType.list, name, template, validators, data);
 
         this.displaysValidation = false;
+        this.usesValidationClasses = false;
     }
 
     public canEditItem: ArrayItemPermission = true;

@@ -18,11 +18,13 @@ export interface ModelMember extends ModelElement {
     validators: ValidatorFn | ValidatorFn[];
     label: string;
     labelPosition: ControlPosition;
+    usesValidationClasses: boolean;
 }
 
 export interface ModelMemberBuilder<T extends ModelMemberBuilder<T>> extends ModelMember, ModelElementBuilder<T> {
     addLabel: (label: string) => T;
     addValidationMessage: (key: string, text: string, cssClass?: string, position?: ControlPosition) => T;
+    useValidationClasses: (useValidationClasses: boolean) => T;
 }
 
 export abstract class ModelMemberBase<T extends ModelMemberBase<T>> extends ModelElementBase<T> implements ModelMemberBuilder<T> {
@@ -33,6 +35,7 @@ export abstract class ModelMemberBase<T extends ModelMemberBase<T>> extends Mode
         this.fieldType = fieldType;
         this.name = name;
         this.validators = validators;
+        this.usesValidationClasses = true;
     }
 
     public name: string;
@@ -47,6 +50,7 @@ export abstract class ModelMemberBase<T extends ModelMemberBase<T>> extends Mode
     public label: string;
     public labelPosition: ControlPosition = ControlPosition.before;
     public helpers: ElementHelper[];
+    public usesValidationClasses: boolean;
 
     public addLabel(label: string): T {
         this.label = label;
@@ -56,6 +60,11 @@ export abstract class ModelMemberBase<T extends ModelMemberBase<T>> extends Mode
     public addValidationMessage(errorKey: string, text: string, cssClass?: string, position: ControlPosition = ControlPosition.after): T {
         let renderCondition: ModelElementRenderCondition = { key: `${this.name}:${errorKey}`, method: BehaviorType.validateDisplay, required: true };
         return this.addHelper(text, cssClass, position, renderCondition);
+    }
+
+    public useValidationClasses(useValidationClasses: boolean): T {
+        this.usesValidationClasses = useValidationClasses;
+        return this.self;
     }
 
     public createFormControl(): FormControl {

@@ -66,6 +66,9 @@ export class DynamicInputComponent extends ControlSelectorComponent<ModelMemberC
     }
 
     private checkValidator(): void {
+        if (!this.control.member.usesValidationClasses) {
+            return;
+        }
         if (this.validatorDisplay.isSuccess(this.formControl)) {
             this.addCssClass('has-success');
         } else {
