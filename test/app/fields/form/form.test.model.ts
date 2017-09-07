@@ -13,19 +13,9 @@ const buttonText = {
 export class FormTestModel extends Model {
 
     constructor() {
-        super(function checkedEmailValidator(form: FormGroup): null | ValidationErrors {
-            if (form.controls['email']['fakeError']) {
-                return {
-                    email: {
-                        fakeError: 'error'
-                    }
-                };
-            }
-            return null;
-        },
-            Model.layout('.form-test',
+        super(Model.layout('.form-test',
             Model.layout('.inner',
-                Model.validationMessage('email', 'fakeError', 'There was an error checking your e-mail address.<br>Please try again.', '.alert.alert-danger'),
+                Model.stateMessage('email-check', 'There was an error checking your e-mail address.<br>Please try again.', '.alert.alert-danger'),
                 Model.textMember('email', Validators.required, Validators.email, )
                     .addLabel('Email')
                     .addValidationMessage('required', 'Please enter your email address')

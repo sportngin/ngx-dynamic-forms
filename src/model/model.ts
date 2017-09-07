@@ -123,6 +123,14 @@ export abstract class Model {
             .addConditions({ key: `${fieldKey}:${errorKey}`, method: BehaviorType.validateDisplay, required: true });
     }
 
+    static stateMessage(key: string, text: string, cssClass?: string): LayoutMember {
+        return Model.layout('.state-message-container',
+            Model.layout('.state-message')
+                .addHelper(text, cssClass)
+            )
+            .addConditions({ key , method: BehaviorType.stateMessageDisplay, required: true })
+    }
+
     toFormGroup(fb: FormBuilder): FormGroup {
         return ModelHelper.createFormGroup(fb, this.members, this.validator);
     }

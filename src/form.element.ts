@@ -1,7 +1,7 @@
 import { ElementRef, Injector, Renderer2 } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 
-import { every, isFunction } from 'lodash';
+import { every } from 'lodash';
 
 import { BehaviorService }  from './behavior/behavior.service';
 import { BehaviorFn, BehaviorType, DisplayValidationHandler } from './behavior/behaviors';
@@ -115,17 +115,7 @@ export abstract class FormElement implements DisplayValidationHandler {
         }
 
         return every(control.renderConditions, condition => {
-            // if (isFunction(condition)) {
-            //     return condition(this.form);
-            // }
-
-            // FIXME: for some reason, using IsRenderedMethods.parent causes the error "Object prototype may only be an Object or null: undefined
-            // if (condition === 'parent') { // IsRenderedMethods.parent) {
-            // console.log('isRendered', condition.key, this.constructor, this.form, !condition.required);
-                return this.handleBehavior(`${condition.method || 'isRendered'}:${condition.key}`, this.form, condition.required ? undefined : true);
-            // }
-
-            // return true;
+            return this.handleBehavior(`${condition.method || 'isRendered'}:${condition.key}`, this.form, condition.required ? undefined : true);
         });
     }
 

@@ -37,10 +37,12 @@ export class FormTestComponent extends FieldTestComponent implements IsDisabledH
     }
 
     public submitError(form: FormGroup, key: string): void {
-        let email = form.controls['email'];
-        email['fakeError'] = true;
+        this.setStateMessage('email-check', true);
+    }
 
-        form.updateValueAndValidity();
+    protected doSubmit(): Promise<any> {
+        this.clearStateMessages();
+        return super.doSubmit();
     }
 
 }

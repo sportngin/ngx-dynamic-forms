@@ -9,6 +9,7 @@ export enum BehaviorType {
     removeItem = 'removeItem',
     resetItem = 'resetItem',
     saveItem = 'saveItem',
+    stateMessageDisplay = 'stateMessageDisplay',
     submit = 'submit',
     validateDisplay = 'validateDisplay'
 }
@@ -44,6 +45,14 @@ export function saveItemHandlerAccessor<T extends SaveItemHandler>(implementatio
     return implementation.onSaveItemClick;
 }
 export const SAVE_ITEM_HANDLER = new InjectionToken<SaveItemHandler>(BehaviorType.saveItem);
+
+export interface StateMessageDisplayHandler {
+    showStateMessage(form: AbstractControl, key: string): boolean;
+}
+export function stateMessageDisplayHandlerAccessor<T extends StateMessageDisplayHandler>(implementation: T): BehaviorFn {
+    return implementation.showStateMessage;
+}
+export const STATE_MESSAGE_DISPLAY_HANDLER = new InjectionToken<StateMessageDisplayHandler>(BehaviorType.stateMessageDisplay);
 
 export interface SubmitHandler {
     onSubmit(form: AbstractControl): void;
@@ -108,6 +117,7 @@ export const BEHAVIOR_IS_RENDERED = behavior<IsRenderedHandler>(BehaviorType.isR
 export const BEHAVIOR_REMOVE_ITEM = behavior<RemoveItemHandler>(BehaviorType.removeItem, REMOVE_ITEM_HANDLER, removeItemHandlerAccessor);
 export const BEHAVIOR_RESET_ITEM = behavior<ResetItemHandler>(BehaviorType.resetItem, RESET_ITEM_HANDLER, resetItemHandlerAccessor);
 export const BEHAVIOR_SAVE_ITEM = behavior<SaveItemHandler>(BehaviorType.saveItem, SAVE_ITEM_HANDLER, saveItemHandlerAccessor);
+export const BEHAVIOR_STATE_MESSAGE_DISPLAY = behavior<StateMessageDisplayHandler>(BehaviorType.stateMessageDisplay, STATE_MESSAGE_DISPLAY_HANDLER, stateMessageDisplayHandlerAccessor);
 export const BEHAVIOR_SUBMIT = behavior<SubmitHandler>(BehaviorType.submit, SUBMIT_HANDLER, submitHandlerAccessor);
 export const BEHAVIOR_VALIDATE_DISPLAY = behavior<DisplayValidationHandler>(BehaviorType.validateDisplay, DISPLAY_VALIDATION_HANDLER, displayValidationHandlerAccessor);
 
@@ -119,6 +129,7 @@ export const BUILT_IN_BEHAVIORS: Behavior[] = [
     BEHAVIOR_REMOVE_ITEM,
     BEHAVIOR_RESET_ITEM,
     BEHAVIOR_SAVE_ITEM,
+    BEHAVIOR_STATE_MESSAGE_DISPLAY,
     BEHAVIOR_SUBMIT,
     BEHAVIOR_VALIDATE_DISPLAY
 ];
@@ -131,6 +142,7 @@ export const BUILT_IN_BEHAVIORS_MAP: { [key: string]: Behavior } = {
     removeItem: BEHAVIOR_REMOVE_ITEM,
     resetItem: BEHAVIOR_RESET_ITEM,
     saveItem: BEHAVIOR_SAVE_ITEM,
+    stateMessageDisplay: BEHAVIOR_STATE_MESSAGE_DISPLAY,
     submit: BEHAVIOR_SUBMIT,
     validateDisplay: BEHAVIOR_VALIDATE_DISPLAY
 };

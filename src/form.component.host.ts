@@ -6,7 +6,7 @@ import { extend } from 'lodash';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 
-import { behaviorProvider, BehaviorType, IsRenderedHandler } from './behavior/behaviors';
+import { behaviorProvider, BehaviorType, IsRenderedHandler, StateMessageDisplayHandler } from './behavior/behaviors';
 import { DynamicFormComponent } from './dynamic.form.component';
 import { Model } from './model/model';
 
@@ -16,7 +16,8 @@ export function hostProviders(implementation: Type<any>): Provider[] {
             provide: FormComponentHost,
             useExisting: implementation
         },
-        behaviorProvider(implementation, BehaviorType.isRendered)
+        behaviorProvider(implementation, BehaviorType.isRendered),
+        behaviorProvider(implementation, BehaviorType.stateMessageDisplay)
     ];
 }
 
@@ -28,10 +29,11 @@ export interface ControlValueInjection {
 export interface FormState {
     submitting?: boolean,
     submitted?: boolean,
-    error?: any
+    error?: any,
+    messages?: { [key: string]: any }
 }
 
-export abstract class FormComponentHost<TState extends FormState = FormState> implements OnDestroy, IsRenderedHandler {
+export abstract class FormComponentHost<TState extends FormState = FormState> implements OnDestroy, IsRenderedHandler, StateMessageDisplayHandler    {
 
     private _form: DynamicFormComponent;
     private valueInjectionObserver: Promise<Observer<ControlValueInjection>>;
@@ -52,6 +54,7 @@ export abstract class FormComponentHost<TState extends FormState = FormState> im
         if (e) {
             e.preventDefault();
         }
+        this.clearStateMessages();
         this.doSubmit()
             .then(result => {
                 this.state.error = null;
@@ -66,6 +69,17 @@ export abstract class FormComponentHost<TState extends FormState = FormState> im
                 this.state.submitted = false;
             });
         this.state.submitting = true;
+    }
+
+    protected setStateMessage(key: string, value: any): void {
+        if (!this.state.messages) {
+            this.state.messages = {};
+        }
+        this.state.messages[key] = value;
+    }
+
+    protected clearStateMessages(): void {
+        delete this.state.messages;
     }
 
     protected abstract doSubmit(): Promise<any | { state: FormState }>;
@@ -106,6 +120,10 @@ export abstract class FormComponentHost<TState extends FormState = FormState> im
             case 'submitting': return this.state.submitting;
             case 'submitted': return this.state.submitted;
         }
+    }
+
+    public showStateMessage(form: AbstractControl, key: string): boolean {
+        return this.state.messages && this.state.messages[key];
     }
 
 }
