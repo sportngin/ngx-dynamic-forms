@@ -44,6 +44,9 @@ export function configFactory(defaultConfig: DynamicFormsConfig, userConfig: Dyn
     // merge each mappings key
     Object.keys(defaultConfig.mappings).forEach(key => {
         result.mappings[key] = defaultConfig.mappings[key];
+        if (!userConfig) {
+            return;
+        }
         let usr: TypeHandlerMapping[] = userConfig.mappings[key];
         if (!usr) {
             return;
@@ -62,7 +65,7 @@ export function configFactory(defaultConfig: DynamicFormsConfig, userConfig: Dyn
 
     // merge behaviors
     result.behaviors.push(...defaultConfig.behaviors);
-    if (userConfig.behaviors) {
+    if (userConfig && userConfig.behaviors) {
         userConfig.behaviors.forEach(userBehavior => {
             let builtInBehavior = find(defaultConfig.behaviors, builtInBehavior => builtInBehavior.type === userBehavior.type);
             if (builtInBehavior) {
