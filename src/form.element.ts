@@ -70,18 +70,23 @@ export abstract class FormElement implements DisplayValidationHandler {
         if (!group) {
             return true;
         }
-        if (!group.controls[fieldKey]) {
+
+        let field = group.controls[fieldKey];
+        if (fieldKey && !field) {
             throw new Error('Field does not exist!');
         }
 
         // don't show if the field is pristine or untouched
-        if (group.controls[fieldKey].pristine || group.controls[fieldKey].untouched) {
+        if (field && (group.controls[fieldKey].pristine || group.controls[fieldKey].untouched)) {
             return false;
         }
         // validators applied to a specific control will add errors to the control instance
-        let controlErrors = group.controls[fieldKey].errors && group.controls[fieldKey].errors[errorKey];
+        let controlErrors = field && field.errors && field.errors[errorKey];
         // validators applied to a group in order to do multi-control validation will add errors to the group instance
-        let groupErrors = group.errors && group.errors[fieldKey] && group.errors[fieldKey][errorKey];
+        let groupErrors = group.errors && (field ?
+            group.errors[fieldKey] && group.errors[fieldKey][errorKey] :
+            group.errors[errorKey]
+        );
         return controlErrors || groupErrors;
     }
 
