@@ -27,6 +27,7 @@ export class ButtonMember extends ModelElementBase<ButtonMember> implements Disa
     constructor(buttonType: ButtonType, buttonAction: ButtonAction | string, buttonClass: ButtonClass, text: FormText, disableWhenInvalid: boolean = false) {
         super(ElementType.button);
 
+        this.buttonType = buttonType;
         this.buttonAction = buttonAction;
         this.buttonClass = buttonClass;
         this.text = text;

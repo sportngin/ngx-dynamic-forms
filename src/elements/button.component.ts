@@ -1,8 +1,8 @@
 import { Component, Injector } from '@angular/core';
 
-import { ElementData }      from './element.data';
 import { HostedElement }    from '../hosted.element';
 import { ButtonControl }    from '../model/control/button.control';
+import { ElementData }      from './element.data';
 
 @Component({
     selector: 'form-button',
@@ -14,10 +14,7 @@ export class ButtonComponent extends HostedElement<ButtonControl> {
         elementData: ElementData,
         injector: Injector
     ) {
-        super(
-            elementData,
-            injector
-        );
+        super(elementData, injector);
     }
 
 }

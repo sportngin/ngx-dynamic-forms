@@ -21,7 +21,7 @@ import {
 import { DEFAULT_CONFIG } from './dynamic.forms.default.config';
 
 import { ButtonComponent }          from './elements/button.component';
-import { ButtonTypeMappings }       from './elements/button.type';
+import { ButtonTypeMappings }       from './elements/button.type.mappings';
 import { FormPageComponent }        from './elements/form.page.component';
 import { FormPageRootComponent }    from './elements/form.page.root.component';
 import { LayoutComponent }          from './elements/layout.component';
@@ -40,10 +40,12 @@ import { ListFieldEntryDirective }  from './fields/list.field.entry.directive';
 import { ListFieldEntryEditableComponent } from './fields/list.field.entry.editable.component';
 import { PasswordFieldComponent }   from './fields/password.field.component';
 import { TextFieldComponent }       from './fields/text.field.component';
+import { ButtonSelectorComponent } from './elements/button.selector.component';
 
 @NgModule({
     declarations:   [
         ButtonComponent,
+        ButtonSelectorComponent,
         CheckboxFieldComponent,
         ColorPickerComponent,
         DatePickerComponent,
@@ -90,6 +92,7 @@ import { TextFieldComponent }       from './fields/text.field.component';
     ],
     entryComponents: [
         ButtonComponent,
+        ButtonSelectorComponent,
         CheckboxFieldComponent,
         ColorPickerComponent,
         DatePickerComponent,

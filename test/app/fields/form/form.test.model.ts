@@ -1,6 +1,6 @@
-import { FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { FormGroup, ValidationErrors, Validators } from '@angular/forms';
 
-import { BehaviorType, ButtonClass, Model, PasswordValidator } from '@siplay/ng-dynamic-forms';
+import { ButtonClass, Model, PasswordValidator } from '@siplay/ng-dynamic-forms';
 
 const buttonText = {
     default: 'Submit',

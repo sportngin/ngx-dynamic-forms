@@ -4,6 +4,7 @@ import { BUILT_IN_BEHAVIORS }       from './behavior/behaviors';
 
 import { ElementType }              from './element.type';
 import { ButtonComponent }          from './elements/button.component';
+import { ButtonSelectorComponent }  from './elements/button.selector.component';
 import { ButtonType }               from './elements/button.type';
 import { FormPageComponent }        from './elements/form.page.component';
 import { FormPageRootComponent }    from './elements/form.page.root.component';
@@ -30,7 +31,7 @@ export const DEFAULT_CONFIG: DynamicFormsConfig = {
             { type: ButtonType.submit,      component: SubmitButtonComponent },
         ],
         elements: [
-            { type: ElementType.button,     component: ButtonComponent },
+            { type: ElementType.button,     component: ButtonSelectorComponent },
             { type: ElementType.input,      component: DynamicInputComponent },
             { type: ElementType.layout,     component: LayoutComponent },
             { type: ElementType.page,       component: FormPageComponent },

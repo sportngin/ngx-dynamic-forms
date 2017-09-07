@@ -24,10 +24,7 @@ export class ListFieldEntryComponent extends HostedElement implements DoCheck, O
         @Inject(ElementData) public elementData: ListEntryData,
         injector: Injector
     ) {
-        super(
-            elementData,
-            injector
-        );
+        super(elementData, injector);
     }
 
     private renderView(): void {

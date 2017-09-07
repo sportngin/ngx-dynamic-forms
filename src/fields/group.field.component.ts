@@ -1,8 +1,8 @@
-import { Component, Inject, Injector, Input }   from '@angular/core';
-import { FormGroup }                            from '@angular/forms';
+import { Component, Injector, Input }   from '@angular/core';
+import { FormGroup }                    from '@angular/forms';
 
 import { FieldData }   from './field.data';
-import { FieldBase }                        from './field.base';
+import { FieldBase }   from './field.base';
 
 @Component({
     selector: 'group-field',

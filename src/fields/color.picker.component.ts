@@ -1,7 +1,7 @@
-import { Component, Inject, Injector, ViewEncapsulation } from '@angular/core';
+import { Component, Injector, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
-import { FieldBase }                        from './field.base';
+import { FieldBase }   from './field.base';
 import { FieldData }   from './field.data';
 
 @Component({

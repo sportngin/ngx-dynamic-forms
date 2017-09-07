@@ -1,4 +1,4 @@
-import { Component, Inject, Injector } from '@angular/core';
+import { Component, Injector } from '@angular/core';
 
 import { ElementData }    from '../elements/element.data';
 import { HostedElement }                from '../hosted.element';
@@ -20,7 +20,7 @@ export class FieldDisplayComponent extends HostedElement {
         if (formControl['displayValue']) {
             return formControl['displayValue'];
         }
-        return this.form.value[this.control.name];
+        return this.form.value[this.control.name]
     }
 
     constructor(

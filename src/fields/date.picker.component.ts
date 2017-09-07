@@ -1,4 +1,4 @@
-import { Component, forwardRef, Inject, Injector, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, forwardRef, Injector, OnInit, ViewEncapsulation } from '@angular/core';
 import {
     ControlValueAccessor, FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR,
     Validators
