@@ -9,6 +9,20 @@ import { HostedElement }                from '../hosted.element';
 })
 export class FieldDisplayComponent extends HostedElement {
 
+    get displayValue(): string {
+        if (!this.control.name) {
+            return null;
+        }
+        let formControl = this.form.controls[this.control.name];
+        if (!formControl) {
+            return null;
+        }
+        if (formControl['displayValue']) {
+            return formControl['displayValue'];
+        }
+        return this.form.value[this.control.name];
+    }
+
     constructor(
         elementData: ElementData,
         injector: Injector) {
