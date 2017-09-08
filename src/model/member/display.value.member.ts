@@ -14,6 +14,6 @@ export abstract class DisplayValueMember extends SimpleMember {
     }
 
     public createFormControl(): FormControl {
-        return null; //return new DisplayValueFormControl(this.defaultValue, this.validators, null, (value: any) => this.getDisplayValue(value));
+        return new DisplayValueFormControl(this.defaultValue, this.validators, null, (value: any) => this.getDisplayValue(value));
     }
 }

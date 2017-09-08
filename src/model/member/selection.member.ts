@@ -2,7 +2,7 @@ import { ValidatorFn } from '@angular/forms';
 
 import { find } from 'lodash';
 
-import { FieldType }      from '../../field.type';
+import { FieldType }            from '../../field.type';
 import { DisplayValueMember }   from './display.value.member';
 
 export class SelectionMember extends DisplayValueMember {
