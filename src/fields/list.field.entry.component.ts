@@ -60,7 +60,7 @@ export class ListFieldEntryComponent extends HostedElement<ArrayControl> impleme
     }
 
     ngOnInit(): void {
-        this.addCssClass(this.control.itemCssClass);
+        this.addCssClass(...this.control.itemCssClasses);
     }
 
     ngDoCheck(): void {

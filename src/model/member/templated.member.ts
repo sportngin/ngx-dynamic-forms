@@ -17,18 +17,14 @@ export class TemplatedMember extends ModelMemberBase<TemplatedMember> {
     public template: Model;
     public itemCssClasses: string[];
 
-    public addItemCssClass(...cssClass: string[]): TemplatedMember {
-        cssClass = getCssClassArray(...cssClass);
+    public addItemCssClass(...cssClasses: string[]): TemplatedMember {
+        cssClasses = getCssClassArray(...cssClasses);
         if (!this.itemCssClasses) {
-            this.itemCssClasses = cssClass;
+            this.itemCssClasses = cssClasses;
         } else {
-            this.itemCssClasses.push(...cssClass);
+            this.itemCssClasses.push(...cssClasses);
         }
-        return this;
-    }
-
-    public get itemCssClass(): string {
-        return getCssClassFromArray(this.itemCssClasses);
+        return this.self;
     }
 
 }

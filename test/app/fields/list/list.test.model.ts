@@ -65,7 +65,7 @@ export class ListTestModel extends Model {
                 .allowRemoveItem(value => !value.cantTouchThis)
                 .addLabel('List')
                 .addHelper(`Here's a helper`, '.alert.alert-info', ControlPosition.before)
-                .addItemCssClass('item-css-class')
+                .addItemCssClass('item-css-class', 'class-one class-two', '.class-three.class-four', 'class-five')
         );
     }
 }
