@@ -1,9 +1,11 @@
 import {
-    Component, EventEmitter, Injector, OnDestroy, Output, TemplateRef, ViewChild, ViewContainerRef, DoCheck, Inject
+    Component, EventEmitter, Injector, OnDestroy, Output, TemplateRef, ViewChild, ViewContainerRef, DoCheck, Inject,
+    OnInit
 } from '@angular/core';
 
 import { ElementData }      from '../elements/element.data';
 import { HostedElement }    from '../hosted.element';
+import { ArrayControl }     from '../model/control/array.control';
 import { ButtonAction }     from '../model/member/button.member';
 import { ListEntryData }    from './list.field.component';
 
@@ -11,7 +13,7 @@ import { ListEntryData }    from './list.field.component';
     selector: 'li [list-field-entry]',
     templateUrl: './list.field.entry.component.pug'
 })
-export class ListFieldEntryComponent extends HostedElement implements DoCheck, OnDestroy {
+export class ListFieldEntryComponent extends HostedElement<ArrayControl> implements OnInit, DoCheck, OnDestroy {
 
     @ViewChild('display', { read: TemplateRef }) displayTemplate: TemplateRef<any>;
     @ViewChild('editor', { read: TemplateRef }) editorTemplate: TemplateRef<any>;
@@ -55,6 +57,10 @@ export class ListFieldEntryComponent extends HostedElement implements DoCheck, O
                 this.removeCssClass('ngdf-list-editing');
             }
         }
+    }
+
+    ngOnInit(): void {
+        this.addCssClass(this.control.itemCssClass);
     }
 
     ngDoCheck(): void {
