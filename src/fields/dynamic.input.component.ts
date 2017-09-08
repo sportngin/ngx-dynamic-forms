@@ -6,10 +6,10 @@ import { AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angul
 import { extend, omit } from 'lodash';
 
 import { ComponentInfo }            from '../component.info';
-import { ControlSelectorComponent } from '../control.selector.component';
 import { ElementData }              from '../elements/element.data';
 import { FieldType }                from '../field.type';
 import { FieldTypeMappings }        from '../field.type.mappings';
+import { HostedControl }            from '../hosted.control';
 import { ModelMemberControl }       from '../model/control/model.control';
 import { CheckboxMember }           from '../model/member/checkbox.member';
 import { SelectionMember }          from '../model/member/selection.member';
@@ -28,7 +28,7 @@ import { FieldData }                from './field.data';
         multi: true
     }]
 })
-export class DynamicInputComponent extends ControlSelectorComponent<ModelMemberControl> implements ControlValueAccessor, AfterViewChecked, OnInit {
+export class DynamicInputComponent extends HostedControl<ModelMemberControl> implements ControlValueAccessor, AfterViewChecked, OnInit {
 
     disabled: boolean;
 
@@ -112,14 +112,14 @@ export class DynamicInputComponent extends ControlSelectorComponent<ModelMemberC
         return this.inputData;
     }
 
-    protected createComponents(): ComponentInfo[] {
-        return this.createControlComponent();
+    protected createChildComponents(): ComponentInfo[] {
+        return [this.createControlComponent()];
     }
 
-    protected createControlComponent(): ComponentInfo[] {
+    protected createControlComponent(): ComponentInfo {
 
         let elementData = this.getElementData();
-        let mergedInputData = omit(extend(elementData, this.control.member.data || {}), 'form', 'control');
+        let mergedInputData = omit(extend(elementData, this.control.member.data || {}, { createsHelpers: false }), 'form', 'control');
 
         let inputProviders: Provider[] = this.getProvidersFromInputData(mergedInputData);
         inputProviders.push(
@@ -128,7 +128,11 @@ export class DynamicInputComponent extends ControlSelectorComponent<ModelMemberC
         );
         let componentType = this.fieldTypeMappings.getComponentType(this.control.member.fieldType);
 
-        return this.createComponent(this.control, componentType, inputProviders, false);
+        return this.createComponent(this.control, componentType, inputProviders);
+    }
+
+    public getProvidersFromInputData(inputData: { [key: string]: any }): Provider[] {
+        return Object.keys(inputData).map(name => ({ provide: name, useValue: inputData[name] }));
     }
 
     protected getInputProviders(): Provider[] {

@@ -1,7 +1,7 @@
 import { Injector } from '@angular/core';
 import { AbstractControl, FormControl } from '@angular/forms';
 
-import { HostedElement }        from '../hosted.element';
+import { HostedControl }        from '../hosted.control';
 import { ModelControl }         from '../model/control/model.control';
 import { ValidatorDisplay }     from '../validator.display';
 import { FieldData }            from './field.data';
@@ -9,7 +9,7 @@ import { FieldData }            from './field.data';
 export abstract class FieldBase<
     TControl extends AbstractControl = FormControl,
     TModelControl extends ModelControl = ModelControl
-    > extends HostedElement<TModelControl> {
+    > extends HostedControl<TModelControl> {
 
     public get formControl(): TControl {
         return this.elementData.formControl as TControl;

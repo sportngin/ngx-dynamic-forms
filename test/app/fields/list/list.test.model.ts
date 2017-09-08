@@ -1,6 +1,7 @@
 import { Validators } from '@angular/forms';
 
 import { ButtonAction, ButtonClass, FieldType, Model } from '@siplay/ng-dynamic-forms';
+import { ControlPosition } from '../../../../src/model/control.position';
 
 export class ListTestModelItem extends Model {
 
@@ -42,7 +43,7 @@ export class ListTestModelItem extends Model {
                     )
                 )
             ),
-            Model.layout('.row.ngdf-list-editor.entry-row-2',
+            Model.layout('.row.ngdf-list-editor.entry-row-2.clearfix',
                 Model.layout('.col-11',
                     Model.layout('.float-right',
                         Model.button(ButtonAction.saveItem, ButtonClass.primary, '+ Add Another', true)
@@ -63,6 +64,7 @@ export class ListTestModel extends Model {
                 .allowEditItem(value => !value.cantTouchThis)
                 .allowRemoveItem(value => !value.cantTouchThis)
                 .addLabel('List')
+                .addHelper(`Here's a helper`, '.alert.alert-info', ControlPosition.before)
                 .addItemCssClass('item-css-class')
         );
     }

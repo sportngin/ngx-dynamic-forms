@@ -1,13 +1,12 @@
 import {
-    Component, Injector, OnInit, ViewChildren, QueryList, AfterViewInit, ViewEncapsulation, Inject, ViewContainerRef,
+    Component, Injector, OnInit, ViewChildren, QueryList, AfterViewInit, ViewEncapsulation, ViewContainerRef,
     ViewChild, AfterContentChecked
 } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/forms';
 
-import { chain, each, extend, find, last } from 'lodash';
+import { chain, each, extend, last, omit } from 'lodash';
 
 import { ComponentInfo }            from '../component.info';
-import { ControlManager }           from '../control.manager';
 import { ElementData }              from '../elements/element.data';
 import { Model }                    from '../model/model';
 import { ArrayControl }             from '../model/control/array.control';
@@ -60,7 +59,6 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
 
     constructor(
         elementData: FieldData,
-        private controlManager: ControlManager,
         private fb: FormBuilder,
         injector: Injector
     ) {
@@ -87,32 +85,29 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
         });
     }
 
-    private createComponent(entry: FormGroup, entryState: EntryState): ComponentInfo[] {
+    private createEntryComponent(entry: FormGroup, entryState: EntryState): ComponentInfo {
+        let entryControl = omit(this.control, 'helpers') as ModelControl;
         let entryData: ListEntryData = {
             form: entry,
             formControl: entry,
             entryState,
-            control: this.control,
+            control: entryControl,
             childControls: this.childControls as ModelMemberControl[]
         };
         let providers = [
             { provide: ElementData, useValue: entryData }
         ];
-        let components = this.controlManager.createComponent(this, this.control, ListFieldEntryComponent, providers);
 
-        let entryComponent = find(components, componentInfo => componentInfo.component.instance.constructor === ListFieldEntryComponent);
+        let entryComponent = this.controlManager.createComponent(this, entryControl, ListFieldEntryComponent, providers);
         let componentInstance: ListFieldEntryComponent = entryComponent.component.instance as ListFieldEntryComponent;
-        componentInstance.editEntry.subscribe(() => {
-            console.log('editEntry', componentInstance.form);
-            this.editEntry(componentInstance.form);
-        });
+        componentInstance.editEntry.subscribe(() => this.editEntry(componentInstance.form));
 
-        return components;
+        return entryComponent;
     }
 
-    private createComponents(entries: FormGroup[], startIndex: number = 0): ComponentInfo[] {
+    private createEntryComponents(entries: FormGroup[], startIndex: number = 0) {
         return chain(entries)
-            .map((entry, index) => this.createComponent(entry as FormGroup, this.entryState[startIndex + index]))
+            .map((entry, index) => this.createEntryComponent(entry as FormGroup, this.entryState[startIndex + index]))
             .flatten()
             .value() as ComponentInfo[];
     }
@@ -123,7 +118,7 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
         }
         if (this.formControl.controls.length > this.container.length) {
             this.controlManager.insertComponents(
-                ...this.createComponents(
+                ...this.createEntryComponents(
                     this.formControl.controls.slice(this.container.length) as FormGroup[],
                     this.container.length
                 )
@@ -131,10 +126,12 @@ export class ListFieldComponent extends FieldBase<FormArray, ArrayControl> imple
         }
     }
 
+    createChildComponents(): ComponentInfo[] {
+        return this.createEntryComponents(this.formControl.controls as FormGroup[])
+    }
+
     ngAfterViewInit(): void {
-        this.controlManager.insertComponents(
-            ...this.createComponents(this.formControl.controls as FormGroup[])
-        );
+        super.ngAfterViewInit();
         this.initialized = true;
 
         this.inputs.changes.subscribe((changes: QueryList<ListFieldEntryDirective>) => {

@@ -26,7 +26,7 @@ export class ControlManager {
     ) {
     }
 
-    public createComponent(containerComponent: DynamicControlContainer, control: ModelControl | ElementHelper, componentType: any, providers: Provider[], createHelpers: boolean = true): ComponentInfo[] {
+    public createComponent(containerComponent: DynamicControlContainer, control: ModelControl | ElementHelper, componentType: any, providers: Provider[]): ComponentInfo {
 
         let info: any = {};
         providers.push(
@@ -41,27 +41,16 @@ export class ControlManager {
         let isRendered = containerComponent.isRendered(control);
         let component = isRendered ? componentFactory() : placeholderFactory();
 
-        extend(info, { control, component, container: containerComponent.container, componentFactory, placeholderFactory });
-
-        if (!createHelpers || componentType === HelperComponent) {
-            return [info];
-        }
-
-        return [
-            ...this.createHelpers(containerComponent, control as ModelControl, ControlPosition.before),
-            info,
-            ...this.createHelpers(containerComponent, control as ModelControl, ControlPosition.after)
-        ];
+        return extend(info, { control, component, container: containerComponent.container, componentFactory, placeholderFactory });
     }
 
-    private createHelpers(containerComponent: DynamicControlContainer, control: ModelControl, position: ControlPosition): ComponentInfo[] {
+    public createHelpers(containerComponent: DynamicControlContainer, control: ModelControl, position: ControlPosition): ComponentInfo[] {
         return chain(control.helpers)
             .filter(helper => (helper.position === position || helper.position === ControlPosition.both))
             .map(helper => {
-                // TODO: replace with providers from createComponent call?
                 let providers = [
                     { provide: ELEMENT_HELPER, useValue: helper },
-                    { provide: ElementData, useValue: containerComponent.elementData }
+                    { provide: ElementData, useValue: extend({}, containerComponent.elementData, { control }) }
                 ];
                 return this.createComponent(containerComponent, helper, HelperComponent, providers);
             })
@@ -69,20 +58,33 @@ export class ControlManager {
             .value() as ComponentInfo[];
     }
 
-    public insertComponents(...components: ComponentInfo[]): void {
-        components.forEach(componentInfo => {
-            // componentInfo.component.hostView.detach();
-            componentInfo.container.insert(componentInfo.component.hostView);
-            componentInfo.component.hostView.detectChanges();
-        });
+    private insertComponent(componentInfo: ComponentInfo, index: number = null) {
+        componentInfo.container.insert(componentInfo.component.hostView, index);
+        componentInfo.component.hostView.detectChanges();
+    }
 
-        // setTimeout(() => {
-        //     components.forEach(componentInfo => {
-        //         if (!componentInfo.component.hostView.destroyed) {
-        //             componentInfo.component.hostView.reattach();
-        //         }
-        //     });
-        // });
+    public insertComponentsBefore(target: ComponentInfo, ...components: ComponentInfo[]): void {
+        components.forEach(child => {
+            let index = child.container.indexOf(target.component.hostView);
+            if (index < 0) {
+                throw new Error('could not find target component in container');
+            }
+            this.insertComponent(child, index);
+        });
+    }
+
+    public insertComponentsAfter(target: ComponentInfo, ...components: ComponentInfo[]): void {
+        components.forEach(child => {
+            let index = child.container.indexOf(target.component.hostView);
+            if (index < 0) {
+                throw new Error('could not find target component in container');
+            }
+            this.insertComponent(child, index + 1);
+        });
+    }
+
+    public insertComponents(...components: ComponentInfo[]): void {
+        components.forEach(componentInfo => this.insertComponent(componentInfo));
     }
 
 }

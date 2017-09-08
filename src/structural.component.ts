@@ -1,6 +1,6 @@
 import { Injector, Provider } from '@angular/core';
 
-import { chain } from 'lodash';
+import { map } from 'lodash';
 
 import { ComponentInfo }    from './component.info';
 import { ElementData }      from './elements/element.data';
@@ -24,10 +24,8 @@ export abstract class StructuralComponent<TControl extends ModelControl = ModelC
         ];
     }
 
-    public createComponents(): ComponentInfo[] {
-        return chain(this.childControls)
-            .map(childControl => this.createComponent(childControl, this.getComponentType(childControl), this.getProviders(childControl)))
-            .flatten()
-            .value() as ComponentInfo[];
+    public createChildComponents(): ComponentInfo[] {
+        return map(this.childControls, childControl =>
+            this.createComponent(childControl, this.getComponentType(childControl), this.getProviders(childControl)));
     }
 }

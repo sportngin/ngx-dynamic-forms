@@ -24,6 +24,7 @@ export abstract class HostedElement<TModelControl extends ModelControl = ModelCo
     }
 
     protected cdf: ChangeDetectorRef;
+
     protected get isPlaceholder(): boolean {
         return false;
     }
@@ -46,7 +47,7 @@ export abstract class HostedElement<TModelControl extends ModelControl = ModelCo
     private _componentInfo: ComponentInfo;
     public get componentInfo(): ComponentInfo {
         if (!this._componentInfo) {
-            this._componentInfo = this.injector.get(COMPONENT_INFO);
+            this._componentInfo = this.injector.get(COMPONENT_INFO, null);
         }
         return this._componentInfo;
     }
