@@ -19,7 +19,11 @@ export class PasswordValidator {
 
     public validate(c: FormControl): any {
 
-        let missingRequirements = filter(this.requirements, req => !req.pattern.test(c.value || ''));
+        if (!c.value) {
+            return null;
+        }
+
+        let missingRequirements = filter(this.requirements, req => !req.pattern.test(c.value));
 
         if (!missingRequirements.length) {
             return null;

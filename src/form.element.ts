@@ -8,6 +8,11 @@ import { BehaviorFn, BehaviorType, DisplayValidationHandler } from './behavior/b
 import { ModelControl }     from './model/control/model.control';
 import { ElementHelper }    from './model/model.element';
 
+const VALIDATOR_PROPERTIES: { [errorType: string]: string[] } = {
+    required: ['touched'],
+    default: ['dirty', 'touched']
+};
+
 export abstract class FormElement implements DisplayValidationHandler {
 
     private handlers: { [behaviorType: string]: any } = {};
@@ -76,9 +81,12 @@ export abstract class FormElement implements DisplayValidationHandler {
             throw new Error('Field does not exist!');
         }
 
-        // don't show if the field is pristine or untouched
-        if (field && (group.controls[fieldKey].pristine || group.controls[fieldKey].untouched)) {
-            return false;
+        if (field) {
+            // short-circuit showing the validation message if the field doesn't have the required state properties set
+            let properties = VALIDATOR_PROPERTIES[errorKey] || VALIDATOR_PROPERTIES.default;
+            if (!every(properties, (prop: string) => field[prop])) {
+                return false;
+            }
         }
         // validators applied to a specific control will add errors to the control instance
         let controlErrors = field && field.errors && field.errors[errorKey];

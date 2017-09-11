@@ -1,7 +1,6 @@
 import { Validators } from '@angular/forms';
 
-import { ButtonAction, ButtonClass, FieldType, Model } from '@siplay/ng-dynamic-forms';
-import { ControlPosition } from '../../../../src/model/control.position';
+import { ButtonAction, ButtonClass, ControlPosition, FieldType, Model } from '@siplay/ng-dynamic-forms';
 
 export class ListTestModelItem extends Model {
 

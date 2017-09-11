@@ -26,8 +26,8 @@ export class FormTestModel extends Model {
                     { description: 'At least two numbers', pattern: /\d.*\d/ },
                 ]))
                     .addLabel('Password')
-                    .addHelper('At least two letters and two numbers.')
-                    .addValidationMessage('required', 'Please enter a password.'),
+                    .addValidationMessage('required', 'Please enter a password.')
+                    .addValidationMessage('validatePassword', 'At least two numbers and two letters'),
 
                 Model.member('privacy', 'privacy')
                     .addHelper('You must be 13 years or older to create an account.', '.alert.alert-warning'),
