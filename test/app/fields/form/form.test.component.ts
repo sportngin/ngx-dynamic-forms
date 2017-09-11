@@ -13,9 +13,7 @@ import { FormTestModel }        from './form.test.model';
     viewProviders: [
         hostProviders(FormTestComponent),
         behaviorProvider(FormTestComponent, BehaviorType.isDisabled),
-        { provide: SUBMIT_ERROR_HANDLER, useExisting: FormTestComponent },
-
-        { provide: 'error', useExisting: FormTestComponent }
+        { provide: SUBMIT_ERROR_HANDLER, useExisting: FormTestComponent }
     ]
 })
 export class FormTestComponent extends FieldTestComponent implements IsDisabledHandler, SubmitErrorHandler {
@@ -37,6 +35,7 @@ export class FormTestComponent extends FieldTestComponent implements IsDisabledH
     }
 
     public submitError(form: FormGroup, key: string): void {
+        console.log(`${this.constructor.name}.submitError() this.form.value:`, this.form.value);
         this.setStateMessage('email-check', true);
     }
 

@@ -116,18 +116,14 @@ export abstract class Model {
     // }
 
     static validationMessage(fieldKey: string, errorKey: string, text: string, cssClass?: string): LayoutMember {
-        return Model.layout('.validation-message-container',
-            Model.layout('.validation-message')
-                .addHelper(text, cssClass)
-            )
+        return Model.layout('.validation-message-container')
+            .addHelper(text, `${cssClass || ''}.validation-message`)
             .addConditions({ key: `${fieldKey}:${errorKey}`, method: BehaviorType.validateDisplay, required: true });
     }
 
     static stateMessage(key: string, text: string, cssClass?: string): LayoutMember {
-        return Model.layout('.state-message-container',
-            Model.layout('.state-message')
-                .addHelper(text, cssClass)
-            )
+        return Model.layout('.state-message-container')
+            .addHelper(text, `${cssClass || ''}.state-message`)
             .addConditions({ key , method: BehaviorType.stateMessageDisplay, required: true })
     }
 

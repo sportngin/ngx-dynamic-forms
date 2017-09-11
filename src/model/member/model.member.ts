@@ -59,7 +59,7 @@ export abstract class ModelMemberBase<T extends ModelMemberBase<T>> extends Mode
 
     public addValidationMessage(errorKey: string, text: string, cssClass?: string, position: ControlPosition = ControlPosition.after): T {
         let renderCondition: ModelElementRenderCondition = { key: `${this.name}:${errorKey}`, method: BehaviorType.validateDisplay, required: true };
-        return this.addHelper(text, cssClass, position, renderCondition);
+        return this.addHelper(text, `${cssClass || ''}.validation-message`, position, renderCondition);
     }
 
     public useValidationClasses(useValidationClasses: boolean): T {

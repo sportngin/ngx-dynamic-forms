@@ -65,21 +65,24 @@ export class ControlManager {
 
     public insertComponentsBefore(target: ComponentInfo, ...components: ComponentInfo[]): void {
         components.forEach(child => {
-            let index = child.container.indexOf(target.component.hostView);
-            if (index < 0) {
+            let targetIndex = target ? child.container.indexOf(target.component.hostView) : undefined;
+            if (targetIndex < 0) {
                 throw new Error('could not find target component in container');
             }
-            this.insertComponent(child, index);
+            this.insertComponent(child, targetIndex);
         });
     }
 
     public insertComponentsAfter(target: ComponentInfo, ...components: ComponentInfo[]): void {
         components.forEach(child => {
-            let index = child.container.indexOf(target.component.hostView);
-            if (index < 0) {
+            let targetIndex = target ? child.container.indexOf(target.component.hostView) : undefined;
+            if (targetIndex < 0) {
                 throw new Error('could not find target component in container');
             }
-            this.insertComponent(child, index + 1);
+            if (targetIndex !== null) {
+                targetIndex++;
+            }
+            this.insertComponent(child, targetIndex);
         });
     }
 

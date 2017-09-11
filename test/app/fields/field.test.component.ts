@@ -11,6 +11,7 @@ export abstract class FieldTestComponent extends FormComponentHost {
     protected abstract get modelSourcePath();
 
     protected doSubmit(): Promise<any> {
+        console.log(`${this.constructor.name}.doSubmit() this.form.value:`, this.form.value);
         return new Promise((resolve) => {
             setTimeout(() => resolve(this.form.value), 1500);
         });

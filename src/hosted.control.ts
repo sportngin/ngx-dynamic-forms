@@ -1,5 +1,7 @@
 import { AfterViewInit, Injector, Provider, ViewChild, ViewContainerRef } from '@angular/core';
 
+import { first, last } from 'lodash';
+
 import { ComponentInfo }        from './component.info';
 import { ControlManager, DynamicControlContainer } from './control.manager';
 import { ElementData }          from './elements/element.data';
@@ -59,11 +61,13 @@ export abstract class HostedControl<TModelControl extends ModelControl = ModelCo
         let createsHelpers = typeof this.elementData.createsHelpers === 'undefined' ? true : this.elementData.createsHelpers;
         let components = this.createChildComponents();
         if (this.control && createsHelpers) {
-            this.insertComponentsBefore(components[0], this.createHelpers(this.control, ControlPosition.before));
+            // let targetComponent = first(components) || this.componentInfo;
+            this.insertComponentsBefore(first(components), this.createHelpers(this.control, ControlPosition.before));
         }
         this.insertComponents(components);
         if (this.control && createsHelpers) {
-            this.insertComponentsAfter(components[components.length - 1], this.createHelpers(this.control, ControlPosition.after));
+            // let targetComponent = last(components) || this.componentInfo;
+            this.insertComponentsAfter(last(components), this.createHelpers(this.control, ControlPosition.after));
         }
     }
 
