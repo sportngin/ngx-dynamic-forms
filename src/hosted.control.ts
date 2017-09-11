@@ -40,29 +40,30 @@ export abstract class HostedControl<TModelControl extends ModelControl = ModelCo
     }
 
     protected createHelpers(control: ModelControl, position: ControlPosition): ComponentInfo[] {
-        return this.controlManager.createHelpers(this.getControlContainer(this.componentInfo.container), control, position);
+        return this.controlManager.createHelpers(this.getControlContainer(), control, position);
     }
 
     protected insertComponents(components: ComponentInfo[]): void {
         this.controlManager.insertComponents(...components)
     }
 
-    protected insertComponentsBefore(components: ComponentInfo[]): void {
-        this.controlManager.insertComponentsBefore(this.componentInfo, ...components);
+    protected insertComponentsBefore(targetComponent: ComponentInfo, components: ComponentInfo[]): void {
+        this.controlManager.insertComponentsBefore(targetComponent, ...components);
     }
 
-    protected insertComponentsAfter(components: ComponentInfo[]): void {
-        this.controlManager.insertComponentsAfter(this.componentInfo, ...components);
+    protected insertComponentsAfter(targetComponent: ComponentInfo, components: ComponentInfo[]): void {
+        this.controlManager.insertComponentsAfter(targetComponent, ...components);
     }
 
     ngAfterViewInit(): void {
         let createsHelpers = typeof this.elementData.createsHelpers === 'undefined' ? true : this.elementData.createsHelpers;
+        let components = this.createChildComponents();
         if (this.control && createsHelpers) {
-            this.insertComponentsBefore(this.createHelpers(this.control, ControlPosition.before));
+            this.insertComponentsBefore(components[0], this.createHelpers(this.control, ControlPosition.before));
         }
-        this.insertComponents(this.createChildComponents());
+        this.insertComponents(components);
         if (this.control && createsHelpers) {
-            this.insertComponentsAfter(this.createHelpers(this.control, ControlPosition.after));
+            this.insertComponentsAfter(components[components.length - 1], this.createHelpers(this.control, ControlPosition.after));
         }
     }
 
