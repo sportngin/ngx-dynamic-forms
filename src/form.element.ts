@@ -3,10 +3,10 @@ import { AbstractControl, FormGroup } from '@angular/forms';
 
 import { every } from 'lodash';
 
-import { BehaviorService }  from './behavior/behavior.service';
+import { BehaviorService }                  from './behavior/behavior.service';
 import { BehaviorFn, BehaviorType, DisplayValidationHandler } from './behavior/behaviors';
-import { ModelControl }     from './model/control/model.control';
-import { ElementHelper }    from './model/model.element';
+import { ModelControl }                     from './model/control/model.control';
+import { ElementHelper, RenderOnParent }    from './model/model.element';
 
 const VALIDATOR_PROPERTIES: { [errorType: string]: string[] } = {
     required: ['touched'],
@@ -19,6 +19,9 @@ export abstract class FormElement implements DisplayValidationHandler {
     private behaviorService: BehaviorService;
     private _renderer: Renderer2;
     private _elementRef: ElementRef;
+    private renderedOnParent: {
+        cssClasses: { [cssClass: string]: RenderOnParent[] }
+    } = { cssClasses: {} };
 
     private get renderer(): Renderer2 {
         if (!this._renderer) {
@@ -114,6 +117,59 @@ export abstract class FormElement implements DisplayValidationHandler {
 
         return handler(form, ...behaviorArgs.slice(1));
 
+    }
+
+    private updateRenderedOnParentCssClass(cssClass: string, renderOnParent: RenderOnParent, add: boolean): boolean {
+        let tracker = this.renderedOnParent.cssClasses[cssClass];
+        if (!tracker) {
+            tracker = this.renderedOnParent.cssClasses[cssClass] = [];
+        }
+        let index = tracker.indexOf(renderOnParent);
+
+        if (add) {
+            if (index >= 0) {
+                return false;
+            }
+            tracker.push(renderOnParent);
+            return true;
+        }
+
+        if (index < 0) {
+            return false;
+        }
+
+        tracker.splice(index, 1);
+        return true;
+    }
+
+    public addRenderOnParent(renderOnParent: RenderOnParent[]): void {
+        if (!renderOnParent) {
+            return;
+        }
+        renderOnParent.forEach(r => {
+            if (r.cssClasses) {
+                r.cssClasses.forEach(cssClass => {
+                    if (this.updateRenderedOnParentCssClass(cssClass, r, true)) {
+                        this.addCssClass(cssClass);
+                    }
+                })
+            }
+        })
+    }
+
+    public removeRenderOnParent(renderOnParent: RenderOnParent[]): void {
+        if (!renderOnParent) {
+            return;
+        }
+        renderOnParent.forEach(r => {
+            if (r.cssClasses) {
+                r.cssClasses.forEach(cssClass => {
+                    if (this.updateRenderedOnParentCssClass(cssClass, r, false) && !this.renderedOnParent.cssClasses[cssClass].length) {
+                        this.removeCssClass(cssClass);
+                    }
+                });
+            }
+        })
     }
 
     public isRendered(control: ModelControl | ElementHelper): boolean {

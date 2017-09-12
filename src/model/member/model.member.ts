@@ -36,6 +36,7 @@ export abstract class ModelMemberBase<T extends ModelMemberBase<T>> extends Mode
         this.name = name;
         this.validators = validators;
         this.usesValidationClasses = true;
+        this.data = data;
     }
 
     public name: string;
@@ -58,8 +59,17 @@ export abstract class ModelMemberBase<T extends ModelMemberBase<T>> extends Mode
     }
 
     public addValidationMessage(errorKey: string, text: string, cssClass?: string, position: ControlPosition = ControlPosition.after): T {
-        let renderCondition: ModelElementRenderCondition = { key: `${this.name}:${errorKey}`, method: BehaviorType.validateDisplay, required: true };
-        return this.addHelper(text, `${cssClass || ''}.validation-message`, position, renderCondition);
+        let renderCondition: ModelElementRenderCondition = {
+            key: `${this.name}:${errorKey}`,
+            method: BehaviorType.validateDisplay,
+            required: true
+        };
+        return this.addHelper(
+            text,
+            `${cssClass || ''}.validation-message`,
+            position,
+            [renderCondition],
+            [{ cssClasses: ['has-validation-message']}]);
     }
 
     public useValidationClasses(useValidationClasses: boolean): T {

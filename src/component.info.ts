@@ -1,7 +1,8 @@
-import { ComponentRef, InjectionToken, TemplateRef, ViewContainerRef } from '@angular/core';
+import { ComponentRef, InjectionToken, ViewContainerRef } from '@angular/core';
 
-import { ModelControl }     from './model/control/model.control';
-import { ElementHelper }    from './model/model.element';
+import { DynamicControlContainer } from './dynamic.control.container';
+import { ModelControl }         from './model/control/model.control';
+import { ElementHelper }        from './model/model.element';
 import { PlaceholderComponent } from './placeholder.component';
 
 export interface ComponentInfo {
@@ -11,6 +12,7 @@ export interface ComponentInfo {
     placeholderFactory: () => ComponentRef<PlaceholderComponent>;
     control: ModelControl | ElementHelper;
     container: ViewContainerRef;
+    parent: DynamicControlContainer;
 
 }
 

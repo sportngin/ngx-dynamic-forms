@@ -2,7 +2,7 @@ import { extend, map } from 'lodash';
 
 import { ControlPosition } from './control.position';
 import { cleanCssClass, getCssClassArray, getCssClassFromArray } from './css.helper';
-import { ElementHelper, ModelElementBuilder, ModelElementRenderCondition } from './model.element';
+import { ElementHelper, ModelElementBuilder, ModelElementRenderCondition, RenderOnParent } from './model.element';
 import { ElementType } from '../element.type';
 
 /**
@@ -41,7 +41,7 @@ export class ModelElementBase<T extends ModelElementBase<T>> implements ModelEle
         return this.self;
     }
 
-    public addHelper(text: string, cssClass?: string, position: ControlPosition = ControlPosition.after, ...renderConditions: ModelElementRenderCondition[]): T {
+    public addHelper(text: string, cssClass?: string, position: ControlPosition = ControlPosition.after, renderConditions?: ModelElementRenderCondition[], renderOnParent?: RenderOnParent[]): T {
         if (!this.helpers) {
             this.helpers = [];
         }
@@ -49,7 +49,7 @@ export class ModelElementBase<T extends ModelElementBase<T>> implements ModelEle
         if (cssClass) {
             cssClasses = getCssClassArray(cssClass);
         }
-        this.helpers.push({ text, cssClasses, position, renderConditions });
+        this.helpers.push({ text, cssClasses, position, renderConditions, renderOnParent });
 
         return this.self;
     }

@@ -90,10 +90,13 @@ export abstract class HostedElement<TModelControl extends ModelControl = ModelCo
         let shouldRender = this.isRendered(this.checkedControl);
         let isRendered = !this.isPlaceholder;
         if (shouldRender !== isRendered) {
+            console.log('replace', this.componentInfo.control);
             if (shouldRender) {
                 this.replace(this.componentInfo.componentFactory);
+                this.componentInfo.parent.addRenderOnParent(this.componentInfo.control.renderOnParent);
             } else {
                 this.replace(this.componentInfo.placeholderFactory);
+                this.componentInfo.parent.removeRenderOnParent(this.componentInfo.control.renderOnParent);
             }
         }
     }

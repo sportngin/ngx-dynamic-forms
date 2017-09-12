@@ -3,7 +3,8 @@ import { AfterViewInit, Injector, Provider, ViewChild, ViewContainerRef } from '
 import { first, last } from 'lodash';
 
 import { ComponentInfo }        from './component.info';
-import { ControlManager, DynamicControlContainer } from './control.manager';
+import { ControlManager }       from './control.manager';
+import { DynamicControlContainer } from './dynamic.control.container';
 import { ElementData }          from './elements/element.data';
 import { HostedElement }        from './hosted.element';
 import { ModelControl }         from './model/control/model.control';
@@ -33,7 +34,9 @@ export abstract class HostedControl<TModelControl extends ModelControl = ModelCo
         return {
             container,
             elementData: this.elementData,
-            isRendered: this.isRendered.bind(this)
+            isRendered: this.isRendered.bind(this),
+            addRenderOnParent: this.addRenderOnParent.bind(this),
+            removeRenderOnParent: this.removeRenderOnParent.bind(this)
         };
     }
 

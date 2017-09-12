@@ -1,21 +1,7 @@
-import { ElementType }      from '../element.type';
-import { ControlPosition }  from './control.position';
 import { InjectionToken } from '@angular/core';
 
-/**
- * Contains an enumeration of valid ModelElementType values;
- */
-// export enum ModelElementType {
-//     array = 'array',
-//     button = 'button',
-//     control = 'control',
-//     group = 'group',
-//     layout = 'layout',
-//     page = 'page',
-//     pageRoot = 'pageRoot',
-//     submit = 'submit',
-//     validator = 'validator'
-// }
+import { ElementType }      from '../element.type';
+import { ControlPosition }  from './control.position';
 
 export interface ModelElementRenderCondition {
     key: string;
@@ -23,11 +9,16 @@ export interface ModelElementRenderCondition {
     required?: boolean
 }
 
+export interface RenderOnParent {
+    cssClasses?: string[];
+}
+
 export interface ElementHelper {
     text: string;
     cssClasses?: string[];
     position?: ControlPosition;
-    renderConditions?: ModelElementRenderCondition[]
+    renderConditions?: ModelElementRenderCondition[];
+    renderOnParent?: RenderOnParent[];
 }
 
 export const ELEMENT_HELPER = new InjectionToken<ElementHelper>('ELEMENT_HELPER');
@@ -48,6 +39,8 @@ export interface ModelElement {
     disabled: boolean;
     /** determines whether the control created by this element will display validation styling **/
     displaysValidation: boolean;
+    /** optionally defines actions to perform on the parent element when it is rendered **/
+    renderOnParent?: RenderOnParent[];
 
     data: { [key: string]: any };
 }
@@ -76,7 +69,7 @@ export interface ModelElementBuilder<T extends ModelElementBuilder<T>> extends M
      * @param cssClass
      * @param position
      */
-    addHelper: (text: string, cssClass?: string, position?: ControlPosition, renderCondition?: ModelElementRenderCondition) => T;
+    addHelper: (text: string, cssClass?: string, position?: ControlPosition, renderConditions?: ModelElementRenderCondition[], renderOnParent?: RenderOnParent[]) => T;
 
     addData: (key: string, value: any) => T;
 

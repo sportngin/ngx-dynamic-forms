@@ -1,22 +1,15 @@
-import {
-    ComponentFactoryResolver, Injectable, Provider, ReflectiveInjector, ViewContainerRef
-} from '@angular/core';
+import { ComponentFactoryResolver, Injectable, Provider, ReflectiveInjector } from '@angular/core';
 
 import { chain, extend } from 'lodash';
 
 import { COMPONENT_INFO, ComponentInfo }    from './component.info';
+import { DynamicControlContainer }          from './dynamic.control.container';
 import { ElementData }                      from './elements/element.data';
 import { HelperComponent }                  from './elements/helper.component';
 import { ControlPosition }                  from './model/control.position';
 import { ModelControl }                     from './model/control/model.control';
 import { ELEMENT_HELPER, ElementHelper }    from './model/model.element';
-import { PlaceholderComponent }             from './placeholder.component';
-
-export interface DynamicControlContainer {
-    container: ViewContainerRef;
-    elementData: ElementData;
-    isRendered(control: ModelControl | ElementHelper): boolean;
-}
+import { PlaceholderComponent }             from './placeholder.component'
 
 @Injectable()
 export class ControlManager {
@@ -41,7 +34,14 @@ export class ControlManager {
         let isRendered = containerComponent.isRendered(control);
         let component = isRendered ? componentFactory() : placeholderFactory();
 
-        return extend(info, { control, component, container: containerComponent.container, componentFactory, placeholderFactory });
+        return extend(info, {
+            control,
+            component,
+            container: containerComponent.container,
+            componentFactory,
+            placeholderFactory,
+            parent: containerComponent
+        });
     }
 
     public createHelpers(containerComponent: DynamicControlContainer, control: ModelControl, position: ControlPosition): ComponentInfo[] {
