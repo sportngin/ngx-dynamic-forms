@@ -22,7 +22,7 @@ export class HelperComponent extends HostedElement implements OnInit {
         this.addCssClass(...this.helper.cssClasses);
     }
 
-    protected get checkedControl(): ElementHelper {
+    public get checkedControl(): ElementHelper {
         return this.helper;
     }
 

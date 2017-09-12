@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, ComponentRef, DoCheck, Injector, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Injector, OnDestroy } from '@angular/core';
 
 import { COMPONENT_INFO, ComponentInfo } from './component.info';
 import { ElementData }                  from './elements/element.data';
@@ -9,7 +9,7 @@ import { ModelControl }                 from './model/control/model.control';
 import { DisableBehavior }              from './model/disable.behavior';
 import { ElementHelper }                from './model/model.element';
 
-export abstract class HostedElement<TModelControl extends ModelControl = ModelControl> extends FormElement implements DoCheck, OnDestroy {
+export abstract class HostedElement<TModelControl extends ModelControl = ModelControl> extends FormElement implements OnDestroy {
 
     public get displayOnly(): boolean {
         return this.elementData.displayOnly || false;
@@ -25,7 +25,7 @@ export abstract class HostedElement<TModelControl extends ModelControl = ModelCo
 
     protected cdf: ChangeDetectorRef;
 
-    protected get isPlaceholder(): boolean {
+    public get isPlaceholder(): boolean {
         return false;
     }
 
@@ -79,36 +79,8 @@ export abstract class HostedElement<TModelControl extends ModelControl = ModelCo
         return super.isRendered(control) && (!this.control || this.control === control || super.isRendered(this.control));
     }
 
-    protected get checkedControl(): ModelControl | ElementHelper {
+    public get checkedControl(): ModelControl | ElementHelper {
         return this.control;
-    }
-
-    public ngDoCheck(): void {
-        if (!this.control) {
-            return;
-        }
-        let shouldRender = this.isRendered(this.checkedControl);
-        let isRendered = !this.isPlaceholder;
-        if (shouldRender !== isRendered) {
-            console.log('replace', this.componentInfo.control);
-            if (shouldRender) {
-                this.replace(this.componentInfo.componentFactory);
-                this.componentInfo.parent.addRenderOnParent(this.componentInfo.control.renderOnParent);
-            } else {
-                this.replace(this.componentInfo.placeholderFactory);
-                this.componentInfo.parent.removeRenderOnParent(this.componentInfo.control.renderOnParent);
-            }
-        }
-    }
-
-    private replace(replacementComponentFactory: () => ComponentRef<any>): void {
-        setTimeout(() => {
-            let index = this.componentInfo.container.indexOf(this.componentInfo.component.hostView);
-            this.componentInfo.container.remove(index);
-            let replacement = replacementComponentFactory();
-            this.componentInfo.component = replacement;
-            this.componentInfo.container.insert(replacement.hostView, index);
-        });
     }
 
     ngOnDestroy(): void {

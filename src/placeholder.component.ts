@@ -11,7 +11,7 @@ import { ELEMENT_HELPER, ElementHelper }    from './model/model.element';
 })
 export class PlaceholderComponent extends HostedElement {
 
-    protected get isPlaceholder(): boolean {
+    public get isPlaceholder(): boolean {
         return true;
     }
 
@@ -23,7 +23,7 @@ export class PlaceholderComponent extends HostedElement {
         super(elementData, injector);
     }
 
-    protected get checkedControl(): ModelControl | ElementHelper {
+    public get checkedControl(): ModelControl | ElementHelper {
         return this.elementHelper || this.elementData.control;
     }
 }
