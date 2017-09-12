@@ -94,11 +94,9 @@ export abstract class HostedControl<TModelControl extends ModelControl = ModelCo
     ngAfterViewInit(): void {
         let createsHelpers = typeof this.elementData.createsHelpers === 'undefined' ? true : this.elementData.createsHelpers;
         let components = this.createChildComponents();
-        if (this.control && createsHelpers) {
-            this.insertComponentsBefore(first(components), this.createHelpers(this.control, ControlPosition.before));
-        }
         this.insertComponents(components);
         if (this.control && createsHelpers) {
+            this.insertComponentsBefore(first(components), this.createHelpers(this.control, ControlPosition.before));
             this.insertComponentsAfter(last(components), this.createHelpers(this.control, ControlPosition.after));
         }
     }
