@@ -1,4 +1,4 @@
-import { AfterViewInit, ComponentRef, Injector, Provider, ViewContainerRef, ViewChild } from '@angular/core';
+import { AfterViewInit, ComponentRef, Injector, Provider, ViewContainerRef, ViewChild, DoCheck } from '@angular/core';
 
 import { first, last } from 'lodash';
 
@@ -11,7 +11,7 @@ import { ModelControl }         from './model/control/model.control';
 import { ControlPosition }      from './model/control.position';
 import { ElementHelper }        from './model/model.element';
 
-export abstract class HostedControl<TModelControl extends ModelControl = ModelControl> extends HostedElement<TModelControl> implements AfterViewInit {
+export abstract class HostedControl<TModelControl extends ModelControl = ModelControl> extends HostedElement<TModelControl> implements AfterViewInit, DoCheck {
 
     @ViewChild('container', { read: ViewContainerRef }) public container: ViewContainerRef;
 
