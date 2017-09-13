@@ -9,7 +9,7 @@ import { ModelElementBase } from './model.element.base';
 export class ButtonElement extends ModelElementBase<ButtonElement> implements DisableBehavior {
 
     constructor(buttonType: ButtonType, buttonAction: ButtonAction | string, buttonClass: ButtonClass, text: FormText, disableWhenInvalid: boolean = false) {
-        super(ElementType.button);
+        super(ElementType.button, `${ElementType.button}-${buttonType}-${buttonAction}`);
 
         this.buttonType = buttonType;
         this.buttonAction = buttonAction;

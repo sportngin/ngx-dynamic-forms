@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule, Optional } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ColorPickerModule } from 'ngx-color-picker';
 
@@ -88,6 +89,7 @@ import {
         TipComponent
     ],
     imports:        [
+        BrowserAnimationsModule,
         ColorPickerModule,
         CommonModule,
         ReactiveFormsModule

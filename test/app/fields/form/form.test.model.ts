@@ -10,8 +10,6 @@ const buttonText = {
     error: 'Error'
 };
 
-const VALIDATION_TOOLTIP_OPTIONS = new ElementToolTipOptions(ToolTipPosition.top, ElementTipAlignment.right, 'element-tip-danger');
-
 export class FormTestModel extends Model {
 
     constructor() {
@@ -22,16 +20,16 @@ export class FormTestModel extends Model {
 
                 Model.textMember('email', Validators.required, Validators.email, )
                     .addLabel('Email')
-                    .addValidationMessage('required', 'Please enter your email address', VALIDATION_TOOLTIP_OPTIONS)
-                    .addValidationMessage('email', 'Please enter a valid email address', VALIDATION_TOOLTIP_OPTIONS),
+                    .addValidationMessage('required', 'Please enter your email address')
+                    .addValidationMessage('email', 'Please enter a valid email address'),
 
                 Model.passwordMember('password', Validators.required, PasswordValidator.validator([
                     { description: 'At least two letters', pattern: /[A-Za-z].*[A-Za-z]/ },
                     { description: 'At least two numbers', pattern: /\d.*\d/ },
                 ]))
                     .addLabel('Password')
-                    .addValidationMessage('required', 'Please enter a password.', VALIDATION_TOOLTIP_OPTIONS)
-                    .addValidationMessage('validatePassword', 'At least two numbers and two letters', VALIDATION_TOOLTIP_OPTIONS),
+                    .addValidationMessage('required', 'Please enter a password.')
+                    .addValidationMessage('validatePassword', 'At least two numbers and two letters'),
 
                 Model.member('privacy', 'privacy')
                     .addSiblingTip('You must be 13 years or older to create an account.', '.alert.alert-warning'),

@@ -7,7 +7,7 @@
     color: $color;
     background-color: $background;
   }
-  &:after {
+  span:after {
     border-color: $background;
   }
 }
@@ -20,44 +20,44 @@ $tool-tip-arrow-spacing-y: 0.5rem;
 $tool-tip-position-spacing-y: 0.05rem;
 
 element-tip {
-  display: block;
 
   &.element-tool-tip {
-    position: absolute;
 
     span {
+      position: absolute;
       display: block;
-      position: relative;
       padding: $tool-tip-padding-y $tool-tip-padding-x;
       border-radius: $tool-tip-border-radius;
       z-index: 1;
-    }
 
-    &:after {
-      position: absolute;
-      content: '';
-      display: block;
-      border: solid $tool-tip-arrow-size transparent;
-      z-index: 0;
+      &:after {
+        position: absolute;
+        content: '';
+        display: block;
+        border: solid $tool-tip-arrow-size transparent;
+        z-index: 0;
+      }
     }
 
     &.element-tip-top {
-      top: $tool-tip-position-spacing-y;
-      &:after {
-        border-bottom-color: transparent;
-        border-left-color: transparent;
-        border-right-color: transparent;
-        bottom: -($tool-tip-arrow-size + $tool-tip-arrow-spacing-y);
-      }
-      &:after {
+      span {
+        top: $tool-tip-position-spacing-y;
+        &:after {
+          border-bottom-color: transparent;
+          border-left-color: transparent;
+          border-right-color: transparent;
+          bottom: -($tool-tip-arrow-size + $tool-tip-arrow-spacing-y);
+        }
       }
     }
     &.element-tip-bottom {
-      bottom: $tool-tip-position-spacing-y;
-      &:after {
-        border-top-color: transparent;
-        border-left-color: transparent;
-        border-right-color: transparent;
+      span {
+        bottom: $tool-tip-position-spacing-y;
+        &:after {
+          border-top-color: transparent;
+          border-left-color: transparent;
+          border-right-color: transparent;
+        }
       }
     }
 
@@ -70,15 +70,20 @@ element-tip {
     }
 
     &.element-tip-align-left {
-      left: 0;
-      &:after {
-        left: $tool-tip-arrow-spacing-y;
+      span {
+        left: 0;
+        &:after {
+          left: $tool-tip-arrow-spacing-y;
+        }
       }
     }
     &.element-tip-align-right {
-      right: 0;
-      &:after {
-        right: $tool-tip-arrow-spacing-y;
+      span {
+        right: 0;
+        transform-origin: 100% 100%;
+        &:after {
+          right: $tool-tip-arrow-spacing-y;
+        }
       }
     }
   }

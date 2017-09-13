@@ -16,13 +16,7 @@ import { ModelElementTipType }          from './model.element.tip.type';
  */
 export class ModelElementBase<T extends ModelElementBase<T>> implements ModelElementBuilder<T> {
 
-    /**
-     *
-     * @param {ModelElementType} elementType
-     */
-    constructor(elementType: ElementType) {
-        this.elementType = elementType;
-    }
+    constructor(public readonly elementType: ElementType, public readonly optionsConfigKey: string) {}
 
     protected get self(): T {
         return this as any as T;
@@ -30,7 +24,6 @@ export class ModelElementBase<T extends ModelElementBase<T>> implements ModelEle
 
     public cssClasses: string[];
 
-    public readonly elementType: ElementType;
     public tips: ModelElementTip[];
     public renderConditions: ModelElementRenderCondition[];
     public disabled: boolean;
@@ -46,7 +39,7 @@ export class ModelElementBase<T extends ModelElementBase<T>> implements ModelEle
         return this.self;
     }
 
-    public addTip(tipType: ModelElementTipType, text: string, cssClass: string, position: ElementPosition | ToolTipPosition, alignment: ElementTipAlignment, renderConditions: ModelElementRenderCondition[], renderOnParent: RenderOnParent[]): T {
+    public addTip(tipType: ModelElementTipType, optionsConfigKey: string, text: string, cssClass: string, position: ElementPosition | ToolTipPosition, alignment: ElementTipAlignment, renderConditions: ModelElementRenderCondition[], renderOnParent: RenderOnParent[]): T {
         if (!this.tips) {
             this.tips = [];
         }
@@ -54,7 +47,7 @@ export class ModelElementBase<T extends ModelElementBase<T>> implements ModelEle
         if (cssClass) {
             cssClasses = getCssClassArray(cssClass);
         }
-        this.tips.push({ elementType: ElementType.tip, tipType, text, cssClasses, position, alignment, renderConditions, renderOnParent });
+        this.tips.push({ elementType: ElementType.tip, optionsConfigKey, tipType, text, cssClasses, position, alignment, renderConditions, renderOnParent });
 
         return this.self;
     }
@@ -66,7 +59,7 @@ export class ModelElementBase<T extends ModelElementBase<T>> implements ModelEle
         alignment: ElementTipAlignment = ElementTipAlignment.left,
         renderConditions?: ModelElementRenderCondition[],
         renderOnParent?: RenderOnParent[]): T {
-        return this.addTip(ModelElementTipType.sibling, text, cssClass, position, alignment, renderConditions, renderOnParent);
+        return this.addTip(ModelElementTipType.sibling, ModelElementTipType.sibling, text, cssClass, position, alignment, renderConditions, renderOnParent);
     }
 
     public addToolTip(
@@ -76,7 +69,7 @@ export class ModelElementBase<T extends ModelElementBase<T>> implements ModelEle
         alignment: ElementTipAlignment = ElementTipAlignment.left,
         renderConditions?: ModelElementRenderCondition[],
         renderOnParent?: RenderOnParent[]): T {
-        return this.addTip(ModelElementTipType.tooltip, text, cssClass, position, alignment, renderConditions, renderOnParent);
+        return this.addTip(ModelElementTipType.tooltip, ModelElementTipType.tooltip, text, cssClass, position, alignment, renderConditions, renderOnParent);
     }
 
     public addConditions(...renderConditions: ModelElementRenderCondition[]): T {

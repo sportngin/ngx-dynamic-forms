@@ -3,8 +3,6 @@ export enum ElementType {
     input = 'input',
     layout = 'layout',
     page = 'page',
-    pageRoot = 'pageRoot',
+    pageRoot = 'page-root',
     tip = 'tip'
 }
-
-export const CONTAINER_ELEMENT_TYPES = [ElementType.layout, ElementType.page, ElementType.pageRoot];

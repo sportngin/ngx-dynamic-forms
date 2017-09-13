@@ -9,7 +9,7 @@ export class ContainerElementBase<T extends ContainerElementBase<T>> extends Mod
         elementType: ElementType,
         children: ModelElement[]
     ) {
-        super(elementType);
+        super(elementType, elementType);
 
         this.children = children;
     }

@@ -1,9 +1,10 @@
-import { DynamicFormsConfig }       from './dynamic.forms.config';
+import { DynamicFormsConfig, OptionsMap } from './dynamic.forms.config';
 
-import { BUILT_IN_BEHAVIORS }       from '../behavior/behaviors';
+import { BUILT_IN_BEHAVIORS } from '../behavior/behaviors';
 
-import { ElementType }              from '../model/element';
-import { MemberType }               from '../model/member';
+import { ElementTipAlignment } from '../model';
+import { ElementType, ElementToolTipOptions, ElementSiblingTipOptions } from '../model/element';
+import { MemberType } from '../model/member';
 
 import {
     ButtonComponent, DynamicMemberComponent, LayoutComponent, FormPageRootComponent
@@ -16,6 +17,14 @@ import {
 
 export const DEFAULT_CONFIG: DynamicFormsConfig = {
     behaviors: BUILT_IN_BEHAVIORS,
+    defaultOptions: {
+        'sibling-tip': new ElementSiblingTipOptions() as OptionsMap,
+        'tool-tip': new ElementToolTipOptions() as OptionsMap,
+        'member-validation-message': new ElementToolTipOptions({
+            cssClasses: ['element-tip-danger'],
+            alignment: ElementTipAlignment.right
+        }) as OptionsMap
+    },
     mappings: {
         elements: [
             { type: ElementType.button,     component: ButtonComponent },

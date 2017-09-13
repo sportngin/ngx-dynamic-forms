@@ -1,9 +1,10 @@
-import { ComponentFactoryResolver, Injectable, Provider, ReflectiveInjector } from '@angular/core';
+import { ComponentFactoryResolver, Injectable, Provider, ReflectiveInjector, Inject } from '@angular/core';
 
-import { chain, extend } from 'lodash';
+import { chain, extend, mergeWith } from 'lodash';
 
+import { DYNAMIC_FORMS_CONFIG, DynamicFormsConfig } from '../config/dynamic.forms.config';
 import { ElementPosition }                  from '../model';
-import { ELEMENT_TIP, ModelElement, ModelElementTipPosition, ModelElementTipType, ModelControl } from '../model/element';
+import { ELEMENT_TIP, ModelElement, ModelElementTipPosition, ModelElementTipType, ModelControl, optionsMerge } from '../model/element';
 import { COMPONENT_INFO, ComponentInfo }    from './component.info';
 import { DynamicControlContainer }          from './dynamic.control.container';
 import { ElementData }                      from './element.data';
@@ -14,7 +15,8 @@ import { PlaceholderComponent }             from './placeholder.component';
 export class ComponentManager {
 
     constructor(
-        private resolver: ComponentFactoryResolver
+        private resolver: ComponentFactoryResolver,
+        @Inject(DYNAMIC_FORMS_CONFIG) private config: DynamicFormsConfig
     ) {
     }
 
@@ -45,6 +47,16 @@ export class ComponentManager {
 
     public createTips(containerComponent: DynamicControlContainer, element: ModelControl, tipType: ModelElementTipType, position: ModelElementTipPosition): ComponentInfo[] {
         return chain(element.tips)
+            .map(tip => {
+                if (!tip['__mergedConfig']) {
+                    let defaultOptions = this.config.defaultOptions[tip.optionsConfigKey];
+                    if (defaultOptions) {
+                        mergeWith(tip, defaultOptions, tip, optionsMerge);
+                    }
+                    tip['__mergedConfig'] = true;
+                }
+                return tip;
+            })
             .filter(tip => tip.tipType === tipType && (tip.tipType === ModelElementTipType.tooltip || tip.position === position || tip.position === ElementPosition.both))
             .map(tip => {
                 let providers = [

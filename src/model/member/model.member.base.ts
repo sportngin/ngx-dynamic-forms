@@ -13,10 +13,10 @@ import { ModelMemberBuilder }           from './model.member.builder';
 
 export abstract class ModelMemberBase<T extends ModelMemberBase<T>> extends ModelElementBase<T> implements ModelMemberBuilder<T> {
 
-    constructor(elementType: ElementType, MemberType: MemberType | string, name: string, validators?: ValidatorFn | ValidatorFn[], data?: { [key: string]: any }) {
-        super(elementType);
+    constructor(elementType: ElementType, memberType: MemberType | string, name: string, validators?: ValidatorFn | ValidatorFn[], data?: { [key: string]: any }) {
+        super(elementType, `${elementType}-${memberType}`);
 
-        this.memberType = MemberType;
+        this.memberType = memberType;
         this.name = name;
         this.validators = validators;
         this.data = data;
@@ -47,15 +47,18 @@ export abstract class ModelMemberBase<T extends ModelMemberBase<T>> extends Mode
             method: BehaviorType.validateDisplay,
             required: true
         };
-        let optionsWithDefaults = merge(new ElementTipOptionsWithDefaults(), options);
+        if (!options) {
+            options = {};
+        }
         return this.addTip(
-            optionsWithDefaults.tipType,
+            options.tipType,
+            'member-validation-message',
             text,
-            `${optionsWithDefaults.cssClass || ''}.validation-message`,
-            optionsWithDefaults.position,
-            optionsWithDefaults.alignment,
-            union([renderCondition], optionsWithDefaults.renderConditions),
-            union([{ cssClasses: ['has-validation-message']}], optionsWithDefaults.renderOnParent)
+            `${(options.cssClasses || []).join('.')}.validation-message`,
+            options.position,
+            options.alignment,
+            union([renderCondition], options.renderConditions),
+            union([{ cssClasses: ['has-validation-message']}], options.renderOnParent)
         );
     }
 
