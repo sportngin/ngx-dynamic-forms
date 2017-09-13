@@ -1,0 +1,19 @@
+doctype html
+
+.ngdf-colorpicker.form-control(
+    [ngClass]='{ "is-valid": validatorSuccess, "is-invalid": validatorError }',
+    [(colorPicker)]='value',
+    [cpPosition]='"bottom"',
+    [cpOKButton]='true',
+    [cpOKButtonClass]='"btn btn-primary"',
+    [cpCancelButton]='true',
+    [cpCancelButtonClass]='"btn btn-secondary"',
+    [cpSaveClickOutside]='false',
+    [cpAlphaChannel]='"disabled"',
+    (cpToggleChange)='onToggleChange($event)',
+    (colorPickerChange)='onChange()',
+    [attr.disabled]='element.disabled ? "" : null'
+)
+    .ngdf-colorpicker-display.form-control(
+        [style.background-color]='value'
+    )

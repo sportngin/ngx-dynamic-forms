@@ -1,84 +1,16 @@
-import { FormControl, ValidatorFn } from '@angular/forms';
+import { ValidatorFn } from '@angular/forms';
 
-import { first, isArray } from 'lodash';
+import { ElementPosition }  from '../element.position';
+import { ModelControl }     from '../element/model.control';
+import { MemberType }       from './member.type';
 
-import { BehaviorType }     from '../../behavior/behaviors';
-import { ElementType }      from '../../element.type';
-import { FieldType }        from '../../field.type';
-import { ControlPosition }  from '../control.position';
-import {
-    ElementHelper, ModelElement, ModelElementBuilder, ModelElementRenderCondition
-} from '../model.element';
-import { ModelElementBase } from '../model.element.base';
-
-export interface ModelMember extends ModelElement {
+export interface ModelMember extends ModelControl {
     name: string;
-    fieldType: any;
+    memberType: MemberType | string;
     validator: ValidatorFn;
     validators: ValidatorFn | ValidatorFn[];
     label: string;
-    labelPosition: ControlPosition;
-    usesValidationClasses: boolean;
-}
-
-export interface ModelMemberBuilder<T extends ModelMemberBuilder<T>> extends ModelMember, ModelElementBuilder<T> {
-    addLabel: (label: string) => T;
-    addValidationMessage: (key: string, text: string, cssClass?: string, position?: ControlPosition) => T;
-    useValidationClasses: (useValidationClasses: boolean) => T;
-}
-
-export abstract class ModelMemberBase<T extends ModelMemberBase<T>> extends ModelElementBase<T> implements ModelMemberBuilder<T> {
-
-    constructor(elementType: ElementType, fieldType: FieldType | string, name: string, validators?: ValidatorFn | ValidatorFn[], data?: { [key: string]: any }) {
-        super(elementType);
-
-        this.fieldType = fieldType;
-        this.name = name;
-        this.validators = validators;
-        this.usesValidationClasses = true;
-        this.data = data;
-    }
-
-    public name: string;
-    public fieldType: FieldType | string;
-    public validators: ValidatorFn | ValidatorFn[];
-    public get validator(): ValidatorFn {
-        if (!isArray(this.validators)) {
-            return this.validators as ValidatorFn;
-        }
-        return first(this.validators);
-    }
-    public label: string;
-    public labelPosition: ControlPosition = ControlPosition.before;
-    public helpers: ElementHelper[];
-    public usesValidationClasses: boolean;
-
-    public addLabel(label: string): T {
-        this.label = label;
-        return this.self;
-    }
-
-    public addValidationMessage(errorKey: string, text: string, cssClass?: string, position: ControlPosition = ControlPosition.after): T {
-        let renderCondition: ModelElementRenderCondition = {
-            key: `${this.name}:${errorKey}`,
-            method: BehaviorType.validateDisplay,
-            required: true
-        };
-        return this.addHelper(
-            text,
-            `${cssClass || ''}.validation-message`,
-            position,
-            [renderCondition],
-            [{ cssClasses: ['has-validation-message']}]);
-    }
-
-    public useValidationClasses(useValidationClasses: boolean): T {
-        this.usesValidationClasses = useValidationClasses;
-        return this.self;
-    }
-
-    public createFormControl(): FormControl {
-        return new FormControl(null, this.validators);
-    }
-
+    labelPosition: ElementPosition;
+    /** determines whether the control created by this element will display validation styling **/
+    displaysValidation: boolean;
 }

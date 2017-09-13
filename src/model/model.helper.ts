@@ -2,24 +2,8 @@ import { AbstractControl, FormBuilder, FormGroup, ValidatorFn } from '@angular/f
 
 import { chain, map } from 'lodash';
 
-import { ElementType }                      from '../element.type';
-import { FieldType }                        from '../field.type';
-import { ArrayControl }                     from './control/array.control';
-import { ButtonControl }                    from './control/button.control';
-import { LayoutControl }                    from './control/layout.control';
-import { ModelControl, ModelMemberControl } from './control/model.control';
-import { PageControl, RootPageControl }     from './control/page.control';
-import { PasswordControl }                  from './control/password.control';
-import { ArrayMember }                      from './member/array.member';
-import { ButtonMember }                     from './member/button.member';
-import { ContainerMember }                  from './member/container.member';
-import { LayoutMember }                     from './member/layout.member';
-import { ModelMember }                      from './member/model.member';
-import { PageMember, RootPageMember }       from './member/page.member';
-import { PasswordMember }                   from './member/password.member';
-import { SimpleMember }                     from './member/simple.member';
-import { TemplatedMember }                  from './member/templated.member';
-import { ModelElement }                     from './model.element';
+import { ElementType, ModelElement, ContainerElement } from './element';
+import { MemberType, ModelMember, SimpleMember, TemplatedMember } from './member';
 
 export class ModelHelper {
 
@@ -27,7 +11,7 @@ export class ModelHelper {
         switch (member.elementType) {
 
             case ElementType.input:
-                if (member.fieldType === FieldType.list) {
+                if (member.memberType === MemberType.list) {
                     return fb.array([(member as TemplatedMember).template.toFormGroup(fb)], member.validator);
                 }
                 return (member as SimpleMember).createFormControl();
@@ -43,7 +27,7 @@ export class ModelHelper {
     private static collectMembers(fb: FormBuilder, members: ModelElement[]): any {
         return map(members, (member: ModelElement) => {
             if (member.elementType === ElementType.layout || member.elementType === ElementType.pageRoot) {
-                return ModelHelper.collectMembers(fb, (member as ContainerMember).members);
+                return ModelHelper.collectMembers(fb, (member as ContainerElement).children);
             }
             return member;
         });
@@ -62,33 +46,33 @@ export class ModelHelper {
             .value(), { validator });
     }
 
-    static modelElementToModelControl(member: ModelElement, index?: number): ModelControl {
-        if (member.elementType === ElementType.button) {
-            return new ButtonControl(member as ButtonMember);
-        }
-        if (member.elementType === ElementType.layout) {
-            return new LayoutControl(member as LayoutMember);
-        }
-        if (member.elementType === ElementType.page) {
-            return new PageControl(member as PageMember, index);
-        }
-        if (member.elementType === ElementType.pageRoot) {
-            return new RootPageControl(member as RootPageMember);
-        }
-        if (member.elementType === ElementType.input) {
-            let modelMember = member as ModelMember;
-            if (modelMember.fieldType === FieldType.list) {
-                return new ArrayControl(member as ArrayMember);
-            }
-            if (modelMember.fieldType === FieldType.password) {
-                return new PasswordControl(member as PasswordMember);
-            }
-        }
-        return new ModelMemberControl(member as ModelMember);
-    }
+    // static modelElementToModelControl(member: ModelElement, index?: number): ModelControl {
+    //     if (member.elementType === ElementType.button) {
+    //         return new ButtonControl(member as ButtonMember);
+    //     }
+    //     if (member.elementType === ElementType.layout) {
+    //         return new LayoutControl(member as LayoutElement);
+    //     }
+    //     if (member.elementType === ElementType.page) {
+    //         return new PageControl(member as PageMember, index);
+    //     }
+    //     if (member.elementType === ElementType.pageRoot) {
+    //         return new RootPageControl(member as RootPageMember);
+    //     }
+    //     if (member.elementType === ElementType.input) {
+    //         let modelMember = member as ModelMember;
+    //         if (modelMember.MemberType === MemberType.list) {
+    //             return new ArrayControl(member as ArrayMember);
+    //         }
+    //         if (modelMember.MemberType === MemberType.password) {
+    //             return new PasswordControl(member as PasswordMember);
+    //         }
+    //     }
+    //     return new ModelMemberControl(member as ModelMember);
+    // }
 
-    static createModelControls(members: ModelElement[]): ModelControl[] {
-        return map(members, ModelHelper.modelElementToModelControl);
-    }
+    // static createModelControls(members: ModelElement[]): ModelControl[] {
+    //     return map(members, ModelHelper.modelElementToModelControl);
+    // }
 
 }

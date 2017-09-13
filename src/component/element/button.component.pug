@@ -1,0 +1,10 @@
+doctype html
+
+button.btn(
+    [type]='element.buttonType',
+    [class]='"btn-" + element.buttonClass',
+    [ngClass]='element.cssClasses',
+    (click)='handleBehavior(element.buttonAction, form)',
+    [attr.disabled]='element.disabled ? "" : null',
+    [disabled]='isDisabled(element)'
+) {{getText(element.text)}}

@@ -15,7 +15,7 @@ export class PasswordTestModel extends Model {
                 { description: 'At least two numbers', pattern: /\d.*\d/ },
             ]))
                 .addLabel('Validated Password')
-                .addHelper('At least two letters and two numbers.')
+                .addSiblingTip('At least two letters and two numbers.')
         );
     }
 }

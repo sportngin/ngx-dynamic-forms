@@ -61,7 +61,7 @@ import { TestHomeComponent }        from './test.home.component';
                 SUBMIT_ERROR_BEHAVIOR
             ],
             mappings: {
-                fields: [
+                members: [
                     { type: 'color-preview', component: ColorPreviewComponent },
                     { type: 'privacy', component: PrivacyFieldComponent }
                 ]

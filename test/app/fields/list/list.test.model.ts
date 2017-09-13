@@ -1,6 +1,6 @@
 import { Validators } from '@angular/forms';
 
-import { ButtonAction, ButtonClass, ControlPosition, FieldType, Model } from '@siplay/ng-dynamic-forms';
+import { ButtonAction, ButtonClass, ElementPosition, MemberType, Model } from '@siplay/ng-dynamic-forms';
 
 export class ListTestModelItem extends Model {
 
@@ -16,7 +16,7 @@ export class ListTestModelItem extends Model {
                         .addConditions({ key: 'cant-touch-this' }),
                     Model.textMember('name', Validators.required).addLabel('Name')
                 ),
-                Model.layout('.col-3', Model.defaultValueMember('default', 'default', FieldType.text).addLabel('Default')),
+                Model.layout('.col-3', Model.defaultValueMember('default', 'default', MemberType.text).addLabel('Default')),
                 Model.layout('.col-3',
                     Model.selectionMember('selectSomething')
                         .addData('data', [{ id: 1, name: 'option 1' }, { id: 2, name: 'option 2' }])
@@ -63,7 +63,7 @@ export class ListTestModel extends Model {
                 .allowEditItem(value => !value.cantTouchThis)
                 .allowRemoveItem(value => !value.cantTouchThis)
                 .addLabel('List')
-                .addHelper(`Here's a helper`, '.alert.alert-info', ControlPosition.before)
+                .addSiblingTip(`Here's a tip`, '.alert.alert-info', ElementPosition.before)
                 .addItemCssClass('item-css-class', 'class-one class-two', '.class-three.class-four', 'class-five')
         );
     }

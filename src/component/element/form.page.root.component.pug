@@ -1,0 +1,25 @@
+doctype html
+
+ng-template(ngFor let-page [ngForOf]='children')
+    form-page(
+        *ngIf='currentPage === page.pageIndex',
+        [form]='elementData.form.controls[page.name]',
+        [member]='page',
+        (keyup.enter)='nextPage()',
+        (keyup.shift.enter)='prevPage()'
+    )
+
+div
+    button.btn.btn-default(
+        type='button',
+        (click)='prevPage()',
+        *ngIf='currentPage > 0',
+        [attr.disabled]='') {{element.prevText}}
+
+    button.btn.btn-default.float-right(
+        type='button',
+        (click)='nextPage()',
+        *ngIf='currentPage < children.length - 1',
+        [attr.disabled]='form.controls[children[currentPage].name].valid ? null : "disabled"') {{element.nextText}}
+
+

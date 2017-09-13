@@ -2,13 +2,13 @@ import { ValidatorFn } from '@angular/forms';
 
 import { find } from 'lodash';
 
-import { FieldType }            from '../../field.type';
 import { DisplayValueMember }   from './display.value.member';
+import { MemberType }           from './member.type';
 
 export class SelectionMember extends DisplayValueMember {
 
     constructor(name: string, validators?: ValidatorFn | ValidatorFn[], data?: {}, dependentControls?: string[]) {
-        super(FieldType.dropdown, name, validators, data);
+        super(MemberType.dropdown, name, validators, data);
 
         this.dependentControls = dependentControls;
     }

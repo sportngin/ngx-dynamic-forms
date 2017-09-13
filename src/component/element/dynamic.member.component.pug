@@ -1,0 +1,5 @@
+doctype html
+
+label([for]='element.name', *ngIf='element.label && element.labelPosition === "before"') {{element.label}}
+ng-container(#container)
+label([for]='element.name', *ngIf='element.label && element.labelPosition === "after"') {{element.label}}

@@ -1,4 +1,4 @@
-import { FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { Validators } from '@angular/forms';
 
 import { ButtonClass, Model, PasswordValidator } from '@siplay/ng-dynamic-forms';
 
@@ -32,7 +32,7 @@ export class FormTestModel extends Model {
                     .addValidationMessage('validatePassword', 'At least two numbers and two letters'),
 
                 Model.member('privacy', 'privacy')
-                    .addHelper('You must be 13 years or older to create an account.', '.alert.alert-warning'),
+                    .addSiblingTip('You must be 13 years or older to create an account.', '.alert.alert-warning'),
 
                 Model.checkbox('marketingOptIn', () => true)
                     .addLabel('I want to receive newsletters and other offers from SI Play'),

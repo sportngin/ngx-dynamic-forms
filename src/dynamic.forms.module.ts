@@ -1,43 +1,29 @@
-import { CommonModule }                     from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule, Optional } from '@angular/core';
-import { ReactiveFormsModule }              from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { ColorPickerModule } from 'ngx-color-picker';
 
-import { BehaviorService }      from './behavior/behavior.service';
-import { ControlManager }       from './control.manager';
-import { DynamicFormComponent } from './dynamic.form.component';
-import { ElementTypeMappings }  from './element.type.mappings';
-import { HelperComponent }      from './elements/helper.component';
-import { FieldTypeMappings }    from './field.type.mappings';
-import { PlaceholderComponent } from './placeholder.component';
-import { PositionPipe }         from './position.pipe';
-import { ValidatorDisplay }     from './validator.display';
+import { BehaviorService } from './behavior';
+
+import { ComponentManager, DynamicFormComponent, PlaceholderComponent, ValidatorDisplay } from './component';
 
 import {
-    DYNAMIC_FORMS_CONFIG, DYNAMIC_FORMS_DEFAULT_CONFIG, DYNAMIC_FORMS_USER_CONFIG,
-    DynamicFormsConfig, configFactory
-} from './dynamic.forms.config';
-import { DEFAULT_CONFIG } from './dynamic.forms.default.config';
+    configFactory, DEFAULT_CONFIG, DYNAMIC_FORMS_CONFIG, DYNAMIC_FORMS_DEFAULT_CONFIG,
+    DYNAMIC_FORMS_USER_CONFIG, DynamicFormsConfig, ElementTypeMappings, MemberTypeMappings
+} from './config';
 
-import { ButtonComponent }          from './elements/button.component';
-import { FormPageComponent }        from './elements/form.page.component';
-import { FormPageRootComponent }    from './elements/form.page.root.component';
-import { LayoutComponent }          from './elements/layout.component';
+import {
+    ButtonComponent, DynamicMemberComponent, MemberDisplayComponent, FormPageRootComponent,
+    LayoutComponent, TipComponent
+} from './component/element';
 
-import { CheckboxFieldComponent }   from './fields/checkbox.field.component';
-import { ColorPickerComponent }     from './fields/color.picker.component';
-import { DatePickerComponent }      from './fields/date.picker.component';
-import { DropdownFieldComponent }   from './fields/dropdown.field.component';
-import { DynamicInputComponent }    from './fields/dynamic.input.component';
-import { FieldDisplayComponent }    from './fields/field.display.component';
-import { GroupFieldComponent }      from './fields/group.field.component';
-import { ListFieldComponent }       from './fields/list.field.component';
-import { ListFieldEntryComponent }  from './fields/list.field.entry.component';
-import { ListFieldEntryDirective }  from './fields/list.field.entry.directive';
-import { ListFieldEntryEditableComponent } from './fields/list.field.entry.editable.component';
-import { PasswordFieldComponent }   from './fields/password.field.component';
-import { TextFieldComponent }       from './fields/text.field.component';
+import {
+    CheckboxFieldComponent, ColorPickerComponent, DatePickerComponent, DropdownFieldComponent,
+    PasswordFieldComponent, FormPageComponent, GroupFieldComponent, ListFieldComponent,
+    ListFieldEntryComponent, ListFieldEntryDirective, ListFieldEntryEditableComponent,
+    TextFieldComponent
+} from './component/member';
 
 @NgModule({
     declarations:   [
@@ -47,21 +33,20 @@ import { TextFieldComponent }       from './fields/text.field.component';
         DatePickerComponent,
         DropdownFieldComponent,
         DynamicFormComponent,
-        DynamicInputComponent,
-        FieldDisplayComponent,
+        DynamicMemberComponent,
         FormPageComponent,
         FormPageRootComponent,
         GroupFieldComponent,
-        HelperComponent,
         LayoutComponent,
         ListFieldComponent,
         ListFieldEntryComponent,
         ListFieldEntryDirective,
         ListFieldEntryEditableComponent,
+        MemberDisplayComponent,
         PasswordFieldComponent,
         PlaceholderComponent,
-        PositionPipe,
-        TextFieldComponent
+        TextFieldComponent,
+        TipComponent
     ],
     exports: [
         ButtonComponent,
@@ -70,19 +55,18 @@ import { TextFieldComponent }       from './fields/text.field.component';
         DatePickerComponent,
         DropdownFieldComponent,
         DynamicFormComponent,
-        DynamicInputComponent,
-        FieldDisplayComponent,
+        DynamicMemberComponent,
+        MemberDisplayComponent,
         FormPageComponent,
         FormPageRootComponent,
         GroupFieldComponent,
-        HelperComponent,
         LayoutComponent,
         ListFieldComponent,
         ListFieldEntryDirective,
         ListFieldEntryEditableComponent,
         PasswordFieldComponent,
-        PositionPipe,
-        TextFieldComponent
+        TextFieldComponent,
+        TipComponent
     ],
     entryComponents: [
         ButtonComponent,
@@ -90,18 +74,18 @@ import { TextFieldComponent }       from './fields/text.field.component';
         ColorPickerComponent,
         DatePickerComponent,
         DropdownFieldComponent,
-        DynamicInputComponent,
-        FieldDisplayComponent,
+        DynamicMemberComponent,
+        MemberDisplayComponent,
         FormPageRootComponent,
         FormPageComponent,
         GroupFieldComponent,
-        HelperComponent,
         LayoutComponent,
         ListFieldComponent,
         ListFieldEntryComponent,
         PasswordFieldComponent,
         PlaceholderComponent,
-        TextFieldComponent
+        TextFieldComponent,
+        TipComponent
     ],
     imports:        [
         ColorPickerModule,
@@ -110,9 +94,9 @@ import { TextFieldComponent }       from './fields/text.field.component';
     ],
     providers:      [
         BehaviorService,
-        ControlManager,
+        ComponentManager,
         ElementTypeMappings,
-        FieldTypeMappings,
+        MemberTypeMappings,
         ValidatorDisplay,
         {
             provide: DYNAMIC_FORMS_DEFAULT_CONFIG, useValue: DEFAULT_CONFIG

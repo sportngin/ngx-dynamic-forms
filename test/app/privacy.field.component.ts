@@ -1,12 +1,12 @@
 import { Component, Injector } from '@angular/core';
 
-import { FieldData, FieldBase } from '@siplay/ng-dynamic-forms';
+import { MemberData, FormMemberComponent } from '@siplay/ng-dynamic-forms';
 
 @Component({
     selector: 'privacy-field',
     templateUrl: './privacy.field.component.pug'
 })
-export class PrivacyFieldComponent extends FieldBase {
+export class PrivacyFieldComponent extends FormMemberComponent {
 
     public links: any = {
         privacy: 'https://subscription.timeinc.com/storefront/privacy/siplay/generic_privacy_new.html',
@@ -14,7 +14,7 @@ export class PrivacyFieldComponent extends FieldBase {
     };
 
     constructor(
-        elementData: FieldData,
+        elementData: MemberData,
         injector: Injector
     ) {
         super(elementData, injector);

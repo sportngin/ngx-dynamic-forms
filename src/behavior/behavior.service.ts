@@ -1,8 +1,9 @@
 import { Inject, Injectable, Injector } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 
-import { DYNAMIC_FORMS_CONFIG, DynamicFormsConfig } from '../dynamic.forms.config';
-import { Behavior, BehaviorType, BehaviorFn }       from './behaviors';
+import { DYNAMIC_FORMS_CONFIG, DynamicFormsConfig } from '../config/dynamic.forms.config';
+import { Behavior, BehaviorFn } from './behavior';
+import { BehaviorType }         from './behavior.type';
 
 let behaviors: { [key: string]: Behavior } = {};
 

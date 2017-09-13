@@ -2,55 +2,60 @@ import { FormBuilder, FormGroup, ValidatorFn } from '@angular/forms';
 
 import { Observable } from 'rxjs/Observable';
 
-import { BehaviorType }                     from '../behavior/behaviors';
-import { ButtonType }                       from '../elements/button.type';
-import { FieldType }                        from '../field.type';
-import { FormText }                         from '../form.text';
-import { ModelControl }                     from './control/model.control';
-import { ArrayMember }                      from './member/array.member';
-import { ButtonAction, ButtonClass, ButtonMember } from './member/button.member';
-import { CheckboxMember }                   from './member/checkbox.member';
-import { LayoutMember }                     from './member/layout.member';
-import { PageMember, RootPageMember }       from './member/page.member';
-import { PasswordMember }                   from './member/password.member';
-import { SelectionMember }                  from './member/selection.member';
-import { SimpleMember }                     from './member/simple.member';
-import { TemplatedMember }                  from './member/templated.member';
-import { ModelElement }                     from './model.element';
-import { ModelHelper }                      from './model.helper';
-import { ElementType } from '../element.type';
+import { BehaviorType }     from '../behavior';
+import {
+    ArrayMember, CheckboxMember, PasswordMember, SelectionMember, SimpleMember, MemberType, PageMember
+} from './member';
+import {
+    ButtonType, ModelElement, ButtonAction, ButtonClass, ButtonElement, LayoutElement, RootPageElement
+} from './element';
+
+import { FormText }         from './form.text';
+import { ModelHelper }      from './model.helper';
 
 /**
  * The base class used by form Models
  */
 export abstract class Model {
 
-    protected members: ModelElement[];
+    protected children: ModelElement[];
     protected validator: ValidatorFn;
 
-    constructor(validatorOrFirstMember: ValidatorFn | ModelElement, ...members: ModelElement[]) {
-        this.members = members;
-        if (typeof validatorOrFirstMember === 'function') {
-            this.validator = validatorOrFirstMember;
+    constructor(validatorOrFirstMember?: ValidatorFn | ModelElement, ...children: ModelElement[]) {
+        this.children = children;
+        let validatorOrFirstMemberType = typeof validatorOrFirstMember;
+        if (validatorOrFirstMemberType === 'undefined') {
+            return;
+        }
+        if (validatorOrFirstMemberType === 'function') {
+            this.validator = validatorOrFirstMember as ValidatorFn;
         } else {
-            this.members.unshift(validatorOrFirstMember);
+            this.children.unshift(validatorOrFirstMember as ModelElement);
         }
     };
 
-    static submitButton(buttonClass: ButtonClass, text: FormText, disableWhenInvalid: boolean = true): ButtonMember {
-        return Model.customButton(ButtonType.submit, ButtonAction.submit, buttonClass, text, disableWhenInvalid);
+    static defaultValueMember(name: string, value: any, memberType: MemberType | string, ...validators: ValidatorFn[]): SimpleMember {
+        return new SimpleMember(memberType, name, validators, value);
     }
 
-    static button(buttonAction: ButtonAction | string, buttonClass: ButtonClass, text?: FormText, disableWhenInvalid: boolean = false): ButtonMember {
+    static member(name: string, memberType: MemberType | string, ...validators: ValidatorFn[]): SimpleMember {
+        return Model.defaultValueMember(name, '', memberType, ...validators);
+    }
+
+    static customButton(buttonType: ButtonType, buttonAction: ButtonAction | string, buttonClass: ButtonClass, text?: FormText, disableWhenInvalid: boolean = false): ButtonElement {
+        return new ButtonElement(buttonType, buttonAction, buttonClass, text, disableWhenInvalid);
+    }
+
+    static button(buttonAction: ButtonAction | string, buttonClass: ButtonClass, text?: FormText, disableWhenInvalid: boolean = false): ButtonElement {
         return Model.customButton(ButtonType.button, buttonAction, buttonClass, text, disableWhenInvalid);
     }
 
-    static customButton(buttonType: ButtonType, buttonAction: ButtonAction | string, buttonClass: ButtonClass, text?: FormText, disableWhenInvalid: boolean = false): ButtonMember {
-        return new ButtonMember(buttonType, buttonAction, buttonClass, text, disableWhenInvalid);
+    static submitButton(buttonClass: ButtonClass, text: FormText, disableWhenInvalid: boolean = true): ButtonElement {
+        return Model.customButton(ButtonType.submit, ButtonAction.submit, buttonClass, text, disableWhenInvalid);
     }
 
-    static layout(cssClass: string, ...members: ModelElement[]): LayoutMember {
-        return new LayoutMember(cssClass, members);
+    static layout(cssClass: string, ...children: ModelElement[]): LayoutElement {
+        return new LayoutElement(cssClass, children);
     }
 
     static page(pageId: string | number, model: Model): PageMember {
@@ -60,31 +65,31 @@ export abstract class Model {
     static pages(
         startPageOrFirstMember: Observable<number> | PageMember,
         updatePageOrSecondMember: (pageIndex: number) => void | PageMember,
-        ...members: PageMember[]): RootPageMember {
+        ...pages: PageMember[]): RootPageElement {
 
         let startPage: Observable<number> = Observable.create([0]);
         if (startPageOrFirstMember['subscribe']) {
             startPage = startPageOrFirstMember as Observable<number>;
         } else {
-            members.unshift(startPageOrFirstMember as PageMember);
+            pages.unshift(startPageOrFirstMember as PageMember);
         }
 
         let updatePage: (pageIndex: number) => void;
         if (typeof updatePageOrSecondMember === 'function') {
             updatePage = updatePageOrSecondMember;
         } else {
-            members.unshift(updatePageOrSecondMember);
+            pages.unshift(updatePageOrSecondMember);
         }
 
-        return new RootPageMember(startPage, updatePage, members);
-    }
-
-    static textMember(name: string, ...validators: ValidatorFn[]): SimpleMember {
-        return Model.member(name, FieldType.text, ...validators);
+        return new RootPageElement(startPage, updatePage, pages);
     }
 
     static hiddenMember(name: string): SimpleMember {
-        return Model.member(name, FieldType.hidden);
+        return Model.member(name, MemberType.hidden);
+    }
+
+    static textMember(name: string, ...validators: ValidatorFn[]): SimpleMember {
+        return Model.member(name, MemberType.text, ...validators);
     }
 
     static passwordMember(name: string, ...validators: ValidatorFn[]): PasswordMember {
@@ -95,16 +100,8 @@ export abstract class Model {
         return new CheckboxMember(name, checked);
     }
 
-    static member(name: string, controlType: FieldType | string, ...validators: ValidatorFn[]): SimpleMember {
-        return Model.defaultValueMember(name, '', controlType, ...validators);
-    }
-
     static selectionMember(name: string, ...validators: ValidatorFn[]): SelectionMember {
         return new SelectionMember(name, validators);
-    }
-
-    static defaultValueMember(name: string, value: any, controlType: FieldType | string, ...validators: ValidatorFn[]): SimpleMember {
-        return new SimpleMember(controlType, name, validators, value);
     }
 
     static arrayMember(name: string, template: any, validator?: ValidatorFn): ArrayMember {
@@ -112,27 +109,31 @@ export abstract class Model {
     }
 
     // static groupMember(name: string, template: any, validator?: ValidatorFn): TemplatedMember {
-    //     return new TemplatedMember(ModelElementType.group, FieldType.group, name, template, validator);
+    //     return new TemplatedMember(ModelElementType.group, MemberType.group, name, template, validator);
     // }
 
-    static validationMessage(fieldKey: string, errorKey: string, text: string, cssClass?: string): LayoutMember {
+    static validationMessage(fieldKey: string, errorKey: string, text: string, cssClass?: string): LayoutElement {
         return Model.layout('.validation-message-container')
-            .addHelper(text, `${cssClass || ''}.validation-message`)
+            .addSiblingTip(text, `${cssClass || ''}.validation-message`)
             .addConditions({ key: `${fieldKey}:${errorKey}`, method: BehaviorType.validateDisplay, required: true });
     }
 
-    static stateMessage(key: string, text: string, cssClass?: string): LayoutMember {
+    static stateMessage(key: string, text: string, cssClass?: string): LayoutElement {
         return Model.layout('.state-message-container')
-            .addHelper(text, `${cssClass || ''}.state-message`)
-            .addConditions({ key , method: BehaviorType.stateMessageDisplay, required: true })
+            .addSiblingTip(text, `${cssClass || ''}.state-message`)
+            .addConditions({ key , method: BehaviorType.stateMessageDisplay, required: true });
     }
 
     toFormGroup(fb: FormBuilder): FormGroup {
-        return ModelHelper.createFormGroup(fb, this.members, this.validator);
+        return ModelHelper.createFormGroup(fb, this.children, this.validator);
     }
 
-    toControlGroup(): ModelControl[] {
-        return ModelHelper.createModelControls(this.members);
+    // toControlGroup(): ModelControl[] {
+    //     return ModelHelper.createModelControls(this.members);
+    // }
+
+    toElements(): ModelElement[] {
+        return this.children;
     }
 
 }

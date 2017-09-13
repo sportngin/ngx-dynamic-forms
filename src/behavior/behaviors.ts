@@ -1,125 +1,18 @@
-import { InjectionToken, Provider, Type } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
+import { Provider, Type } from '@angular/core';
 
-export enum BehaviorType {
-    editItem = 'editItem',
-    isDisabled = 'isDisabled',
-    isListItemControlRendered = 'isListItemControlRendered',
-    isRendered = 'isRendered',
-    removeItem = 'removeItem',
-    resetItem = 'resetItem',
-    saveItem = 'saveItem',
-    stateMessageDisplay = 'stateMessageDisplay',
-    submit = 'submit',
-    validateDisplay = 'validateDisplay'
-}
+import { Behavior }     from './behavior';
+import { BehaviorType } from './behavior.type';
 
-export type BehaviorFn = (form: AbstractControl, ...args: string[]) => any;
-
-export type BehaviorFnAccessor<T> = (handler: T) => BehaviorFn;
-
-export interface Behavior {
-
-    type: BehaviorType | string,
-    token: InjectionToken<any>;
-    accessor: BehaviorFnAccessor<any>
-
-}
-
-export function behavior<T>(type: BehaviorType | string, token: InjectionToken<T>, accessor: BehaviorFnAccessor<T>): Behavior {
-    return { type, token, accessor };
-}
-
-export interface EditItemHandler {
-    onEditItemClick(form: AbstractControl): void;
-}
-export function editItemHandlerAccessor<T extends EditItemHandler>(implementation: T): BehaviorFn {
-    return implementation.onEditItemClick;
-}
-export const EDIT_ITEM_HANDLER = new InjectionToken<EditItemHandler>(BehaviorType.editItem);
-
-export interface SaveItemHandler {
-    onSaveItemClick(form: AbstractControl): void;
-}
-export function saveItemHandlerAccessor<T extends SaveItemHandler>(implementation: T): BehaviorFn {
-    return implementation.onSaveItemClick;
-}
-export const SAVE_ITEM_HANDLER = new InjectionToken<SaveItemHandler>(BehaviorType.saveItem);
-
-export interface StateMessageDisplayHandler {
-    showStateMessage(form: AbstractControl, key: string): boolean;
-}
-export function stateMessageDisplayHandlerAccessor<T extends StateMessageDisplayHandler>(implementation: T): BehaviorFn {
-    return implementation.showStateMessage;
-}
-export const STATE_MESSAGE_DISPLAY_HANDLER = new InjectionToken<StateMessageDisplayHandler>(BehaviorType.stateMessageDisplay);
-
-export interface SubmitHandler {
-    onSubmit(form: AbstractControl): void;
-}
-export function submitHandlerAccessor<T extends SubmitHandler>(implementation: T): BehaviorFn {
-    return implementation.onSubmit;
-}
-export const SUBMIT_HANDLER = new InjectionToken<SubmitHandler>(BehaviorType.submit);
-
-export interface RemoveItemHandler {
-    onRemoveItemClick(form: AbstractControl): void;
-}
-export function removeItemHandlerAccessor<T extends RemoveItemHandler>(implementation: T): BehaviorFn {
-    return implementation.onRemoveItemClick;
-}
-export const REMOVE_ITEM_HANDLER = new InjectionToken<RemoveItemHandler>(BehaviorType.removeItem);
-
-export interface ResetItemHandler {
-    onResetItemClick(form: AbstractControl): void;
-}
-export function resetItemHandlerAccessor<T extends ResetItemHandler>(implementation: T): BehaviorFn {
-    return implementation.onResetItemClick;
-}
-export const RESET_ITEM_HANDLER = new InjectionToken<ResetItemHandler>(BehaviorType.resetItem);
-
-export interface IsDisabledHandler {
-    isDisabled(form: AbstractControl): boolean;
-}
-export function isDisabledHandlerAccessor<T extends IsDisabledHandler>(implementation: T): BehaviorFn {
-    return implementation.isDisabled;
-}
-export const IS_DISABLED_HANDLER = new InjectionToken<IsDisabledHandler>(BehaviorType.isDisabled);
-
-export interface IsRenderedHandler {
-    isChildRendered(form: AbstractControl, key?: string): boolean;
-}
-export function isRenderedHandlerAccessor<T extends IsRenderedHandler>(implementation: T): BehaviorFn {
-    return implementation.isChildRendered;
-}
-export const IS_RENDERED_HANDLER = new InjectionToken<IsRenderedHandler>(BehaviorType.isRendered);
-
-export interface IsListItemControlRenderedHandler {
-    isListItemControlRendered(form: AbstractControl, key: string): boolean;
-}
-export function isListItemControlRenderedHandlerAccessor<T extends IsListItemControlRenderedHandler>(implementation: T): BehaviorFn {
-    return implementation.isListItemControlRendered;
-}
-export const IS_LIST_ITEM_CONTROL_RENDERED_HANDLER = new InjectionToken<IsListItemControlRenderedHandler>(BehaviorType.isListItemControlRendered);
-
-export interface DisplayValidationHandler {
-    validateDisplay(form: AbstractControl, fieldKey: string, errorKey: string): boolean;
-}
-export function displayValidationHandlerAccessor<T extends DisplayValidationHandler>(implementation: T): BehaviorFn {
-    return implementation.validateDisplay;
-}
-export const DISPLAY_VALIDATION_HANDLER = new InjectionToken<DisplayValidationHandler>(BehaviorType.validateDisplay);
-
-export const BEHAVIOR_EDIT_ITEM = behavior<EditItemHandler>(BehaviorType.editItem, EDIT_ITEM_HANDLER, editItemHandlerAccessor);
-export const BEHAVIOR_IS_DISABLED = behavior<IsDisabledHandler>(BehaviorType.isDisabled, IS_DISABLED_HANDLER, isDisabledHandlerAccessor);
-export const BEHAVIOR_IS_LIST_ITEM_CONTROL_RENDERED = behavior<IsListItemControlRenderedHandler>(BehaviorType.isListItemControlRendered, IS_LIST_ITEM_CONTROL_RENDERED_HANDLER, isListItemControlRenderedHandlerAccessor);
-export const BEHAVIOR_IS_RENDERED = behavior<IsRenderedHandler>(BehaviorType.isRendered, IS_RENDERED_HANDLER, isRenderedHandlerAccessor);
-export const BEHAVIOR_REMOVE_ITEM = behavior<RemoveItemHandler>(BehaviorType.removeItem, REMOVE_ITEM_HANDLER, removeItemHandlerAccessor);
-export const BEHAVIOR_RESET_ITEM = behavior<ResetItemHandler>(BehaviorType.resetItem, RESET_ITEM_HANDLER, resetItemHandlerAccessor);
-export const BEHAVIOR_SAVE_ITEM = behavior<SaveItemHandler>(BehaviorType.saveItem, SAVE_ITEM_HANDLER, saveItemHandlerAccessor);
-export const BEHAVIOR_STATE_MESSAGE_DISPLAY = behavior<StateMessageDisplayHandler>(BehaviorType.stateMessageDisplay, STATE_MESSAGE_DISPLAY_HANDLER, stateMessageDisplayHandlerAccessor);
-export const BEHAVIOR_SUBMIT = behavior<SubmitHandler>(BehaviorType.submit, SUBMIT_HANDLER, submitHandlerAccessor);
-export const BEHAVIOR_VALIDATE_DISPLAY = behavior<DisplayValidationHandler>(BehaviorType.validateDisplay, DISPLAY_VALIDATION_HANDLER, displayValidationHandlerAccessor);
+import { BEHAVIOR_EDIT_ITEM }           from './edit.item.behavior';
+import { BEHAVIOR_IS_DISABLED }         from './is.disabled.behavior';
+import { BEHAVIOR_IS_LIST_ITEM_CONTROL_RENDERED } from './is.list.item.control.rendered.behavior';
+import { BEHAVIOR_IS_RENDERED }         from './is.rendered.behavior';
+import { BEHAVIOR_REMOVE_ITEM }         from './remove.item.behavior';
+import { BEHAVIOR_RESET_ITEM }          from './reset.item.behavior';
+import { BEHAVIOR_SAVE_ITEM }           from './save.item.behavior';
+import { BEHAVIOR_STATE_MESSAGE_DISPLAY } from './state.message.display.behavior';
+import { BEHAVIOR_SUBMIT }              from './submit.behavior';
+import { BEHAVIOR_VALIDATE_DISPLAY }    from './display.validation.behavior';
 
 export const BUILT_IN_BEHAVIORS: Behavior[] = [
     BEHAVIOR_EDIT_ITEM,

@@ -1,6 +1,6 @@
 import { Component, Injector, ViewEncapsulation } from '@angular/core';
 
-import { FieldData, FieldBase } from '@siplay/ng-dynamic-forms';
+import { FormMemberComponent, MemberData } from '@siplay/ng-dynamic-forms';
 
 import * as tinyColor from 'tinycolor2';
 
@@ -10,28 +10,28 @@ import * as tinyColor from 'tinycolor2';
     styleUrls: ['./color.preview.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class ColorPreviewComponent extends FieldBase {
+export class ColorPreviewComponent extends FormMemberComponent {
 
     get foregroundColor(): string {
-        if (this.control.data.foregroundColor) {
-            return tinyColor(this.control.data.foregroundColor).toHexString();
+        if (this.element.data.foregroundColor) {
+            return tinyColor(this.element.data.foregroundColor).toHexString();
         }
-        return this.formControl.parent.controls[this.control.data.foregroundColorFieldName].value;
+        return this.formControl.parent.controls[this.element.data.foregroundColorFieldName].value;
     }
 
     get backgroundColor(): string {
-        if (this.control.data.backgroundColor) {
-            return tinyColor(this.control.data.backgroundColor).toHexString();
+        if (this.element.data.backgroundColor) {
+            return tinyColor(this.element.data.backgroundColor).toHexString();
         }
-        return this.formControl.parent.controls[this.control.data.backgroundColorFieldName].value;
+        return this.formControl.parent.controls[this.element.data.backgroundColorFieldName].value;
     }
 
     get text(): string {
-        return this.control.data.text || 'Your Colors!';
+        return this.element.data.text || 'Your Colors!';
     }
 
     constructor(
-        elementData: FieldData,
+        elementData: MemberData,
         injector: Injector
     ) {
         super(elementData, injector);
