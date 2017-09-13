@@ -34,14 +34,6 @@ export class TipComponent extends FormElementComponent implements OnInit {
         super(elementData, injector);
     }
 
-    public start(e: Event): void {
-        console.log('start', e);
-    }
-
-    public done(e: Event): void {
-        console.log('done', e);
-    }
-
     public ngOnInit(): void {
         this.addCssClass(...this.tip.cssClasses);
         this.addCssClass(`element-${this.tip.tipType}`);

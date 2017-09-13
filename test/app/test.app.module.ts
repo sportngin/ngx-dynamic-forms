@@ -1,6 +1,6 @@
 import { NgModule }             from '@angular/core';
 import { ReactiveFormsModule }  from '@angular/forms';
-import { BrowserModule }        from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { DynamicFormsModule } from '@siplay/ng-dynamic-forms';
 
@@ -54,7 +54,7 @@ import { TestHomeComponent }        from './test.home.component';
         PasswordTestComponent
     ],
     imports:        [
-        BrowserModule,
+        BrowserAnimationsModule,
         ReactiveFormsModule,
         DynamicFormsModule.withConfig({
             behaviors: [
