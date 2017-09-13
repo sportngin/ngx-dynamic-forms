@@ -1,13 +1,15 @@
 import { extend, map } from 'lodash';
-import { ModelElementBuilder } from './model.element.builder';
-import { ElementType } from './element.type';
-import { ModelElementTip } from './model.element.tip';
-import { ModelElementRenderCondition } from './model.element.render.condition';
-import { getCssClassArray } from '../css.helper';
-import { ElementPosition } from '../element.position';
-import { ToolTipPosition } from '../tool.tip.position';
-import { RenderOnParent } from '../render.on.parent';
-import { ModelElementTipType } from './model.element.tip.type';
+
+import { getCssClassArray }             from '../css.helper';
+import { ElementPosition }              from '../element.position';
+import { ElementTipAlignment }          from '../element.tip.alignment';
+import { RenderOnParent }               from '../render.on.parent';
+import { ToolTipPosition }              from '../tool.tip.position';
+import { ElementType }                  from './element.type';
+import { ModelElementBuilder }          from './model.element.builder';
+import { ModelElementRenderCondition }  from './model.element.render.condition';
+import { ModelElementTip }              from './model.element.tip';
+import { ModelElementTipType }          from './model.element.tip.type';
 
 /**
  * Provides a base implementation of {@link ModelElement} and {@link ModelElementBuilder}.
@@ -44,7 +46,7 @@ export class ModelElementBase<T extends ModelElementBase<T>> implements ModelEle
         return this.self;
     }
 
-    public addTip(tipType: ModelElementTipType, text: string, cssClass: string, position: ElementPosition | ToolTipPosition, renderConditions: ModelElementRenderCondition[], renderOnParent: RenderOnParent[]): T {
+    public addTip(tipType: ModelElementTipType, text: string, cssClass: string, position: ElementPosition | ToolTipPosition, alignment: ElementTipAlignment, renderConditions: ModelElementRenderCondition[], renderOnParent: RenderOnParent[]): T {
         if (!this.tips) {
             this.tips = [];
         }
@@ -52,17 +54,29 @@ export class ModelElementBase<T extends ModelElementBase<T>> implements ModelEle
         if (cssClass) {
             cssClasses = getCssClassArray(cssClass);
         }
-        this.tips.push({ elementType: ElementType.tip, tipType, text, cssClasses, position, renderConditions, renderOnParent });
+        this.tips.push({ elementType: ElementType.tip, tipType, text, cssClasses, position, alignment, renderConditions, renderOnParent });
 
         return this.self;
     }
 
-    public addSiblingTip(text: string, cssClass?: string, position: ElementPosition = ElementPosition.after, renderConditions?: ModelElementRenderCondition[], renderOnParent?: RenderOnParent[]): T {
-        return this.addTip(ModelElementTipType.sibling, text, cssClass, position, renderConditions, renderOnParent);
+    public addSiblingTip(
+        text: string,
+        cssClass?: string,
+        position: ElementPosition = ElementPosition.after,
+        alignment: ElementTipAlignment = ElementTipAlignment.left,
+        renderConditions?: ModelElementRenderCondition[],
+        renderOnParent?: RenderOnParent[]): T {
+        return this.addTip(ModelElementTipType.sibling, text, cssClass, position, alignment, renderConditions, renderOnParent);
     }
 
-    public addToolTip(text: string, cssClass?: string, position: ToolTipPosition = ToolTipPosition.top, renderConditions?: ModelElementRenderCondition[], renderOnParent?: RenderOnParent[]): T {
-        return this.addTip(ModelElementTipType.tooltip, text, cssClass, position, renderConditions, renderOnParent);
+    public addToolTip(
+        text: string,
+        cssClass?: string,
+        position: ToolTipPosition = ToolTipPosition.top,
+        alignment: ElementTipAlignment = ElementTipAlignment.left,
+        renderConditions?: ModelElementRenderCondition[],
+        renderOnParent?: RenderOnParent[]): T {
+        return this.addTip(ModelElementTipType.tooltip, text, cssClass, position, alignment, renderConditions, renderOnParent);
     }
 
     public addConditions(...renderConditions: ModelElementRenderCondition[]): T {

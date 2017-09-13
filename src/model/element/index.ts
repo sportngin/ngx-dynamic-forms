@@ -4,6 +4,7 @@ export * from './button.element';
 export * from './button.type';
 export * from './container.element.base';
 export * from './container.element';
+export * from './element.tip.options';
 export * from './element.type';
 export * from './layout.element';
 export * from './model.element.base';

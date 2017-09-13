@@ -3,7 +3,7 @@ import { ComponentFactoryResolver, Injectable, Provider, ReflectiveInjector } fr
 import { chain, extend } from 'lodash';
 
 import { ElementPosition }                  from '../model';
-import { ELEMENT_TIP, ModelElement, ModelControl }  from '../model/element';
+import { ELEMENT_TIP, ModelElement, ModelElementTipPosition, ModelElementTipType, ModelControl } from '../model/element';
 import { COMPONENT_INFO, ComponentInfo }    from './component.info';
 import { DynamicControlContainer }          from './dynamic.control.container';
 import { ElementData }                      from './element.data';
@@ -43,15 +43,15 @@ export class ComponentManager {
         });
     }
 
-    public createHelpers(containerComponent: DynamicControlContainer, element: ModelControl, position: ElementPosition): ComponentInfo[] {
+    public createTips(containerComponent: DynamicControlContainer, element: ModelControl, tipType: ModelElementTipType, position: ModelElementTipPosition): ComponentInfo[] {
         return chain(element.tips)
-            .filter(helper => (helper.position === position || helper.position === ElementPosition.both))
-            .map(helper => {
+            .filter(tip => tip.tipType === tipType && (tip.tipType === ModelElementTipType.tooltip || tip.position === position || tip.position === ElementPosition.both))
+            .map(tip => {
                 let providers = [
-                    { provide: ELEMENT_TIP, useValue: helper },
+                    { provide: ELEMENT_TIP, useValue: tip },
                     { provide: ElementData, useValue: extend({}, containerComponent.elementData, { element }) }
                 ];
-                return this.createComponent(containerComponent, helper, TipComponent, providers);
+                return this.createComponent(containerComponent, tip, TipComponent, providers);
             })
             .flatten()
             .value() as ComponentInfo[];

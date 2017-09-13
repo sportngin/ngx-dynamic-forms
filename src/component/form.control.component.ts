@@ -2,7 +2,7 @@ import { AfterViewInit, ComponentRef, Injector, Provider, ViewContainerRef, View
 
 import { first, last } from 'lodash';
 
-import { ModelControl, ModelElement } from '../model/element';
+import { ModelControl, ModelElement, ModelElementTipType } from '../model/element';
 import { ElementPosition }          from '../model/element.position';
 import { ComponentInfo }            from './component.info';
 import { ComponentManager }         from './component.manager';
@@ -44,8 +44,8 @@ export abstract class FormControlComponent<TModelControl extends ModelControl = 
         return this.controlManager.createComponent(this.getControlContainer(), element, componentType, providers);
     }
 
-    protected createHelpers(element: ModelControl, position: ElementPosition): ComponentInfo[] {
-        return this.controlManager.createHelpers(this.getControlContainer(), element, position);
+    protected createTips(element: ModelControl, tipType: ModelElementTipType, position: ElementPosition): ComponentInfo[] {
+        return this.controlManager.createTips(this.getControlContainer(), element, tipType, position);
     }
 
     protected insertComponents(components: ComponentInfo[]): void {
@@ -91,12 +91,13 @@ export abstract class FormControlComponent<TModelControl extends ModelControl = 
     }
 
     ngAfterViewInit(): void {
-        let createsHelpers = typeof this.elementData.createsHelpers === 'undefined' ? true : this.elementData.createsHelpers;
+        let createsTips = typeof this.elementData.createsTips === 'undefined' ? true : this.elementData.createsTips;
         let components = this.createChildComponents();
         this.insertComponents(components);
-        if (this.element && createsHelpers) {
-            this.insertComponentsBefore(first(components), this.createHelpers(this.element, ElementPosition.before));
-            this.insertComponentsAfter(last(components), this.createHelpers(this.element, ElementPosition.after));
+        if (this.element && createsTips) {
+            this.insertComponentsBefore(first(components), this.createTips(this.element, ModelElementTipType.sibling, ElementPosition.before));
+            this.insertComponentsAfter(last(components), this.createTips(this.element, ModelElementTipType.sibling, ElementPosition.after));
+            this.insertComponents(this.createTips(this.element, ModelElementTipType.tooltip, null));
         }
     }
 

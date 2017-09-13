@@ -1,14 +1,13 @@
 import { FormControl, ValidatorFn } from '@angular/forms';
 
-import { first, isArray } from 'lodash';
+import { first, isArray, merge, union } from 'lodash';
 
 import { BehaviorType }                 from '../../behavior';
 import { ElementPosition }              from '../element.position';
+import { ElementTipOptions, ElementTipOptionsWithDefaults } from '../element/element.tip.options';
 import { ElementType }                  from '../element/element.type';
 import { ModelElementBase }             from '../element/model.element.base';
 import { ModelElementRenderCondition }  from '../element/model.element.render.condition';
-import { ModelElementTipType }          from '../element/model.element.tip.type';
-import { ToolTipPosition }              from '../tool.tip.position';
 import { MemberType }                   from './member.type';
 import { ModelMemberBuilder }           from './model.member.builder';
 
@@ -41,25 +40,23 @@ export abstract class ModelMemberBase<T extends ModelMemberBase<T>> extends Mode
         return this.self;
     }
 
-    public addValidationMessage(
-        errorKey: string,
-        text: string,
-        cssClass?: string,
-        tipType: ModelElementTipType = ModelElementTipType.sibling,
-        position: ElementPosition | ToolTipPosition = ElementPosition.after): T {
+    public addValidationMessage(errorKey: string, text: string, options?: ElementTipOptions): T {
 
         let renderCondition: ModelElementRenderCondition = {
             key: `${this.name}:${errorKey}`,
             method: BehaviorType.validateDisplay,
             required: true
         };
+        let optionsWithDefaults = merge(new ElementTipOptionsWithDefaults(), options);
         return this.addTip(
-            tipType,
+            optionsWithDefaults.tipType,
             text,
-            `${cssClass || ''}.validation-message`,
-            position,
-            [renderCondition],
-            [{ cssClasses: ['has-validation-message']}]);
+            `${optionsWithDefaults.cssClass || ''}.validation-message`,
+            optionsWithDefaults.position,
+            optionsWithDefaults.alignment,
+            union([renderCondition], optionsWithDefaults.renderConditions),
+            union([{ cssClasses: ['has-validation-message']}], optionsWithDefaults.renderOnParent)
+        );
     }
 
     public setDisplaysValidation(displaysValidation: boolean): T {

@@ -6,5 +6,5 @@ export class ElementData {
     form: FormGroup;
     element: ModelElement;
     displayOnly?: boolean;
-    createsHelpers?: boolean = true;
+    createsTips?: boolean = true;
 }

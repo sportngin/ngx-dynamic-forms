@@ -1,4 +1,5 @@
 import { ElementPosition }      from '../element.position';
+import { ElementTipAlignment }  from '../element.tip.alignment';
 import { RenderOnParent }       from '../render.on.parent';
 import { ToolTipPosition }      from '../tool.tip.position';
 import { ModelElement }         from './model.element';
@@ -27,6 +28,7 @@ export interface ModelElementBuilder<T extends ModelElementBuilder<T>> extends M
         text: string,
         cssClass?: string,
         position?: ToolTipPosition,
+        alignment?: ElementTipAlignment,
         renderConditions?: ModelElementRenderCondition[],
         renderOnParent?: RenderOnParent[]
     ) => T;
@@ -38,6 +40,7 @@ export interface ModelElementBuilder<T extends ModelElementBuilder<T>> extends M
         text: string,
         cssClass?: string,
         position?: ElementPosition,
+        alignment?: ElementTipAlignment,
         renderConditions?: ModelElementRenderCondition[],
         renderOnParent?: RenderOnParent[]
     ) => T;

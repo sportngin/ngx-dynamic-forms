@@ -1,4 +1,4 @@
 export enum ModelElementTipType {
-    sibling = 'sibling',
-    tooltip = 'tooltip'
+    sibling = 'sibling-tip',
+    tooltip = 'tool-tip'
 }
