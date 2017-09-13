@@ -28,12 +28,12 @@ export class FormPageComponent extends StructuralComponent<PageMember> {
     get form(): FormGroup {
         return this.elementData.form;
     }
-    @Input() set member(member: PageMember) {
+    @Input() set element(element: PageMember) {
         if (!this.elementData) {
             this.elementData = this.getEmptyElementData();
         }
-        this.elementData.element = member;
-        // this.children = member.children;
+        this.elementData.element = element;
+        this.children = element.template.toElements();
     }
 
     constructor(

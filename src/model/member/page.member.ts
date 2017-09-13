@@ -5,6 +5,8 @@ import { TemplatedMember }      from './templated.member';
 
 export class PageMember extends TemplatedMember {
 
+    public pageIndex: number;
+
     constructor(
         pageId: string | number,
         template: Model

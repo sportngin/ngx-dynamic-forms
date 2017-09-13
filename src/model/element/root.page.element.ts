@@ -13,6 +13,8 @@ export class RootPageElement extends ContainerElementBase<RootPageElement> imple
         pages: PageMember[]
     ) {
         super(ElementType.pageRoot, pages);
+
+        pages.forEach((page, pageIndex) => page.pageIndex = pageIndex);
     }
 
     public setPrevText(prevText: string): RootPageElement {

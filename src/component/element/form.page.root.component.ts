@@ -1,17 +1,17 @@
 import { Component, EventEmitter, Injector, OnInit, Output } from '@angular/core';
 
 import { RootPageElement }      from '../../model/element';
-import { ModelMember }          from '../../model/member';
-import { FormElementComponent } from '../form.element.component';
+import { PageMember }           from '../../model/member';
 import { ElementData }          from '../element.data';
+import { FormControlComponent } from '../form.control.component';
 
 @Component({
     selector: 'form-page-root',
     templateUrl: './form.page.root.component.pug'
 })
-export class FormPageRootComponent extends FormElementComponent<RootPageElement> implements OnInit {
+export class FormPageRootComponent extends FormControlComponent<RootPageElement> implements OnInit {
 
-    get children(): ModelMember[] { return this.element ? this.element.children : null; }
+    get children(): PageMember[] { return this.element ? this.element.children : null; }
 
     @Output() pageChanged: EventEmitter<number> = new EventEmitter<number>();
 
