@@ -13,7 +13,7 @@ import { ElementData }          from '../element.data';
     animations: [
         trigger('tipType', [
             transition('void => tool-tip', animate('350ms ease-out', keyframes([
-                style({ transform: 'translateY(1rem) scale(0)', 'z-index': -1 }),
+                style({ transform: 'translateY(1rem) scale(0.5)', 'z-index': -1 }),
                 style({ transform: 'translateY(-0.5rem) scale(0.5)', 'z-index': -1 }),
                 style({ transform: 'translateY(0.35rem) scale(1.1)', 'z-index': 2 }),
                 style({ transform: 'translateY(0) scale(1)', 'z-index': 2 }),

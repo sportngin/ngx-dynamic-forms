@@ -6,6 +6,8 @@ element-tip {
       position: absolute;
       display: block;
       z-index: 1;
+      opacity: 0.9;
+      white-space: nowrap;
 
       &:after {
         position: absolute;
@@ -17,6 +19,7 @@ element-tip {
 
     &.element-tip-top {
       span {
+        transform-origin: 100% 50%;
         &:after {
           border-bottom-color: transparent;
           border-left-color: transparent;
