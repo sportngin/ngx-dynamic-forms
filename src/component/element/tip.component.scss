@@ -88,6 +88,17 @@ element-tip {
     }
   }
 
+  &.element-sibling-tip {
+    display: block;
+
+    &.element-tip-after {
+      margin-top: 0.5rem;
+    }
+    &.element-tip-before {
+      margin-bottom: 0.5rem;
+    }
+  }
+
   @each $color, $value in $theme-colors {
     &.element-tip-#{$color} {
       @include tip-variant(theme-color-level($color, 0), theme-color-level($color, -12));
