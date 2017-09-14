@@ -22,6 +22,7 @@ export function optionsMerge(objValue, srcValue): any {
     if (isArray(objValue) && isArray(srcValue)) {
         return union(objValue, srcValue);
     }
+    return objValue;
 }
 
 export class ElementTipOptionsWithDefaults implements ElementTipOptions {
