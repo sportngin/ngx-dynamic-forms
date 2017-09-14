@@ -3,9 +3,10 @@
   span {
     color: $color;
     background-color: $background;
-  }
-  span:after {
-    border-color: $background;
+
+    &:after {
+      border-color: $background;
+    }
   }
 }
 
@@ -28,10 +29,11 @@
       span {
         padding: $tool-tip-padding-y $tool-tip-padding-x;
         border-radius: $tool-tip-border-radius;
-      }
 
-      &:after {
-        border: solid $tool-tip-arrow-size transparent;
+        &:after {
+          border-style: solid;
+          border-width: $tool-tip-arrow-size;
+        }
       }
 
       &.element-tip-top {
