@@ -1,24 +1,3 @@
-@import '~bootstrap/scss/functions';
-@import '~bootstrap/scss/_variables';
-
-@mixin tip-variant($background, $color) {
-
-  span {
-    color: $color;
-    background-color: $background;
-  }
-  span:after {
-    border-color: $background;
-  }
-}
-
-$tool-tip-padding-y: 0.1rem;
-$tool-tip-padding-x: 0.25rem;
-$tool-tip-border-radius: 0.25rem;
-$tool-tip-arrow-size: 0.5rem;
-$tool-tip-arrow-spacing-y: 0.5rem;
-$tool-tip-position-spacing-y: 0.05rem;
-
 element-tip {
 
   &.element-tool-tip {
@@ -26,33 +5,27 @@ element-tip {
     span {
       position: absolute;
       display: block;
-      padding: $tool-tip-padding-y $tool-tip-padding-x;
-      border-radius: $tool-tip-border-radius;
       z-index: 1;
 
       &:after {
         position: absolute;
         content: '';
         display: block;
-        border: solid $tool-tip-arrow-size transparent;
         z-index: 0;
       }
     }
 
     &.element-tip-top {
       span {
-        top: $tool-tip-position-spacing-y;
         &:after {
           border-bottom-color: transparent;
           border-left-color: transparent;
           border-right-color: transparent;
-          bottom: -($tool-tip-arrow-size + $tool-tip-arrow-spacing-y);
         }
       }
     }
     &.element-tip-bottom {
       span {
-        bottom: $tool-tip-position-spacing-y;
         &:after {
           border-top-color: transparent;
           border-left-color: transparent;
@@ -60,48 +33,9 @@ element-tip {
         }
       }
     }
-
-
-    &.element-tip-right {
-      right: 0;
-    }
-    &.element-tip-left {
-      left: 0;
-    }
-
-    &.element-tip-align-left {
-      span {
-        left: 0;
-        &:after {
-          left: $tool-tip-arrow-spacing-y;
-        }
-      }
-    }
-    &.element-tip-align-right {
-      span {
-        right: 0;
-        transform-origin: 100% 100%;
-        &:after {
-          right: $tool-tip-arrow-spacing-y;
-        }
-      }
-    }
   }
 
   &.element-sibling-tip {
     display: block;
-
-    &.element-tip-after {
-      margin-top: 0.5rem;
-    }
-    &.element-tip-before {
-      margin-bottom: 0.5rem;
-    }
-  }
-
-  @each $color, $value in $theme-colors {
-    &.element-tip-#{$color} {
-      @include tip-variant(theme-color-level($color, 0), theme-color-level($color, -12));
-    }
   }
 }

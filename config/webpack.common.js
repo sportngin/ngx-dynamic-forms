@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const helpers = require('./helpers');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
@@ -27,7 +26,7 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                exclude: /\.component\.scss$/,
+                exclude: /\.component\.scss$|\/scss\//,
                 use: ExtractTextPlugin.extract({
                     use: 'css-loader?sourceMap!sass-loader?sourceMap'
                 })

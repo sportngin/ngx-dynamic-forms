@@ -1,0 +1,107 @@
+@mixin tip-variant($background, $color) {
+
+  span {
+    color: $color;
+    background-color: $background;
+  }
+  span:after {
+    border-color: $background;
+  }
+}
+
+@mixin element-tip-brand-variations {
+
+  element-tip {
+    @each $color, $value in $theme-colors {
+      &.element-tip-#{$color} {
+        @include tip-variant(theme-color-level($color, 0), theme-color-level($color, -12));
+      }
+    }
+  }
+
+}
+
+@mixin element-tool-tip {
+
+  element-tip.element-tool-tip {
+
+      span {
+        padding: $tool-tip-padding-y $tool-tip-padding-x;
+        border-radius: $tool-tip-border-radius;
+      }
+
+      &:after {
+        border: solid $tool-tip-arrow-size transparent;
+      }
+
+      &.element-tip-top {
+        span {
+          top: $tool-tip-position-spacing-y;
+          &:after {
+            bottom: -($tool-tip-arrow-size + $tool-tip-arrow-spacing-y);
+          }
+        }
+      }
+
+      &.element-tip-bottom {
+        span {
+          bottom: $tool-tip-position-spacing-y;
+          &:after {
+            top: -($tool-tip-arrow-size + $tool-tip-arrow-spacing-y);
+          }
+        }
+      }
+
+      &.element-tip-left {
+        span {
+          left: $tool-tip-position-spacing-x;
+          &:after {
+            right: -($tool-tip-arrow-size + $tool-tip-arrow-spacing-x);
+          }
+        }
+      }
+
+      &.element-tip-right {
+        span {
+          right: $tool-tip-position-spacing-x;
+          &:after {
+            left: -($tool-tip-arrow-size + $tool-tip-arrow-spacing-x);
+          }
+        }
+      }
+
+      &.element-tip-align-left {
+        span {
+          left: 0;
+          &:after {
+            left: $tool-tip-arrow-spacing-x;
+          }
+        }
+      }
+      &.element-tip-align-right {
+        span {
+          right: 0;
+          &:after {
+            right: $tool-tip-arrow-spacing-x;
+          }
+        }
+      }
+
+    }
+
+}
+
+@mixin element-sibling-tip {
+
+  element-tip.element-sibling-tip {
+
+    &.element-tip-after {
+      margin-top: $sibling-tip-margin-after;
+    }
+    &.element-tip-before {
+      margin-bottom: $sibling-tip-margin-before;
+    }
+
+  }
+
+}

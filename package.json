@@ -16,6 +16,7 @@
   "files": [
     "dist/"
   ],
+  "sass": "dist/scss/ng-dynamic-forms.scss",
   "scripts": {
     "prebuild": "rimraf dist",
     "build:templates": "gulp build-templates",
@@ -44,6 +45,7 @@
     "zone.js": "^0.8.4"
   },
   "dependencies": {
+    "copy-webpack-plugin": "^4.0.1",
     "lodash": "^4.17.0",
     "moment": "^2.18.0",
     "ngx-color-picker": "^4.3.1",
