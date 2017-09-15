@@ -10,3 +10,4 @@ export * from './password.member';
 export * from './selection.member';
 export * from './simple.member';
 export * from './templated.member';
+export * from './validation.display.mode';

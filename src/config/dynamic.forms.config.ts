@@ -22,8 +22,8 @@ export interface MemberTypeHandlerMapping extends TypeHandlerMapping {
 
 export interface OptionsMap {
     cssClass?: string;
-    renderConditions: ModelElementRenderCondition[];
-    renderOnParent: RenderOnParent[];
+    renderConditions?: ModelElementRenderCondition[];
+    renderOnParent?: RenderOnParent[];
 
     [option: string]: any
 }

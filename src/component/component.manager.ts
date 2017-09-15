@@ -1,6 +1,6 @@
 import { ComponentFactoryResolver, Injectable, Provider, ReflectiveInjector, Inject } from '@angular/core';
 
-import { chain, extend, mergeWith } from 'lodash';
+import { chain, extend, map, mergeWith } from 'lodash';
 
 import { DYNAMIC_FORMS_CONFIG, DynamicFormsConfig } from '../config/dynamic.forms.config';
 import { ElementPosition }                  from '../model';
@@ -49,9 +49,9 @@ export class ComponentManager {
         return chain(element.tips)
             .map(tip => {
                 if (!tip['__mergedConfig']) {
-                    let defaultOptions = this.config.defaultOptions[tip.optionsConfigKey];
+                    let defaultOptions = map(tip.optionsConfigKeys, key => this.config.defaultOptions[key]);
                     if (defaultOptions) {
-                        mergeWith(tip, defaultOptions, tip, optionsMerge);
+                        mergeWith(tip, ...defaultOptions, tip, optionsMerge);
                     }
                     tip['__mergedConfig'] = true;
                 }

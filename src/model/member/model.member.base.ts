@@ -1,20 +1,21 @@
 import { FormControl, ValidatorFn } from '@angular/forms';
 
-import { first, isArray, merge, union } from 'lodash';
+import { first, isArray, union } from 'lodash';
 
 import { BehaviorType }                 from '../../behavior';
 import { ElementPosition }              from '../element.position';
-import { ElementTipOptions, ElementTipOptionsWithDefaults } from '../element/element.tip.options';
+import { ElementTipOptions }            from '../element/element.tip.options';
 import { ElementType }                  from '../element/element.type';
-import { ModelElementBase }             from '../element/model.element.base';
+import { ModelControlBase }             from '../element/model.control.base';
 import { ModelElementRenderCondition }  from '../element/model.element.render.condition';
 import { MemberType }                   from './member.type';
 import { ModelMemberBuilder }           from './model.member.builder';
+import { ValidationDisplayMode }        from './validation.display.mode';
 
-export abstract class ModelMemberBase<T extends ModelMemberBase<T>> extends ModelElementBase<T> implements ModelMemberBuilder<T> {
+export abstract class ModelMemberBase<T extends ModelMemberBase<T>> extends ModelControlBase<T> implements ModelMemberBuilder<T> {
 
     constructor(elementType: ElementType, memberType: MemberType | string, name: string, validators?: ValidatorFn | ValidatorFn[], data?: { [key: string]: any }) {
-        super(elementType, `${elementType}-${memberType}`);
+        super(elementType, ['member'], [`${elementType}-${memberType}`]);
 
         this.memberType = memberType;
         this.name = name;
@@ -33,7 +34,7 @@ export abstract class ModelMemberBase<T extends ModelMemberBase<T>> extends Mode
     }
     public label: string;
     public labelPosition: ElementPosition = ElementPosition.before;
-    public displaysValidation: boolean = true;
+    public validationDisplay: ValidationDisplayMode;
 
     public addLabel(label: string): T {
         this.label = label;
@@ -52,7 +53,7 @@ export abstract class ModelMemberBase<T extends ModelMemberBase<T>> extends Mode
         }
         return this.addTip(
             options.tipType,
-            'member-validation-message',
+            ['member-validation-message'],
             text,
             `${(options.cssClasses || []).join('.')}.validation-message`,
             options.position,
@@ -62,8 +63,8 @@ export abstract class ModelMemberBase<T extends ModelMemberBase<T>> extends Mode
         );
     }
 
-    public setDisplaysValidation(displaysValidation: boolean): T {
-        this.displaysValidation = displaysValidation;
+    public setValidationDisplay(displaysValidation: ValidationDisplayMode): T {
+        this.validationDisplay = displaysValidation;
         return this.self;
     }
 

@@ -1,8 +1,9 @@
 import { ValidatorFn } from '@angular/forms';
 
-import { ElementPosition }  from '../element.position';
-import { ModelControl }     from '../element/model.control';
-import { MemberType }       from './member.type';
+import { ElementPosition }          from '../element.position';
+import { ModelControl }             from '../element/model.control';
+import { MemberType }               from './member.type';
+import { ValidationDisplayMode }    from './validation.display.mode';
 
 export interface ModelMember extends ModelControl {
     name: string;
@@ -12,5 +13,5 @@ export interface ModelMember extends ModelControl {
     label: string;
     labelPosition: ElementPosition;
     /** determines whether the control created by this element will display validation styling **/
-    displaysValidation: boolean;
+    validationDisplay: ValidationDisplayMode;
 }

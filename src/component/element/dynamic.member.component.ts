@@ -16,6 +16,7 @@ import { ElementData }              from '../element.data';
 import { FormControlComponent }     from '../form.control.component';
 import { MemberData }               from '../member.data';
 import { ValidatorDisplay }         from '../validator.display';
+import { ValidationDisplayMode } from '../../model/member/validation.display.mode';
 
 @Component({
     selector: 'form-member',
@@ -66,18 +67,22 @@ export class DynamicMemberComponent extends FormControlComponent<ModelMember> im
     }
 
     private checkValidator(): void {
-        if (!this.element.displaysValidation) {
+        if (!this.element.validationDisplay) {
             return;
         }
-        if (this.validatorDisplay.isSuccess(this.formControl)) {
-            this.addCssClass('has-success');
-        } else {
-            this.removeCssClass('has-success');
+        if ((this.element.validationDisplay & ValidationDisplayMode.valid) === ValidationDisplayMode.valid) {
+            if (this.validatorDisplay.isSuccess(this.formControl)) {
+                this.addCssClass('has-success');
+            } else {
+                this.removeCssClass('has-success');
+            }
         }
-        if (this.validatorDisplay.isError(this.formControl)) {
-            this.addCssClass('has-danger');
-        } else {
-            this.removeCssClass('has-danger');
+        if ((this.element.validationDisplay & ValidationDisplayMode.invalid) === ValidationDisplayMode.invalid) {
+            if (this.validatorDisplay.isError(this.formControl)) {
+                this.addCssClass('has-danger');
+            } else {
+                this.removeCssClass('has-danger');
+            }
         }
     }
 

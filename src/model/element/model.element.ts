@@ -9,7 +9,7 @@ export interface ModelElement {
     /** the type of element */
     elementType: ElementType;
     /** key used to retrieve default options from the configuration **/
-    optionsConfigKey: string;
+    optionsConfigKeys: string[];
     /** the CSS class to render on the element */
     cssClasses: string[];
     /** an optional array of conditions to help determine whether the element should be rendered */

@@ -7,7 +7,7 @@ import {
     ArrayMember, CheckboxMember, PasswordMember, SelectionMember, SimpleMember, MemberType, PageMember
 } from './member';
 import {
-    ButtonType, ModelElement, ButtonAction, ButtonClass, ButtonElement, LayoutElement, RootPageElement
+    ButtonType, ModelElement, ButtonAction, ButtonClass, ButtonControl, LayoutControl, RootPageElement
 } from './element';
 
 import { FormText }         from './form.text';
@@ -42,20 +42,20 @@ export abstract class Model {
         return Model.defaultValueMember(name, '', memberType, ...validators);
     }
 
-    static customButton(buttonType: ButtonType, buttonAction: ButtonAction | string, buttonClass: ButtonClass, text?: FormText, disableWhenInvalid: boolean = false): ButtonElement {
-        return new ButtonElement(buttonType, buttonAction, buttonClass, text, disableWhenInvalid);
+    static customButton(buttonType: ButtonType, buttonAction: ButtonAction | string, buttonClass: ButtonClass, text?: FormText, disableWhenInvalid: boolean = false): ButtonControl {
+        return new ButtonControl(buttonType, buttonAction, buttonClass, text, disableWhenInvalid);
     }
 
-    static button(buttonAction: ButtonAction | string, buttonClass: ButtonClass, text?: FormText, disableWhenInvalid: boolean = false): ButtonElement {
+    static button(buttonAction: ButtonAction | string, buttonClass: ButtonClass, text?: FormText, disableWhenInvalid: boolean = false): ButtonControl {
         return Model.customButton(ButtonType.button, buttonAction, buttonClass, text, disableWhenInvalid);
     }
 
-    static submitButton(buttonClass: ButtonClass, text: FormText, disableWhenInvalid: boolean = true): ButtonElement {
+    static submitButton(buttonClass: ButtonClass, text: FormText, disableWhenInvalid: boolean = true): ButtonControl {
         return Model.customButton(ButtonType.submit, ButtonAction.submit, buttonClass, text, disableWhenInvalid);
     }
 
-    static layout(cssClass: string, ...children: ModelElement[]): LayoutElement {
-        return new LayoutElement(cssClass, children);
+    static layout(cssClass: string, ...children: ModelElement[]): LayoutControl {
+        return new LayoutControl(cssClass, children);
     }
 
     static page(pageId: string | number, model: Model): PageMember {
@@ -112,13 +112,13 @@ export abstract class Model {
     //     return new TemplatedMember(ModelElementType.group, MemberType.group, name, template, validator);
     // }
 
-    static validationMessage(fieldKey: string, errorKey: string, text: string, cssClass?: string): LayoutElement {
+    static validationMessage(fieldKey: string, errorKey: string, text: string, cssClass?: string): LayoutControl {
         return Model.layout('.validation-message-container')
             .addSiblingTip(text, `${cssClass || ''}.validation-message`)
             .addConditions({ key: `${fieldKey}:${errorKey}`, method: BehaviorType.validateDisplay, required: true });
     }
 
-    static stateMessage(key: string, text: string, cssClass?: string): LayoutElement {
+    static stateMessage(key: string, text: string, cssClass?: string): LayoutControl {
         return Model.layout('.state-message-container')
             .addSiblingTip(text, `${cssClass || ''}.state-message`)
             .addConditions({ key , method: BehaviorType.stateMessageDisplay, required: true });

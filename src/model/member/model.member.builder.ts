@@ -1,9 +1,10 @@
-import { ElementTipOptions }    from '../element/element.tip.options';
-import { ModelElementBuilder }  from '../element/model.element.builder';
-import { ModelMember }          from './model.member';
+import { ElementTipOptions }        from '../element/element.tip.options';
+import { ModelControlBuilder }      from '../element/model.control.builder';
+import { ModelMember }              from './model.member';
+import { ValidationDisplayMode }    from './validation.display.mode';
 
-export interface ModelMemberBuilder<T extends ModelMemberBuilder<T>> extends ModelMember, ModelElementBuilder<T> {
+export interface ModelMemberBuilder<T extends ModelMemberBuilder<T>> extends ModelMember, ModelControlBuilder<T> {
     addLabel: (label: string) => T;
     addValidationMessage(errorKey: string, text: string, options?: ElementTipOptions): T;
-    setDisplaysValidation: (displaysValidation: boolean) => T;
+    setValidationDisplay: (displaysValidation: ValidationDisplayMode) => T;
 }

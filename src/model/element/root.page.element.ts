@@ -1,11 +1,11 @@
 import { Observable } from 'rxjs/Observable';
 
-import { ContainerElementBase }     from './container.element.base';
+import { ContainerControlBase }     from './container.control.base';
 import { ElementType }              from './element.type';
 import { RootPageElementBuilder }   from './root.page.element.builder';
 import { PageMember }               from '../member/page.member';
 
-export class RootPageElement extends ContainerElementBase<RootPageElement> implements RootPageElementBuilder<RootPageElement> {
+export class RootPageElement extends ContainerControlBase<RootPageElement> implements RootPageElementBuilder<RootPageElement> {
 
     constructor(
         public startPage: Observable<number>,

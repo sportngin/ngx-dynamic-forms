@@ -1,10 +1,10 @@
 import { extend } from 'lodash';
 
-import { ContainerElementBase } from './container.element.base';
+import { ContainerControlBase } from './container.control.base';
 import { ElementType }          from './element.type';
 import { ModelElement }         from './model.element';
 
-export class LayoutElement extends ContainerElementBase<LayoutElement> {
+export class LayoutControl extends ContainerControlBase<LayoutControl> {
 
     public attributes: { [name: string]: string };
 
@@ -17,13 +17,13 @@ export class LayoutElement extends ContainerElementBase<LayoutElement> {
         this.addCssClass(cssClass.replace(/\./g, ' ').trim());
     }
 
-    public addAttribute(name: string, value: string): LayoutElement {
+    public addAttribute(name: string, value: string): LayoutControl {
         let attributes = {};
         attributes[name] = value;
         return this.addAttributes(attributes);
     }
 
-    public addAttributes(attributes: { [name: string]: string }): LayoutElement {
+    public addAttributes(attributes: { [name: string]: string }): LayoutControl {
         if (this.attributes) {
             extend(this.attributes, attributes);
         } else {

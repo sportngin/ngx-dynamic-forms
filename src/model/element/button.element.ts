@@ -4,12 +4,12 @@ import { ButtonAction }     from './button.action';
 import { ButtonClass }      from './button.class';
 import { ButtonType }       from './button.type';
 import { ElementType }      from './element.type';
-import { ModelElementBase } from './model.element.base';
+import { ModelControlBase } from './model.control.base';
 
-export class ButtonElement extends ModelElementBase<ButtonElement> implements DisableBehavior {
+export class ButtonControl extends ModelControlBase<ButtonControl> implements DisableBehavior {
 
     constructor(buttonType: ButtonType, buttonAction: ButtonAction | string, buttonClass: ButtonClass, text: FormText, disableWhenInvalid: boolean = false) {
-        super(ElementType.button, `${ElementType.button}-${buttonType}-${buttonAction}`);
+        super(ElementType.button, null, [`${ElementType.button}-${buttonType}-${buttonAction}`]);
 
         this.buttonType = buttonType;
         this.buttonAction = buttonAction;
@@ -25,7 +25,7 @@ export class ButtonElement extends ModelElementBase<ButtonElement> implements Di
     public disableWhenInvalid: boolean;
     public customDisabledHandler: boolean;
 
-    public useCustomDisabledHandler(): ButtonElement {
+    public useCustomDisabledHandler(): ButtonControl {
         this.customDisabledHandler = true;
         return this;
     }

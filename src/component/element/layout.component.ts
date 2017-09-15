@@ -1,6 +1,6 @@
 import { Component, Injector, OnInit, ViewEncapsulation } from '@angular/core';
 
-import { LayoutElement }        from '../../model/element/layout.element';
+import { LayoutControl }        from '../../model/element/layout.element';
 import { ElementData }          from '../element.data';
 import { TEMPLATE }             from '../parent.component';
 import { StructuralComponent }  from '../structural.component';
@@ -11,13 +11,13 @@ import { StructuralComponent }  from '../structural.component';
     styleUrls: ['./layout.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class LayoutComponent extends StructuralComponent<LayoutElement> implements OnInit {
+export class LayoutComponent extends StructuralComponent<LayoutControl> implements OnInit {
 
     constructor(
         elementData: ElementData,
         injector: Injector
     ) {
-        super(elementData, (elementData.element as LayoutElement).children, injector);
+        super(elementData, (elementData.element as LayoutControl).children, injector);
     }
 
     ngOnInit(): void {

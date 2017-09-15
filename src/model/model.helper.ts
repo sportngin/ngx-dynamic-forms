@@ -2,7 +2,7 @@ import { AbstractControl, FormBuilder, FormGroup, ValidatorFn } from '@angular/f
 
 import { chain, map } from 'lodash';
 
-import { ElementType, ModelElement, ContainerElement } from './element';
+import { ElementType, ModelElement, ContainerControl } from './element';
 import { MemberType, ModelMember, SimpleMember, TemplatedMember } from './member';
 
 export class ModelHelper {
@@ -27,7 +27,7 @@ export class ModelHelper {
     private static collectMembers(fb: FormBuilder, members: ModelElement[]): any {
         return map(members, (member: ModelElement) => {
             if (member.elementType === ElementType.layout || member.elementType === ElementType.pageRoot) {
-                return ModelHelper.collectMembers(fb, (member as ContainerElement).children);
+                return ModelHelper.collectMembers(fb, (member as ContainerControl).children);
             }
             return member;
         });

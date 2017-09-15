@@ -1,9 +1,11 @@
-import { ElementPosition }      from '../element.position';
-import { ElementTipAlignment }  from '../element.tip.alignment';
-import { RenderOnParent }       from '../render.on.parent';
-import { ToolTipPosition }      from '../tool.tip.position';
-import { ModelElement }         from './model.element';
-import { ModelElementRenderCondition } from './model.element.render.condition';
+import { ElementPosition }              from '../element.position';
+import { ElementTipAlignment }          from '../element.tip.alignment';
+import { RenderOnParent }               from '../render.on.parent';
+import { ToolTipPosition }              from '../tool.tip.position';
+import { ModelElementTipPosition }      from './element.tip.options';
+import { ModelElement }                 from './model.element';
+import { ModelElementRenderCondition }  from './model.element.render.condition';
+import { ModelElementTipType }          from './model.element.tip.type';
 
 /**
  * Extends {@link ModelElement} to define a fluent interface for configuring elements
@@ -20,38 +22,4 @@ export interface ModelElementBuilder<T extends ModelElementBuilder<T>> extends M
      * Adds one or more CSS classes to be rendered for the element
      */
     addCssClass: (...cssClass: string[]) => T;
-
-    /**
-     * Adds a tooltip to be rendered for the element
-     */
-    addToolTip: (
-        text: string,
-        cssClass?: string,
-        position?: ToolTipPosition,
-        alignment?: ElementTipAlignment,
-        renderConditions?: ModelElementRenderCondition[],
-        renderOnParent?: RenderOnParent[]
-    ) => T;
-
-    /**
-     * Adds a sibling tip to be rendered for the element
-     */
-    addSiblingTip: (
-        text: string,
-        cssClass?: string,
-        position?: ElementPosition,
-        alignment?: ElementTipAlignment,
-        renderConditions?: ModelElementRenderCondition[],
-        renderOnParent?: RenderOnParent[]
-    ) => T;
-
-    /**
-     * Adds arbitrary data to help with the rendering or validation of the element
-     */
-    addData: (key: string, value: any) => T;
-
-    /**
-     * Sets the `disabled` property to true
-     */
-    disable(): T;
 }
