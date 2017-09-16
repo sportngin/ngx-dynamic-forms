@@ -1,6 +1,6 @@
 import { Component, Injector, OnInit, ViewEncapsulation } from '@angular/core';
 
-import { LayoutControl }        from '../../model/element/layout.element';
+import { LayoutControl }        from '../../model/element/layout.control';
 import { ElementData }          from '../element.data';
 import { TEMPLATE }             from '../parent.component';
 import { StructuralComponent }  from '../structural.component';

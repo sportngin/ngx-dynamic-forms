@@ -1,5 +1,5 @@
 import {
-    AfterViewChecked, Component, forwardRef, Injector, NgZone, OnInit, Provider, ViewEncapsulation
+    AfterViewChecked, Component, forwardRef, Injector, OnInit, Provider, ViewEncapsulation
 } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -17,6 +17,8 @@ import { FormControlComponent }     from '../form.control.component';
 import { MemberData }               from '../member.data';
 import { ValidatorDisplay }         from '../validator.display';
 import { ValidationDisplayMode } from '../../model/member/validation.display.mode';
+
+let elementId = 0;
 
 @Component({
     selector: 'form-member',
@@ -37,6 +39,7 @@ export class DynamicMemberComponent extends FormControlComponent<ModelMember> im
     private onChange: (value: any) => void;
     private onTouched: () => void;
     public formControl: AbstractControl;
+    public readonly elementId: string;
 
     private _inputData: MemberData;
 
@@ -44,21 +47,18 @@ export class DynamicMemberComponent extends FormControlComponent<ModelMember> im
         elementData: ElementData,
         private memberTypeMappings: MemberTypeMappings,
         injector: Injector,
-        private zone: NgZone,
         private validatorDisplay: ValidatorDisplay
     ) {
         super(elementData, injector);
 
+        this.elementId = `ngdf-${elementId++}`;
         this.formControl = this.form.controls[this.element.name] as AbstractControl;
     }
 
     ngOnInit(): void {
 
-        this.zone.runOutsideAngular(() => {
-            this.addCssClass(`ngdf-field`);
-            this.addCssClass(`ngdf-${MemberType[this.element.memberType]}`);
-        });
-
+        this.addCssClass(`ngdf-field`);
+        this.addCssClass(`ngdf-${MemberType[this.element.memberType] || this.element.memberType}`);
         this.addCssClass('form-group');
     }
 
@@ -90,6 +90,7 @@ export class DynamicMemberComponent extends FormControlComponent<ModelMember> im
         if (!this._inputData) {
             // TODO: determine unique id based on parent - is this part of an array or collection?
             let inputData: MemberData = {
+                elementId: this.elementId,
                 form: this.form,
                 element: this.element,
                 formControl: this.formControl

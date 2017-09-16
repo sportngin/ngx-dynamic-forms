@@ -27,6 +27,11 @@ export class DynamicFormComponent extends StructuralComponent implements SubmitH
         host.form = this;
     }
 
+    ngAfterViewInit(): void {
+        super.ngAfterViewInit();
+        this.focusFirstInput();
+    }
+
     public get value(): any {
         return this.form.value;
     }

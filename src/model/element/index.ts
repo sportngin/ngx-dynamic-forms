@@ -6,7 +6,7 @@ export * from './container.control.base';
 export * from './container.control';
 export * from './element.tip.options';
 export * from './element.type';
-export * from './layout.element';
+export * from './layout.control';
 export * from './model.element.base';
 export * from './model.element.builder';
 export * from './model.element.render.condition';

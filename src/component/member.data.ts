@@ -5,6 +5,7 @@ import { ElementData }  from './element.data';
 
 export class MemberData extends ElementData {
 
+    elementId?: string;
     formControl: AbstractControl;
 
     children?: ModelElement[];

@@ -24,14 +24,14 @@ export abstract class FormElementComponentBase implements DisplayValidationHandl
         cssClasses: { [cssClass: string]: RenderOnParent[] }
     } = { cssClasses: {} };
 
-    private get renderer(): Renderer2 {
+    protected get renderer(): Renderer2 {
         if (!this._renderer) {
             this._renderer = this.injector.get(Renderer2);
         }
         return this._renderer;
     }
 
-    private get elementRef(): ElementRef {
+    protected get elementRef(): ElementRef {
         if (!this._elementRef) {
             this._elementRef = this.injector.get(ElementRef);
         }
@@ -56,6 +56,10 @@ export abstract class FormElementComponentBase implements DisplayValidationHandl
 
     protected setAttribute(name: string, value: any, namespace?: string): void {
         this.renderer.setAttribute(this.elementRef.nativeElement, name, value, namespace);
+    }
+
+    protected getFirstInput(): HTMLHtmlElement {
+        return this.elementRef.nativeElement.querySelector('input:not([type="hidden"]),select,textarea');
     }
 
     private getHandler(behaviorType: string, optional: boolean): BehaviorFn {

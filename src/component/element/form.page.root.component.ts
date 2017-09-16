@@ -24,6 +24,7 @@ export class FormPageRootComponent extends FormControlComponent<RootPageElement>
         if (currentPage !== this._currentPage) {
             this._currentPage = currentPage;
             this.pageChanged.next(this._currentPage);
+            this.focusFirstInput();
             if (this.element.updatePage) {
                 this.element.updatePage(this._currentPage);
             }

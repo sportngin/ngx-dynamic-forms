@@ -101,4 +101,14 @@ export abstract class FormControlComponent<TModelControl extends ModelControl = 
         }
     }
 
+    public focusFirstInput(): void {
+        setTimeout(() => {
+            let firstInput = this.getFirstInput();
+            if (!firstInput || !firstInput.focus) {
+                return;
+            }
+            firstInput.focus();
+        });
+    }
+
 }
