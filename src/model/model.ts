@@ -4,7 +4,8 @@ import { Observable } from 'rxjs/Observable';
 
 import { BehaviorType }     from '../behavior';
 import {
-    ArrayMember, CheckboxMember, PasswordMember, SelectionMember, SimpleMember, MemberType, PageMember
+    ArrayMemberBase, ArrayMemberBuilder, CheckboxMember, PasswordMember, SelectionMember,
+    SimpleMember, MemberType, PageMember
 } from './member';
 import {
     ButtonType, ModelElement, ButtonAction, ButtonClass, ButtonControl, LayoutControl, RootPageElement
@@ -104,8 +105,8 @@ export abstract class Model {
         return new SelectionMember(name, validators);
     }
 
-    static arrayMember(name: string, template: any, validator?: ValidatorFn): ArrayMember {
-        return new ArrayMember(name, template, validator);
+    static arrayMember(name: string, template: any, validator?: ValidatorFn): ArrayMemberBuilder {
+        return new ArrayMemberBase(name, template, validator);
     }
 
     // static groupMember(name: string, template: any, validator?: ValidatorFn): TemplatedMember {

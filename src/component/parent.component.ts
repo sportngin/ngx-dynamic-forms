@@ -4,7 +4,9 @@ import { ElementTypeMappings }      from '../config/element.type.mappings';
 import { ElementType, ModelControl, ModelElement } from '../model/element';
 import { MemberType, ModelMember }  from '../model/member';
 import { ElementData }              from './element.data';
+import { ElementRenderMode }        from './element.render.mode';
 import { MemberDisplayComponent }   from './element/member.display.component';
+import { MemberLabelComponent }     from './element/member.label.component';
 import { FormControlComponent }     from './form.control.component';
 
 export const TEMPLATE: string = '<ng-container #container></ng-container>';
@@ -23,8 +25,17 @@ export abstract class ParentComponent<TModelControl extends ModelControl = Model
     }
 
     protected getComponentType(element: ModelElement): any {
-        if (element.elementType === ElementType.input && this.displayOnly && (element as ModelMember).memberType !== MemberType.hidden) {
-            return MemberDisplayComponent;
+        if (element.elementType === ElementType.input) {
+            let memberType = (element as ModelMember).memberType;
+            if (this.renderMode === ElementRenderMode.displayOnly && memberType !== MemberType.hidden) {
+                return MemberDisplayComponent;
+            }
+            if (this.renderMode === ElementRenderMode.labelOnly) {
+                if (memberType === MemberType.hidden) {
+                    return null;
+                }
+                return MemberLabelComponent;
+            }
         }
         return this.elementTypeMappings.getComponentType(element.elementType);
     }
@@ -33,7 +44,7 @@ export abstract class ParentComponent<TModelControl extends ModelControl = Model
         return {
             form: this.form,
             element: element,
-            displayOnly: this.displayOnly
+            renderMode: this.renderMode
         };
     }
 

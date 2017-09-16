@@ -14,15 +14,15 @@ import {
 } from './config';
 
 import {
-    ButtonComponent, DynamicMemberComponent, MemberDisplayComponent, FormPageRootComponent,
-    LayoutComponent, TipComponent
+    ButtonComponent, DynamicMemberComponent, MemberDisplayComponent, MemberLabelComponent,
+    FormPageRootComponent, LayoutComponent, TipComponent
 } from './component/element';
 
 import {
     CheckboxFieldComponent, ColorPickerComponent, DatePickerComponent, DropdownFieldComponent,
     PasswordFieldComponent, FormPageComponent, GroupFieldComponent, ListFieldComponent,
     ListFieldEntryComponent, ListFieldEntryDirective, ListFieldEntryEditableComponent,
-    TextFieldComponent
+    ListFieldHeaderComponent, TextFieldComponent
 } from './component/member';
 
 @NgModule({
@@ -42,7 +42,9 @@ import {
         ListFieldEntryComponent,
         ListFieldEntryDirective,
         ListFieldEntryEditableComponent,
+        ListFieldHeaderComponent,
         MemberDisplayComponent,
+        MemberLabelComponent,
         PasswordFieldComponent,
         PlaceholderComponent,
         TextFieldComponent,
@@ -57,6 +59,7 @@ import {
         DynamicFormComponent,
         DynamicMemberComponent,
         MemberDisplayComponent,
+        MemberLabelComponent,
         FormPageComponent,
         FormPageRootComponent,
         GroupFieldComponent,
@@ -64,6 +67,7 @@ import {
         ListFieldComponent,
         ListFieldEntryDirective,
         ListFieldEntryEditableComponent,
+        ListFieldHeaderComponent,
         PasswordFieldComponent,
         TextFieldComponent,
         TipComponent
@@ -76,12 +80,14 @@ import {
         DropdownFieldComponent,
         DynamicMemberComponent,
         MemberDisplayComponent,
+        MemberLabelComponent,
         FormPageRootComponent,
         FormPageComponent,
         GroupFieldComponent,
         LayoutComponent,
         ListFieldComponent,
         ListFieldEntryComponent,
+        ListFieldHeaderComponent,
         PasswordFieldComponent,
         PlaceholderComponent,
         TextFieldComponent,

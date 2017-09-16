@@ -19,9 +19,9 @@ import { ComponentInfo }            from '../component.info';
 import { ElementData }              from '../element.data';
 import { FormMemberComponent }      from '../form.member.component';
 import { MemberData }               from '../member.data';
-import { TEMPLATE }                 from '../parent.component';
 import { ListFieldEntryComponent }  from './list.field.entry.component';
 import { ListFieldEntryDirective }  from './list.field.entry.directive';
+import { ListFieldHeaderComponent } from './list.field.header.component';
 
 export interface EntryState {
     submitted: boolean,
@@ -34,7 +34,7 @@ export interface ListEntryData extends MemberData {
 
 @Component({
     selector: 'ul [list-field]',
-    template: TEMPLATE,
+    templateUrl: './list.field.component.pug',
     viewProviders: [
         behaviorProvider(ListFieldComponent, BehaviorType.editItem),
         behaviorProvider(ListFieldComponent, BehaviorType.isListItemControlRendered),
@@ -51,6 +51,7 @@ export class ListFieldComponent extends FormMemberComponent<FormArray, ArrayMemb
     IsListItemControlRenderedHandler {
 
     @ViewChild('container', { read: ViewContainerRef }) public container: ViewContainerRef;
+    @ViewChild('headerContainer', { read: ViewContainerRef }) public headerContainer: ViewContainerRef;
     @ViewChildren(ListFieldEntryDirective) private inputs: QueryList<ListFieldEntryDirective>;
 
     public itemTemplate: Model;
@@ -87,6 +88,26 @@ export class ListFieldComponent extends FormMemberComponent<FormArray, ArrayMemb
         });
     }
 
+    private createHeaderComponent(): ComponentInfo {
+        let entryControl = omit(this.element, 'tips') as ModelMember;
+        let elementData: MemberData = {
+            element: entryControl,
+            form: this.form,
+            formControl: this.formControl,
+            children: this.children as ModelElement[]
+        };
+        let providers = [
+            { provide: ElementData, useValue: elementData }
+        ];
+        return this.controlManager.createComponent({
+            container: this.headerContainer,
+            elementData: this.elementData,
+            isRendered: this.isRendered.bind(this),
+            addRenderOnParent: this.addRenderOnParent.bind(this),
+            removeRenderOnParent: this.removeRenderOnParent.bind(this)
+        }, entryControl, ListFieldHeaderComponent, providers);
+    }
+
     private createEntryComponent(entry: FormGroup, entryState: EntryState): ComponentInfo {
         let entryControl = omit(this.element, 'tips') as ModelMember;
         let entryData: ListEntryData = {
@@ -107,11 +128,14 @@ export class ListFieldComponent extends FormMemberComponent<FormArray, ArrayMemb
         return entryComponent;
     }
 
-    private createEntryComponents(entries: FormGroup[], startIndex: number = 0) {
-        return chain(entries)
+    private createEntryComponents(entries: FormGroup[], startIndex: number = 0): ComponentInfo[] {
+        let result = [];
+        result.push(...chain(entries)
             .map((entry, index) => this.createEntryComponent(entry as FormGroup, this.entryState[startIndex + index]))
             .flatten()
-            .value() as ComponentInfo[];
+            .value() as ComponentInfo[]
+        );
+        return result;
     }
 
     ngAfterContentChecked(): void {
@@ -129,7 +153,12 @@ export class ListFieldComponent extends FormMemberComponent<FormArray, ArrayMemb
     }
 
     createChildComponents(): ComponentInfo[] {
-        return this.createEntryComponents(this.formControl.controls as FormGroup[])
+        let result = [];
+        if (this.element.renderHeaderRow) {
+            result.push(this.createHeaderComponent());
+        }
+        result.push(...this.createEntryComponents(this.formControl.controls as FormGroup[]));
+        return result;
     }
 
     ngAfterViewInit(): void {

@@ -4,6 +4,7 @@ import { extend } from 'lodash';
 
 import { ArrayMember }          from '../../model/member';
 import { ElementData }          from '../element.data';
+import { ElementRenderMode }    from '../element.render.mode';
 import { TEMPLATE }             from '../parent.component';
 import { StructuralComponent }  from '../structural.component';
 import { EntryState }           from './list.field.component';
@@ -17,11 +18,11 @@ export class ListFieldEntryEditableComponent extends StructuralComponent<ArrayMe
     @ViewChild('container', { read: ViewContainerRef }) public container: ViewContainerRef;
 
     @Input() public entryState: EntryState;
-    @Input() public set displayOnly(displayOnly: boolean) {
-        this.elementData.displayOnly = displayOnly;
+    @Input() public set renderMode(renderMode: ElementRenderMode) {
+        this.elementData.renderMode = renderMode;
     }
-    public get displayOnly(): boolean {
-        return this.elementData.displayOnly;
+    public get renderMode(): ElementRenderMode {
+        return this.elementData.renderMode;
     }
 
     constructor(

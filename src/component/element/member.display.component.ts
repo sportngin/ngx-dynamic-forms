@@ -6,7 +6,7 @@ import { FormElementComponent } from '../form.element.component';
 
 @Component({
     selector: 'member-display',
-    templateUrl: 'member.display.component.pug'
+    templateUrl: './member.display.component.pug'
 })
 export class MemberDisplayComponent extends FormElementComponent<ModelMember> {
 

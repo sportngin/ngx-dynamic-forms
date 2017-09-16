@@ -4,14 +4,15 @@ import { DisableBehavior, FormText }        from '../model';
 import { ModelElement }                     from '../model/element';
 import { COMPONENT_INFO, ComponentInfo }    from './component.info';
 import { ElementData }                      from './element.data';
+import { ElementRenderMode }                from './element.render.mode';
 import { FormElementComponentBase }         from './form.element.component.base';
 import { FormHostComponent, FormState }     from './form.host.component';
 import { getText }                          from './form.text.util';
 
 export abstract class FormElementComponent<TModelElement extends ModelElement = ModelElement> extends FormElementComponentBase implements OnDestroy {
 
-    public get displayOnly(): boolean {
-        return this.elementData.displayOnly || false;
+    public get renderMode(): ElementRenderMode {
+        return this.elementData.renderMode || ElementRenderMode.default;
     };
 
     public get element(): TModelElement {

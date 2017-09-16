@@ -84,8 +84,7 @@ export abstract class FormControlComponent<TModelControl extends ModelControl = 
 
     private static replaceChild(child: ComponentInfo, replacementComponentFactory: () => ComponentRef<any>): void {
         let index = child.container.indexOf(child.component.hostView);
-        // child.container.remove(index);
-        child.container.detach(index);
+        child.container.remove(index);
         let replacement = replacementComponentFactory();
         child.component = replacement;
         child.container.insert(replacement.hostView, index);

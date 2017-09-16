@@ -8,5 +8,6 @@ export * from './list.field.component';
 export * from './list.field.entry.component';
 export * from './list.field.entry.directive';
 export * from './list.field.entry.editable.component';
+export * from './list.field.header.component';
 export * from './password.field.component';
 export * from './text.field.component';

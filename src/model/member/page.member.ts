@@ -1,9 +1,9 @@
 import { ElementType }          from '../element/element.type';
 import { Model }                from '../model';
 import { MemberType }           from './member.type';
-import { TemplatedMember }      from './templated.member';
+import { TemplatedMemberBase }  from './templated.member.base';
 
-export class PageMember extends TemplatedMember {
+export class PageMember extends TemplatedMemberBase<PageMember> {
 
     public pageIndex: number;
 

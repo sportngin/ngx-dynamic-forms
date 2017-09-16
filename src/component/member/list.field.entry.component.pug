@@ -5,7 +5,7 @@ ng-container(#container)
 ng-template(#display)
     .ngdf-list-editable(
         list-field-editable,
-        [displayOnly]='true',
+        [renderMode]='"displayOnly"',
         (click)='onEditEntry()'
     )
 
