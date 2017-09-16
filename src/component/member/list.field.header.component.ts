@@ -7,7 +7,7 @@ import { TEMPLATE }             from '../parent.component';
 import { StructuralComponent }  from '../structural.component';
 
 @Component({
-    selector: 'list-field-header',
+    selector: 'li [list-field-header]',
     template: TEMPLATE
 })
 export class ListFieldHeaderComponent extends StructuralComponent<ArrayMember> {

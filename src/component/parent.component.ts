@@ -1,5 +1,7 @@
 import { Injector } from '@angular/core';
 
+import { extend } from 'lodash';
+
 import { ElementTypeMappings }      from '../config/element.type.mappings';
 import { ElementType, ModelControl, ModelElement } from '../model/element';
 import { MemberType, ModelMember }  from '../model/member';
@@ -41,11 +43,7 @@ export abstract class ParentComponent<TModelControl extends ModelControl = Model
     }
 
     protected getElementData(element: ModelElement): { [key: string]: any; } {
-        return {
-            form: this.form,
-            element: element,
-            renderMode: this.renderMode
-        };
+        return extend({}, this.elementData, { element });
     }
 
 }
