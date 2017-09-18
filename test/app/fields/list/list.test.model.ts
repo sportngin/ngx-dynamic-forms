@@ -14,7 +14,8 @@ export class ListTestModelItem extends Model {
                     )
                         .addAttributes({ title: 'this one cannot be edited' })
                         .addConditions({ key: 'cant-touch-this' }),
-                    Model.textMember('name', Validators.required).addLabel('Name')
+                    Model.textMember('name', Validators.required).addLabel('Name'),
+                    Model.validationMessage('name', 'nope', 'you will not see this')
                 ),
                 Model.layout('.col-3', Model.defaultValueMember('default', 'default', MemberType.text).addLabel('Default')),
                 Model.layout('.col-3',

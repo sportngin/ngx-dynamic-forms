@@ -8,6 +8,8 @@ import {
 } from '../behavior';
 import { RenderOnParent }   from '../model';
 import { ModelElement }     from '../model/element';
+import { ElementData }      from './element.data';
+import { ElementRenderMode } from './element.render.mode';
 
 const VALIDATOR_PROPERTIES: { [errorType: string]: string[] } = {
     required: ['touched'],
@@ -38,8 +40,12 @@ export abstract class FormElementComponentBase implements DisplayValidationHandl
         return this._elementRef;
     }
 
+    public get form(): FormGroup {
+        return this.elementData.form;
+    }
+
     constructor(
-        public form: FormGroup,
+        public elementData: ElementData,
         protected injector: Injector
     ) {
         this.behaviorService = injector.get(BehaviorService);
@@ -79,6 +85,10 @@ export abstract class FormElementComponentBase implements DisplayValidationHandl
     }
 
     public validateDisplay(form: AbstractControl, fieldKey: string, errorKey: string): boolean {
+        // if it's just a label, short circuit
+        if (this.elementData.renderMode === ElementRenderMode.labelOnly) {
+            return false;
+        }
         let group = form as FormGroup;
         if (!group) {
             return true;

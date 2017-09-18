@@ -56,7 +56,7 @@ export abstract class FormElementComponent<TModelElement extends ModelElement = 
         public elementData: ElementData,
         injector: Injector
     ) {
-        super(elementData.form, injector);
+        super(elementData, injector);
 
         this.cdf = this.injector.get(ChangeDetectorRef);
     }
