@@ -1,4 +1,4 @@
-import { ElementRef, Injector, Renderer2 }  from '@angular/core';
+import { ElementRef, Injector, OnInit, Renderer2 } from '@angular/core';
 import { AbstractControl, FormGroup }       from '@angular/forms';
 
 import { every } from 'lodash';
@@ -16,7 +16,7 @@ const VALIDATOR_PROPERTIES: { [errorType: string]: string[] } = {
     default: ['dirty', 'touched']
 };
 
-export abstract class FormElementComponentBase implements DisplayValidationHandler {
+export abstract class FormElementComponentBase implements OnInit, DisplayValidationHandler {
 
     private handlers: { [behaviorType: string]: any } = {};
     private behaviorService: BehaviorService;
@@ -40,6 +40,10 @@ export abstract class FormElementComponentBase implements DisplayValidationHandl
         return this._elementRef;
     }
 
+    protected get htmlElement(): NodeSelector {
+        return this.elementRef.nativeElement;
+    }
+
     public get form(): FormGroup {
         return this.elementData.form;
     }
@@ -50,22 +54,37 @@ export abstract class FormElementComponentBase implements DisplayValidationHandl
     ) {
         this.behaviorService = injector.get(BehaviorService);
         this.handlers[BehaviorType.validateDisplay] = this.behaviorService.getHandler(BehaviorType.validateDisplay, this, false);
+
+        // prevent ngOnInit from being overwritten;
+        let ogOnInit = this.ngOnInit.bind(this);
+        this.ngOnInit = () => {
+            this.initCssClasses();
+            ogOnInit();
+        }
+    }
+
+    ngOnInit(): void {}
+
+    protected initCssClasses() {
+        if (this.elementData.element) {
+            this.addCssClass(...this.elementData.element.cssClasses);
+        }
     }
 
     protected addCssClass(...cssClasses: string[]): void {
-        cssClasses.forEach(cssClass => cssClass && this.renderer.addClass(this.elementRef.nativeElement, cssClass));
+        cssClasses.forEach(cssClass => cssClass && this.renderer.addClass(this.htmlElement, cssClass));
     }
 
     protected removeCssClass(...cssClasses: string[]): void {
-        cssClasses.forEach(cssClass => cssClass && this.renderer.removeClass(this.elementRef.nativeElement, cssClass));
+        cssClasses.forEach(cssClass => cssClass && this.renderer.removeClass(this.htmlElement, cssClass));
     }
 
     protected setAttribute(name: string, value: any, namespace?: string): void {
-        this.renderer.setAttribute(this.elementRef.nativeElement, name, value, namespace);
+        this.renderer.setAttribute(this.htmlElement, name, value, namespace);
     }
 
-    protected getFirstInput(): HTMLHtmlElement {
-        return this.elementRef.nativeElement.querySelector('input:not([type="hidden"]),select,textarea');
+    protected getFirstInput(): HTMLElement {
+        return this.elementRef.nativeElement.querySelector('input:not([type="hidden"]),select,textarea') as HTMLElement;
     }
 
     private getHandler(behaviorType: string, optional: boolean): BehaviorFn {

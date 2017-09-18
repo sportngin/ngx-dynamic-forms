@@ -17,4 +17,12 @@ export class ButtonComponent extends FormControlComponent<ButtonControl> {
         super(elementData, injector);
     }
 
+    private _htmlElement: HTMLElement;
+    protected get htmlElement() {
+        if (!this._htmlElement) {
+            this._htmlElement = this.elementRef.nativeElement.querySelector('button,input[type="submit"]')
+        }
+        return this._htmlElement;
+    }
+
 }

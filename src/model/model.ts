@@ -43,11 +43,19 @@ export abstract class Model {
         return Model.defaultValueMember(name, '', memberType, ...validators);
     }
 
-    static customButton(buttonType: ButtonType, buttonAction: ButtonAction | string, buttonClass: ButtonClass, text?: FormText, disableWhenInvalid: boolean = false): ButtonControl {
-        return new ButtonControl(buttonType, buttonAction, buttonClass, text, disableWhenInvalid);
+    static customButton(buttonType: ButtonType, buttonAction: ButtonAction | string, buttonClass?: ButtonClass | string, text?: FormText, disableWhenInvalid: boolean = false): ButtonControl {
+        let button = new ButtonControl(buttonType, buttonAction, text, disableWhenInvalid);
+        if (buttonClass) {
+            if (buttonClass.match(/^\.btn-/)) {
+                button.addCssClass('.btn');
+
+            }
+            button.addCssClass(buttonClass);
+        }
+        return button;
     }
 
-    static button(buttonAction: ButtonAction | string, buttonClass: ButtonClass, text?: FormText, disableWhenInvalid: boolean = false): ButtonControl {
+    static button(buttonAction: ButtonAction | string, buttonClass?: ButtonClass | string, text?: FormText, disableWhenInvalid: boolean = false): ButtonControl {
         return Model.customButton(ButtonType.button, buttonAction, buttonClass, text, disableWhenInvalid);
     }
 

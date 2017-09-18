@@ -13,11 +13,11 @@ export abstract class FormElementComponent<TModelElement extends ModelElement = 
 
     public get renderMode(): ElementRenderMode {
         return this.elementData.renderMode || ElementRenderMode.default;
-    };
+    }
 
     public get element(): TModelElement {
         return this.elementData.element as TModelElement;
-    };
+    }
 
     public set element(element: TModelElement) {
         this.elementData.element = element;

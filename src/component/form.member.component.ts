@@ -43,6 +43,10 @@ export abstract class FormMemberComponent<
         }
     }
 
+    protected get htmlElement(): NodeSelector {
+        return this.getFirstInput();
+    }
+
     private findElement(tagName: string): HTMLElement {
         return first(this.elementRef.nativeElement.getElementsByTagName(tagName));
     }

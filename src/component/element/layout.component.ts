@@ -27,7 +27,6 @@ export class LayoutComponent extends StructuralComponent<LayoutControl> implemen
                     this.setAttribute(name, this.element.attributes[name]);
                 });
             }
-            this.addCssClass(...this.element.cssClasses);
         }
     }
 }
