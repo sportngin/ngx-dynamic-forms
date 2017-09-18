@@ -1,7 +1,7 @@
-import { Component, Inject, Injector, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Injector, OnInit, ViewEncapsulation } from '@angular/core';
 import { animate, keyframes, style, transition, trigger } from '@angular/animations';
 
-import { ELEMENT_TIP, ModelElementTip } from '../../model/element/model.element.tip';
+import { ModelElementTip }      from '../../model/element';
 import { FormElementComponent } from '../form.element.component';
 import { ElementData }          from '../element.data';
 
@@ -24,25 +24,23 @@ import { ElementData }          from '../element.data';
         ])
     ]
 })
-export class TipComponent extends FormElementComponent implements OnInit {
+export class TipComponent extends FormElementComponent<ModelElementTip> implements OnInit {
 
     constructor(
         elementData: ElementData,
-        @Inject(ELEMENT_TIP) public tip: ModelElementTip,
         injector: Injector
     ) {
         super(elementData, injector);
     }
 
     public ngOnInit(): void {
-        this.addCssClass(...this.tip.cssClasses);
-        this.addCssClass(`element-${this.tip.tipType}`);
-        this.addCssClass(`element-tip-${this.tip.position}`);
-        this.addCssClass(`element-tip-align-${this.tip.alignment}`);
+        this.addCssClass(`element-${this.element.tipType}`);
+        this.addCssClass(`element-tip-${this.element.position}`);
+        this.addCssClass(`element-tip-align-${this.element.alignment}`);
     }
 
     public get checkedElement(): ModelElementTip {
-        return this.tip;
+        return this.element;
     }
 
 }

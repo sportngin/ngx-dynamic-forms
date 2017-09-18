@@ -1,5 +1,5 @@
-import { ToolTipPosition }      from '../tool.tip.position';
-import { ElementPosition }      from '../element.position';
+import { ElementAbsolutePosition }      from '../element.absolute.position';
+import { ElementSiblingPosition }      from '../element.sibling.position';
 import { ElementTipAlignment }  from '../element.tip.alignment';
 import { RenderOnParent }       from '../render.on.parent';
 import { ModelElementRenderCondition } from './model.element.render.condition';
@@ -7,11 +7,11 @@ import { ModelElementTipType }  from './model.element.tip.type';
 
 import { isArray, merge, union } from 'lodash';
 
-export type ModelElementTipPosition = ElementPosition | ToolTipPosition;
+export type ModelElementSiblingPosition = ElementSiblingPosition | ElementAbsolutePosition;
 
 export interface ElementTipOptions {
     tipType?: ModelElementTipType;
-    position?: ModelElementTipPosition;
+    position?: ModelElementSiblingPosition;
     alignment?: ElementTipAlignment;
     cssClasses?: string[];
     renderConditions?: ModelElementRenderCondition[];
@@ -28,7 +28,7 @@ export function optionsMerge(objValue, srcValue): any {
 export class ElementTipOptionsWithDefaults implements ElementTipOptions {
 
     public tipType: ModelElementTipType;
-    public position: ModelElementTipPosition;
+    public position: ModelElementSiblingPosition;
     public alignment: ElementTipAlignment = ElementTipAlignment.left;
     public cssClasses: string[];
     public renderConditions?: ModelElementRenderCondition[];
@@ -43,7 +43,7 @@ export class ElementTipOptionsWithDefaults implements ElementTipOptions {
 export class ElementSiblingTipOptions extends ElementTipOptionsWithDefaults {
     constructor(options?: ElementTipOptions) {
         super(
-            { position: ElementPosition.after },
+            { position: ElementSiblingPosition.after },
             options,
             { tipType: ModelElementTipType.sibling }
         );
@@ -53,7 +53,7 @@ export class ElementSiblingTipOptions extends ElementTipOptionsWithDefaults {
 export class ElementToolTipOptions extends ElementTipOptionsWithDefaults {
     constructor(options?: ElementTipOptions) {
         super(
-            { position: ToolTipPosition.top },
+            { position: ElementAbsolutePosition.top },
             options,
             { tipType: ModelElementTipType.tooltip }
         );

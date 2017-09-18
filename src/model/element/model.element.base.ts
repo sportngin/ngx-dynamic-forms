@@ -8,21 +8,21 @@ import { ModelElementRenderCondition }  from './model.element.render.condition';
 /**
  * Provides a base implementation of {@link ModelElement} and {@link ModelElementBuilder}.
  */
-export class ModelElementBase<T extends ModelElementBase<T>> implements ModelElementBuilder<T> {
+export class ModelElementBase<TSelf extends ModelElementBase<TSelf>> implements ModelElementBuilder<TSelf> {
 
-    constructor(public readonly elementType: ElementType, parentOptionsConfigKeys: string[],  optionsConfigKeys: string[]) {
+    constructor(public readonly elementType: ElementType, parentOptionsConfigKeys: string[], optionsConfigKeys: string[]) {
         this.optionsConfigKeys = ['element', ...parentOptionsConfigKeys || [], elementType, ...optionsConfigKeys || []];
     }
 
-    protected get self(): T {
-        return this as any as T;
+    protected get self(): TSelf {
+        return this as any as TSelf;
     }
 
     public cssClasses: string[];
     public readonly optionsConfigKeys: string[];
     public renderConditions: ModelElementRenderCondition[];
 
-    public addCssClass(...cssClasses: string[]): T {
+    public addCssClass(...cssClasses: string[]): TSelf {
         cssClasses = getCssClassArray(...cssClasses);
         if (!this.cssClasses) {
             this.cssClasses = cssClasses;
@@ -32,7 +32,7 @@ export class ModelElementBase<T extends ModelElementBase<T>> implements ModelEle
         return this.self;
     }
 
-    public addConditions(...renderConditions: ModelElementRenderCondition[]): T {
+    public addConditions(...renderConditions: ModelElementRenderCondition[]): TSelf {
         if (!this.renderConditions) {
             this.renderConditions = renderConditions;
         } else {
@@ -42,7 +42,7 @@ export class ModelElementBase<T extends ModelElementBase<T>> implements ModelEle
         return this.self;
     }
 
-    public addListItemControlConditions(...renderConditions: ModelElementRenderCondition[]): T {
+    public addListItemControlConditions(...renderConditions: ModelElementRenderCondition[]): TSelf {
         return this.addConditions(...map(renderConditions, condition => extend(condition, { method: 'isListItemControlRendered' })));
     }
 

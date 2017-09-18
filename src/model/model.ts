@@ -8,7 +8,8 @@ import {
     SimpleMember, MemberType, PageMember
 } from './member';
 import {
-    ButtonType, ModelElement, ButtonAction, ButtonClass, ButtonControl, LayoutControl, RootPageElement
+    ButtonType, ModelElement, ButtonAction, ButtonClass, ButtonControlBase, ButtonControlBuilder, LayoutControl,
+    RootPageElement
 } from './element';
 
 import { FormText }         from './form.text';
@@ -43,8 +44,8 @@ export abstract class Model {
         return Model.defaultValueMember(name, '', memberType, ...validators);
     }
 
-    static customButton(buttonType: ButtonType, buttonAction: ButtonAction | string, buttonClass?: ButtonClass | string, text?: FormText, disableWhenInvalid: boolean = false): ButtonControl {
-        let button = new ButtonControl(buttonType, buttonAction, text, disableWhenInvalid);
+    static customButton(buttonType: ButtonType, buttonAction: ButtonAction | string, buttonClass?: ButtonClass | string, text?: FormText, disableWhenInvalid: boolean = false): ButtonControlBuilder {
+        let button = new ButtonControlBase(buttonType, buttonAction, text, disableWhenInvalid);
         if (buttonClass) {
             if (buttonClass.match(/^\.btn-/)) {
                 button.addCssClass('.btn');
@@ -55,11 +56,11 @@ export abstract class Model {
         return button;
     }
 
-    static button(buttonAction: ButtonAction | string, buttonClass?: ButtonClass | string, text?: FormText, disableWhenInvalid: boolean = false): ButtonControl {
+    static button(buttonAction: ButtonAction | string, buttonClass?: ButtonClass | string, text?: FormText, disableWhenInvalid: boolean = false): ButtonControlBuilder {
         return Model.customButton(ButtonType.button, buttonAction, buttonClass, text, disableWhenInvalid);
     }
 
-    static submitButton(buttonClass: ButtonClass, text: FormText, disableWhenInvalid: boolean = true): ButtonControl {
+    static submitButton(buttonClass: ButtonClass, text: FormText, disableWhenInvalid: boolean = true): ButtonControlBuilder {
         return Model.customButton(ButtonType.submit, ButtonAction.submit, buttonClass, text, disableWhenInvalid);
     }
 

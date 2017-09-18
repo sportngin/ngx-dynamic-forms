@@ -124,7 +124,7 @@ export class DynamicMemberComponent extends FormControlComponent<ModelMember> im
     protected createControlComponent(): ComponentInfo {
 
         let elementData = this.getElementData();
-        let mergedInputData = omit(extend(elementData, this.element.data || {}, { createsTips: false }), 'form', 'control');
+        let mergedInputData = omit(extend(elementData, this.element.data || {}, { createsSiblings: false }), 'form', 'control');
 
         let inputProviders: Provider[] = this.getProvidersFromInputData(mergedInputData);
         inputProviders.push(

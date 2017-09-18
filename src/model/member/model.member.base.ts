@@ -3,7 +3,7 @@ import { FormControl, ValidatorFn } from '@angular/forms';
 import { first, isArray, union } from 'lodash';
 
 import { BehaviorType }                 from '../../behavior';
-import { ElementPosition }              from '../element.position';
+import { ElementSiblingPosition }       from '../element.sibling.position';
 import { ElementTipOptions }            from '../element/element.tip.options';
 import { ElementType }                  from '../element/element.type';
 import { ModelControlBase }             from '../element/model.control.base';
@@ -12,7 +12,7 @@ import { MemberType }                   from './member.type';
 import { ModelMemberBuilder }           from './model.member.builder';
 import { ValidationDisplayMode }        from './validation.display.mode';
 
-export abstract class ModelMemberBase<T extends ModelMemberBase<T>> extends ModelControlBase<T> implements ModelMemberBuilder<T> {
+export abstract class ModelMemberBase<TSelf extends ModelMemberBase<TSelf>> extends ModelControlBase<TSelf> implements ModelMemberBuilder<TSelf> {
 
     constructor(elementType: ElementType, memberType: MemberType | string, name: string, validators?: ValidatorFn | ValidatorFn[], data?: { [key: string]: any }) {
         super(elementType, ['member'], [`${elementType}-${memberType}`]);
@@ -33,15 +33,15 @@ export abstract class ModelMemberBase<T extends ModelMemberBase<T>> extends Mode
         return first(this.validators);
     }
     public label: string;
-    public labelPosition: ElementPosition = ElementPosition.before;
+    public labelPosition: ElementSiblingPosition = ElementSiblingPosition.before;
     public validationDisplay: ValidationDisplayMode;
 
-    public addLabel(label: string): T {
+    public addLabel(label: string): TSelf {
         this.label = label;
         return this.self;
     }
 
-    public addValidationMessage(errorKey: string, text: string, options?: ElementTipOptions): T {
+    public addValidationMessage(errorKey: string, text: string, options?: ElementTipOptions): TSelf {
 
         let renderCondition: ModelElementRenderCondition = {
             key: `${this.name}:${errorKey}`,
@@ -63,7 +63,7 @@ export abstract class ModelMemberBase<T extends ModelMemberBase<T>> extends Mode
         );
     }
 
-    public setValidationDisplay(displaysValidation: ValidationDisplayMode): T {
+    public setValidationDisplay(displaysValidation: ValidationDisplayMode): TSelf {
         this.validationDisplay = displaysValidation;
         return this.self;
     }

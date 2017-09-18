@@ -7,5 +7,5 @@ export class ElementData {
     form: FormGroup;
     element: ModelElement;
     renderMode?: ElementRenderMode;
-    createsTips?: boolean = true;
+    createsSiblings?: boolean = true;
 }

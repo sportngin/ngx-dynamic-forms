@@ -6,9 +6,9 @@ import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/for
 
 import { chain, each, extend, last, omit } from 'lodash';
 
-import { Model }                    from '../../model';
-import { ModelElement }             from '../../model/element';
-import { ArrayMember, ModelMember } from '../../model/member';
+import { Model }                            from '../../model';
+import { ModelElement, SIBLINGS_PROPERTY }  from '../../model/element';
+import { ArrayMember, ModelMember }         from '../../model/member';
 
 import {
     behaviorProvider, BehaviorType, EditItemHandler, IsListItemControlRenderedHandler, RemoveItemHandler,
@@ -89,7 +89,7 @@ export class ListFieldComponent extends FormMemberComponent<FormArray, ArrayMemb
     }
 
     private createHeaderComponent(): ComponentInfo {
-        let entryControl = omit(this.element, 'tips') as ModelMember;
+        let entryControl = omit(this.element, SIBLINGS_PROPERTY) as ModelMember;
         let elementData: MemberData = {
             element: entryControl,
             form: this.form,
@@ -109,7 +109,7 @@ export class ListFieldComponent extends FormMemberComponent<FormArray, ArrayMemb
     }
 
     private createEntryComponent(entry: FormGroup, entryState: EntryState): ComponentInfo {
-        let entryControl = omit(this.element, 'tips') as ModelMember;
+        let entryControl = omit(this.element, SIBLINGS_PROPERTY) as ModelMember;
         let entryData: ListEntryData = {
             form: entry,
             formControl: entry,

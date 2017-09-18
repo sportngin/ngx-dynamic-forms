@@ -1,6 +1,6 @@
 import { Validators } from '@angular/forms';
 
-import { ButtonClass, ElementPosition, Model, PasswordValidator } from '@siplay/ng-dynamic-forms';
+import { ButtonClass, ElementSiblingPosition, Model, PasswordValidator } from '@siplay/ng-dynamic-forms';
 
 const buttonText = {
     default: 'Submit',
@@ -17,7 +17,7 @@ export class FormTestModel extends Model {
             Model.layout('.inner',
 
                 Model.layout('')
-                    .addSiblingTip('Hey do this stuff thanks', null, ElementPosition.before),
+                    .addSiblingTip('Hey do this stuff thanks', null, ElementSiblingPosition.before),
 
                 Model.stateMessage('email-check', 'There was an error checking your e-mail address.<br>Please try again.', '.alert.alert-danger'),
 

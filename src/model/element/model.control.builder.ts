@@ -1,14 +1,19 @@
-import { ElementPosition }              from '../element.position';
+import { ElementSiblingPosition }       from '../element.sibling.position';
 import { ElementTipAlignment }          from '../element.tip.alignment';
 import { RenderOnParent }               from '../render.on.parent';
-import { ToolTipPosition }              from '../tool.tip.position';
-import { ModelElementTipPosition }      from './element.tip.options';
+import { ElementAbsolutePosition }      from '../element.absolute.position';
+import { ModelElementSiblingPosition }  from './element.tip.options';
 import { ModelControl }                 from './model.control';
 import { ModelElementBuilder }          from './model.element.builder';
 import { ModelElementRenderCondition }  from './model.element.render.condition';
 import { ModelElementTipType }          from './model.element.tip.type';
+import { ModelElementSibling }          from './model.element.sibling';
 
-export interface ModelControlBuilder<T extends ModelControlBuilder<T>> extends ModelElementBuilder<T>, ModelControl {
+export interface ModelControlBuilder<TSelf extends ModelControlBuilder<TSelf>> extends ModelElementBuilder<TSelf>, ModelControl {
+
+    addSibling(...sibling: ModelElementSibling[]): TSelf;
+
+    addInlineSibling(position: ElementSiblingPosition, cssClass?: string, text?: string): TSelf;
 
     /**
      * Adds a tip to be rendered for the element
@@ -18,11 +23,11 @@ export interface ModelControlBuilder<T extends ModelControlBuilder<T>> extends M
         optionsConfigKeys: string[],
         text: string,
         cssClass: string,
-        position: ModelElementTipPosition,
+        position: ModelElementSiblingPosition,
         alignment: ElementTipAlignment,
         renderConditions: ModelElementRenderCondition[],
         renderOnParent: RenderOnParent[]
-    ): T;
+    ): TSelf;
 
     /**
      * Adds a tooltip to be rendered for the element
@@ -30,11 +35,11 @@ export interface ModelControlBuilder<T extends ModelControlBuilder<T>> extends M
     addToolTip: (
         text: string,
         cssClass?: string,
-        position?: ToolTipPosition,
+        position?: ElementAbsolutePosition,
         alignment?: ElementTipAlignment,
         renderConditions?: ModelElementRenderCondition[],
         renderOnParent?: RenderOnParent[]
-    ) => T;
+    ) => TSelf;
 
     /**
      * Adds a sibling tip to be rendered for the element
@@ -42,20 +47,20 @@ export interface ModelControlBuilder<T extends ModelControlBuilder<T>> extends M
     addSiblingTip: (
         text: string,
         cssClass?: string,
-        position?: ElementPosition,
+        position?: ElementSiblingPosition,
         alignment?: ElementTipAlignment,
         renderConditions?: ModelElementRenderCondition[],
         renderOnParent?: RenderOnParent[]
-    ) => T;
+    ) => TSelf;
 
     /**
      * Adds arbitrary data to help with the rendering or validation of the element
      */
-    addData: (key: string, value: any) => T;
+    addData: (key: string, value: any) => TSelf;
 
     /**
      * Sets the `disabled` property to true
      */
-    disable(): T;
+    disable(): TSelf;
 
 }

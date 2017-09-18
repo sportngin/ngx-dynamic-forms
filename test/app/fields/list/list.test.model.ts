@@ -1,6 +1,6 @@
 import { Validators } from '@angular/forms';
 
-import { ButtonAction, ButtonClass, ElementPosition, MemberType, Model } from '@siplay/ng-dynamic-forms';
+import { ButtonAction, ButtonClass, ElementSiblingPosition, MemberType, Model } from '@siplay/ng-dynamic-forms';
 
 export class ListTestModelItem extends Model {
 
@@ -46,7 +46,8 @@ export class ListTestModelItem extends Model {
             Model.layout('.row.ngdf-list-editor.entry-row-2.clearfix',
                 Model.layout('.col-11',
                     Model.layout('.float-right',
-                        Model.button(ButtonAction.saveItem, ButtonClass.primary, '+ Add Another', true)
+                        Model.button(ButtonAction.saveItem, ButtonClass.primary, 'Add Another', true)
+                            .prependTextWith('.fa.fa-plus')
                             .addListItemControlConditions({ key: 'add' })
                     )
                 )
@@ -65,7 +66,7 @@ export class ListTestModel extends Model {
                 .allowRemoveItem(value => !value.cantTouchThis)
                 .rendersHeaderRow(true)
                 .addLabel('List')
-                .addSiblingTip(`Here's a tip`, '.alert.alert-info', ElementPosition.before)
+                .addSiblingTip(`Here's a tip`, '.alert.alert-info', ElementSiblingPosition.before)
                 .addItemCssClass('item-css-class', 'class-one class-two', '.class-three.class-four', 'class-five')
         );
     }

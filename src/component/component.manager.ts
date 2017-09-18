@@ -2,22 +2,24 @@ import { ComponentFactoryResolver, Injectable, Provider, ReflectiveInjector, Inj
 
 import { chain, extend, map, mergeWith } from 'lodash';
 
-import { DYNAMIC_FORMS_CONFIG, DynamicFormsConfig } from '../config/dynamic.forms.config';
-import { ElementPosition }                  from '../model';
-import { ELEMENT_TIP, ModelElement, ModelElementTipPosition, ModelElementTipType, ModelControl, optionsMerge } from '../model/element';
+import { DYNAMIC_FORMS_CONFIG, DynamicFormsConfig, ElementTypeMappings } from '../config';
+import { ElementType, ModelElement, ModelElementSibling, ModelElementSiblingPosition, optionsMerge } from '../model/element';
+import { ElementSiblingPosition, isAbsolutePosition } from '../model';
 import { COMPONENT_INFO, ComponentInfo }    from './component.info';
 import { DynamicControlContainer }          from './dynamic.control.container';
 import { ElementData }                      from './element.data';
-import { TipComponent }                     from './element/tip.component';
-import { PlaceholderComponent }             from './placeholder.component';
 
 @Injectable()
 export class ComponentManager {
 
+    private placeholderComponentType: any;
+
     constructor(
         private resolver: ComponentFactoryResolver,
-        @Inject(DYNAMIC_FORMS_CONFIG) private config: DynamicFormsConfig
+        @Inject(DYNAMIC_FORMS_CONFIG) private config: DynamicFormsConfig,
+        private elementTypeMappings: ElementTypeMappings
     ) {
+        this.placeholderComponentType = this.elementTypeMappings.getComponentType(ElementType.placeholder)
     }
 
     public createComponent(containerComponent: DynamicControlContainer, element: ModelElement, componentType: any, providers: Provider[]): ComponentInfo {
@@ -29,7 +31,7 @@ export class ComponentManager {
         let resolvedInputs = ReflectiveInjector.resolve(providers);
         let injector = ReflectiveInjector.fromResolvedProviders(resolvedInputs, containerComponent.container.parentInjector);
         let resolvedComponentFactory = this.resolver.resolveComponentFactory(componentType);
-        let resolvedPlaceholderFactory = this.resolver.resolveComponentFactory(PlaceholderComponent);
+        let resolvedPlaceholderFactory = this.resolver.resolveComponentFactory(this.placeholderComponentType);
         let componentFactory = () => resolvedComponentFactory.create(injector);
         let placeholderFactory = () => resolvedPlaceholderFactory.create(injector);
         let isRendered = containerComponent.isRendered(element);
@@ -45,25 +47,27 @@ export class ComponentManager {
         });
     }
 
-    public createTips(containerComponent: DynamicControlContainer, element: ModelControl, tipType: ModelElementTipType, position: ModelElementTipPosition): ComponentInfo[] {
-        return chain(element.tips)
-            .map(tip => {
-                if (!tip['__mergedConfig']) {
-                    let defaultOptions = map(tip.optionsConfigKeys, key => this.config.defaultOptions[key]);
+    public createSiblings(containerComponent: DynamicControlContainer, siblings: ModelElementSibling[], absolutelyPositioned: boolean, position: ModelElementSiblingPosition): ComponentInfo[] {
+        return chain(siblings)
+            .map(sibling => {
+                if (!sibling['__mergedConfig']) {
+                    let defaultOptions = map(sibling.optionsConfigKeys, key => this.config.defaultOptions[key]);
                     if (defaultOptions) {
-                        mergeWith(tip, ...defaultOptions, tip, optionsMerge);
+                        mergeWith(sibling, ...defaultOptions, sibling, optionsMerge);
                     }
-                    tip['__mergedConfig'] = true;
+                    sibling['__mergedConfig'] = true;
                 }
-                return tip;
+                return sibling;
             })
-            .filter(tip => tip.tipType === tipType && (tip.tipType === ModelElementTipType.tooltip || tip.position === position || tip.position === ElementPosition.both))
-            .map(tip => {
+            .filter(sibling =>
+                (sibling.position === position || sibling.position === ElementSiblingPosition.both) ||
+                (absolutelyPositioned && isAbsolutePosition(sibling.position)))
+            .map(sibling => {
                 let providers = [
-                    { provide: ELEMENT_TIP, useValue: tip },
-                    { provide: ElementData, useValue: extend({}, containerComponent.elementData, { element }) }
+                    { provide: ElementData, useValue: extend({}, containerComponent.elementData, { element: sibling }) }
                 ];
-                return this.createComponent(containerComponent, tip, TipComponent, providers);
+                let componentType = this.elementTypeMappings.getComponentType(sibling.elementType);
+                return this.createComponent(containerComponent, sibling, componentType, providers);
             })
             .flatten()
             .value() as ComponentInfo[];

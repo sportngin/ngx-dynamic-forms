@@ -1,6 +1,6 @@
-import { Component, Inject, Injector, Optional, ViewEncapsulation } from '@angular/core';
+import { Component, Injector, ViewEncapsulation } from '@angular/core';
 
-import { ELEMENT_TIP, ModelElement, ModelElementTip } from '../model/element';
+import { ModelElement } from '../model/element';
 import { FormElementComponent } from './form.element.component';
 import { ElementData }          from './element.data';
 
@@ -18,13 +18,12 @@ export class PlaceholderComponent extends FormElementComponent {
 
     constructor(
         elementData: ElementData,
-        @Optional() @Inject(ELEMENT_TIP) private elementTip: ModelElementTip,
         injector: Injector
     ) {
         super(elementData, injector);
     }
 
     public get checkedElement(): ModelElement {
-        return this.elementTip || this.elementData.element;
+        return this.element;
     }
 }

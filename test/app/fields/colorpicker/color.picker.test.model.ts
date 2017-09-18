@@ -1,6 +1,6 @@
 import { Validators } from '@angular/forms';
 
-import { ColorReadabilityValidator, ElementPosition, MemberType, Model } from '@siplay/ng-dynamic-forms';
+import { ColorReadabilityValidator, ElementSiblingPosition, MemberType, Model } from '@siplay/ng-dynamic-forms';
 
 export class ColorPickerTestModel extends Model {
 
@@ -41,7 +41,7 @@ export class ColorPickerTestModel extends Model {
                         .addLabel('Background Color')
                 )
             )
-                .addSiblingTip('Validate Readability Between Two Fields', '.alert.alert-info', ElementPosition.before),
+                .addSiblingTip('Validate Readability Between Two Fields', '.alert.alert-info', ElementSiblingPosition.before),
 
             Model.validationMessage('background', 'colorReadability', 'Pick a readable pair of colors, please.', '.alert.alert-warning'),
 

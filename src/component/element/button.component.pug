@@ -5,4 +5,7 @@ button(
     (click)='handleBehavior(element.buttonAction, form)',
     [attr.disabled]='element.disabled ? "" : null',
     [disabled]='isDisabled(element)'
-) {{getText(element.text)}}
+)
+    ng-container(#prependText)
+    | {{getText(element.text)}}
+    ng-container(#appendText)

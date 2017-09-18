@@ -1,7 +1,7 @@
 import { Inject, Injectable, Injector } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 
-import { DYNAMIC_FORMS_CONFIG, DynamicFormsConfig } from '../config/dynamic.forms.config';
+import { DYNAMIC_FORMS_CONFIG, DynamicFormsConfig } from '../config';
 import { Behavior, BehaviorFn } from './behavior';
 import { BehaviorType }         from './behavior.type';
 

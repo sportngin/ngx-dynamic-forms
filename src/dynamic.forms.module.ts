@@ -9,13 +9,16 @@ import { BehaviorService } from './behavior';
 import { ComponentManager, DynamicFormComponent, PlaceholderComponent, ValidatorDisplay } from './component';
 
 import {
-    configFactory, DEFAULT_CONFIG, DYNAMIC_FORMS_CONFIG, DYNAMIC_FORMS_DEFAULT_CONFIG,
+    configFactory, DYNAMIC_FORMS_CONFIG, DYNAMIC_FORMS_DEFAULT_CONFIG,
     DYNAMIC_FORMS_USER_CONFIG, DynamicFormsConfig, ElementTypeMappings, MemberTypeMappings
 } from './config';
 
+// this must be imported separately instead of using the index module to avoid circular dependencies
+import { DEFAULT_CONFIG } from './config/dynamic.forms.default.config';
+
 import {
-    ButtonComponent, DynamicMemberComponent, MemberDisplayComponent, MemberLabelComponent,
-    FormPageRootComponent, LayoutComponent, TipComponent
+    ButtonComponent, DynamicMemberComponent, InlineElementComponent, MemberDisplayComponent,
+    MemberLabelComponent, FormPageRootComponent, LayoutComponent, TipComponent
 } from './component/element';
 
 import {
@@ -37,6 +40,7 @@ import {
         FormPageComponent,
         FormPageRootComponent,
         GroupFieldComponent,
+        InlineElementComponent,
         LayoutComponent,
         ListFieldComponent,
         ListFieldEntryComponent,
@@ -63,6 +67,7 @@ import {
         FormPageComponent,
         FormPageRootComponent,
         GroupFieldComponent,
+        InlineElementComponent,
         LayoutComponent,
         ListFieldComponent,
         ListFieldEntryDirective,
@@ -84,6 +89,7 @@ import {
         FormPageRootComponent,
         FormPageComponent,
         GroupFieldComponent,
+        InlineElementComponent,
         LayoutComponent,
         ListFieldComponent,
         ListFieldEntryComponent,

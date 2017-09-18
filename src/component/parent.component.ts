@@ -2,7 +2,7 @@ import { Injector } from '@angular/core';
 
 import { extend } from 'lodash';
 
-import { ElementTypeMappings }      from '../config/element.type.mappings';
+import { ElementTypeMappings }      from '../config';
 import { ElementType, ModelControl, ModelElement } from '../model/element';
 import { MemberType, ModelMember }  from '../model/member';
 import { ElementData }              from './element.data';
