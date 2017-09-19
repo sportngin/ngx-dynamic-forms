@@ -95,9 +95,6 @@ export abstract class FormControlComponent<TModelControl extends ModelControl = 
         let components = this.createChildComponents();
         this.insertComponents(components);
         if (this.element && createsSiblings) {
-            if (this.element.siblings) {
-                console.log(`${this.constructor.name}.ngAfterViewInit`, this.element);
-            }
             this.insertComponentsBefore(first(components), this.createSiblings(this.element, false, ElementSiblingPosition.before));
             this.insertComponentsAfter(last(components), this.createSiblings(this.element, false, ElementSiblingPosition.after));
             this.insertComponents(this.createSiblings(this.element, true, null));

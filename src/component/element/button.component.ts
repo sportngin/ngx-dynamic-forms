@@ -32,7 +32,6 @@ export class ButtonComponent extends FormControlComponent<ButtonControl> impleme
     ngAfterViewInit(): void {
         super.ngAfterViewInit();
 
-        console.log('textSiblings?', this.element.textSiblings);
         if (this.element.textSiblings) {
             this.insertComponents([
                 ...this.controlManager.createSiblings(this.getControlContainer(this.prependTextContainer), this.element.textSiblings, false, ElementSiblingPosition.before),
