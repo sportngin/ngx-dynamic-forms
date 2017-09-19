@@ -1,7 +1,6 @@
 export enum ButtonClass {
     primary     = '.btn-primary',
     secondary   = '.btn-secondary',
-    default     = '.btn-default',
     success     = '.btn-success',
     danger      = '.btn-danger',
     warning     = '.btn-warning',
@@ -13,7 +12,6 @@ export enum ButtonClass {
 
     outlinePrimary      = '.btn-outline-primary',
     outlineSecondary    = '.btn-outline-secondary',
-    outlineDefault      = '.btn-outline-default',
     outlineSuccess      = '.btn-outline-success',
     outlineDanger       = '.btn-outline-danger',
     outlineWarning      = '.btn-outline-warning',
