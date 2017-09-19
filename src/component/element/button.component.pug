@@ -7,5 +7,5 @@ button(
     [disabled]='isDisabled(element)'
 )
     ng-container(#prependText)
-    | {{getText(element.text)}}
+    span.text {{getText(element.text)}}
     ng-container(#appendText)
