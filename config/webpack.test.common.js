@@ -8,12 +8,6 @@ module.exports = {
         extensions: ['.ts', '.js']
     },
 
-    resolveLoader: {
-        moduleExtensions: ['-loader'] // To bypass mocha-loader incompatibility with webpack :
-                                      // mocha-loader still using loaders without the "-loader" suffix,
-                                      // which is forbidden with webpack v2
-    },
-
     module: {
         rules: [
             {
@@ -26,20 +20,6 @@ module.exports = {
             {
                 test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
                 loader: 'null-loader'
-            },
-            {
-                test: /\.pug$/,
-                loader: ['raw-loader', 'pug-html-loader']
-            },
-            {
-                test: /\.component\.scss$/,
-                exclude: /node_modules/,
-                loader: ['raw-loader', 'sass-loader']
-            },
-            {
-                test: /\.scss$/,
-                exclude: /\.component\.scss$/,
-                use: 'null-loader'
             }
         ]
     },

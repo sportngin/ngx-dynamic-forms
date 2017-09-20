@@ -1,5 +1,5 @@
 import {
-    AfterViewChecked, Component, forwardRef, Injector, OnInit, Provider, ViewEncapsulation
+    AfterViewChecked, Component, forwardRef, Inject, Injector, OnInit, Provider, ViewEncapsulation
 } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -8,7 +8,8 @@ import { extend, omit } from 'lodash';
 import { MemberTypeMappings }   from '../../config/member.type.mappings';
 
 import {
-    CheckboxMember, ModelMember, MemberType, SelectionMember, TemplatedMember, TEMPLATED_MEMBER_TYPES
+    CheckboxMember, ModelMember, MemberType, SelectionMember, TemplatedMember, TEMPLATED_MEMBER_TYPES,
+    ValidationDisplayMode
 } from '../../model/member';
 
 import { ComponentInfo }            from '../component.info';
@@ -16,7 +17,6 @@ import { ElementData }              from '../element.data';
 import { FormControlComponent }     from '../form.control.component';
 import { MemberData }               from '../member.data';
 import { ValidatorDisplay }         from '../validator.display';
-import { ValidationDisplayMode } from '../../model/member/validation.display.mode';
 
 let elementId = 0;
 
@@ -44,7 +44,7 @@ export class DynamicMemberComponent extends FormControlComponent<ModelMember> im
     private _inputData: MemberData;
 
     constructor(
-        elementData: ElementData,
+        @Inject(ElementData) public elementData: MemberData,
         private memberTypeMappings: MemberTypeMappings,
         injector: Injector,
         private validatorDisplay: ValidatorDisplay
