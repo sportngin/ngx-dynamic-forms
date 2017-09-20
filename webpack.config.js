@@ -1,10 +1,5 @@
-'use strict';
+const merge = require('webpack-merge');
 
-switch (process.env.NODE_ENV) {
-    case 'test':
-        module.exports = require('./config/webpack.test.node');
-        break;
-    default:
-        module.exports = require('./config/webpack.build');
-        break;
-}
+const ENV = process.env.npm_lifecycle_event;
+
+module.exports = merge(require(`./config/webpack.${ENV}`), require('./config/webpack.common'));

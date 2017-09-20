@@ -95,7 +95,7 @@ export abstract class FormElementComponentBase implements OnInit, DisplayValidat
                 if (!optional) {
                     console.error('No handler has been configured for behavior type', behaviorType);
                 }
-                return;
+                return null;
             }
             this.handlers[behaviorType] = handler;
             return handler;

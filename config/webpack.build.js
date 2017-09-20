@@ -1,42 +1,38 @@
-'use strict';
-
 const path = require('path');
 const merge = require('webpack-merge');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 // const TypedocWebpackPlugin = require('typedoc-webpack-plugin');
 
-module.exports = merge(require('./webpack.common'), {
+module.exports = merge(require('./webpack.build.common'), {
 
-    target: 'web',
-
-    entry: {
-        'dynamic.forms.umd': './index.ts'
+    module: {
+        loaders: [
+            {
+                test: /\.ts$/,
+                use: [
+                    'awesome-typescript-loader',
+                    'angular2-template-loader'
+                ]
+            }
+        ]
     },
-
-    resolve: {
-        extensions: [ '.js', '.ts', '.json', '.css', '.scss', '.pug', '.html' ]
-    },
-
-    devtool: 'source-map',
 
     output: {
-        publicPath: '/',
-        path: path.resolve(process.cwd(), 'dist'),
-        filename: '[name].js',
-        sourceMapFilename: '[file].map',
-        library: '@siplay/ng-dynamic-forms',
-        libraryTarget: 'umd',
-        umdNamedDefine: true
+        path: path.resolve(process.cwd(), 'dist')
     },
 
     externals: [
+        '@angular/animations',
         '@angular/common',
         '@angular/compiler',
         '@angular/core',
         '@angular/forms',
-        '@angular/http',
-        // 'reflect-metadata',
-        'rxjs/Rx',
+        '@angular/platform-browser',
+        'bootstrap',
+        'lodash',
+        'moment',
+        'reflect-metadata',
+        'rxjs',
         'zone.js'
     ],
 

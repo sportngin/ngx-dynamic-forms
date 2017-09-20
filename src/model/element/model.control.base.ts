@@ -44,7 +44,7 @@ export class ModelControlBase<TSelf extends ModelControlBase<TSelf>> extends Mod
         renderConditions: ModelElementRenderCondition[],
         renderOnParent: RenderOnParent[]): TSelf {
 
-        let cssClasses = [];
+        let cssClasses: string[] = [];
         if (cssClass) {
             cssClasses = getCssClassArray(cssClass);
         }

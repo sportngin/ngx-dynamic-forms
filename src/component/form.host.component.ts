@@ -120,6 +120,7 @@ export abstract class FormHostComponent<TState extends FormState = FormState> im
             case 'submitting': return this.state.submitting;
             case 'submitted': return this.state.submitted;
         }
+        return true;
     }
 
     public showStateMessage(form: AbstractControl, key: string): boolean {

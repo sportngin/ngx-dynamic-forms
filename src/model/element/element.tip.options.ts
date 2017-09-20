@@ -1,9 +1,9 @@
 import { ElementAbsolutePosition }      from '../element.absolute.position';
-import { ElementSiblingPosition }      from '../element.sibling.position';
-import { ElementTipAlignment }  from '../element.tip.alignment';
-import { RenderOnParent }       from '../render.on.parent';
-import { ModelElementRenderCondition } from './model.element.render.condition';
-import { ModelElementTipType }  from './model.element.tip.type';
+import { ElementSiblingPosition }       from '../element.sibling.position';
+import { ElementTipAlignment }          from '../element.tip.alignment';
+import { RenderOnParent }               from '../render.on.parent';
+import { ModelElementRenderCondition }  from './model.element.render.condition';
+import { ModelElementTipType }          from './model.element.tip.type';
 
 import { isArray, merge, union } from 'lodash';
 
@@ -18,7 +18,7 @@ export interface ElementTipOptions {
     renderOnParent?: RenderOnParent[];
 }
 
-export function optionsMerge(objValue, srcValue): any {
+export function optionsMerge(objValue: any, srcValue: any): any {
     if (isArray(objValue) && isArray(srcValue)) {
         return union(objValue, srcValue);
     }

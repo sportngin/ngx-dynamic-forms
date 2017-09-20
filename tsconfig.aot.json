@@ -1,0 +1,48 @@
+{
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "target": "es5",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "allowJs": true,
+    "declaration": true,
+    "declarationDir": "out/aot",
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "pretty": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitUseStrict": false,
+    "noFallthroughCasesInSwitch": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "outDir": ".compiled",
+    "typeRoots": [ "./node_modules/@types" ],
+    "types": [
+      "core-js",
+      "node"
+    ],
+    "lib": [
+      "es2015",
+      "dom"
+    ],
+    "baseUrl": "."
+  },
+  "angularCompilerOptions": {
+    "debug": true,
+    "genDir": ".aot",
+    "skipMetadataEmit": false
+  },
+  "compileOnSave": false,
+  "files": [
+    "src/dynamic.forms.module.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "out"
+  ]
+}

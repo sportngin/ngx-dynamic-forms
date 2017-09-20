@@ -1,4 +1,4 @@
-import { DynamicFormsConfig } from './dynamic.forms.config';
+import { DynamicFormsConfig, TypeHandlerMapping } from './dynamic.forms.config';
 
 export abstract class TypeMappingService<TType extends string> {
 
@@ -8,7 +8,7 @@ export abstract class TypeMappingService<TType extends string> {
         configKey: string,
         config: DynamicFormsConfig
     ) {
-        config.mappings[configKey].forEach(mapping => this.addMapping(mapping.type, mapping.component));
+        config.mappings[configKey].forEach((mapping: TypeHandlerMapping) => this.addMapping(mapping.type, mapping.component));
     }
 
     public addMapping(type: TType | string, component: any) {
