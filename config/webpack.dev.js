@@ -1,5 +1,3 @@
-'use strict';
-
 const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
@@ -7,6 +5,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const helpers = require('./helpers');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 module.exports = merge({
 
@@ -18,18 +17,12 @@ module.exports = merge({
 
     target: 'web',
 
-    resolveLoader: {
-        moduleExtensions: ['-loader'] // To bypass mocha-loader incompatibility with webpack :
-                                      // mocha-loader still using loaders without the "-loader" suffix,
-                                      // which is forbidden with webpack v2
-    },
-
     module: {
         rules: [
             {
                 test: /\.ts$/,
                 loaders: [
-                    'awesome-typescript-loader?configFileName=./test/tsconfig.json&declaration=false',
+                    'ts-loader?configFile=test/tsconfig.json',
                     'angular2-template-loader'
                 ]
             },
@@ -104,7 +97,9 @@ module.exports = merge({
         new CircularDependencyPlugin({
             exclude: /a\.js|node_modules/,
             failOnError: false
-        })
+        }),
+
+        new ForkTsCheckerWebpackPlugin({ checkSyntacticErrors: true })
     ],
 
     devServer: {

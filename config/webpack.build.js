@@ -10,7 +10,7 @@ module.exports = merge(require('./webpack.build.common'), {
             {
                 test: /\.ts$/,
                 use: [
-                    'awesome-typescript-loader',
+                    'ts-loader',
                     'angular2-template-loader'
                 ]
             }

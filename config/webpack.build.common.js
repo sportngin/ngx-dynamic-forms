@@ -9,7 +9,7 @@ module.exports = {
     },
 
     resolve: {
-        extensions: [ '.js', '.ts', '.json', '.css', '.scss', '.pug', '.html' ]
+        extensions: [ '.ts', '.js', '.json', '.css', '.scss', '.pug', '.html']
     },
 
     devtool: 'source-map',
