@@ -21,7 +21,7 @@
       "es6",
       "dom"
     ],
-    "outDir": "./dist",
+    "outDir": ".",
     "baseUrl": ".",
     "paths": {
       "@siplay/*": ["test/modules/@siplay/*"]
