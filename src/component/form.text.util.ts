@@ -93,6 +93,6 @@ export function getText(form: AbstractControl, state: FormState, text: FormText)
     }
 
     let textByStateAndExists = text as FormTextByStateAndExists;
-    let exists = form.value && get(form.value, textByStateAndExists.exists.property);
+    let exists = form.value && textByStateAndExists.exists && get(form.value, textByStateAndExists.exists.property);
     return getText(form, state, exists ? textByStateAndExists.exists.text : textByStateAndExists.default);
 }
