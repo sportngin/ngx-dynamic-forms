@@ -1,13 +1,22 @@
 import { Validators } from '@angular/forms';
 
-import { ButtonClass, ElementSiblingPosition, Model, PasswordValidator } from '@siplay/ng-dynamic-forms';
+import { ButtonClass, ElementSiblingPosition, FormText, Model, PasswordValidator } from '@siplay/ng-dynamic-forms';
 
-const buttonText = {
-    default: 'Submit',
-    invalid: 'Invalid',
-    submitting: 'Please Wait...',
-    submitted: 'Success!',
-    error: 'Error'
+const buttonText: FormText = {
+    default: {
+        default: 'Submit',
+        invalid: 'Invalid',
+        submitting: 'Please Wait...',
+        submitted: 'Success!',
+        error: 'Error',
+    },
+    exists: {
+        text: {
+            default: 'Okay',
+            dirty: 'Dirty!'
+        },
+        property: 'exists'
+    }
 };
 
 export class FormTestModel extends Model {
@@ -39,6 +48,9 @@ export class FormTestModel extends Model {
 
                 Model.checkbox('marketingOptIn', () => true)
                     .addLabel('I want to receive newsletters and other offers from SI Play'),
+
+                Model.checkbox('exists').
+                    addLabel('I exist'),
 
                 Model.submitButton(ButtonClass.success, buttonText, true),
 

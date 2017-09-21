@@ -13,6 +13,7 @@ export enum FormTextType {
 export interface FormTextByState {
 
     default: string;
+    dirty?: string;
     valid?: string;
     invalid?: string;
     submitting?: string;

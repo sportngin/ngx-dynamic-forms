@@ -1,6 +1,6 @@
 import { AbstractControl } from '@angular/forms';
 
-import { extend } from 'lodash';
+import { extend, get } from 'lodash';
 
 import { FormText, FormTextByState, FormTextByStateAndExists, FormTextFn, FormTextType } from '../model';
 import { FormState } from './form.host.component';
@@ -63,17 +63,21 @@ function getTextByState(form: AbstractControl, state: FormState, text: FormTextB
     if (state.submitting && text.submitting) {
         return text.submitting;
     }
-    if (form.valid && text.valid) {
-        return text.valid;
-    }
     if (form.invalid && text.invalid) {
         return text.invalid;
+    }
+    if (form.dirty && text.dirty) {
+        return text.dirty;
+    }
+    if (form.valid && text.valid) {
+        return text.valid;
     }
 
     return text.default;
 }
 
 export function getText(form: AbstractControl, state: FormState, text: FormText): string {
+    text = mergeFormText(text);
     let type = getFormTextType(text);
 
     if (type === FormTextType.string) {
@@ -89,6 +93,6 @@ export function getText(form: AbstractControl, state: FormState, text: FormText)
     }
 
     let textByStateAndExists = text as FormTextByStateAndExists;
-    let exists = form.value && form.value[textByStateAndExists.exists.property];
+    let exists = form.value && get(form.value, textByStateAndExists.exists.property);
     return getText(form, state, exists ? textByStateAndExists.exists.text : textByStateAndExists.default);
 }

@@ -67,7 +67,7 @@ export class ListTestModel extends Model {
                 .configureItemLabels({
                     headerRow: true,
                     controls: false,
-                    valueDisplays: true
+                    valueDisplays: false
                 })
                 .addLabel('List')
                 .addSiblingTip(`Here's a tip`, '.alert.alert-info', ElementSiblingPosition.before)
