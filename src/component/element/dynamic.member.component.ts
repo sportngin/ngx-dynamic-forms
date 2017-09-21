@@ -132,7 +132,7 @@ export class DynamicMemberComponent extends FormControlComponent<ModelMember> im
         return this.memberTypeMappings.getComponentType(this.element.memberType);
     }
 
-    public shouldRenderLabel(position: ElementSiblingPosition): boolean {
+    public shouldRenderLabel(position: string): boolean {
         if (!this.element.label) {
             return false;
         }

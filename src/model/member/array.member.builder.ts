@@ -4,7 +4,7 @@ import { TemplatedMemberBuilder }           from './templated.member.builder';
 
 export interface ArrayMemberBuilder extends ArrayMember, TemplatedMemberBuilder<ArrayMemberBuilder> {
 
-    configureItemLabels(options: LabelDisplayOptions);
+    configureItemLabels(options: LabelDisplayOptions): ArrayMemberBuilder;
     allowEditItem(allowEditItem: ArrayItemPermission): ArrayMemberBuilder;
     allowAddItem(allowAddItem: boolean): ArrayMemberBuilder;
     allowRemoveItem(allowRemoveItem: ArrayItemPermission): ArrayMemberBuilder;
