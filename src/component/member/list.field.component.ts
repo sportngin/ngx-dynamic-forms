@@ -115,7 +115,7 @@ export class ListFieldComponent extends FormMemberComponent<FormArray, ArrayMemb
             formControl: entry,
             entryState,
             element: entryControl,
-            labelRendered: this.element.renderHeaderRow,
+            labelRendered: this.element.renderHeaderRow && !this.element.keepControlLabels,
             children: this.children as ModelElement[]
         };
         let providers = [

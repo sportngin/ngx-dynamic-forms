@@ -64,7 +64,7 @@ export class ListTestModel extends Model {
             Model.arrayMember('list', new ListTestModelItem())
                 .allowEditItem(value => !value.cantTouchThis)
                 .allowRemoveItem(value => !value.cantTouchThis)
-                .rendersHeaderRow(true)
+                .rendersHeaderRow(true, true)
                 .addLabel('List')
                 .addSiblingTip(`Here's a tip`, '.alert.alert-info', ElementSiblingPosition.before)
                 .addItemCssClass('item-css-class', 'class-one class-two', '.class-three.class-four', 'class-five')

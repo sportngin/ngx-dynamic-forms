@@ -17,13 +17,15 @@ export class ArrayMemberBase extends TemplatedMemberBase<ArrayMemberBase> implem
     }
 
     public renderHeaderRow: boolean = false;
+    public keepControlLabels: boolean = false;
 
     public canEditItem: ArrayItemPermission = true;
     public canAddItem: boolean = true;
     public canRemoveItem: ArrayItemPermission = true;
 
-    public rendersHeaderRow(renderHeaderRow: boolean): ArrayMemberBuilder {
-        this.renderHeaderRow = true;
+    public rendersHeaderRow(renderHeaderRow: boolean, keepControlLabels: boolean = false): ArrayMemberBuilder {
+        this.renderHeaderRow = renderHeaderRow;
+        this.keepControlLabels = keepControlLabels;
         return this;
     }
 
