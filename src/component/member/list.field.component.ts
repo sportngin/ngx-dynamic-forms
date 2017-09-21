@@ -8,7 +8,7 @@ import { chain, each, extend, last, omit } from 'lodash';
 
 import { Model }                            from '../../model';
 import { ModelElement, SIBLINGS_PROPERTY }  from '../../model/element';
-import { ArrayMember, ModelMember }         from '../../model/member';
+import { ArrayMember, LABEL_DISPLAY_OPTIONS, ModelMember } from '../../model/member';
 
 import {
     behaviorProvider, BehaviorType, EditItemHandler, IsListItemControlRenderedHandler, RemoveItemHandler,
@@ -115,11 +115,11 @@ export class ListFieldComponent extends FormMemberComponent<FormArray, ArrayMemb
             formControl: entry,
             entryState,
             element: entryControl,
-            labelRendered: this.element.renderHeaderRow && !this.element.keepControlLabels,
             children: this.children as ModelElement[]
         };
         let providers = [
-            { provide: ElementData, useValue: entryData }
+            { provide: ElementData, useValue: entryData },
+            { provide: LABEL_DISPLAY_OPTIONS, useValue: this.element.itemLabelOptions }
         ];
 
         let entryComponent = this.controlManager.createComponent(this, entryControl, ListFieldEntryComponent, providers);
@@ -155,7 +155,7 @@ export class ListFieldComponent extends FormMemberComponent<FormArray, ArrayMemb
 
     createChildComponents(): ComponentInfo[] {
         let result = [];
-        if (this.element.renderHeaderRow) {
+        if (this.element.itemLabelOptions.headerRow) {
             result.push(this.createHeaderComponent());
         }
         result.push(...this.createEntryComponents(this.formControl.controls as FormGroup[]));
@@ -218,7 +218,6 @@ export class ListFieldComponent extends FormMemberComponent<FormArray, ArrayMemb
             form = this.formControl.controls[index];
             let state = { submitted: form.valid, editing: false };
             extend(this.entryState[index], state);
-            // this.entryState[index] = state;
             this.patchAndCheck(form, value, state);
         }
         if (!form.valid) {

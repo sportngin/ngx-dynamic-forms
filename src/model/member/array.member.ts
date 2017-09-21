@@ -1,18 +1,14 @@
-import { TemplatedMember } from './templated.member';
+import { LabelDisplayOptions }  from './label.display.options';
+import { TemplatedMember }      from './templated.member';
 
 export type ArrayItemPermission = boolean | ((value: any) => boolean);
 
 export interface ArrayMember extends TemplatedMember {
 
     /**
-     * Determines whether the control renders a header row instead of per-member labels
+     * Determines how labels are rendered within the control.
      */
-    renderHeaderRow: boolean;
-
-    /**
-     * When {@link renderHeaderRow} is set to {@link true}, determines whether the control renders per-member control labels in addition to the header row
-     */
-    keepControlLabels: boolean;
+    itemLabelOptions: LabelDisplayOptions
 
     /**
      * Determines whether an item can be edited by the user.

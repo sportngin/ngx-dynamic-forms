@@ -1,9 +1,10 @@
 import { ArrayItemPermission, ArrayMember } from './array.member';
+import { LabelDisplayOptions }              from './label.display.options';
 import { TemplatedMemberBuilder }           from './templated.member.builder';
 
 export interface ArrayMemberBuilder extends ArrayMember, TemplatedMemberBuilder<ArrayMemberBuilder> {
 
-    rendersHeaderRow(renderHeaderRow: boolean, keepControlLabels?: boolean): ArrayMemberBuilder;
+    configureItemLabels(options: LabelDisplayOptions);
     allowEditItem(allowEditItem: ArrayItemPermission): ArrayMemberBuilder;
     allowAddItem(allowAddItem: boolean): ArrayMemberBuilder;
     allowRemoveItem(allowRemoveItem: ArrayItemPermission): ArrayMemberBuilder;

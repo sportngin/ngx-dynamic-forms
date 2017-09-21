@@ -29,9 +29,6 @@ export abstract class ParentComponent<TModelControl extends ModelControl = Model
     protected getComponentType(element: ModelElement): any {
         if (element.elementType === ElementType.input) {
             let memberType = (element as ModelMember).memberType;
-            if (this.renderMode === ElementRenderMode.displayOnly && memberType !== MemberType.hidden) {
-                return MemberDisplayComponent;
-            }
             if (this.renderMode === ElementRenderMode.labelOnly) {
                 if (memberType === MemberType.hidden) {
                     return null;

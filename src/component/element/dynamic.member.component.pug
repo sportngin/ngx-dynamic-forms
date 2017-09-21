@@ -1,5 +1,5 @@
 doctype html
 
-label([for]='elementId', *ngIf='!elementData.labelRendered && element.label && element.labelPosition === "before"') {{element.label}}
+label([for]='elementId', *ngIf='shouldRenderLabel("before")') {{element.label}}
 ng-container(#container)
-label([for]='elementId', *ngIf='!elementData.labelRendered && element.label && element.labelPosition === "after"') {{element.label}}
+label([for]='elementId', *ngIf='shouldRenderLabel("after")') {{element.label}}

@@ -3,6 +3,7 @@ export * from './array.member.base';
 export * from './array.member.builder';
 export * from './checkbox.member';
 export * from './display.value.member';
+export * from './label.display.options';
 export * from './member.type';
 export * from './model.member.base';
 export * from './model.member.builder';

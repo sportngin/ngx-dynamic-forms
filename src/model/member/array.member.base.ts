@@ -1,9 +1,12 @@
 import { ValidatorFn } from '@angular/forms';
 
+import { extend } from 'lodash';
+
 import { ElementType }              from '../element/element.type';
 import { Model }                    from '../model';
 import { ArrayItemPermission }      from './array.member';
 import { ArrayMemberBuilder }       from './array.member.builder';
+import { LabelDisplayOptions }      from './label.display.options';
 import { MemberType }               from './member.type';
 import { TemplatedMemberBase }      from './templated.member.base';
 import { ValidationDisplayMode }    from './validation.display.mode';
@@ -16,16 +19,18 @@ export class ArrayMemberBase extends TemplatedMemberBase<ArrayMemberBase> implem
         this.validationDisplay = ValidationDisplayMode.none;
     }
 
-    public renderHeaderRow: boolean = false;
-    public keepControlLabels: boolean = false;
+    public itemLabelOptions: LabelDisplayOptions = {
+        headerRow: false,
+        controls: true,
+        valueDisplays: false
+    };
 
     public canEditItem: ArrayItemPermission = true;
     public canAddItem: boolean = true;
     public canRemoveItem: ArrayItemPermission = true;
 
-    public rendersHeaderRow(renderHeaderRow: boolean, keepControlLabels: boolean = false): ArrayMemberBuilder {
-        this.renderHeaderRow = renderHeaderRow;
-        this.keepControlLabels = keepControlLabels;
+    public configureItemLabels(options: LabelDisplayOptions): ArrayMemberBuilder {
+        extend(this.itemLabelOptions, options);
         return this;
     }
 

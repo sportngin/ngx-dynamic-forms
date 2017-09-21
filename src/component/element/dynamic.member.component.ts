@@ -1,5 +1,5 @@
 import {
-    AfterViewChecked, Component, forwardRef, Inject, Injector, OnInit, Provider, ViewEncapsulation
+    AfterViewChecked, Component, forwardRef, Inject, Injector, OnInit, Optional, Provider, ViewEncapsulation
 } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -8,15 +8,18 @@ import { extend, omit } from 'lodash';
 import { MemberTypeMappings }   from '../../config/member.type.mappings';
 
 import {
-    CheckboxMember, ModelMember, MemberType, SelectionMember, TemplatedMember, TEMPLATED_MEMBER_TYPES,
-    ValidationDisplayMode
+    CheckboxMember, LABEL_DISPLAY_OPTIONS, LabelDisplayOptions, ModelMember, MemberType, SelectionMember,
+    TemplatedMember, TEMPLATED_MEMBER_TYPES, ValidationDisplayMode
 } from '../../model/member';
 
+import { ElementSiblingPosition }   from '../../model/element.sibling.position';
 import { ComponentInfo }            from '../component.info';
 import { ElementData }              from '../element.data';
+import { ElementRenderMode }        from '../element.render.mode';
 import { FormControlComponent }     from '../form.control.component';
 import { MemberData }               from '../member.data';
 import { ValidatorDisplay }         from '../validator.display';
+import { MemberDisplayComponent }   from './member.display.component';
 
 let elementId = 0;
 
@@ -45,6 +48,7 @@ export class DynamicMemberComponent extends FormControlComponent<ModelMember> im
 
     constructor(
         @Inject(ElementData) public elementData: MemberData,
+        @Inject(LABEL_DISPLAY_OPTIONS) @Optional() private labelDisplayOptions: LabelDisplayOptions,
         private memberTypeMappings: MemberTypeMappings,
         injector: Injector,
         private validatorDisplay: ValidatorDisplay
@@ -121,6 +125,28 @@ export class DynamicMemberComponent extends FormControlComponent<ModelMember> im
         return [this.createControlComponent()];
     }
 
+    protected getComponentType(member: ModelMember): any {
+        if (this.renderMode === ElementRenderMode.displayOnly && member.memberType !== MemberType.hidden) {
+            return MemberDisplayComponent;
+        }
+        return this.memberTypeMappings.getComponentType(this.element.memberType);
+    }
+
+    public shouldRenderLabel(position: ElementSiblingPosition): boolean {
+        if (!this.element.label) {
+            return false;
+        }
+        if (this.labelDisplayOptions) {
+            if (this.renderMode === ElementRenderMode.default && !this.labelDisplayOptions.controls) {
+                return false;
+            }
+            if (this.renderMode === ElementRenderMode.displayOnly && !this.labelDisplayOptions.valueDisplays) {
+                return false;
+            }
+        }
+        return this.element.labelPosition === position || this.element.labelPosition === ElementSiblingPosition.both;
+    }
+
     protected createControlComponent(): ComponentInfo {
 
         let elementData = this.getElementData();
@@ -131,7 +157,7 @@ export class DynamicMemberComponent extends FormControlComponent<ModelMember> im
             { provide: MemberData, useValue: elementData },
             ...this.getInputProviders()
         );
-        let componentType = this.memberTypeMappings.getComponentType(this.element.memberType);
+        let componentType = this.getComponentType(this.element);
 
         return this.createComponent(this.element, componentType, inputProviders);
     }

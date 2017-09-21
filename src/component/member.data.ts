@@ -10,7 +10,6 @@ export class MemberData extends ElementData {
 
     children?: ModelElement[];
     dependentControls?: string[];
-    labelRendered?: boolean;
 
     [key: string]: any;
 
