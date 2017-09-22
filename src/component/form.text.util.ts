@@ -38,7 +38,7 @@ export function mergeFormText(text: FormText): FormText {
     }
 
     textByStateAndExists.exists.text = extend(
-        textByStateAndExists.exists.text as FormTextByState,
+        {},
         textByStateAndExists.default as FormTextByState,
         textByStateAndExists.exists.text as FormTextByState);
 
