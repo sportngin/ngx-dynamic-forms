@@ -34,7 +34,7 @@ export class ButtonComponent extends FormControlComponent<ButtonControl> impleme
         if (behaviorAndArgs === ButtonAction.submit) {
             // form submit events are handled directly by the form's onSubmit binding
             // we don't need to handle it separately here - it would duplicate any processing
-            return false;
+            return true;
         }
         return super.handleBehavior(behaviorAndArgs, form, defaultValue);
     }
