@@ -1,9 +1,10 @@
 import { AfterViewInit, Component, Injector, ViewChild, ViewContainerRef } from '@angular/core';
+import { AbstractControl } from '@angular/forms';
 
-import { ButtonControl }            from '../../model/element';
-import { ElementSiblingPosition }   from '../../model/element.sibling.position';
-import { ElementData }              from '../element.data';
-import { FormControlComponent }     from '../form.control.component';
+import { ButtonAction, ButtonControl }  from '../../model/element';
+import { ElementSiblingPosition }       from '../../model/element.sibling.position';
+import { ElementData }                  from '../element.data';
+import { FormControlComponent }         from '../form.control.component';
 
 @Component({
     selector: 'form-button',
@@ -27,6 +28,15 @@ export class ButtonComponent extends FormControlComponent<ButtonControl> impleme
             this._htmlElement = this.elementRef.nativeElement.querySelector('button,input[type="submit"]')
         }
         return this._htmlElement;
+    }
+
+    public handleBehavior(behaviorAndArgs: string, form: AbstractControl, defaultValue?: any): any {
+        if (behaviorAndArgs === ButtonAction.submit) {
+            // form submit events are handled directly by the form's onSubmit binding
+            // we don't need to handle it separately here - it would duplicate any processing
+            return false;
+        }
+        return super.handleBehavior(behaviorAndArgs, form, defaultValue);
     }
 
     ngAfterViewInit(): void {
