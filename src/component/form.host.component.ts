@@ -54,21 +54,29 @@ export abstract class FormHostComponent<TState extends FormState = FormState> im
         if (e) {
             e.preventDefault();
         }
+        this.handleSubmit();
+    }
+
+    public handleSubmit(): Promise<any> {
         this.clearStateMessages();
-        this.doSubmit()
+        let result = this.doSubmit()
             .then(result => {
                 this.state.error = null;
                 this.state.submitting = false;
                 this.state.submitted = true;
+                this.form.form.markAsPristine();
                 if (result && result.state) {
                     extend(this.state, result.state);
                 }
+                return result;
             }, err => {
                 this.state.error = err;
                 this.state.submitting = false;
                 this.state.submitted = false;
+                return Promise.reject(err);
             });
         this.state.submitting = true;
+        return result;
     }
 
     protected setStateMessage(key: string, value: any): void {
