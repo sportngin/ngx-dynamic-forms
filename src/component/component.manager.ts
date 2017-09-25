@@ -25,7 +25,6 @@ export class ComponentManager {
     private mergeOptionsConfig<TModelElement extends ModelElement>(element: TModelElement): TModelElement {
         if (!element['__mergedConfig']) {
             let defaultOptions = map(element.optionsConfigKeys, key => this.config.defaultOptions[key]);
-            console.log(`defaultOptions ${element.elementType}`, defaultOptions);
             if (defaultOptions) {
                 mergeWith(element, ...defaultOptions, element, optionsMerge);
             }
