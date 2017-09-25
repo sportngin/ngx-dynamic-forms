@@ -11,3 +11,7 @@ p
 h3 Form Model
 pre.model-display
     code {{form.value|json}}
+
+h3 Errors (Valid: {{form.form.valid}})
+pre.model-display
+    code {{form.form.errors|json}}

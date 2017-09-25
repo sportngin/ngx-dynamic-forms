@@ -22,9 +22,22 @@ export class ComponentManager {
         this.placeholderComponentType = this.elementTypeMappings.getComponentType(ElementType.placeholder)
     }
 
+    private mergeOptionsConfig<TModelElement extends ModelElement>(element: TModelElement): TModelElement {
+        if (!element['__mergedConfig']) {
+            let defaultOptions = map(element.optionsConfigKeys, key => this.config.defaultOptions[key]);
+            console.log(`defaultOptions ${element.elementType}`, defaultOptions);
+            if (defaultOptions) {
+                mergeWith(element, ...defaultOptions, element, optionsMerge);
+            }
+            element['__mergedConfig'] = true;
+        }
+        return element;
+    }
+
     public createComponent(containerComponent: DynamicControlContainer, element: ModelElement, componentType: any, providers: Provider[]): ComponentInfo {
 
         let info: any = {};
+        this.mergeOptionsConfig(element);
         providers.push(
             { provide: COMPONENT_INFO, useValue: info }
         );
@@ -49,16 +62,7 @@ export class ComponentManager {
 
     public createSiblings(containerComponent: DynamicControlContainer, siblings: ModelElementSibling[], absolutelyPositioned: boolean, position: ModelElementSiblingPosition): ComponentInfo[] {
         return chain(siblings)
-            .map(sibling => {
-                if (!sibling['__mergedConfig']) {
-                    let defaultOptions = map(sibling.optionsConfigKeys, key => this.config.defaultOptions[key]);
-                    if (defaultOptions) {
-                        mergeWith(sibling, ...defaultOptions, sibling, optionsMerge);
-                    }
-                    sibling['__mergedConfig'] = true;
-                }
-                return sibling;
-            })
+            .map(sibling => this.mergeOptionsConfig(sibling))
             .filter(sibling =>
                 (sibling.position === position || sibling.position === ElementSiblingPosition.both) ||
                 (absolutelyPositioned && isAbsolutePosition(sibling.position)))

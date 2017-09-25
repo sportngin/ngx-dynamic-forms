@@ -1,6 +1,6 @@
 import { Validators } from '@angular/forms';
 
-import { ColorReadabilityValidator, ElementSiblingPosition, MemberType, Model } from '@siplay/ng-dynamic-forms';
+import { ButtonClass, ColorReadabilityValidator, ElementSiblingPosition, MemberType, Model } from '@siplay/ng-dynamic-forms';
 
 export class ColorPickerTestModel extends Model {
 
@@ -47,7 +47,9 @@ export class ColorPickerTestModel extends Model {
 
             Model.member('color-preview3', 'color-preview')
                 .addData('foregroundColorFieldName', 'foreground')
-                .addData('backgroundColorFieldName', 'background')
+                .addData('backgroundColorFieldName', 'background'),
+
+            Model.submitButton(ButtonClass.primary, 'Submit')
         );
 
         this.validator = ColorReadabilityValidator.validatorForFields('foreground', 'background');
