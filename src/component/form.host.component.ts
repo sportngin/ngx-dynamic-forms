@@ -59,6 +59,9 @@ export abstract class FormHostComponent<TState extends FormState = FormState> im
     }
 
     public handleSubmit(): Promise<any> {
+        if (this.form.form.invalid) {
+            return Promise.reject(this.form.form.errors);
+        }
         this.clearStateMessages();
         let result = this.doSubmit()
             .then(result => {
