@@ -9,6 +9,7 @@ import { Observer }     from 'rxjs/Observer';
 import { behaviorProvider, BehaviorType, IsRenderedHandler, StateMessageDisplayHandler } from '../behavior';
 import { Model } from '../model';
 import { DynamicFormComponent } from './dynamic.form.component';
+import { FormHostEvent, FormHostEventType } from './form.host.event';
 
 export function hostProviders(implementation: Type<any>): Provider[] {
     return [
@@ -40,7 +41,7 @@ export abstract class FormHostComponent<TState extends FormState = FormState> im
     public valueInjections: Observable<ControlValueInjection>;
     public state: TState = {} as TState;
 
-    private events: EventEmitter<any> = new EventEmitter();
+    private events: EventEmitter<FormHostEvent> = new EventEmitter<FormHostEvent>();
 
     constructor(
         public modelDef: Model
@@ -68,16 +69,17 @@ export abstract class FormHostComponent<TState extends FormState = FormState> im
                 if (result && result.state) {
                     extend(this.state, result.state);
                 }
-                this.emit('submitted');
+                this.emit(FormHostEventType.submitted, result);
                 return result;
             }, err => {
                 this.state.error = err;
                 this.state.submitting = false;
                 this.state.submitted = false;
-                this.emit('error');
+                this.emit(FormHostEventType.error, err);
                 return Promise.reject(err);
             });
         this.state.submitting = true;
+        this.emit(FormHostEventType.submitting, this.form.value);
         return result;
     }
 
@@ -120,8 +122,8 @@ export abstract class FormHostComponent<TState extends FormState = FormState> im
         return this.events.subscribe(generatorOrNext, error, complete);
     }
 
-    protected emit(event: any): void {
-        this.events.emit(event);
+    protected emit(type: FormHostEventType, data?: any): void {
+        this.events.emit({ type, data });
     }
 
     public isChildRendered(form: AbstractControl, key?: string): boolean {

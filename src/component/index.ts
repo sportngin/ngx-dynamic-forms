@@ -5,6 +5,7 @@ export * from './element.data';
 export * from './form.control.component';
 export * from './form.element.component.base';
 export * from './form.host.component';
+export * from './form.host.event';
 export * from './form.member.component';
 export * from './member.data';
 export * from './parent.component';
