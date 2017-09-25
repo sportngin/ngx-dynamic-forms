@@ -44,7 +44,7 @@ export abstract class Model {
         return Model.defaultValueMember(name, '', memberType, ...validators);
     }
 
-    static customButton(buttonType: ButtonType, buttonAction: ButtonAction | string, buttonClass?: ButtonClass | string, text?: FormText, disableWhenInvalid: boolean = false): ButtonControlBuilder {
+    static customButton(buttonType: ButtonType, buttonAction: ButtonAction | string, buttonClass?: ButtonClass | string, text?: FormText, disableWhenInvalid?: boolean ): ButtonControlBuilder {
         let button = new ButtonControlBase(buttonType, buttonAction, text, disableWhenInvalid);
         if (buttonClass) {
             if (buttonClass.match(/^\.btn-/)) {
@@ -56,11 +56,11 @@ export abstract class Model {
         return button;
     }
 
-    static button(buttonAction: ButtonAction | string, buttonClass?: ButtonClass | string, text?: FormText, disableWhenInvalid: boolean = false): ButtonControlBuilder {
+    static button(buttonAction: ButtonAction | string, buttonClass?: ButtonClass | string, text?: FormText, disableWhenInvalid?: boolean): ButtonControlBuilder {
         return Model.customButton(ButtonType.button, buttonAction, buttonClass, text, disableWhenInvalid);
     }
 
-    static submitButton(buttonClass: ButtonClass, text: FormText, disableWhenInvalid: boolean = true): ButtonControlBuilder {
+    static submitButton(buttonClass: ButtonClass, text: FormText, disableWhenInvalid?: boolean): ButtonControlBuilder {
         return Model.customButton(ButtonType.submit, ButtonAction.submit, buttonClass, text, disableWhenInvalid);
     }
 

@@ -12,8 +12,12 @@ import { ElementSiblingPosition } from '../element.sibling.position';
 
 export class ButtonControlBase extends ModelControlBase<ButtonControlBase> implements DisableBehavior, ButtonControlBuilder {
 
-    constructor(buttonType: ButtonType, buttonAction: ButtonAction | string, text: FormText, disableWhenInvalid: boolean = false) {
-        super(ElementType.button, null, [`${ElementType.button}-${buttonType}-${buttonAction}`]);
+    constructor(buttonType: ButtonType, buttonAction: ButtonAction | string, text: FormText, disableWhenInvalid: boolean) {
+        super(ElementType.button, null, [
+            `${ElementType.button}-${buttonType}`,
+            `${ElementType.button}-${buttonAction}`,
+            `${ElementType.button}-${buttonType}-${buttonAction}`
+        ]);
 
         this.buttonType = buttonType;
         this.buttonAction = buttonAction;

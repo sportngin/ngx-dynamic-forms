@@ -22,12 +22,15 @@ export const DEFAULT_CONFIG: DynamicFormsConfig = {
     behaviors: BUILT_IN_BEHAVIORS,
     defaultOptions: {
         'member':       { validationDisplay: ValidationDisplayMode.both },
-        'sibling-tip':  new ElementSiblingTipOptions(),
-        'tool-tip':     new ElementToolTipOptions(),
         'member-validation-message': new ElementToolTipOptions({
             cssClasses: ['element-tip-danger'],
             alignment: ElementTipAlignment.right
-        })
+        }),
+        'sibling-tip':  new ElementSiblingTipOptions(),
+        'tool-tip':     new ElementToolTipOptions(),
+        'button-submit': {
+            disableWhenInvalid: true
+        }
     },
     mappings: {
         elements: [

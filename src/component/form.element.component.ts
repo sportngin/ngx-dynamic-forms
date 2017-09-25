@@ -66,9 +66,6 @@ export abstract class FormElementComponent<TModelElement extends ModelElement = 
     }
 
     public isDisabled(element: any): boolean {
-        if (!element.constructor.prototype.hasOwnProperty('disableWhenInvalid')) {
-            return false;
-        }
         let disableBehavior = element as DisableBehavior;
         return disableBehavior.customDisabledHandler ?
             this.handleBehavior('isDisabled', this.form) :
