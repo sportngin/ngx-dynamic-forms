@@ -5,6 +5,6 @@ export enum FormHostEventType {
 }
 
 export interface FormHostEvent {
-    type: FormHostEventType;
+    type: FormHostEventType | string;
     data?: any
 }

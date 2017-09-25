@@ -122,7 +122,7 @@ export abstract class FormHostComponent<TState extends FormState = FormState> im
         return this.events.subscribe(generatorOrNext, error, complete);
     }
 
-    protected emit(type: FormHostEventType, data?: any): void {
+    protected emit(type: FormHostEventType | string, data?: any): void {
         this.events.emit({ type, data });
     }
 
