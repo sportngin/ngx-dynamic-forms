@@ -68,11 +68,13 @@ export abstract class FormHostComponent<TState extends FormState = FormState> im
                 if (result && result.state) {
                     extend(this.state, result.state);
                 }
+                this.emit('submitted');
                 return result;
             }, err => {
                 this.state.error = err;
                 this.state.submitting = false;
                 this.state.submitted = false;
+                this.emit('error');
                 return Promise.reject(err);
             });
         this.state.submitting = true;
