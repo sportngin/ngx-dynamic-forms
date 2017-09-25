@@ -39,6 +39,13 @@ export class ButtonComponent extends FormControlComponent<ButtonControl> impleme
         return super.handleBehavior(behaviorAndArgs, form, defaultValue);
     }
 
+    public isDisabled(element: ButtonControl): boolean {
+        if (element.disabled) {
+            return true;
+        }
+        return super.isDisabled(element) || null;
+    }
+
     ngAfterViewInit(): void {
         super.ngAfterViewInit();
 

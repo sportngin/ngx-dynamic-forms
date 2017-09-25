@@ -3,7 +3,7 @@ doctype html
 button(
     [type]='element.buttonType',
     (click)='handleBehavior(element.buttonAction, form)',
-    [attr.disabled]='element.disabled ? "" : null',
+    [attr.disabled]='isDisabled(element)',
     [disabled]='isDisabled(element)'
 )
     ng-container(#prependText)
