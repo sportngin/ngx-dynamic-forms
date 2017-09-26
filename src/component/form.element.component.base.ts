@@ -66,24 +66,43 @@ export abstract class FormElementComponentBase implements OnInit, DisplayValidat
     ngOnInit(): void {}
 
     protected initCssClasses() {
+        if (this.isPlaceholder) {
+            return;
+        }
         if (this.elementData.element) {
             this.addCssClass(...this.elementData.element.cssClasses);
         }
     }
 
+    public get isPlaceholder(): boolean {
+        return false;
+    }
+
     protected addCssClass(...cssClasses: string[]): void {
+        if (this.isPlaceholder) {
+            return;
+        }
         cssClasses.forEach(cssClass => cssClass && this.renderer.addClass(this.htmlElement, cssClass));
     }
 
     protected removeCssClass(...cssClasses: string[]): void {
+        if (this.isPlaceholder) {
+            return;
+        }
         cssClasses.forEach(cssClass => cssClass && this.renderer.removeClass(this.htmlElement, cssClass));
     }
 
     protected setAttribute(name: string, value: any, namespace?: string): void {
+        if (this.isPlaceholder) {
+            return;
+        }
         this.renderer.setAttribute(this.htmlElement, name, value, namespace);
     }
 
     protected getFirstInput(): HTMLElement {
+        if (this.isPlaceholder) {
+            return;
+        }
         return this.elementRef.nativeElement.querySelector('input:not([type="hidden"]),select,textarea') as HTMLElement;
     }
 

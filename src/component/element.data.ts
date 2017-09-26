@@ -3,9 +3,9 @@ import { FormGroup }    from '@angular/forms';
 import { ModelElement }         from '../model/element';
 import { ElementRenderMode }    from './element.render.mode';
 
-export class ElementData {
+export class ElementData<TElement = ModelElement> {
     form: FormGroup;
-    element: ModelElement;
+    element: TElement;
     renderMode?: ElementRenderMode;
     createsSiblings?: boolean = true;
 }

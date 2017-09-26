@@ -3,5 +3,7 @@ export enum ButtonAction {
     saveItem = 'saveItem',
     editItem = 'editItem',
     removeItem = 'removeItem',
-    resetItem = 'resetItem'
+    resetItem = 'resetItem',
+    pageNext = 'pageNext',
+    pagePrev = 'pagePrev'
 }

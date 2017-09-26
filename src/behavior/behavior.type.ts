@@ -5,6 +5,8 @@ export enum BehaviorType {
     isDisabled = 'isDisabled',
     isListItemControlRendered = 'isListItemControlRendered',
     isRendered = 'isRendered',
+    pageNext = 'pageNext',
+    pagePrev = 'pagePrev',
     removeItem = 'removeItem',
     resetItem = 'resetItem',
     saveItem = 'saveItem',

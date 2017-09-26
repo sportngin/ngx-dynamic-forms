@@ -25,10 +25,6 @@ export abstract class FormElementComponent<TModelElement extends ModelElement = 
 
     protected cdf: ChangeDetectorRef;
 
-    public get isPlaceholder(): boolean {
-        return false;
-    }
-
     public get state(): FormState {
         if (!this.host) {
             return null;

@@ -29,6 +29,7 @@ export class PageTestModel extends Model {
                 Model.page('pageTwo', new PageTwoModel()),
                 Model.page('pageThree', new PageThreeModel())
             )
+                .configNextButton(button => button.addCssClass('float-right'))
         );
     }
 }

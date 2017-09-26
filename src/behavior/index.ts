@@ -10,6 +10,8 @@ export { ForwardHandler }           from './forward.behavior';
 export { IsDisabledHandler }        from './is.disabled.behavior';
 export { IsListItemControlRenderedHandler } from './is.list.item.control.rendered.behavior';
 export { IsRenderedHandler }        from './is.rendered.behavior';
+export { PageNextHandler }          from './page.next.behavior';
+export { PagePrevHandler }          from './page.prev.behavior';
 export { RemoveItemHandler }        from './remove.item.behavior';
 export { ResetItemHandler }         from './reset.item.behavior';
 export { SaveItemHandler }          from './save.item.behavior';

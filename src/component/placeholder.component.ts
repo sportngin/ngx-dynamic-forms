@@ -1,14 +1,12 @@
-import { Component, Injector, ViewEncapsulation } from '@angular/core';
+import { Component, Injector } from '@angular/core';
 
-import { ModelElement } from '../model/element';
+import { ModelElement }         from '../model/element';
 import { FormElementComponent } from './form.element.component';
 import { ElementData }          from './element.data';
 
 @Component({
-    selector: 'placeholder',
-    template: '',
-    styleUrls: ['./placeholder.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    selector: 'ng-container[placeholder]',
+    template: ''
 })
 export class PlaceholderComponent extends FormElementComponent {
 

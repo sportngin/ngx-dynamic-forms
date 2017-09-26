@@ -1,8 +1,9 @@
-import { ModelElementBuilder } from './model.element.builder';
+import { ButtonControl }        from './button.control';
+import { ModelElementBuilder }  from './model.element.builder';
 
 export interface RootPageElementDef<T extends RootPageElementDef<T>> extends ModelElementBuilder<T> {
 
-    prevText: string;
-    nextText: string;
+    prevButton: ButtonControl;
+    nextButton: ButtonControl;
 
 }

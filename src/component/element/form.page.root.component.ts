@@ -1,15 +1,24 @@
 import { Component, EventEmitter, Injector, OnInit, Output } from '@angular/core';
+import { AbstractControl } from '@angular/forms';
 
-import { RootPageElement }      from '../../model/element';
-import { PageMember }           from '../../model/member';
+import { behaviorProvider, BehaviorType, IsRenderedHandler, PageNextHandler, PagePrevHandler } from '../../behavior';
+import { ButtonControl, RootPageElement }   from '../../model/element';
+import { PageMember }                       from '../../model/member';
+
+import { ComponentInfo }        from '../component.info';
 import { ElementData }          from '../element.data';
-import { FormControlComponent } from '../form.control.component';
+import { ParentComponent }      from '../parent.component';
 
 @Component({
     selector: 'form-page-root',
-    templateUrl: './form.page.root.component.pug'
+    templateUrl: './form.page.root.component.pug',
+    viewProviders: [
+        behaviorProvider(FormPageRootComponent, BehaviorType.isRendered),
+        behaviorProvider(FormPageRootComponent, BehaviorType.pageNext),
+        behaviorProvider(FormPageRootComponent, BehaviorType.pagePrev)
+    ]
 })
-export class FormPageRootComponent extends FormControlComponent<RootPageElement> implements OnInit {
+export class FormPageRootComponent extends ParentComponent<RootPageElement> implements OnInit, IsRenderedHandler, PageNextHandler, PagePrevHandler {
 
     get children(): PageMember[] { return this.element ? this.element.children : null; }
 
@@ -30,6 +39,9 @@ export class FormPageRootComponent extends FormControlComponent<RootPageElement>
             }
         }
     }
+
+    private prevButton: ComponentInfo;
+    private nextButton: ComponentInfo;
 
     constructor(
         elementData: ElementData,
@@ -72,5 +84,35 @@ export class FormPageRootComponent extends FormControlComponent<RootPageElement>
         if (this.currentPage > 0) {
             this.currentPage--;
         }
+    }
+
+    public onPageNext(): void {
+        this.nextPage();
+    }
+
+    public onPagePrev(): void {
+        this.prevPage();
+    }
+
+    private createButtonComponent(button: ButtonControl): ComponentInfo {
+        let componentType = this.getComponentType(button);
+        return this.createComponent(button, componentType, [
+            { provide: ElementData, useValue: this.getElementData(button) }
+        ]);
+    }
+
+    public createChildComponents(): ComponentInfo[] {
+        return [
+            this.prevButton = this.createButtonComponent(this.element.prevButton),
+            this.nextButton = this.createButtonComponent(this.element.nextButton)
+        ];
+    }
+
+    public isChildRendered(form: AbstractControl, key?: string): boolean {
+        switch (key) {
+            case 'prev': return this.currentPage > 0;
+            case 'next': return this.currentPage < this.children.length - 1;
+        }
+        return true;
     }
 }
