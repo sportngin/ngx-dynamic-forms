@@ -69,7 +69,7 @@ export abstract class FormElementComponent<TModelElement extends ModelElement = 
         let disableBehavior = element as DisableBehavior;
         return disableBehavior.customDisabledHandler ?
             this.handleBehavior('isDisabled', this.form) :
-            (disableBehavior.disableWhenInvalid && (!this.form.root.valid || this.state.submitting))
+            (disableBehavior.disableWhenInvalid && (!this.form.valid || this.state.submitting))
     }
 
     public isRendered(element: ModelElement): boolean {
