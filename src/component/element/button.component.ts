@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, Injector, ViewChild, ViewContainerRef } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 
-import { ButtonAction, ButtonControl }  from '../../model/element';
+import { ButtonAction, ButtonControl, ButtonType } from '../../model/element';
 import { ElementSiblingPosition }       from '../../model/element.sibling.position';
 import { ElementData }                  from '../element.data';
 import { FormControlComponent }         from '../form.control.component';
@@ -31,7 +31,7 @@ export class ButtonComponent extends FormControlComponent<ButtonControl> impleme
     }
 
     public handleBehavior(behaviorAndArgs: string, form: AbstractControl, defaultValue?: any): any {
-        if (behaviorAndArgs === ButtonAction.submit) {
+        if (behaviorAndArgs === ButtonAction.submit && this.element.buttonType === ButtonType.submit) {
             // form submit events are handled directly by the form's onSubmit binding
             // we don't need to handle it separately here - it would duplicate any processing
             return true;
