@@ -1,6 +1,6 @@
 import { Component, Injector, ViewEncapsulation } from '@angular/core';
 
-import { FormMemberComponent, MemberData } from '@siplay/ng-dynamic-forms';
+import { CustomMember, FormMemberComponent, MemberData } from '@siplay/ng-dynamic-forms';
 
 import * as tinyColor from 'tinycolor2';
 
@@ -10,7 +10,7 @@ import * as tinyColor from 'tinycolor2';
     styleUrls: ['./color.preview.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class ColorPreviewComponent extends FormMemberComponent {
+export class ColorPreviewComponent extends FormMemberComponent<CustomMember> {
 
     get foregroundColor(): string {
         if (this.element.data.foregroundColor) {

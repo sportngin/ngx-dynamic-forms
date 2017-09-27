@@ -3,14 +3,22 @@ import { FormControl, ValidatorFn } from '@angular/forms';
 import { DisplayValueFormControl }  from './display.value.form.control';
 import { MemberType }               from './member.type';
 
-import { SimpleMember } from './simple.member';
+import { SimpleMember, SimpleMemberBase } from './simple.member';
 
-export abstract class DisplayValueMember extends SimpleMember {
+export interface DisplayValueMember extends SimpleMember {
 
-    protected abstract getDisplayValue(value: any): string;
+    getDisplayValue(value: any): string;
 
-    constructor(controlType: MemberType | string, name: string, validators?: ValidatorFn | ValidatorFn[], defaultValue?: any, data?: { [key: string]: any }) {
-        super(controlType, name, validators, defaultValue, data);
+}
+
+export abstract class DisplayValueMemberBase<TDisplayValueMember extends DisplayValueMemberBase<TDisplayValueMember>>
+    extends SimpleMemberBase<TDisplayValueMember>
+    implements DisplayValueMember {
+
+    public abstract getDisplayValue(value: any): string;
+
+    constructor(controlType: MemberType | string, name: string, validators?: ValidatorFn | ValidatorFn[], defaultValue?: any) {
+        super(controlType, name, validators, defaultValue);
     }
 
     public createFormControl(): FormControl {

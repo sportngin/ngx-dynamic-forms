@@ -7,6 +7,6 @@ select.form-control(
     [attr.disabled]='(element.disabled || pendingPrerequisites) ? "" : null'
 )
     option(
-        *ngFor='let item of data',
-        [ngValue]='itemValue ? item[itemValue] : item'
-    ) {{item[itemLabel]}}
+        *ngFor='let item of items',
+        [ngValue]='element.itemValueKey ? item[element.itemValueKey] : item'
+    ) {{item[element.itemLabelKey]}}

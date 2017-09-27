@@ -19,10 +19,11 @@ export class ListTestModelItem extends Model {
                 ),
                 Model.layout('.col-3', Model.defaultValueMember('default', 'default', MemberType.text).addLabel('Default')),
                 Model.layout('.col-3',
-                    Model.selectionMember('selectSomething')
-                        .addData('data', [{ id: 1, name: 'option 1' }, { id: 2, name: 'option 2' }])
-                        .addData('itemLabel', 'name')
-                        .addData('itemValue', 'id')
+                    Model.selectionMember('selectSomething',
+                        [{ id: 1, name: 'option 1' }, { id: 2, name: 'option 2' }],
+                        'name',
+                        'id'
+                        )
                         .addLabel('Select')
                 ),
                 Model.layout('.col-2.ngdf-list-editable.ngdf-list-button-container.flex-right',

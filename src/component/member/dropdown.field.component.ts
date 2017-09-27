@@ -1,7 +1,8 @@
-import { Component, Inject, Injector, OnInit, Optional } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 
 import { isFunction, map } from 'lodash';
 
+import { SelectionMember, SelectionMemberItem } from '../../model/member';
 import { FormMemberComponent }  from '../form.member.component';
 import { MemberData }           from '../member.data';
 
@@ -9,48 +10,52 @@ import { MemberData }           from '../member.data';
     selector: 'dropdown-field',
     templateUrl: './dropdown.field.component.pug'
 })
-export class DropdownFieldComponent extends FormMemberComponent implements OnInit {
+export class DropdownFieldComponent extends FormMemberComponent<SelectionMember> implements OnInit {
 
-    private dataFn: Function;
+    public items: SelectionMemberItem[];
+    private itemsFn: Function;
     private lastValues: any = {};
 
     public pendingPrerequisites: boolean = false;
 
     constructor(
         elementData: MemberData,
-        @Inject('itemValue') public itemValue: string,
-        @Inject('itemLabel') public itemLabel: string,
-
-        @Optional() @Inject('data') public data: any,
-        @Optional() @Inject('dependentControls') public dependentControls: string[],
-
         injector: Injector
     ) {
         super(elementData, injector);
 
-
-        if (isFunction(data)) {
-            this.dataFn = data;
+        if (isFunction(this.element.items)) {
+            this.itemsFn = this.element.items;
         } else {
-            this.data = data;
+            this.items = this.element.items;
+            this.addPlaceholderItem();
         }
 
-        if (this.dependentControls) {
+        if (this.element.dependentControls) {
             this.pendingPrerequisites = true;
             this.form.valueChanges.subscribe(() => this.checkDependentControls());
         }
     }
 
     ngOnInit(): void {
-        if (this.dependentControls) {
+        if (this.element.dependentControls) {
             this.checkDependentControls();
+        }
+    }
+
+    private addPlaceholderItem(): void {
+        if (this.element.placeholderText) {
+            this.items.unshift({
+                [this.element.itemLabelKey]: this.element.placeholderText,
+                [this.element.itemValueKey]: null
+            });
         }
     }
 
     private checkDependentControls(): void {
         let valid = true;
         let changed = false;
-        let args = map(this.dependentControls, (name: string) => {
+        let args = map(this.element.dependentControls, (name: string) => {
             let ctrl = this.form.controls[name];
             if (!ctrl || (ctrl.value === null || ctrl.value === '' || ctrl.value === undefined)) {
                 valid = false;
@@ -65,15 +70,16 @@ export class DropdownFieldComponent extends FormMemberComponent implements OnIni
         });
 
         if (!valid) {
-            if (this.data) {
-                this.data = null;
+            if (this.items) {
+                this.items = null;
             }
             this.pendingPrerequisites = true;
             return;
         }
 
         if (changed) {
-            this.data = this.dataFn(...args);
+            this.items = this.itemsFn(...args);
+            this.addPlaceholderItem();
             this.pendingPrerequisites = false;
         }
 

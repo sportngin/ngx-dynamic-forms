@@ -45,7 +45,7 @@ export interface ListEntryData extends MemberData {
     styleUrls: ['./list.field.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class ListFieldComponent extends FormMemberComponent<FormArray, ArrayMember> implements
+export class ListFieldComponent extends FormMemberComponent<ArrayMember, FormArray> implements
     OnInit, AfterViewInit, AfterContentChecked,
     EditItemHandler, SaveItemHandler, RemoveItemHandler, ResetItemHandler,
     IsListItemControlRenderedHandler {

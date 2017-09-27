@@ -13,8 +13,8 @@ import { ValidationDisplayMode }    from './validation.display.mode';
 
 export class ArrayMemberBase extends TemplatedMemberBase<ArrayMemberBase> implements ArrayMemberBuilder {
 
-    constructor(name: string, template: Model, validators?: ValidatorFn | ValidatorFn[], data?: {}) {
-        super(ElementType.input, MemberType.list, name, template, validators, data);
+    constructor(name: string, template: Model, validators?: ValidatorFn | ValidatorFn[]) {
+        super(ElementType.input, MemberType.list, name, template, validators);
 
         this.validationDisplay = ValidationDisplayMode.none;
     }

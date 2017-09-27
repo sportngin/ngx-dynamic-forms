@@ -12,14 +12,13 @@ import { ModelElementRenderCondition }  from './model.element.render.condition';
 import { ModelElementSibling }          from './model.element.sibling';
 import { ModelElementTipType }          from './model.element.tip.type';
 
-
 export class ModelControlBase<TSelf extends ModelControlBase<TSelf>> extends ModelElementBase<TSelf> implements ModelControlBuilder<TSelf> {
 
     constructor(elementType: ElementType, parentOptionsConfigKeys?: string[], optionsConfigKeys?: string[]) {
         super(elementType, ['control', ...parentOptionsConfigKeys || []], optionsConfigKeys);
     }
     public disabled: boolean;
-    public data: { [key: string]: any };
+    // public data: { [key: string]: any };
     public siblings: ModelElementSibling[];
 
     public addInlineSibling(position: ElementSiblingPosition, cssClass?: string, text?: string): TSelf {
@@ -82,13 +81,13 @@ export class ModelControlBase<TSelf extends ModelControlBase<TSelf>> extends Mod
         return this.addTip(ModelElementTipType.tooltip, [ModelElementTipType.tooltip], text, cssClass, position, alignment, renderConditions, renderOnParent);
     }
 
-    public addData(key: string, value: any): TSelf {
-        if (!this.data) {
-            this.data = {};
-        }
-        this.data[key] = value;
-        return this.self;
-    }
+    // public addData(key: string, value: any): TSelf {
+    //     if (!this.data) {
+    //         this.data = {};
+    //     }
+    //     this.data[key] = value;
+    //     return this.self;
+    // }
 
     public disable(): TSelf {
         this.disabled = true;

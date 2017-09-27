@@ -11,8 +11,8 @@ import { ValidatorDisplay }     from './validator.display';
 const INPUT_TAGS = ['input', 'select', 'textarea'];
 
 export abstract class FormMemberComponent<
-    TControl extends AbstractControl = FormControl,
-    TModelMember extends ModelMember = ModelMember
+    TModelMember extends ModelMember = ModelMember,
+    TControl extends AbstractControl = FormControl
     > extends FormControlComponent<TModelMember> implements OnInit, AfterViewInit {
 
     public get formControl(): TControl {

@@ -4,9 +4,8 @@ export class DropdownTestModel extends Model {
 
     constructor() {
         super(
-            Model.selectionMember('dropdown')
-                .addLabel('Dropdown')
-                .addData('data', [{
+            Model.selectionMember('dropdown',
+                [{
                     id: 1,
                     name: 'option 1'
                 }, {
@@ -15,13 +14,13 @@ export class DropdownTestModel extends Model {
                 }, {
                     id: 3,
                     name: 'option 3'
-                }])
-                .addData('itemLabel', 'name')
-                .addData('itemValue', 'id'),
+                }],
+                'name',
+                'id')
+                .addLabel('Dropdown'),
 
-            Model.selectionMember('anotherDropdown')
-                .addLabel('anotherDropdown')
-                .addData('data', [{
+            Model.selectionMember('anotherDropdown',
+                [{
                     id: 'a',
                     name: 'option a'
                 }, {
@@ -30,13 +29,13 @@ export class DropdownTestModel extends Model {
                 }, {
                     id: 'c',
                     name: 'option c'
-                }])
-                .addData('itemLabel', 'name')
-                .addData('itemValue', 'id'),
+                }],
+                'name',
+                'id')
+                .addLabel('anotherDropdown'),
 
-            Model.selectionMember('dependentDropdown')
-                .addDependentControls('dropdown', 'anotherDropdown')
-                .addData('data', (dropdownValue: number, anotherDropdownValue: string) => {
+            Model.selectionMember('dependentDropdown',
+                (dropdownValue: number, anotherDropdownValue: string) => {
                     if (!dropdownValue || !anotherDropdownValue) {
                         return null;
                     }
@@ -50,10 +49,27 @@ export class DropdownTestModel extends Model {
                         id: `${dropdownValue}${anotherDropdownValue}.iii`,
                         name: `option ${dropdownValue}${anotherDropdownValue}.iii`
                     }];
-                })
-                .addData('itemLabel', 'name')
-                .addData('itemValue', 'id')
-                .addLabel('Dependent Dropdown')
+                },
+                'name',
+                'id')
+                .addDependentControls('dropdown', 'anotherDropdown')
+                .addLabel('Dependent Dropdown'),
+
+            Model.selectionMember('placeholderDropdown',
+                [{
+                    id: 1,
+                    name: 'option 1'
+                }, {
+                    id: 2,
+                    name: 'option 2'
+                }, {
+                    id: 3,
+                    name: 'option 3'
+                }],
+                'name',
+                'id')
+                .addPlaceholderText('Select something!')
+                .addLabel('Placeholder Dropdown')
 
         );
     }

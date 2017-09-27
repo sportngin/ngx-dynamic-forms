@@ -14,13 +14,12 @@ import { ValidationDisplayMode }        from './validation.display.mode';
 
 export abstract class ModelMemberBase<TSelf extends ModelMemberBase<TSelf>> extends ModelControlBase<TSelf> implements ModelMemberBuilder<TSelf> {
 
-    constructor(elementType: ElementType, memberType: MemberType | string, name: string, validators?: ValidatorFn | ValidatorFn[], data?: { [key: string]: any }) {
+    constructor(elementType: ElementType, memberType: MemberType | string, name: string, validators?: ValidatorFn | ValidatorFn[]) {
         super(elementType, ['member'], [`${elementType}-${memberType}`]);
 
         this.memberType = memberType;
         this.name = name;
         this.validators = validators;
-        this.data = data;
     }
 
     public name: string;

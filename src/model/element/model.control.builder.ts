@@ -54,11 +54,6 @@ export interface ModelControlBuilder<TSelf extends ModelControlBuilder<TSelf>> e
     ) => TSelf;
 
     /**
-     * Adds arbitrary data to help with the rendering or validation of the element
-     */
-    addData: (key: string, value: any) => TSelf;
-
-    /**
      * Sets the `disabled` property to true
      */
     disable(): TSelf;

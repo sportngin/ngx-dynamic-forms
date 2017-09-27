@@ -2,6 +2,7 @@ export * from './array.member';
 export * from './array.member.base';
 export * from './array.member.builder';
 export * from './checkbox.member';
+export * from './custom.member';
 export * from './display.value.member';
 export * from './label.display.options';
 export * from './member.type';

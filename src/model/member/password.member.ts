@@ -1,9 +1,9 @@
-import { ValidatorFn }          from '@angular/forms';
+import { ValidatorFn } from '@angular/forms';
 
-import { MemberType }   from './member.type';
-import { SimpleMember } from './simple.member';
+import { MemberType }       from './member.type';
+import { SimpleMemberBase } from './simple.member';
 
-export class PasswordMember extends SimpleMember {
+export class PasswordMember extends SimpleMemberBase<PasswordMember> {
 
     constructor(name: string, validators?: ValidatorFn | ValidatorFn[]) {
         super(MemberType.password, name, validators);

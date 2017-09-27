@@ -4,8 +4,8 @@ import { Observable } from 'rxjs/Observable';
 
 import { BehaviorType }     from '../behavior';
 import {
-    ArrayMemberBase, ArrayMemberBuilder, CheckboxMember, PasswordMember, SelectionMember,
-    SimpleMember, MemberType, PageMember
+    ArrayMemberBase, ArrayMemberBuilder, CheckboxMember, PasswordMember,
+    SimpleMemberBase, MemberType, PageMember, SimpleMemberBuilder
 } from './member';
 import {
     ButtonType, ModelElement, ButtonAction, ButtonClass, ButtonControlBase, ButtonControlBuilder, LayoutControl,
@@ -14,6 +14,9 @@ import {
 
 import { FormText }         from './form.text';
 import { ModelHelper }      from './model.helper';
+import { SelectionMemberBase, SelectionMemberBuilder, SelectionMemberItems } from './member/selection.member';
+import { ElementType } from './element/element.type';
+import { CustomMemberBase, CustomMemberBuilder } from './member/custom.member';
 
 /**
  * The base class used by form Models
@@ -36,11 +39,11 @@ export abstract class Model {
         }
     };
 
-    static defaultValueMember(name: string, value: any, memberType: MemberType | string, ...validators: ValidatorFn[]): SimpleMember {
-        return new SimpleMember(memberType, name, validators, value);
+    static defaultValueMember(name: string, value: any, memberType: MemberType | string, ...validators: ValidatorFn[]): SimpleMemberBuilder  {
+        return new SimpleMemberBase(memberType, name, validators, value);
     }
 
-    static member(name: string, memberType: MemberType | string, ...validators: ValidatorFn[]): SimpleMember {
+    static member(name: string, memberType: MemberType | string, ...validators: ValidatorFn[]): SimpleMemberBuilder {
         return Model.defaultValueMember(name, '', memberType, ...validators);
     }
 
@@ -54,6 +57,10 @@ export abstract class Model {
             button.addCssClass(buttonClass);
         }
         return button;
+    }
+
+    static customMember(memberType: MemberType | string, name: string, ...validators: ValidatorFn[]): CustomMemberBuilder {
+        return new CustomMemberBase(memberType, name, ...validators);
     }
 
     static button(buttonAction: ButtonAction | string, buttonClass?: ButtonClass | string, text?: FormText, disableWhenInvalid?: boolean): ButtonControlBuilder {
@@ -94,11 +101,11 @@ export abstract class Model {
         return new RootPageElement(startPage, updatePage, pages);
     }
 
-    static hiddenMember(name: string): SimpleMember {
+    static hiddenMember(name: string): SimpleMemberBuilder {
         return Model.member(name, MemberType.hidden);
     }
 
-    static textMember(name: string, ...validators: ValidatorFn[]): SimpleMember {
+    static textMember(name: string, ...validators: ValidatorFn[]): SimpleMemberBuilder {
         return Model.member(name, MemberType.text, ...validators);
     }
 
@@ -110,8 +117,8 @@ export abstract class Model {
         return new CheckboxMember(name, checked);
     }
 
-    static selectionMember(name: string, ...validators: ValidatorFn[]): SelectionMember {
-        return new SelectionMember(name, validators);
+    static selectionMember(name: string, items: SelectionMemberItems, itemLabelKey: string, itemValueKey?: string, ...validators: ValidatorFn[]): SelectionMemberBuilder {
+        return new SelectionMemberBase(name, items, itemLabelKey, itemValueKey, validators);
     }
 
     static arrayMember(name: string, template: any, validator?: ValidatorFn): ArrayMemberBuilder {

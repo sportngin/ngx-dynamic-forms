@@ -9,8 +9,8 @@ import { TemplatedMemberBuilder }   from './templated.member.builder';
 
 export class TemplatedMemberBase<T extends TemplatedMemberBase<T>> extends ModelMemberBase<T> implements TemplatedMemberBuilder<T>{
 
-    constructor(elementType: ElementType, memberType: MemberType | string, name: string, template: Model, validators?: ValidatorFn | ValidatorFn[], data?: {}) {
-        super(elementType, memberType, name, validators, data);
+    constructor(elementType: ElementType, memberType: MemberType | string, name: string, template: Model, validators?: ValidatorFn | ValidatorFn[]) {
+        super(elementType, memberType, name, validators);
 
         this.template = template;
     }

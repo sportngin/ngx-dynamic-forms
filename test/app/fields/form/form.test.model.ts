@@ -55,7 +55,6 @@ export class FormTestModel extends Model {
                 Model.submitButton(ButtonClass.success, buttonText, true),
 
                 Model.button('submitError', ButtonClass.danger, buttonText, true)
-                    .addData('error', true)
         )));
     }
 }
