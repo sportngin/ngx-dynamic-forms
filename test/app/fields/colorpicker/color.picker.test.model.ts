@@ -18,7 +18,7 @@ export class ColorPickerTestModel extends Model {
             Model.member('validateForeground', MemberType.color, ColorReadabilityValidator.validatorForForeground('validateForeground', 'white'))
                 .addLabel('Validate Foreground Readability Against a Color'),
 
-            Model.customMember('color-preview1', 'color-preview')
+            Model.customMember('color-preview', 'color-preview1')
                 .addData('foregroundColorFieldName', 'validateForeground')
                 .addData('backgroundColor', 'white')
                 .addData('text', 'Your Foreground'),
@@ -26,7 +26,7 @@ export class ColorPickerTestModel extends Model {
             Model.member('validateBackground', MemberType.color, ColorReadabilityValidator.validatorForBackground('white', 'validateBackground'))
                 .addLabel('Validate Background Readability Against a Color'),
 
-            Model.customMember('color-preview2', 'color-preview')
+            Model.customMember('color-preview', 'color-preview2')
                 .addData('foregroundColor', 'white')
                 .addData('backgroundColorFieldName', 'validateBackground')
                 .addData('text', 'Your Background'),
@@ -45,7 +45,7 @@ export class ColorPickerTestModel extends Model {
 
             Model.validationMessage('background', 'colorReadability', 'Pick a readable pair of colors, please.', '.alert.alert-warning'),
 
-            Model.customMember('color-preview3', 'color-preview')
+            Model.customMember('color-preview', 'color-preview3')
                 .addData('foregroundColorFieldName', 'foreground')
                 .addData('backgroundColorFieldName', 'background'),
 
