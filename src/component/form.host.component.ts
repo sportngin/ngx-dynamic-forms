@@ -58,8 +58,12 @@ export abstract class FormHostComponent<TState extends FormState = FormState> im
         this.handleSubmit();
     }
 
+    public get canSave(): boolean {
+        return this.form.form.valid;
+    }
+
     public handleSubmit(): Promise<any> {
-        if (this.form.form.invalid) {
+        if (!this.canSave) {
             return Promise.reject(this.form.form.errors);
         }
         this.clearStateMessages();
