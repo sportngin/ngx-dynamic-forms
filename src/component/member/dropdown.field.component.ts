@@ -31,28 +31,30 @@ export class DropdownFieldComponent extends FormMemberComponent<SelectionMember>
             this.addPlaceholderItem();
         }
 
-        if (this.element.dependentControls) {
+        if (this.element.dependentControls && this.element.dependentControls.length) {
             this.pendingPrerequisites = true;
             this.form.valueChanges.subscribe(() => this.checkDependentControls());
         }
     }
 
     ngOnInit(): void {
-        if (this.element.dependentControls) {
-            this.checkDependentControls();
-        }
+        this.checkDependentControls();
     }
 
     private addPlaceholderItem(): void {
-        if (this.element.placeholderText) {
+        if (this.element.placeholderText && !this.items['__addedPlaceholder']) {
             this.items.unshift({
                 [this.element.itemLabelKey]: this.element.placeholderText,
                 [this.element.itemValueKey]: null
             });
+            this.items['__addedPlaceholder'] = true;
         }
     }
 
     private checkDependentControls(): void {
+        if (!this.element.dependentControls || !this.element.dependentControls.length) {
+            return;
+        }
         let valid = true;
         let changed = false;
         let args = map(this.element.dependentControls, (name: string) => {
