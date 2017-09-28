@@ -3,7 +3,7 @@ doctype html
 select.form-control(
     [formControl]='formControl',
     autocomplete='off',
-    [ngClass]='{ "is-valid": validatorSuccess, "is-invalid": validatorError }',
+    [ngClass]='{ "is-valid": validatorSuccess, "is-invalid": validatorError, "no-value": !formControl.value }',
     [attr.disabled]='(element.disabled || pendingPrerequisites) ? "" : null'
 )
     option(
