@@ -42,7 +42,8 @@ export class DropdownFieldComponent extends FormMemberComponent<SelectionMember>
     }
 
     private addPlaceholderItem(): void {
-        if (this.element.placeholderText && !this.items['__addedPlaceholder']) {
+        let hasPlaceholderText = this.element.placeholderText || this.element.placeholderText === '';
+        if (hasPlaceholderText && !this.items['__addedPlaceholder']) {
             this.items.unshift({
                 [this.element.itemLabelKey]: this.element.placeholderText,
                 [this.element.itemValueKey]: null

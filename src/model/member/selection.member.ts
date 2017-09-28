@@ -34,7 +34,7 @@ export interface SelectionMember extends DisplayValueMember {
 export interface SelectionMemberBuilder
     extends ModelMemberBuilder<SelectionMemberBuilder>, SelectionMember {
 
-    addPlaceholderText(text: string): SelectionMemberBuilder;
+    addPlaceholderText(text?: string): SelectionMemberBuilder;
     addDependentControls(...controlNames: string[]): SelectionMemberBuilder;
 
 }
@@ -60,7 +60,7 @@ export class SelectionMemberBase extends DisplayValueMemberBase<SelectionMemberB
         return item ? item[this.itemLabelKey] : null;
     }
 
-    public addPlaceholderText(text: string): SelectionMemberBase {
+    public addPlaceholderText(text: string = ''): SelectionMemberBase {
         this.placeholderText = text;
         return this;
     }

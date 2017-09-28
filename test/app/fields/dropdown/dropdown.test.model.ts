@@ -69,7 +69,23 @@ export class DropdownTestModel extends Model {
                 'name',
                 'id')
                 .addPlaceholderText('Select something!')
-                .addLabel('Placeholder Dropdown')
+                .addLabel('Placeholder Dropdown'),
+
+            Model.selectionMember('blankPlaceholderDropdown',
+                [{
+                    id: 1,
+                    name: 'option 1'
+                }, {
+                    id: 2,
+                    name: 'option 2'
+                }, {
+                    id: 3,
+                    name: 'option 3'
+                }],
+                'name',
+                'id')
+                .addPlaceholderText()
+                .addLabel('Blank Placeholder Dropdown')
 
         );
     }
