@@ -1,6 +1,6 @@
 import { Validators } from '@angular/forms';
 
-import { ButtonClass, ColorReadabilityValidator, ElementSiblingPosition, MemberType, Model } from '@siplay/ng-dynamic-forms';
+import { ButtonClass, ColorReadabilityValidator, ElementSiblingPosition, MemberType, Model, WCAG2Size } from '@siplay/ng-dynamic-forms';
 
 export class ColorPickerTestModel extends Model {
 
@@ -15,7 +15,8 @@ export class ColorPickerTestModel extends Model {
             Model.defaultValueMember('colorPickerWithDefault', '#f00', MemberType.color)
                 .addLabel('Color Picker with Default'),
 
-            Model.member('validateForeground', MemberType.color, ColorReadabilityValidator.validatorForForeground('validateForeground', 'white'))
+            Model.member('validateForeground', MemberType.color,
+                ColorReadabilityValidator.validatorForForeground('validateForeground', 'white', { size: WCAG2Size.large}))
                 .addLabel('Validate Foreground Readability Against a Color'),
 
             Model.customMember('color-preview', 'color-preview1')
