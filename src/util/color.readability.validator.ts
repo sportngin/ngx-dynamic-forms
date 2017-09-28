@@ -21,7 +21,8 @@ export class ColorReadabilityValidator {
 
     constructor(
         private foreground: ColorAccessor,
-        private background: ColorAccessor
+        private background: ColorAccessor,
+        private wcag2?: { level?: string, size?: string }
     ) {}
 
     private getColor(g: FormGroup, color: ColorAccessor): tinycolorInstance {
@@ -49,7 +50,7 @@ export class ColorReadabilityValidator {
         let foregroundColor = this.getColor(g, this.foreground);
         let backgroundColor = this.getColor(g, this.background);
 
-        if (!tinyColor.isReadable(foregroundColor, backgroundColor)) {
+        if (!tinyColor.isReadable(foregroundColor, backgroundColor, this.wcag2)) {
             let colorReadability = tinyColor.readability(foregroundColor, backgroundColor);
             let err = { colorReadability };
 
