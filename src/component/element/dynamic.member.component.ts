@@ -1,7 +1,7 @@
 import {
-    AfterViewChecked, Component, forwardRef, Inject, Injector, OnInit, Optional, Provider, ViewEncapsulation
+    AfterViewChecked, Component, Inject, Injector, OnInit, Optional, Provider, ViewEncapsulation
 } from '@angular/core';
-import { AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { AbstractControl } from '@angular/forms';
 
 import { extend, omit } from 'lodash';
 
@@ -27,20 +27,12 @@ let elementId = 0;
     selector: 'form-member',
     templateUrl: './dynamic.member.component.pug',
     styleUrls: ['./dynamic.member.component.scss'],
-    encapsulation: ViewEncapsulation.None,
-    providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => DynamicMemberComponent),
-        multi: true
-    }]
+    encapsulation: ViewEncapsulation.None
 })
-export class DynamicMemberComponent extends FormControlComponent<ModelMember> implements ControlValueAccessor, AfterViewChecked, OnInit {
+export class DynamicMemberComponent extends FormControlComponent<ModelMember> implements AfterViewChecked, OnInit {
 
     disabled: boolean;
 
-    private innerValue: any;
-    private onChange: (value: any) => void;
-    private onTouched: () => void;
     public formControl: AbstractControl;
     public readonly elementId: string;
 
@@ -171,31 +163,6 @@ export class DynamicMemberComponent extends FormControlComponent<ModelMember> im
             provide: MemberData,
             useValue: this.inputData
         }]
-    }
-
-    get value(): any {
-        return this.innerValue;
-    }
-
-    set value(value: any) {
-        if (value !== this.innerValue) {
-            this.innerValue = value;
-            this.onChange(value);
-        }
-    }
-
-    writeValue(value: any): void {
-        if (value !== this.innerValue) {
-            this.innerValue = value;
-        }
-    }
-
-    registerOnChange(fn: any): void {
-        this.onChange = fn;
-    }
-
-    registerOnTouched(fn: any): void {
-        this.onTouched = fn;
     }
 
     setDisabledState(isDisabled: boolean): void {
