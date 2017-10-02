@@ -4,7 +4,7 @@ import { FormMemberComponent }  from '../form.member.component';
 import { MemberData }           from '../member.data';
 
 @Component({
-    selector: 'color-picker',
+    selector: 'color-picker-input',
     templateUrl: './color.picker.component.pug',
     styleUrls: ['./color.picker.component.scss'],
     encapsulation: ViewEncapsulation.None
