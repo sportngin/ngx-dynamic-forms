@@ -3,6 +3,10 @@ $fa-font-path: '~font-awesome/fonts';
 @import '~bootstrap/scss/bootstrap';
 @import '~font-awesome/scss/font-awesome';
 
+@import '../../../src/scss/ng-dynamic-forms';
+
+@include ng-dynamic-forms;
+
 body {
   margin: 1rem 0;
 }

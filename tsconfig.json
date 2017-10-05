@@ -1,0 +1,44 @@
+{
+  "compileOnSave": false,
+  "buildOnSave": false,
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "target": "es5",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "stripInternal": true,
+    "typeRoots": [ "./node_modules/@types" ],
+    "types": [
+      "node"
+    ],
+    "lib": [
+      "es2015",
+      "es6",
+      "dom"
+    ],
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "paths": {
+      "@siplay/*": ["test/modules/@siplay/*"]
+    }
+  },
+  "angularCompilerOptions": {
+    "skipMetadataEmit" : false,
+    "skipTemplateCodegen": true
+  },
+  "awesomeTypescriptLoaderOptions": {
+    "forkChecker": true,
+    "useWebpackText": true
+  },
+  "files": [
+    "index.ts"
+  ],
+  "exclude": [
+    "*.spec.ts"
+  ]
+}

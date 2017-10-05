@@ -2,28 +2,70 @@ import { ValidatorFn } from '@angular/forms';
 
 import { find } from 'lodash';
 
-import { FormControlType }      from '../../form.control.type';
-import { DisplayValueMember }   from './display.value.member';
+import { DisplayValueMember, DisplayValueMemberBase } from './display.value.member';
+import { MemberType }         from './member.type';
+import { ModelMemberBuilder } from './model.member.builder';
 
-export class SelectionMember extends DisplayValueMember {
+export type SelectionMemberItem = { [key: string]: any };
 
-    constructor(name: string, validators?: ValidatorFn | ValidatorFn[], data?: {}, dependentControls?: string[]) {
-        super(FormControlType.dropdown, name, validators, data);
+export type SelectionMemberDependentItems1 = (arg: any) => SelectionMemberItem[];
+export type SelectionMemberDependentItems2 = (arg1: any, arg2: any) => SelectionMemberItem[];
+export type SelectionMemberDependentItems3 = (arg1: any, arg2: any, arg3: any) => SelectionMemberItem[];
+export type SelectionMemberDependentItems4 = (arg1: any, arg2: any, arg3: any, arg4: any) => SelectionMemberItem[];
+export type SelectionMemberDependentItemsAny = (...args: any[]) => SelectionMemberItem[];
+export type SelectionMemberDependentItems =
+    SelectionMemberDependentItems1 |
+    SelectionMemberDependentItems2 |
+    SelectionMemberDependentItems3 |
+    SelectionMemberDependentItems4 |
+    SelectionMemberDependentItemsAny;
 
-        this.dependentControls = dependentControls;
-    }
+export type SelectionMemberItems = SelectionMemberItem[] | SelectionMemberDependentItems;
 
-    protected getDisplayValue(value: any): string {
-        let selectionData = this.data['data'];
-        let itemLabelKey = this.data['itemLabel'];
-        let itemValueKey = this.data['itemValue'];
-        let item = find(selectionData, (item: any) => item[itemValueKey] === value);
-        return item ? item[itemLabelKey] : null;
-    }
+export interface SelectionMember extends DisplayValueMember {
 
+    dependentControls: string[];
+    items: SelectionMemberItems;
+    itemLabelKey: string;
+    itemValueKey?: string;
+    placeholderText: string;
+}
+
+export interface SelectionMemberBuilder
+    extends ModelMemberBuilder<SelectionMemberBuilder>, SelectionMember {
+
+    addPlaceholderText(text?: string): SelectionMemberBuilder;
+    addDependentControls(...controlNames: string[]): SelectionMemberBuilder;
+
+}
+
+export class SelectionMemberBase extends DisplayValueMemberBase<SelectionMemberBase> implements SelectionMemberBuilder {
+
+    public items: SelectionMemberItems;
+    public itemLabelKey: string;
+    public itemValueKey?: string;
+    public placeholderText: string;
     public dependentControls: string[];
 
-    public addDependentControls(...controlNames: string[]) {
+    constructor(name: string, items: SelectionMemberItems, itemLabelKey: string, itemValueKey?: string, validators?: ValidatorFn | ValidatorFn[]) {
+        super(MemberType.dropdown, name, validators);
+
+        this.items = items;
+        this.itemLabelKey = itemLabelKey;
+        this.itemValueKey = itemValueKey;
+    }
+
+    public getDisplayValue(value: any): string {
+        let item = find(this.items, (item: any) => item[this.itemValueKey] === value);
+        return item ? item[this.itemLabelKey] : null;
+    }
+
+    public addPlaceholderText(text: string = ''): SelectionMemberBase {
+        this.placeholderText = text;
+        return this;
+    }
+
+    public addDependentControls(...controlNames: string[]): SelectionMemberBase {
         if (!this.dependentControls) {
             this.dependentControls = [];
         }

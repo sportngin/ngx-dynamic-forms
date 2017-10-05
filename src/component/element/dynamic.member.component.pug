@@ -1,0 +1,6 @@
+doctype html
+
+label([for]='elementId', *ngIf='shouldRenderLabel("before")') {{element.label}}
+.input-container
+    ng-container(#container)
+label([for]='elementId', *ngIf='shouldRenderLabel("after")') {{element.label}}

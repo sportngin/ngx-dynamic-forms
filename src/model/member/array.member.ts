@@ -1,37 +1,33 @@
-import { ValidatorFn } from '@angular/forms';
-
-import { FormControlType }      from '../../form.control.type';
-import { Model }                from '../model';
-import { ModelElementTypes }    from '../model.element';
+import { LabelDisplayOptions }  from './label.display.options';
 import { TemplatedMember }      from './templated.member';
 
 export type ArrayItemPermission = boolean | ((value: any) => boolean);
 
-export class ArrayMember extends TemplatedMember {
+export interface ArrayMember extends TemplatedMember {
 
-    constructor(name: string, template: Model, validators?: ValidatorFn | ValidatorFn[], data?: {}) {
-        super(ModelElementTypes.array, FormControlType.list, name, template, validators, data);
+    /**
+     * Determines how labels are rendered within the control.
+     */
+    itemLabelOptions: LabelDisplayOptions
 
-        this.displaysValidation = false;
-    }
+    /**
+     * Determines whether an item can be edited by the user.
+     */
+    canEditItem: ArrayItemPermission;
 
-    public canEditItem: ArrayItemPermission = true;
-    public canAddItem: boolean = true;
-    public canRemoveItem: ArrayItemPermission = true;
+    /**
+     * Determines whether items can be added by the user.
+     */
+    canAddItem: boolean;
 
-    public allowEditItem(allowEditItem: ArrayItemPermission): ArrayMember {
-        this.canEditItem = allowEditItem;
-        return this;
-    }
+    /**
+     * Determines whether an item can be removed by the user.
+     */
+    canRemoveItem: ArrayItemPermission;
 
-    public allowAddItem(allowAddItem: boolean): ArrayMember {
-        this.canAddItem = allowAddItem;
-        return this;
-    }
-
-    public allowRemoveItem(allowRemoveItem: ArrayItemPermission): ArrayMember {
-        this.canRemoveItem = allowRemoveItem;
-        return this;
-    }
-
+    /**
+     * Evaluates the {@link ArrayItemPermission} to determine whether the user has the requested permission.
+     */
+    getPermission(hasPermission: ArrayItemPermission, value: any): boolean;
 }
+

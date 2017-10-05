@@ -1,0 +1,15 @@
+doctype html
+
+ng-template(ngFor let-page [ngForOf]='children')
+    form-page(
+        *ngIf='currentPage === page.pageIndex',
+        [form]='elementData.form.controls[page.name]',
+        [element]='page',
+        (keyup.enter)='nextPage()',
+        (keyup.shift.enter)='prevPage()'
+    )
+
+.ngdf-form-page-controls
+    ng-container(#container)
+
+

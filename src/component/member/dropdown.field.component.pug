@@ -1,0 +1,12 @@
+doctype html
+
+select.form-control(
+    [formControl]='formControl',
+    autocomplete='off',
+    [ngClass]='{ "is-valid": validatorSuccess, "is-invalid": validatorError, "no-value": !formControl.value }',
+    [attr.disabled]='(element.disabled || pendingPrerequisites) ? "" : null'
+)
+    option(
+        *ngFor='let item of items',
+        [ngValue]='element.itemValueKey ? item[element.itemValueKey] : item'
+    ) {{item[element.itemLabelKey]}}

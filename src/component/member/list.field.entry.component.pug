@@ -1,0 +1,16 @@
+doctype html
+
+ng-container(#container)
+
+ng-template(#display)
+    .ngdf-list-editable(
+        list-field-editable,
+        [renderMode]='"displayOnly"',
+        (click)='onEditEntry()'
+    )
+
+ng-template(#editor)
+    .ngdf-list-editor(
+        list-field-editable,
+        (keyup.enter)='saveItem()'
+    )

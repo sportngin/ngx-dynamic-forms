@@ -1,6 +1,6 @@
 import { Validators } from '@angular/forms';
 
-import { ButtonActions, BUTTON_CLASSES, FormControlType, Model } from '@siplay/ng-dynamic-forms';
+import { ButtonAction, ButtonClass, ElementSiblingPosition, MemberType, Model } from '@siplay/ng-dynamic-forms';
 
 export class ListTestModelItem extends Model {
 
@@ -14,38 +14,41 @@ export class ListTestModelItem extends Model {
                     )
                         .addAttributes({ title: 'this one cannot be edited' })
                         .addConditions({ key: 'cant-touch-this' }),
-                    Model.textMember('name', Validators.required).addLabel('Name')
+                    Model.textMember('name', Validators.required).addLabel('Name'),
+                    Model.validationMessage('name', 'nope', 'you will not see this')
                 ),
-                Model.layout('.col-3', Model.defaultValueMember('default', 'default', FormControlType.text).addLabel('Default')),
+                Model.layout('.col-3', Model.defaultValueMember('default', 'default', MemberType.text).addLabel('Default')),
                 Model.layout('.col-3',
-                    Model.selectionMember('selectSomething')
-                        .addData('data', [{ id: 1, name: 'option 1' }, { id: 2, name: 'option 2' }])
-                        .addData('itemLabel', 'name')
-                        .addData('itemValue', 'id')
+                    Model.selectionMember('selectSomething',
+                        [{ id: 1, name: 'option 1' }, { id: 2, name: 'option 2' }],
+                        'name',
+                        'id'
+                        )
                         .addLabel('Select')
                 ),
                 Model.layout('.col-2.ngdf-list-editable.ngdf-list-button-container.flex-right',
                     Model.layout('.float-right',
-                        Model.button(ButtonActions.removeItem, BUTTON_CLASSES.danger)
+                        Model.button(ButtonAction.removeItem, ButtonClass.danger)
                             .addListItemControlConditions({ key: 'remove' })
                             .addCssClass('fa', 'fa-trash-o')
                     )
                 ),
                 Model.layout('.col-2.ngdf-list-editor.ngdf-list-button-container.ngdf-list-flex-right',
                     Model.layout('.float-right',
-                        Model.button(ButtonActions.resetItem, BUTTON_CLASSES.warning)
+                        Model.button(ButtonAction.resetItem, ButtonClass.warning)
                             .addListItemControlConditions({ key: 'reset' })
                             .addCssClass('fa', 'fa-undo'),
-                        Model.button(ButtonActions.saveItem, BUTTON_CLASSES.primary, null, true)
+                        Model.button(ButtonAction.saveItem, ButtonClass.primary, null, true)
                             .addListItemControlConditions({ key: 'save' })
                             .addCssClass('fa', 'fa-check')
                     )
                 )
             ),
-            Model.layout('.row.ngdf-list-editor.entry-row-2',
+            Model.layout('.row.ngdf-list-editor.entry-row-2.clearfix',
                 Model.layout('.col-11',
                     Model.layout('.float-right',
-                        Model.button(ButtonActions.saveItem, BUTTON_CLASSES.primary, '+ Add Another', true)
+                        Model.button(ButtonAction.saveItem, ButtonClass.primary, 'Add Another', true)
+                            .prependTextWith('.fa.fa-plus')
                             .addListItemControlConditions({ key: 'add' })
                     )
                 )
@@ -62,7 +65,14 @@ export class ListTestModel extends Model {
             Model.arrayMember('list', new ListTestModelItem())
                 .allowEditItem(value => !value.cantTouchThis)
                 .allowRemoveItem(value => !value.cantTouchThis)
+                .configureItemLabels({
+                    headerRow: true,
+                    controls: false,
+                    valueDisplays: false
+                })
                 .addLabel('List')
+                .addSiblingTip(`Here's a tip`, '.alert.alert-info', ElementSiblingPosition.before)
+                .addItemCssClass('item-css-class', 'class-one class-two', '.class-three.class-four', 'class-five')
         );
     }
 }

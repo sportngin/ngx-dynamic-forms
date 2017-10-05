@@ -1,0 +1,43 @@
+element-tip {
+
+  &.element-tool-tip {
+
+    span {
+      position: absolute;
+      display: block;
+      z-index: 1;
+      opacity: 0.9;
+
+      &:after {
+        position: absolute;
+        content: '';
+        display: block;
+        z-index: 0;
+      }
+    }
+
+    &.element-tip-top {
+      span {
+        transform-origin: 100% 50%;
+        &:after {
+          border-bottom-color: transparent;
+          border-left-color: transparent;
+          border-right-color: transparent;
+        }
+      }
+    }
+    &.element-tip-bottom {
+      span {
+        &:after {
+          border-top-color: transparent;
+          border-left-color: transparent;
+          border-right-color: transparent;
+        }
+      }
+    }
+  }
+
+  &.element-sibling-tip {
+    display: block;
+  }
+}

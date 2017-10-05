@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
 
-import { hostProvides } from '@siplay/ng-dynamic-forms';
+import { hostProviders } from '@siplay/ng-dynamic-forms';
 
 import { FieldTestComponent }   from '../field.test.component';
 import { CheckboxTestModel }    from './checkbox.test.model';
 
 @Component({
     selector: 'checkbox-test',
-    templateUrl: '../field.test.pug',
+    templateUrl: '../field.test.component.pug',
     viewProviders: [
-        hostProvides(CheckboxTestComponent)
+        hostProviders(CheckboxTestComponent)
     ]
 })
 export class CheckboxTestComponent extends FieldTestComponent {

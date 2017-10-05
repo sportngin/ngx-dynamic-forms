@@ -1,0 +1,8 @@
+doctype html
+
+input.form-control(
+    [type]='type',
+    [formControl]='formControl',
+    [attr.disabled]='element.disabled ? "" : null',
+    [ngClass]='{ "is-valid": validatorSuccess, "is-invalid": validatorError }'
+)

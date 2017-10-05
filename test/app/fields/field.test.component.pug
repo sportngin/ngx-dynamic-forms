@@ -1,0 +1,17 @@
+doctype html
+
+h3 {{fieldName}}
+p
+    code {{modelSourcePath}}
+
+.row
+    .col-8
+        dynamic-form.block-form-group
+
+h3 Form Model
+pre.model-display
+    code {{form.value|json}}
+
+h3 Errors (Valid: {{form.form.valid}})
+pre.model-display
+    code {{form.form.errors|json}}

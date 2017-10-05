@@ -1,0 +1,130 @@
+@mixin tip-variant($background, $color) {
+
+  span {
+    color: $color;
+    background-color: $background;
+
+    &:after {
+      border-color: $background;
+    }
+  }
+}
+
+@mixin element-tip-brand-variations {
+
+  element-tip {
+    @each $color, $value in $theme-colors {
+      &.element-tip-#{$color} {
+        @include tip-variant(theme-color-level($color, 0), theme-color-level($color, -12));
+      }
+    }
+  }
+
+}
+
+@mixin element-tool-tip {
+
+  element-tip.element-tool-tip {
+
+    width: 100%;
+    position: absolute;
+
+    span {
+      padding: $tool-tip-padding-y $tool-tip-padding-x;
+      border-radius: $tool-tip-border-radius;
+
+      &:after {
+        border-style: solid;
+        border-width: $tool-tip-arrow-size;
+      }
+    }
+
+    &.element-tip-top {
+
+      top: 0;
+
+      span {
+        bottom: $tool-tip-arrow-spacing-y;
+        &:after {
+          bottom: -($tool-tip-arrow-size + $tool-tip-arrow-spacing-y - $tool-tip-arrow-overlap);
+        }
+      }
+    }
+
+    &.element-tip-bottom {
+
+      bottom: 0;
+
+      span {
+        top: $tool-tip-arrow-spacing-y;
+        &:after {
+          top: -($tool-tip-arrow-size + $tool-tip-arrow-spacing-y - $tool-tip-arrow-overlap);
+        }
+      }
+    }
+
+    &.element-tip-left {
+
+      left: 0;
+
+      span {
+        left: $tool-tip-arrow-spacing-x;
+        &:after {
+          right: ($tool-tip-arrow-size + $tool-tip-arrow-spacing-x - $tool-tip-arrow-overlap);
+        }
+      }
+    }
+
+    &.element-tip-right {
+
+      right: 0;
+
+      span {
+        right: $tool-tip-arrow-spacing-x;
+        &:after {
+          left: -($tool-tip-arrow-size + $tool-tip-arrow-spacing-x - $tool-tip-arrow-overlap);
+        }
+      }
+    }
+
+    &.element-tip-align-left {
+
+      left: 0;
+
+      span {
+        left: 0;
+        &:after {
+          left: $tool-tip-arrow-spacing-x;
+        }
+      }
+    }
+    &.element-tip-align-right {
+
+      right: 0;
+
+      span {
+        right: 0;
+        &:after {
+          right: $tool-tip-arrow-spacing-x;
+        }
+      }
+    }
+
+  }
+
+}
+
+@mixin element-sibling-tip {
+
+  element-tip.element-sibling-tip {
+
+    &.element-tip-after {
+      margin-top: $sibling-tip-margin-after;
+    }
+    &.element-tip-before {
+      margin-bottom: $sibling-tip-margin-before;
+    }
+
+  }
+
+}

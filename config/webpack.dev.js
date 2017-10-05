@@ -5,6 +5,7 @@ const webpack = require('webpack');
 const merge = require('webpack-merge');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CircularDependencyPlugin = require('circular-dependency-plugin');
 const helpers = require('./helpers');
 
 module.exports = merge({
@@ -98,6 +99,17 @@ module.exports = merge({
             chunksSortMode: 'dependency'
         }),
 
-        new ExtractTextPlugin('style.css')
-    ]
+        new ExtractTextPlugin('style.css'),
+
+        new CircularDependencyPlugin({
+            exclude: /a\.js|node_modules/,
+            failOnError: false
+        })
+    ],
+
+    devServer: {
+        host: '0.0.0.0',
+        port: '8888',
+        disableHostCheck: true
+    }
 });

@@ -1,0 +1,35 @@
+ul[list-field] {
+
+  list-style-type: none;
+  padding: 0;
+
+  .ngdf-list-item {
+    display: block;
+  }
+
+  .ngdf-list-editor {
+    display: none;
+  }
+
+  .ngdf-list-editing {
+
+    .ngdf-list-editor {
+      display: block;
+
+      &.ngdf-list-button-container {
+        display: flex;
+        align-items: center;
+
+        &.ngdf-list-flex-right {
+          justify-content: flex-end;
+        }
+      }
+    }
+
+    .ngdf-list-editable {
+      display: none;
+    }
+
+  }
+
+}

@@ -1,0 +1,35 @@
+@import '~bootstrap/scss/mixins/clearfix';
+
+color-picker.ngdf-colorpicker-toggled > color-picker {
+
+  > .color-picker {
+
+    .button-area {
+      .btn-primary {
+        float: right;
+      }
+      .btn-secondary {
+        float: left;
+      }
+
+      @include clearfix;
+    }
+    .hex-text,
+    .type-policy {
+      display: none;
+    }
+  }
+}
+
+.ngdf-colorpicker {
+
+  &.form-control {
+    padding: 0.25rem;
+  }
+
+  >.form-control {
+    border-width: 0;
+    border-radius: 0.15rem;
+    height: 1.75rem;
+  }
+}

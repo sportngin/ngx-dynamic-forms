@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const helpers = require('./helpers');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
@@ -10,15 +9,8 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: /\.ts$/,
-                loaders: [
-                    'awesome-typescript-loader?configFileName=./src/tsconfig.json&declaration=false',
-                    'angular2-template-loader'
-                ]
-            },
-            {
                 test: /\.pug$/,
-                use: 'pug-loader'
+                loader: ['raw-loader', 'pug-html-loader']
             },
             {
                 test: /\.component\.scss$/,
@@ -27,10 +19,15 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                exclude: /\.component\.scss$/,
+                exclude: /\.component\.scss$|\/scss\//,
                 use: ExtractTextPlugin.extract({
                     use: 'css-loader?sourceMap!sass-loader?sourceMap'
                 })
+            },
+            {
+                test: /\.css$/,
+                include: /node_modules/,
+                loader: ['raw-loader']
             },
             {
                 test: /\.(ico)$/,

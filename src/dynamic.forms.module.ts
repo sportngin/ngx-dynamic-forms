@@ -1,76 +1,103 @@
-import { CommonModule }                     from '@angular/common';
-import { ModuleWithProviders, NgModule }    from '@angular/core';
-import { ReactiveFormsModule }              from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ModuleWithProviders, NgModule, Optional } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { ColorPickerModule } from 'ngx-color-picker';
 
-import { DynamicFormComponent }     from './dynamic.form.component';
-import { FormControlTypeMappings }  from './form.control.type';
-import { FormPageComponent }        from './form.page.component';
-import { FormPageRootComponent }    from './form.page.root.component';
-import { LayoutComponent }          from './layout.component';
-import { PositionPipe }             from './position.pipe';
+import { BehaviorService } from './behavior';
 
-import { DYNAMIC_FORMS_CONFIG, DynamicFormsConfig } from './dynamic.forms.config';
+import { ComponentManager, DynamicFormComponent, PlaceholderComponent, ValidatorDisplay } from './component';
 
-import { CheckboxFieldComponent }   from './fields/checkbox.field.component';
-import { ColorPickerComponent }     from './fields/color.picker.component';
-import { DatePickerComponent }      from './fields/date.picker.component';
-import { DropdownFieldComponent }   from './fields/dropdown.field.component';
-import { DynamicFieldComponent }    from './fields/dynamic.field.component';
-import { InputSelectorComponent }   from './fields/input.selector.component';
-import { GroupFieldComponent }      from './fields/group.field.component';
-import { ListFieldComponent }       from './fields/list.field.component';
-import { ListFieldEntryDirective }  from './fields/list.field.entry.directive';
-import { PasswordFieldComponent }   from './fields/password.field.component';
-import { TextFieldComponent }       from './fields/text.field.component';
+import {
+    configFactory, DYNAMIC_FORMS_CONFIG, DYNAMIC_FORMS_DEFAULT_CONFIG,
+    DYNAMIC_FORMS_USER_CONFIG, DynamicFormsConfig, ElementTypeMappings, MemberTypeMappings
+} from './config';
+
+// this must be imported separately instead of using the index module to avoid circular dependencies
+import { DEFAULT_CONFIG } from './config/dynamic.forms.default.config';
+
+import {
+    ButtonComponent, DynamicMemberComponent, InlineElementComponent, MemberDisplayComponent,
+    MemberLabelComponent, FormPageRootComponent, LayoutComponent, TipComponent
+} from './component/element';
+
+import {
+    CheckboxFieldComponent, ColorPickerComponent, DatePickerComponent, DropdownFieldComponent,
+    PasswordFieldComponent, FormPageComponent, GroupFieldComponent, ListFieldComponent,
+    ListFieldEntryComponent, ListFieldEntryDirective, ListFieldEntryEditableComponent,
+    ListFieldHeaderComponent, TextFieldComponent
+} from './component/member';
 
 @NgModule({
     declarations:   [
+        ButtonComponent,
         CheckboxFieldComponent,
         ColorPickerComponent,
         DatePickerComponent,
         DropdownFieldComponent,
-        DynamicFieldComponent,
         DynamicFormComponent,
+        DynamicMemberComponent,
         FormPageComponent,
         FormPageRootComponent,
         GroupFieldComponent,
-        InputSelectorComponent,
+        InlineElementComponent,
         LayoutComponent,
         ListFieldComponent,
+        ListFieldEntryComponent,
         ListFieldEntryDirective,
+        ListFieldEntryEditableComponent,
+        ListFieldHeaderComponent,
+        MemberDisplayComponent,
+        MemberLabelComponent,
         PasswordFieldComponent,
-        PositionPipe,
-        TextFieldComponent
+        PlaceholderComponent,
+        TextFieldComponent,
+        TipComponent
     ],
     exports: [
+        ButtonComponent,
         CheckboxFieldComponent,
         ColorPickerComponent,
         DatePickerComponent,
         DropdownFieldComponent,
-        DynamicFieldComponent,
         DynamicFormComponent,
+        DynamicMemberComponent,
+        MemberDisplayComponent,
+        MemberLabelComponent,
         FormPageComponent,
         FormPageRootComponent,
         GroupFieldComponent,
-        InputSelectorComponent,
+        InlineElementComponent,
         LayoutComponent,
         ListFieldComponent,
         ListFieldEntryDirective,
+        ListFieldEntryEditableComponent,
+        ListFieldHeaderComponent,
         PasswordFieldComponent,
-        PositionPipe,
-        TextFieldComponent
+        TextFieldComponent,
+        TipComponent
     ],
     entryComponents: [
+        ButtonComponent,
         CheckboxFieldComponent,
         ColorPickerComponent,
         DatePickerComponent,
         DropdownFieldComponent,
+        DynamicMemberComponent,
+        MemberDisplayComponent,
+        MemberLabelComponent,
+        FormPageRootComponent,
+        FormPageComponent,
         GroupFieldComponent,
+        InlineElementComponent,
+        LayoutComponent,
         ListFieldComponent,
+        ListFieldEntryComponent,
+        ListFieldHeaderComponent,
         PasswordFieldComponent,
-        TextFieldComponent
+        PlaceholderComponent,
+        TextFieldComponent,
+        TipComponent
     ],
     imports:        [
         ColorPickerModule,
@@ -78,7 +105,17 @@ import { TextFieldComponent }       from './fields/text.field.component';
         ReactiveFormsModule
     ],
     providers:      [
-        FormControlTypeMappings
+        BehaviorService,
+        ComponentManager,
+        ElementTypeMappings,
+        MemberTypeMappings,
+        ValidatorDisplay,
+        {
+            provide: DYNAMIC_FORMS_DEFAULT_CONFIG, useValue: DEFAULT_CONFIG
+        },
+        {
+            provide: DYNAMIC_FORMS_CONFIG, useFactory: configFactory, deps: [DYNAMIC_FORMS_DEFAULT_CONFIG, [new Optional(), DYNAMIC_FORMS_USER_CONFIG]]
+        }
     ]
 })
 export class DynamicFormsModule {
@@ -87,9 +124,9 @@ export class DynamicFormsModule {
         return {
             ngModule: DynamicFormsModule,
             providers: [
-                { provide: DYNAMIC_FORMS_CONFIG, useValue: userConfig }
+                { provide: DYNAMIC_FORMS_USER_CONFIG, useValue: userConfig }
             ]
-        }
+        };
     }
 
 }
