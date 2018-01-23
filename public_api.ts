@@ -2,4 +2,4 @@
  * @module
  * @description Entry point for all public APIs
  */
-export * from './src/dynamic.forms';
+export * from './src/public_api';

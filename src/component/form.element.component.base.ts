@@ -1,8 +1,6 @@
 import { ElementRef, Injector, OnInit, Renderer2 } from '@angular/core';
 import { AbstractControl, FormGroup }       from '@angular/forms';
 
-import { every } from 'lodash';
-
 import {
     BehaviorFn, BehaviorService, BehaviorType, DisplayValidationHandler
 } from '../behavior';
@@ -140,7 +138,7 @@ export abstract class FormElementComponentBase implements OnInit, DisplayValidat
         if (field) {
             // short-circuit showing the validation message if the field doesn't have the required state properties set
             let properties = VALIDATOR_PROPERTIES[errorKey] || VALIDATOR_PROPERTIES.default;
-            if (!every(properties, (prop: string) => field[prop])) {
+            if (!properties.every((prop: string) => field[prop])) {
                 return false;
             }
         }
@@ -231,7 +229,7 @@ export abstract class FormElementComponentBase implements OnInit, DisplayValidat
             return true;
         }
 
-        return every(element.renderConditions, condition => {
+        return element.renderConditions.every(condition => {
             return this.handleBehavior(`${condition.method || 'isRendered'}:${condition.key}`, this.form, condition.required ? undefined : true);
         });
     }

@@ -3,8 +3,8 @@ import {
     ControlValueAccessor, FormBuilder, FormGroup, NG_VALUE_ACCESSOR, Validators
 } from '@angular/forms';
 
-import { isEqual, map, range }  from 'lodash';
-import * as moment              from 'moment';
+import { isEqual, range }  from 'lodash-es';
+import { DateTime, Info } from 'luxon';
 
 import { FormMemberComponent }  from '../form.member.component';
 import { MemberData }           from '../member.data';
@@ -22,16 +22,16 @@ import { MemberData }           from '../member.data';
 })
 export class DatePickerComponent extends FormMemberComponent implements ControlValueAccessor, OnInit {
 
-    public months: { name: string, value: number }[] = map(moment.months(), (month: string, index: number) => ({ name: month, value: index }));
+    public months: { name: string, value: number }[] = Info.months().map((month: string, index: number) => ({ name: month, value: index }));
     public get days(): number[] {
-        let ref = moment([this.dateForm.value.year, this.dateForm.value.month]);
-        if (!ref.isValid()) {
+        let ref = DateTime.fromObject({ year: this.dateForm.value.year, month: this.dateForm.value.month });
+        if (!ref.isValid) {
             return range(1, 32);
         }
-        return range(1, ref.daysInMonth() + 1);
+        return range(1, ref.daysInMonth + 1);
     }
     public get years() {
-        let currentYear = moment().year();
+        let currentYear = new DateTime().year;
         return range(currentYear, currentYear - 100, -1);
     }
 
@@ -66,22 +66,29 @@ export class DatePickerComponent extends FormMemberComponent implements ControlV
     private checkForm(): void {
 
         if (this.dateForm.valid) {
-            let value = moment([this.dateForm.value.year, this.dateForm.value.month, this.dateForm.value.day]);
+            let value = DateTime.fromObject({
+                year: this.dateForm.value.year,
+                month: this.dateForm.value.month,
+                day: this.dateForm.value.day,
+            });
 
             // check to see if a change in month has caused the date to become invalid
-            if (!value.isValid()) {
+            if (!value.isValid) {
 
-                let month = moment([this.dateForm.value.year, this.dateForm.value.month]);
+                let month = DateTime.fromObject({
+                    year: this.dateForm.value.year,
+                    month: this.dateForm.value.month,
+                });
 
                 // if the year+month are not valid, don't bother
-                if (!month.isValid()) {
+                if (!month.isValid) {
                     return;
                 }
 
                 // if the selected day of the month is more than the number of days in the month
                 // (e.g. going from July to June), just default to the last valid day of the current month
-                if (this.dateForm.value.day > month.daysInMonth()) {
-                    this.dateForm.controls.day.setValue(month.daysInMonth());
+                if (this.dateForm.value.day > month.daysInMonth) {
+                    this.dateForm.controls.day.setValue(month.daysInMonth);
                     return;
                 }
             }
@@ -96,8 +103,8 @@ export class DatePickerComponent extends FormMemberComponent implements ControlV
         if (!value) {
             return;
         }
-        value = moment(value);
-        if (value.isValid()) {
+        value = DateTime.fromMillis(value);
+        if (value.isValid) {
             if (!this.dateForm.enabled) {
                 this.dateForm.enable();
             }

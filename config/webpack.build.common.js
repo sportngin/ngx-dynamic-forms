@@ -41,9 +41,8 @@ module.exports = {
         '@angular/forms',
         '@angular/platform-browser',
         'bootstrap',
-        'lodash',
-        'moment',
-        'reflect-metadata',
+        'lodash-es',
+        'luxon',
         'rxjs',
         'zone.js'
     ]

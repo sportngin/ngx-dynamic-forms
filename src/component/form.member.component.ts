@@ -1,7 +1,7 @@
 import { AfterViewInit, Injector, OnInit } from '@angular/core';
 import { AbstractControl, FormControl } from '@angular/forms';
 
-import { first } from 'lodash';
+import { first } from 'lodash-es';
 
 import { ModelMember }          from '../model/member';
 import { FormControlComponent } from './form.control.component';

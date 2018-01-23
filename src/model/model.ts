@@ -15,7 +15,6 @@ import {
 import { FormText }         from './form.text';
 import { ModelHelper }      from './model.helper';
 import { SelectionMemberBase, SelectionMemberBuilder, SelectionMemberItems } from './member/selection.member';
-import { ElementType } from './element/element.type';
 import { CustomMemberBase, CustomMemberBuilder } from './member/custom.member';
 
 /**
@@ -142,7 +141,8 @@ export abstract class Model {
     }
 
     toFormGroup(fb: FormBuilder): FormGroup {
-        return ModelHelper.createFormGroup(fb, this.children, this.validator);
+        let modelHelper = new ModelHelper(fb);
+        return modelHelper.createFormGroup(this.children, this.validator);
     }
 
     // toControlGroup(): ModelControl[] {

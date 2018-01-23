@@ -1,7 +1,5 @@
 import { Injector, Provider } from '@angular/core';
 
-import { reduce } from 'lodash';
-
 import { ModelControl, MODEL_CONTROL, ModelElement } from '../model/element';
 import { ComponentInfo }    from './component.info';
 import { ElementData }      from './element.data';
@@ -25,7 +23,7 @@ export abstract class StructuralComponent<TModelControl extends ModelControl = M
     }
 
     public createChildComponents(): ComponentInfo[] {
-        return reduce(this.children, (result, child) => {
+        return this.children.reduce((result, child) => {
                 let componentType = this.getComponentType(child);
                 if (componentType) {
                     result.push(this.createComponent(child, this.getComponentType(child), this.getProviders(child)));

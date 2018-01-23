@@ -1,8 +1,6 @@
 import { EventEmitter, OnDestroy, Provider, Type } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 
-import { extend } from 'lodash';
-
 import { Observable }   from 'rxjs/Observable';
 import { Observer }     from 'rxjs/Observer';
 
@@ -74,7 +72,7 @@ export abstract class FormHostComponent<TState extends FormState = FormState> im
                 this.state.submitted = true;
                 this.form.form.markAsPristine();
                 if (result && result.state) {
-                    extend(this.state, result.state);
+                    Object.assign(this.state, result.state);
                 }
                 this.emit(FormHostEventType.submitted, result);
                 return result;

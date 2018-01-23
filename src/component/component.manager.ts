@@ -1,6 +1,6 @@
 import { ComponentFactoryResolver, Injectable, Provider, ReflectiveInjector, Inject } from '@angular/core';
 
-import { chain, extend, map, mergeWith } from 'lodash';
+import { extend, flatten, mergeWith } from 'lodash-es';
 
 import { DYNAMIC_FORMS_CONFIG, DynamicFormsConfig, ElementTypeMappings } from '../config';
 import { ElementType, ModelElement, ModelElementSibling, ModelElementSiblingPosition, optionsMerge } from '../model/element';
@@ -24,7 +24,7 @@ export class ComponentManager {
 
     private mergeOptionsConfig<TModelElement extends ModelElement>(element: TModelElement): TModelElement {
         if (!element['__mergedConfig']) {
-            let defaultOptions = map(element.optionsConfigKeys, key => this.config.defaultOptions[key]);
+            let defaultOptions = element.optionsConfigKeys.map(key => this.config.defaultOptions[key]);
             if (defaultOptions) {
                 mergeWith(element, ...defaultOptions, element, optionsMerge);
             }
@@ -60,7 +60,7 @@ export class ComponentManager {
     }
 
     public createSiblings(containerComponent: DynamicControlContainer, siblings: ModelElementSibling[], absolutelyPositioned: boolean, position: ModelElementSiblingPosition): ComponentInfo[] {
-        return chain(siblings)
+        return flatten(siblings
             .map(sibling => this.mergeOptionsConfig(sibling))
             .filter(sibling =>
                 (sibling.position === position || sibling.position === ElementSiblingPosition.both) ||
@@ -71,9 +71,7 @@ export class ComponentManager {
                 ];
                 let componentType = this.elementTypeMappings.getComponentType(sibling.elementType);
                 return this.createComponent(containerComponent, sibling, componentType, providers);
-            })
-            .flatten()
-            .value() as ComponentInfo[];
+            }));
     }
 
     private insertComponent(componentInfo: ComponentInfo, index: number = null) {

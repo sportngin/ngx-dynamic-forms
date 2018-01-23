@@ -1,5 +1,3 @@
-import { extend, map } from 'lodash';
-
 import { getCssClassArray }             from '../css.helper';
 import { ElementType }                  from './element.type';
 import { ModelElementBuilder }          from './model.element.builder';
@@ -43,7 +41,7 @@ export class ModelElementBase<TSelf extends ModelElementBase<TSelf>> implements 
     }
 
     public addListItemControlConditions(...renderConditions: ModelElementRenderCondition[]): TSelf {
-        return this.addConditions(...map(renderConditions, condition => extend(condition, { method: 'isListItemControlRendered' })));
+        return this.addConditions(...renderConditions.map(condition => Object.assign(condition, { method: 'isListItemControlRendered' })));
     }
 
 }

@@ -1,6 +1,6 @@
 import { AbstractControl, FormGroup, ValidatorFn } from '@angular/forms';
 
-import * as tinyColor from 'tinycolor2';
+import tinyColor from '@thebespokepixel/es-tinycolor';
 
 function isTinyColorInstance(color: ColorAccessor): boolean {
     return color && color.hasOwnProperty('_tc_id');

@@ -1,7 +1,5 @@
 import { ValidatorFn } from '@angular/forms';
 
-import { find } from 'lodash';
-
 import { DisplayValueMember, DisplayValueMemberBase } from './display.value.member';
 import { MemberType }         from './member.type';
 import { ModelMemberBuilder } from './model.member.builder';
@@ -55,9 +53,16 @@ export class SelectionMemberBase extends DisplayValueMemberBase<SelectionMemberB
         this.itemValueKey = itemValueKey;
     }
 
-    public getDisplayValue(value: any): string {
-        let item = find(this.items, (item: any) => item[this.itemValueKey] === value);
+    private getDisplayValueForItems(items: SelectionMemberItem[], value: any): string {
+        let item = items.find((item: any) => item[this.itemValueKey] === value);
         return item ? item[this.itemLabelKey] : null;
+    }
+
+    public getDisplayValue(value: any): string {
+        if (Array.isArray(this.items)) {
+            return this.getDisplayValueForItems(this.items, value);
+        }
+        return null;
     }
 
     public addPlaceholderText(text: string = ''): SelectionMemberBase {

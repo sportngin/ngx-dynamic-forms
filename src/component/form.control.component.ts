@@ -1,6 +1,6 @@
 import { AfterViewInit, ComponentRef, Injector, Provider, ViewContainerRef, ViewChild, DoCheck } from '@angular/core';
 
-import { first, last } from 'lodash';
+import { first, last } from 'lodash-es';
 
 import { ModelControl, ModelElement } from '../model/element';
 import { ElementSiblingPosition }   from '../model/element.sibling.position';

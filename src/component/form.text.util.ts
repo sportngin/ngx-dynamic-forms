@@ -1,6 +1,6 @@
 import { AbstractControl } from '@angular/forms';
 
-import { extend, get } from 'lodash';
+import { get } from 'lodash-es';
 
 import { FormText, FormTextByState, FormTextByStateAndExists, FormTextFn, FormTextType } from '../model';
 import { FormState } from './form.host.component';
@@ -37,7 +37,7 @@ export function mergeFormText(text: FormText): FormText {
         return textByStateAndExists;
     }
 
-    textByStateAndExists.exists.text = extend(
+    textByStateAndExists.exists.text = Object.assign(
         {},
         textByStateAndExists.default as FormTextByState,
         textByStateAndExists.exists.text as FormTextByState);

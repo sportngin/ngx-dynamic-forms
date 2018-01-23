@@ -1,6 +1,6 @@
 import { InjectionToken } from '@angular/core';
 
-import { extend, find, merge } from 'lodash';
+import { merge } from 'lodash-es';
 
 import { Behavior }         from '../behavior';
 import { ElementType, ModelElementRenderCondition }  from '../model/element';
@@ -50,9 +50,9 @@ export function configFactory(defaultConfig: DynamicFormsConfig, userConfig: Dyn
     result.behaviors.push(...defaultConfig.behaviors);
     if (userConfig && userConfig.behaviors) {
         userConfig.behaviors.forEach(userBehavior => {
-            let builtInBehavior = find(defaultConfig.behaviors, builtInBehavior => builtInBehavior.type === userBehavior.type);
+            let builtInBehavior = defaultConfig.behaviors.find(builtInBehavior => builtInBehavior.type === userBehavior.type);
             if (builtInBehavior) {
-                throw extend(new Error('Cannot override built-in behaviors'), { behavior: userBehavior });
+                throw Object.assign(new Error('Cannot override built-in behaviors'), { behavior: userBehavior });
             }
             result.behaviors.push(userBehavior)
         });
@@ -72,7 +72,7 @@ export function configFactory(defaultConfig: DynamicFormsConfig, userConfig: Dyn
         }
 
         usr.forEach(usrMapping => {
-            let mapping = find(result.mappings[key], (mapping: TypeHandlerMapping) => mapping.type === usrMapping.type);
+            let mapping = result.mappings[key].map((mapping: TypeHandlerMapping) => mapping.type === usrMapping.type);
             if (!mapping) {
                 result.mappings[key].push(usrMapping);
                 return;

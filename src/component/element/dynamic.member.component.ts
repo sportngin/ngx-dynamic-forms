@@ -3,7 +3,7 @@ import {
 } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 
-import { extend, omit } from 'lodash';
+import { omit } from 'lodash-es';
 
 import { MemberTypeMappings }   from '../../config/member.type.mappings';
 
@@ -142,7 +142,7 @@ export class DynamicMemberComponent extends FormControlComponent<ModelMember> im
     protected createControlComponent(): ComponentInfo {
 
         let elementData = this.getElementData();
-        let mergedInputData = omit(extend(elementData, { createsSiblings: false }), 'form', 'control');
+        let mergedInputData = omit(Object.assign(elementData, { createsSiblings: false }), 'form', 'control');
 
         let inputProviders: Provider[] = this.getProvidersFromInputData(mergedInputData);
         inputProviders.push(
