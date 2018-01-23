@@ -1,4 +1,22 @@
 {
+  "$schema": "./node_modules/ng-packagr/package.schema.json",
+  "ngPackage": {
+    "lib": {
+      "entryFile": "public_api.ts",
+      "externals": {
+        "@angular/animations": "@angular/animations",
+        "@angular/common": "@angular/common",
+        "@angular/core": "@angular/core",
+        "@angular/forms": "@angular/forms",
+        "@angular/platform-browser": "@angular/platform-browser",
+        "bootstrap": "bootstrap",
+        "lodash-es": "lodash-es",
+        "luxon": "luxon",
+        "rxjs": "rxjs",
+        "zone.js": "zone.js"
+      }
+    }
+  },
   "name": "@siplay/ng-dynamic-forms",
   "version": "1.0.0-alpha.5",
   "description": "",
