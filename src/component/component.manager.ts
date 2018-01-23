@@ -60,6 +60,9 @@ export class ComponentManager {
     }
 
     public createSiblings(containerComponent: DynamicControlContainer, siblings: ModelElementSibling[], absolutelyPositioned: boolean, position: ModelElementSiblingPosition): ComponentInfo[] {
+        if (!siblings) {
+            return [];
+        }
         return flatten(siblings
             .map(sibling => this.mergeOptionsConfig(sibling))
             .filter(sibling =>

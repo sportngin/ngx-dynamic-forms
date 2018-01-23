@@ -72,7 +72,11 @@ module.exports = merge({
         modules: [
             'node_modules',
             path.resolve(__dirname, '../test/modules')
-        ]
+        ],
+
+        alias: {
+            '@thebespokepixel/es-tinycolor': path.resolve(__dirname, '../node_modules/@thebespokepixel/es-tinycolor/lib/index-es'),
+        }
     },
 
     output: {
@@ -104,12 +108,12 @@ module.exports = merge({
         new CircularDependencyPlugin({
             exclude: /a\.js|node_modules/,
             failOnError: false
-        })
+        }),
     ],
 
     devServer: {
         host: '0.0.0.0',
         port: '8888',
         disableHostCheck: true
-    }
+    },
 });

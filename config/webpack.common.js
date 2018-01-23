@@ -59,6 +59,12 @@ module.exports = {
 
         new webpack.optimize.OccurrenceOrderPlugin(true),
 
+        new webpack.DefinePlugin({
+            process: JSON.stringify({
+                version: process.version
+            }),
+        }),
+
         new ExtractTextPlugin('styles.css')
     ],
     performance: {

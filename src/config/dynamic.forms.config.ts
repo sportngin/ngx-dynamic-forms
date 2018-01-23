@@ -72,7 +72,7 @@ export function configFactory(defaultConfig: DynamicFormsConfig, userConfig: Dyn
         }
 
         usr.forEach(usrMapping => {
-            let mapping = result.mappings[key].map((mapping: TypeHandlerMapping) => mapping.type === usrMapping.type);
+            let mapping = result.mappings[key].find((mapping: TypeHandlerMapping) => mapping.type === usrMapping.type);
             if (!mapping) {
                 result.mappings[key].push(usrMapping);
                 return;
