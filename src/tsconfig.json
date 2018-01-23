@@ -30,14 +30,10 @@
     "outDir": "../dist"
   },
   "files": [
-    "../index.ts"
+    "../public_api.ts"
   ],
   "angularCompilerOptions": {
     "skipMetadataEmit" : false,
     "skipTemplateCodegen": true
-  },
-  "awesomeTypescriptLoaderOptions": {
-    "forkChecker": true,
-    "useWebpackText": true
   }
 }
