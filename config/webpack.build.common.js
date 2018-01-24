@@ -5,7 +5,7 @@ module.exports = {
     target: 'web',
 
     entry: {
-        'dynamic.forms.umd': './index.ts'
+        'dynamic.forms.umd': './src/public_api'
     },
 
     resolve: {

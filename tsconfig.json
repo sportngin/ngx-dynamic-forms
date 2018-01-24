@@ -35,7 +35,7 @@
     "skipTemplateCodegen": true
   },
   "files": [
-    "src/public_api.ts"
+    "src/ng.dynamic.forms.ts"
   ],
   "exclude": [
     "*.spec.ts"

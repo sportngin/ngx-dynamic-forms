@@ -8,4 +8,4 @@ export * from './model/element/index';
 export * from './model/member/index';
 export * from './util/index';
 
-export { DynamicFormsModule } from './dynamic.forms.module';
+export * from './dynamic.forms.module';

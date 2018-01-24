@@ -10,10 +10,16 @@
   "publishConfig": {
     "registry": "https://sportssignup.myget.org/F/siplay-npm/npm/"
   },
-  "sass": "scss/ng-dynamic-forms.scss",
+  "main": "ng.dynamic.forms.umd.js",
+  "module": "ng.dynamic.forms.js",
+  "typings": "ng.dynamic.forms.d.ts",
+  "sass": "scss/ng.dynamic.forms.scss",
   "scripts": {
-    "build": "ng-packagr",
-    "postbuild": "cp -r src/scss ./dist",
+    "build:templates": "gulp build-templates",
+    "build:ngc": "ngc",
+    "prebuild": "rimraf dist && npm run build:ngc",
+    "build": "webpack --display-chunks --display-reasons --display-modules",
+    "postbuild": "npm run build:templates && cp package.json ./dist",
     "postversion": "npm run build && cd ./dist && npm publish && cd ..",
     "publish": "git push;git push --tags",
     "test": "rimraf .tmp && mocha-webpack --opts config/mocha/mocha-webpack.opts",
