@@ -67,7 +67,7 @@ export abstract class FormElementComponentBase implements OnInit, DisplayValidat
         if (this.isPlaceholder) {
             return;
         }
-        if (this.elementData.element) {
+        if (this.elementData.element && this.elementData.element.cssClasses) {
             this.addCssClass(...this.elementData.element.cssClasses);
         }
     }
