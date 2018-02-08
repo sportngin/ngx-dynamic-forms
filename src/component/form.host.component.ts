@@ -49,43 +49,42 @@ export abstract class FormHostComponent<TState extends FormState = FormState> im
         });
     }
 
-    public submit(e: Event): void {
+    public async submit(e: Event): Promise<any> {
         if (e) {
             e.preventDefault();
         }
-        this.handleSubmit();
+        return await this.handleSubmit();
     }
 
     public get canSave(): boolean {
         return this.form.form.valid;
     }
 
-    public handleSubmit(): Promise<any> {
+    public async handleSubmit(): Promise<any> {
         if (!this.canSave) {
-            return Promise.reject(this.form.form.errors);
+            throw this.form.form.errors;
         }
         this.clearStateMessages();
-        let result = this.doSubmit()
-            .then(result => {
-                this.state.error = null;
-                this.state.submitting = false;
-                this.state.submitted = true;
-                this.form.form.markAsPristine();
-                if (result && result.state) {
-                    Object.assign(this.state, result.state);
-                }
-                this.emit(FormHostEventType.submitted, result);
-                return result;
-            }, err => {
-                this.state.error = err;
-                this.state.submitting = false;
-                this.state.submitted = false;
-                this.emit(FormHostEventType.error, err);
-                return Promise.reject(err);
-            });
         this.state.submitting = true;
         this.emit(FormHostEventType.submitting, this.form.value);
-        return result;
+        try {
+            const result = await this.doSubmit();
+            this.state.error = null;
+            this.state.submitting = false;
+            this.state.submitted = true;
+            this.form.form.markAsPristine();
+            if (result && result.state) {
+                Object.assign(this.state, result.state);
+            }
+            this.emit(FormHostEventType.submitted, result);
+            return result;
+        } catch (err) {
+            this.state.error = err;
+            this.state.submitting = false;
+            this.state.submitted = false;
+            this.emit(FormHostEventType.error, err);
+            throw err;
+        }
     }
 
     protected setStateMessage(key: string, value: any): void {
