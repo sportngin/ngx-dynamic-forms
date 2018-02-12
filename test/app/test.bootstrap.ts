@@ -1,5 +1,4 @@
 import 'zone.js';
-import 'reflect-metadata';
 
 import './scss/style.scss';
 

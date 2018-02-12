@@ -1,5 +1,3 @@
-import 'reflect-metadata';
-
 import { Component, Host, Injector, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, FormBuilder } from '@angular/forms';
 
