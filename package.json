@@ -5,7 +5,7 @@
   "author": "SI Play",
   "repository": {
     "type": "git",
-    "url": "git@bitbucket.org:siplay/ng-dynamic-forms.git"
+    "url": "git@github.com:sportngin/siplay_ng-dynamic-forms.git"
   },
   "publishConfig": {
     "registry": "https://sportssignup.myget.org/F/siplay-npm/npm/"
