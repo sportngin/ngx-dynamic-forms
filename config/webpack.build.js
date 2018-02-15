@@ -10,6 +10,18 @@ module.exports = merge(require('./webpack.build.common'), {
             {
                 test: /\.ts$/,
                 use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: [
+                                [ '@babel/preset-env', {
+                                    targets: {
+                                        browsers: [ 'ie 11' ],
+                                    },
+                                } ],
+                            ],
+                        },
+                    },
                     'awesome-typescript-loader',
                     'angular2-template-loader'
                 ]
