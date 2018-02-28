@@ -25,6 +25,7 @@ export class DynamicFormComponent extends StructuralComponent implements SubmitH
         super({ form: host.modelDef.toFormGroup(fb), element: null }, host.modelDef.toElements(), injector);
         host.dynamicForm = this;
         const formEventManager = injector.get(FormEventManager);
+        (window as any).ngdfInjector = injector;
         formEventManager.registerForm(this.form);
     }
 
