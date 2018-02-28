@@ -12,6 +12,10 @@ export class FormEventManager {
     public readonly ready: EventEmitter<number> = new EventEmitter();
     public readonly formInit: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
 
+    constructor() {
+        console.log('[FormEventManager] ctr');
+    }
+
     public registerControl(component: Initialized) {
         this.registered++;
         const sub = component.initialized.subscribe(() => {
@@ -21,6 +25,7 @@ export class FormEventManager {
     }
 
     public registerForm(form: FormGroup) {
+        console.log('[FormEventManager] registerForm', form);
         this.formInit.next(form);
     }
 
