@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ModuleWithProviders, NgModule, Optional } from '@angular/core';
+import { ApplicationRef, EventEmitter, ModuleWithProviders, NgModule, Optional } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { ColorPickerModule } from 'ngx-color-picker';
@@ -122,6 +122,14 @@ import {
     ]
 })
 export class DynamicFormsModule {
+
+    public static readonly registeredApplications = [];
+    public static readonly registered: EventEmitter<{ appRef: ApplicationRef, module: DynamicFormsModule }> = new EventEmitter<{appRef: ApplicationRef, module: DynamicFormsModule}>();
+
+    constructor(appRef: ApplicationRef) {
+        DynamicFormsModule.registeredApplications.push(appRef);
+        DynamicFormsModule.registered.next({ appRef, module: this });
+    }
 
     static withConfig(userConfig: DynamicFormsConfig): ModuleWithProviders {
         return {
