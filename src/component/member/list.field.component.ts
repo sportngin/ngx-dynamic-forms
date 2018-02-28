@@ -58,7 +58,7 @@ export class ListFieldComponent extends FormMemberComponent<ArrayMember, FormArr
     public entryState: EntryState[] = [];
     public get children(): ModelElement[] { return this.element ? this.element.template.toElements() : null; }
 
-    private initialized: boolean = false;
+    private viewInit: boolean = false;
 
     constructor(
         elementData: MemberData,
@@ -140,7 +140,7 @@ export class ListFieldComponent extends FormMemberComponent<ArrayMember, FormArr
     }
 
     ngAfterContentChecked(): void {
-        if (!this.initialized) {
+        if (!this.viewInit) {
             return;
         }
         if (this.formControl.controls.length > this.container.length) {
@@ -164,7 +164,7 @@ export class ListFieldComponent extends FormMemberComponent<ArrayMember, FormArr
 
     ngAfterViewInit(): void {
         super.ngAfterViewInit();
-        this.initialized = true;
+        this.viewInit = true;
 
         this.inputs.changes.subscribe((changes: QueryList<ListFieldEntryDirective>) => {
             if (changes.last && last(this.entryState).editing) {

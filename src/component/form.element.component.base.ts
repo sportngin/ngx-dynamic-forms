@@ -1,20 +1,22 @@
-import { ElementRef, Injector, OnInit, Renderer2 } from '@angular/core';
+import { AfterViewInit, ElementRef, EventEmitter, Injector, OnInit, Renderer2 } from '@angular/core';
 import { AbstractControl, FormGroup }       from '@angular/forms';
 
 import {
     BehaviorFn, BehaviorService, BehaviorType, DisplayValidationHandler
 } from '../behavior';
-import { RenderOnParent }   from '../model';
-import { ModelElement }     from '../model/element';
-import { ElementData }      from './element.data';
+import { RenderOnParent }    from '../model';
+import { ModelElement }      from '../model/element';
+import { ElementData }       from './element.data';
 import { ElementRenderMode } from './element.render.mode';
+import { FormEventManager }  from './form.event.manager';
+import { Initialized }       from './initialized';
 
 const VALIDATOR_PROPERTIES: { [errorType: string]: string[] } = {
     required: ['touched'],
     default: ['dirty', 'touched']
 };
 
-export abstract class FormElementComponentBase implements OnInit, DisplayValidationHandler {
+export abstract class FormElementComponentBase implements AfterViewInit, OnInit, DisplayValidationHandler, Initialized {
 
     private handlers: { [behaviorType: string]: any } = {};
     private behaviorService: BehaviorService;
@@ -42,6 +44,8 @@ export abstract class FormElementComponentBase implements OnInit, DisplayValidat
         return this.elementRef.nativeElement;
     }
 
+    public readonly initialized: EventEmitter<void> = new EventEmitter<void>();
+
     public get form(): FormGroup {
         return this.elementData.form;
     }
@@ -53,13 +57,25 @@ export abstract class FormElementComponentBase implements OnInit, DisplayValidat
         this.behaviorService = injector.get(BehaviorService);
         this.handlers[BehaviorType.validateDisplay] = this.behaviorService.getHandler(BehaviorType.validateDisplay, this, false);
 
-        // prevent ngOnInit from being overwritten;
-        let ogOnInit = this.ngOnInit.bind(this);
+        const eventManager: FormEventManager = injector.get(FormEventManager);
+        eventManager.register(this);
+
+        // allow these to be overridden without losing the base functionality
+        const ogOnInit = this.ngOnInit.bind(this);
         this.ngOnInit = () => {
             this.initCssClasses();
             ogOnInit();
+        };
+
+        const ogAfterViewInit = this.ngAfterViewInit.bind(this);
+        this.ngAfterViewInit = () => {
+            ogAfterViewInit();
+            this.initialized.next();
+            this.initialized.complete();
         }
     }
+
+    ngAfterViewInit(): void {}
 
     ngOnInit(): void {}
 
