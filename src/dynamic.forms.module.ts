@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ApplicationRef, EventEmitter, ModuleWithProviders, NgModule, Optional } from '@angular/core';
+import { ApplicationRef, EventEmitter, ModuleWithProviders, NgModule, NgModuleRef, Optional } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { ColorPickerModule } from 'ngx-color-picker';
@@ -77,7 +77,7 @@ import {
         ListFieldHeaderComponent,
         PasswordFieldComponent,
         TextFieldComponent,
-        TipComponent
+        TipComponent,
     ],
     entryComponents: [
         ButtonComponent,
@@ -124,11 +124,11 @@ import {
 export class DynamicFormsModule {
 
     public static readonly registeredApplications = [];
-    public static readonly registered: EventEmitter<{ appRef: ApplicationRef, module: DynamicFormsModule }> = new EventEmitter<{appRef: ApplicationRef, module: DynamicFormsModule}>();
+    public static readonly registered: EventEmitter<RegisteredInfo> = new EventEmitter<RegisteredInfo>();
 
-    constructor(appRef: ApplicationRef) {
+    constructor(appRef: ApplicationRef, moduleRef: NgModuleRef<DynamicFormsModule>) {
         DynamicFormsModule.registeredApplications.push(appRef);
-        DynamicFormsModule.registered.next({ appRef, module: this });
+        DynamicFormsModule.registered.next({ appRef, module: this, moduleRef });
     }
 
     static withConfig(userConfig: DynamicFormsConfig): ModuleWithProviders {
@@ -140,4 +140,10 @@ export class DynamicFormsModule {
         };
     }
 
+}
+
+export interface RegisteredInfo {
+    appRef: ApplicationRef;
+    module: DynamicFormsModule;
+    moduleRef: NgModuleRef<DynamicFormsModule>;
 }
