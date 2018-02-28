@@ -31,6 +31,7 @@ import {
 } from './component/member';
 
 @NgModule({
+    id: DynamicFormsModule.name,
     declarations:   [
         ButtonComponent,
         CheckboxFieldComponent,
