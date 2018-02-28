@@ -21,12 +21,11 @@ export class DynamicFormComponent extends StructuralComponent implements SubmitH
         private fb: FormBuilder,
         @Host() host: FormHostComponent,
         injector: Injector,
+        formEventManager: FormEventManager,
     ) {
         super({ form: host.modelDef.toFormGroup(fb), element: null }, host.modelDef.toElements(), injector);
         host.dynamicForm = this;
-        // const formEventManager = injector.get(FormEventManager);
-        // (window as any).ngdfInjector = injector;
-        // formEventManager.registerForm(this.form);
+        formEventManager.registerForm(this.form);
     }
 
     ngAfterViewInit(): void {
