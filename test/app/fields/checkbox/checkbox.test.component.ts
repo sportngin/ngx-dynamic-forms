@@ -18,11 +18,11 @@ export class CheckboxTestComponent extends FieldTestComponent {
         super(new CheckboxTestModel());
     }
 
-    protected get fieldName() {
+    public get fieldName() {
         return 'Checkbox';
     }
 
-    protected get modelSourcePath() {
+    public get modelSourcePath() {
         return 'test/app/fields/checkbox/checkbox.test.model.ts';
     }
 

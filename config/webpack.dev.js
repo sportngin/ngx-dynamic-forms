@@ -1,5 +1,7 @@
 'use strict';
 
+const AngularCompilerPlugin = require('@ngtools/webpack').AngularCompilerPlugin;
+
 const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
@@ -29,8 +31,9 @@ module.exports = merge({
             {
                 test: /\.ts$/,
                 loaders: [
-                    'awesome-typescript-loader?configFileName=./test/tsconfig.json&declaration=false',
-                    'angular2-template-loader'
+                    // 'awesome-typescript-loader?configFileName=./test/tsconfig.json&declaration=false',
+                    // 'angular2-template-loader'
+                    '@ngtools/webpack',
                 ]
             },
             {
@@ -90,12 +93,6 @@ module.exports = merge({
     },
 
     plugins: [
-        // Workaround for angular/angular#11580
-        new webpack.ContextReplacementPlugin(
-            /angular(\\|\/)core(\\|\/)@angular/,
-            helpers.root('src'),
-            {}
-        ),
 
         new HtmlWebpackPlugin({
             template: './test/app/test.index.pug',
@@ -108,6 +105,12 @@ module.exports = merge({
         new CircularDependencyPlugin({
             exclude: /a\.js|node_modules/,
             failOnError: false
+        }),
+
+        new AngularCompilerPlugin({
+            mainPath:           'app/test.bootstrap.ts',
+            sourceMap:          true,
+            tsConfigPath:       path.resolve(process.cwd(), 'test/tsconfig.json'),
         }),
     ],
 

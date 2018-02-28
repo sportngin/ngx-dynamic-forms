@@ -1,4 +1,6 @@
-import { ComponentFactoryResolver, Injectable, Provider, ReflectiveInjector, Inject } from '@angular/core';
+import {
+    ComponentFactoryResolver, Injectable, Inject, Injector, StaticProvider,
+} from '@angular/core';
 
 import { extend, flatten, mergeWith } from 'lodash-es';
 
@@ -17,7 +19,7 @@ export class ComponentManager {
     constructor(
         private resolver: ComponentFactoryResolver,
         @Inject(DYNAMIC_FORMS_CONFIG) private config: DynamicFormsConfig,
-        private elementTypeMappings: ElementTypeMappings
+        private elementTypeMappings: ElementTypeMappings,
     ) {
         this.placeholderComponentType = this.elementTypeMappings.getComponentType(ElementType.placeholder)
     }
@@ -33,15 +35,17 @@ export class ComponentManager {
         return element;
     }
 
-    public createComponent(containerComponent: DynamicControlContainer, element: ModelElement, componentType: any, providers: Provider[]): ComponentInfo {
+    public createComponent(containerComponent: DynamicControlContainer, element: ModelElement, componentType: any, providers: StaticProvider[]): ComponentInfo {
 
         let info: any = {};
         this.mergeOptionsConfig(element);
         providers.push(
             { provide: COMPONENT_INFO, useValue: info }
         );
-        let resolvedInputs = ReflectiveInjector.resolve(providers);
-        let injector = ReflectiveInjector.fromResolvedProviders(resolvedInputs, containerComponent.container.parentInjector);
+        const injector = Injector.create({
+            providers,
+            parent: containerComponent.container.parentInjector
+        });
         let resolvedComponentFactory = this.resolver.resolveComponentFactory(componentType);
         let resolvedPlaceholderFactory = this.resolver.resolveComponentFactory(this.placeholderComponentType);
         let componentFactory = () => resolvedComponentFactory.create(injector);
@@ -69,7 +73,7 @@ export class ComponentManager {
                 (sibling.position === position || sibling.position === ElementSiblingPosition.both) ||
                 (absolutelyPositioned && isAbsolutePosition(sibling.position)))
             .map(sibling => {
-                let providers = [
+                let providers: StaticProvider[] = [
                     { provide: ElementData, useValue: extend({}, containerComponent.elementData, { element: sibling }) }
                 ];
                 let componentType = this.elementTypeMappings.getComponentType(sibling.elementType);

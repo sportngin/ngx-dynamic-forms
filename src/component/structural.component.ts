@@ -1,4 +1,4 @@
-import { Injector, Provider } from '@angular/core';
+import { Injector, StaticProvider } from '@angular/core';
 
 import { ModelControl, MODEL_CONTROL, ModelElement } from '../model/element';
 import { ComponentInfo }    from './component.info';
@@ -15,7 +15,7 @@ export abstract class StructuralComponent<TModelControl extends ModelControl = M
         super(elementData, injector);
     }
 
-    private getProviders(element: ModelElement): Provider[] {
+    private getProviders(element: ModelElement): StaticProvider[] {
         return [
             { provide: ElementData, useValue: this.getElementData(element) },
             { provide: MODEL_CONTROL, useValue: element }
