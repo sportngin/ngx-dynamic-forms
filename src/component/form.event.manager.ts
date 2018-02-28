@@ -1,4 +1,6 @@
 import { EventEmitter, Injectable } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+
 import { Initialized } from './initialized';
 
 @Injectable()
@@ -8,13 +10,18 @@ export class FormEventManager {
     private initialized: number = 0;
 
     public readonly ready: EventEmitter<number> = new EventEmitter();
+    public readonly formInit: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
 
-    public register(component: Initialized) {
+    public registerControl(component: Initialized) {
         this.registered++;
         const sub = component.initialized.subscribe(() => {
             this.onInitialized();
             sub.unsubscribe();
         })
+    }
+
+    public registerForm(form: FormGroup) {
+        this.formInit.next(form);
     }
 
     private onInitialized() {

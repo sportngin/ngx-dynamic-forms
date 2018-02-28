@@ -58,7 +58,7 @@ export abstract class FormElementComponentBase implements AfterViewInit, OnInit,
         this.handlers[BehaviorType.validateDisplay] = this.behaviorService.getHandler(BehaviorType.validateDisplay, this, false);
 
         const eventManager: FormEventManager = injector.get(FormEventManager);
-        eventManager.register(this);
+        eventManager.registerControl(this);
 
         // allow these to be overridden without losing the base functionality
         const ogOnInit = this.ngOnInit.bind(this);
