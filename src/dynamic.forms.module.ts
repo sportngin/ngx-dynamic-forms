@@ -30,8 +30,10 @@ import {
     ListFieldHeaderComponent, TextFieldComponent
 } from './component/member';
 
+export const MODULE_ID = 'DynamicFormsModule';
+
 @NgModule({
-    id: DynamicFormsModule.name,
+    id: MODULE_ID,
     declarations:   [
         ButtonComponent,
         CheckboxFieldComponent,
