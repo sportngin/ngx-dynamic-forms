@@ -1,6 +1,6 @@
-import { CommonModule } from '@angular/common';
-import { ApplicationRef, EventEmitter, ModuleWithProviders, NgModule, NgModuleRef, Optional } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { CommonModule }                            from '@angular/common';
+import { ModuleWithProviders, NgModule, Optional } from '@angular/core';
+import { ReactiveFormsModule }                     from '@angular/forms';
 
 import { ColorPickerModule } from 'ngx-color-picker';
 
@@ -30,10 +30,7 @@ import {
     ListFieldHeaderComponent, TextFieldComponent
 } from './component/member';
 
-export const MODULE_ID = 'DynamicFormsModule';
-
 @NgModule({
-    id: MODULE_ID,
     declarations:   [
         ButtonComponent,
         CheckboxFieldComponent,
@@ -126,14 +123,6 @@ export const MODULE_ID = 'DynamicFormsModule';
 })
 export class DynamicFormsModule {
 
-    public static readonly registeredApplications = [];
-    public static readonly registered: EventEmitter<RegisteredInfo> = new EventEmitter<RegisteredInfo>();
-
-    constructor(appRef: ApplicationRef, moduleRef: NgModuleRef<DynamicFormsModule>) {
-        DynamicFormsModule.registeredApplications.push(appRef);
-        DynamicFormsModule.registered.next({ appRef, module: this, moduleRef });
-    }
-
     static withConfig(userConfig: DynamicFormsConfig): ModuleWithProviders {
         return {
             ngModule: DynamicFormsModule,
@@ -143,10 +132,4 @@ export class DynamicFormsModule {
         };
     }
 
-}
-
-export interface RegisteredInfo {
-    appRef: ApplicationRef;
-    module: DynamicFormsModule;
-    moduleRef: NgModuleRef<DynamicFormsModule>;
 }

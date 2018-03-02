@@ -1,0 +1,46 @@
+{
+  "name": "@siplay/ng-dynamic-forms-hmr",
+  "version": "1.0.0-alpha.1",
+  "description": "",
+  "author": "SI Play",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:sportngin/siplay_ng-dynamic-forms.git"
+  },
+  "publishConfig": {
+    "registry": "https://sportssignup.myget.org/F/siplay-npm/npm/"
+  },
+  "main": "index.js",
+  "module": "index.js",
+  "typings": "index.d.ts",
+  "scripts": {
+    "copy:package.json": "cp package.json ./dist",
+    "copy:md": "cp *.md ./dist",
+    "copy": "npm run copy:package.json && npm run copy:md",
+    "prebuild": "rimraf dist",
+    "build": "tsc -p ./tsconfig.build.json",
+    "postbuild": "npm run copy",
+    "postversion": "npm run build && cd ./dist && npm publish && cd ..",
+    "postpublish": "git push && git push --tags"
+  },
+  "peerDependencies": {
+    "@angular/core": "^5.2.0",
+    "@angular/forms": "^5.2.0",
+    "@siplay/ng-dynamic-forms": "^1.0.0-alpha.28",
+    "@siplay/ng-project-util": "^0.0.1-alpha.18",
+    "rxjs": "^5.0.1"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@angular/common": "^5.2.6",
+    "@angular/compiler": "^5.2.6",
+    "@angular/compiler-cli": "^5.2.6",
+    "@angular/core": "^5.2.6",
+    "@angular/forms": "^5.2.6",
+    "@siplay/ng-dynamic-forms": "^1.0.0-alpha.28",
+    "@siplay/ng-project-util": "^0.0.1-alpha.18",
+    "rimraf": "^2.6.2",
+    "rxjs": "^5.0.1",
+    "typescript": "^2.7.2"
+  }
+}
