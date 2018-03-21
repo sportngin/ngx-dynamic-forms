@@ -2,7 +2,7 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 import { DateTime, Duration } from 'luxon';
 
-export function minDateDiff(duration: Duration, nowFn: () => number = () => new DateTime().valueOf()): ValidatorFn {
+export function minDateDiff(duration: Duration, nowFn: () => number = () => DateTime.utc().valueOf()): ValidatorFn {
     return function validate(control: AbstractControl): ValidationErrors | null {
         let now = DateTime.fromMillis(nowFn());
         let value = DateTime.fromMillis(control.value);

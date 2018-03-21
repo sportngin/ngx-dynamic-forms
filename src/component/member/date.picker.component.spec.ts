@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed }        from '@angular/core/testing';
 import { By }                               from '@angular/platform-browser';
 
 import { expect } from 'chai';
-import { DateTime } from 'luxon';
+import { DateObject, DateTime } from 'luxon';
 
 import { FORM_COMPONENT_HOST_PROVIDERS } from '../../../test/fixtures';
 
@@ -114,7 +114,7 @@ describe('DatePickerComponent', () => {
 
         testDate(2011, month.july, 31);
         comp.dateForm.controls.month.setValue(month.june);
-        let expected = DateTime.fromObject({ year: 2011, month: month.june, day: 30 });
+        let expected = DateTime.fromObject({ year: 2011, month: month.june, day: 30 } as DateObject);
 
         expect(comp.formControl.value.toString()).to.equal(expected.toString());
 

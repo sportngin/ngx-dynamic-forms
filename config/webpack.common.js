@@ -4,7 +4,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     resolve: {
-        extensions: ['.ts', '.js']
+        extensions: ['.js', '.ts']
     },
     module: {
         loaders: [

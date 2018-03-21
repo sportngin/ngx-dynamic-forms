@@ -77,9 +77,7 @@ module.exports = merge({
             path.resolve(__dirname, '../test/modules')
         ],
 
-        alias: {
-            '@thebespokepixel/es-tinycolor': path.resolve(__dirname, '../node_modules/@thebespokepixel/es-tinycolor/lib/index-es'),
-        }
+        alias: require('../src/path-mapping')(),
     },
 
     output: {

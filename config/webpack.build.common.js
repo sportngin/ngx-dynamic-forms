@@ -11,9 +11,7 @@ module.exports = {
     resolve: {
         extensions: [ '.js', '.ts', '.json', '.css', '.scss', '.pug', '.html' ],
 
-        alias: {
-            '@thebespokepixel/es-tinycolor': path.resolve(__dirname, '../node_modules/@thebespokepixel/es-tinycolor/lib/index-es'),
-        },
+        alias: require('../src/path-mapping')(),
     },
 
     devtool: 'source-map',
