@@ -1,6 +1,9 @@
-import { AfterViewInit, ComponentRef, Injector, Provider, ViewContainerRef, ViewChild, DoCheck } from '@angular/core';
+import {
+    AfterViewInit, ComponentRef, Injector, ViewContainerRef, ViewChild, DoCheck,
+    StaticProvider,
+} from '@angular/core';
 
-import { first, last } from 'lodash';
+import { first, last } from 'lodash-es';
 
 import { ModelControl, ModelElement } from '../model/element';
 import { ElementSiblingPosition }   from '../model/element.sibling.position';
@@ -40,7 +43,7 @@ export abstract class FormControlComponent<TModelControl extends ModelControl = 
         };
     }
 
-    protected createComponent(element: ModelElement, componentType: any, providers: Provider[]): ComponentInfo {
+    protected createComponent(element: ModelElement, componentType: any, providers: StaticProvider[]): ComponentInfo {
         return this.controlManager.createComponent(this.getControlContainer(), element, componentType, providers);
     }
 

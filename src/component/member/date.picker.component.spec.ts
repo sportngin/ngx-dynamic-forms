@@ -3,8 +3,7 @@ import { ComponentFixture, TestBed }        from '@angular/core/testing';
 import { By }                               from '@angular/platform-browser';
 
 import { expect } from 'chai';
-
-import * as moment from 'moment';
+import { DateObject, DateTime } from 'luxon';
 
 import { FORM_COMPONENT_HOST_PROVIDERS } from '../../../test/fixtures';
 
@@ -94,8 +93,8 @@ describe('DatePickerComponent', () => {
 
     function testDate(year, month, day) {
         let input = { year, month, day };
-        let expected = moment(new Date(year, month, day));
-        if (!expected.isValid()) {
+        let expected = DateTime.fromJSDate(new Date(year, month, day));
+        if (!expected.isValid) {
             throw new Error('Attempted to test invalid date');
         }
         comp.dateForm.setValue(input);
@@ -115,8 +114,9 @@ describe('DatePickerComponent', () => {
 
         testDate(2011, month.july, 31);
         comp.dateForm.controls.month.setValue(month.june);
+        let expected = DateTime.fromObject({ year: 2011, month: month.june, day: 30 } as DateObject);
 
-        expect(comp.formControl.value.toString()).to.equal(moment([2011, month.june, 30]).toString());
+        expect(comp.formControl.value.toString()).to.equal(expected.toString());
 
     });
 

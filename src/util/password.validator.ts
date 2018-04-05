@@ -1,6 +1,6 @@
 import { FormControl } from '@angular/forms';
 
-import { chain, filter } from 'lodash';
+import { fromPairs } from 'lodash-es';
 
 export interface PasswordRequirement {
 
@@ -23,7 +23,7 @@ export class PasswordValidator {
             return null;
         }
 
-        let missingRequirements = filter(this.requirements, req => !req.pattern.test(c.value));
+        let missingRequirements = this.requirements.filter(req => !req.pattern.test(c.value));
 
         if (!missingRequirements.length) {
             return null;
@@ -32,10 +32,7 @@ export class PasswordValidator {
         return {
             validatePassword: {
                 valid: false,
-                missing: chain(missingRequirements)
-                    .map(error => [error.description, true])
-                    .fromPairs()
-                    .value()
+                missing: fromPairs(missingRequirements.map(error => [error.description, true]))
             }
         };
     }

@@ -2,7 +2,7 @@ import { Component, Injector, ViewEncapsulation } from '@angular/core';
 
 import { CustomMember, FormMemberComponent, MemberData } from '@siplay/ng-dynamic-forms';
 
-import * as tinyColor from 'tinycolor2';
+import { TinyColor } from '@thebespokepixel/es-tinycolor';
 
 @Component({
     selector: 'color-preview',
@@ -14,14 +14,14 @@ export class ColorPreviewComponent extends FormMemberComponent<CustomMember> {
 
     get foregroundColor(): string {
         if (this.element.data.foregroundColor) {
-            return tinyColor(this.element.data.foregroundColor).toHexString();
+            return new TinyColor(this.element.data.foregroundColor).toHexString();
         }
         return this.formControl.parent.controls[this.element.data.foregroundColorFieldName].value;
     }
 
     get backgroundColor(): string {
         if (this.element.data.backgroundColor) {
-            return tinyColor(this.element.data.backgroundColor).toHexString();
+            return new TinyColor(this.element.data.backgroundColor).toHexString();
         }
         return this.formControl.parent.controls[this.element.data.backgroundColorFieldName].value;
     }

@@ -5,7 +5,7 @@ import { RenderOnParent }               from '../render.on.parent';
 import { ModelElementRenderCondition }  from './model.element.render.condition';
 import { ModelElementTipType }          from './model.element.tip.type';
 
-import { isArray, merge, union } from 'lodash';
+import { merge, union } from 'lodash-es';
 
 export type ModelElementSiblingPosition = ElementSiblingPosition | ElementAbsolutePosition;
 
@@ -19,7 +19,7 @@ export interface ElementTipOptions {
 }
 
 export function optionsMerge(objValue: any, srcValue: any): any {
-    if (isArray(objValue) && isArray(srcValue)) {
+    if (Array.isArray(objValue) && Array.isArray(srcValue)) {
         return union(objValue, srcValue);
     }
     return objValue;

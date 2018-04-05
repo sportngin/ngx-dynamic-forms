@@ -30,11 +30,11 @@ export class PageTestComponent extends FieldTestComponent implements IsDisabledH
         ));
     }
 
-    protected get fieldName() {
+    public get fieldName() {
         return 'Paged';
     }
 
-    protected get modelSourcePath() {
+    public get modelSourcePath() {
         return 'test/app/fields/page/page.test.model.ts';
     }
 

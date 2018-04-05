@@ -22,11 +22,11 @@ export class FormTestComponent extends FieldTestComponent implements IsDisabledH
         super(new FormTestModel());
     }
 
-    protected get fieldName() {
+    public get fieldName() {
         return 'Form';
     }
 
-    protected get modelSourcePath() {
+    public get modelSourcePath() {
         return 'test/app/fields/form/form.test.model.ts';
     }
 
@@ -39,7 +39,7 @@ export class FormTestComponent extends FieldTestComponent implements IsDisabledH
         this.setStateMessage('email-check', true);
     }
 
-    protected doSubmit(): Promise<any> {
+    public doSubmit(): Promise<any> {
         this.clearStateMessages();
         return super.doSubmit();
     }

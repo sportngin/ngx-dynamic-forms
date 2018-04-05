@@ -18,11 +18,11 @@ export class DatePickerTestComponent extends FieldTestComponent {
         super(new DatePickerTestModel());
     }
 
-    protected get fieldName() {
+    public get fieldName() {
         return 'DatePicker';
     }
 
-    protected get modelSourcePath() {
+    public get modelSourcePath() {
         return 'test/app/fields/datepicker/date.picker.test.model.ts';
     }
 

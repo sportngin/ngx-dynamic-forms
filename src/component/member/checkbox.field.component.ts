@@ -1,7 +1,5 @@
 import { Component, Injector, Input, OnInit, ViewEncapsulation } from '@angular/core';
 
-import { isBoolean, isFunction } from 'lodash';
-
 import { FormMemberComponent }  from '../form.member.component';
 import { MemberData }           from '../member.data';
 
@@ -25,9 +23,9 @@ export class CheckboxFieldComponent extends FormMemberComponent implements OnIni
     ngOnInit(): void {
         let checked = false;
 
-        if (isBoolean(this.checked)) {
+        if (typeof(this.checked) === 'boolean') {
             checked = this.checked;
-        } else if (isFunction(this.checked)) {
+        } else if (typeof(this.checked) === 'function') {
             checked = this.checked();
         }
         setTimeout(() => this.formControl.setValue(checked || false), 0);

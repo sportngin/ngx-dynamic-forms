@@ -1,6 +1,6 @@
 import { FormControl, ValidatorFn } from '@angular/forms';
 
-import { first, isArray, union } from 'lodash';
+import { first, union } from 'lodash-es';
 
 import { BehaviorType }                 from '../../behavior';
 import { ElementSiblingPosition }       from '../element.sibling.position';
@@ -26,7 +26,7 @@ export abstract class ModelMemberBase<TSelf extends ModelMemberBase<TSelf>> exte
     public memberType: MemberType | string;
     public validators: ValidatorFn | ValidatorFn[];
     public get validator(): ValidatorFn {
-        if (!isArray(this.validators)) {
+        if (!Array.isArray(this.validators)) {
             return this.validators as ValidatorFn;
         }
         return first(this.validators);

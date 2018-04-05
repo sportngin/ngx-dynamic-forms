@@ -1,6 +1,4 @@
-import { Injector, Provider } from '@angular/core';
-
-import { reduce } from 'lodash';
+import { Injector, StaticProvider } from '@angular/core';
 
 import { ModelControl, MODEL_CONTROL, ModelElement } from '../model/element';
 import { ComponentInfo }    from './component.info';
@@ -17,7 +15,7 @@ export abstract class StructuralComponent<TModelControl extends ModelControl = M
         super(elementData, injector);
     }
 
-    private getProviders(element: ModelElement): Provider[] {
+    private getProviders(element: ModelElement): StaticProvider[] {
         return [
             { provide: ElementData, useValue: this.getElementData(element) },
             { provide: MODEL_CONTROL, useValue: element }
@@ -25,7 +23,7 @@ export abstract class StructuralComponent<TModelControl extends ModelControl = M
     }
 
     public createChildComponents(): ComponentInfo[] {
-        return reduce(this.children, (result, child) => {
+        return this.children.reduce((result, child) => {
                 let componentType = this.getComponentType(child);
                 if (componentType) {
                     result.push(this.createComponent(child, this.getComponentType(child), this.getProviders(child)));

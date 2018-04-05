@@ -1,12 +1,12 @@
 import { AbstractControl, FormGroup, ValidatorFn } from '@angular/forms';
 
-import * as tinyColor from 'tinycolor2';
+import { TinyColor } from '@thebespokepixel/es-tinycolor';
 
 function isTinyColorInstance(color: ColorAccessor): boolean {
     return color && color.hasOwnProperty('_tc_id');
 }
 
-export type ColorAccessor = tinycolorInstance | ColorFieldAccessor;
+export type ColorAccessor = TinyColor | ColorFieldAccessor;
 
 export enum WCAG2Level {
     AA = 'AA',
@@ -26,9 +26,9 @@ export interface WCAG2Options {
 export class ColorFieldAccessor {
     constructor(public fieldName: string, private multi: boolean = false) {}
 
-    getColor(c: AbstractControl): tinycolorInstance {
+    getColor(c: AbstractControl): TinyColor {
         let value = this.multi ? (c as FormGroup).controls[this.fieldName].value : c.value;
-        return tinyColor(value || 'white');
+        return new TinyColor(value || 'white');
     }
 }
 
@@ -39,12 +39,12 @@ export class ColorReadabilityValidator {
         private background: ColorAccessor
     ) {}
 
-    private getColor(g: FormGroup, color: ColorAccessor): tinycolorInstance {
+    private getColor(g: FormGroup, color: ColorAccessor): TinyColor {
         if (!color) {
             return null;
         }
         if (isTinyColorInstance(color)) {
-            return color as tinycolorInstance;
+            return color as TinyColor;
         }
         return (color as ColorFieldAccessor).getColor(g);
     }
@@ -64,8 +64,8 @@ export class ColorReadabilityValidator {
         let foregroundColor = this.getColor(g, this.foreground);
         let backgroundColor = this.getColor(g, this.background);
 
-        if (!tinyColor.isReadable(foregroundColor, backgroundColor, wcag2)) {
-            let colorReadability = tinyColor.readability(foregroundColor, backgroundColor);
+        if (!TinyColor.isReadable(foregroundColor, backgroundColor, wcag2)) {
+            let colorReadability = TinyColor.readability(foregroundColor, backgroundColor);
             let err = { colorReadability };
 
             if (!isMultiValidator) {
@@ -94,13 +94,13 @@ export class ColorReadabilityValidator {
         return (c: AbstractControl) => validator.validate(c, wcag2);
     }
 
-    public static validatorForBackground(foregroundColor: string | tinycolorInstance, backgroundFieldName: string, wcag2?: WCAG2Options): ValidatorFn {
-        let validator = new ColorReadabilityValidator(typeof foregroundColor === 'string' ? tinyColor(foregroundColor) : foregroundColor, new ColorFieldAccessor(backgroundFieldName));
+    public static validatorForBackground(foregroundColor: string | TinyColor, backgroundFieldName: string, wcag2?: WCAG2Options): ValidatorFn {
+        let validator = new ColorReadabilityValidator(typeof foregroundColor === 'string' ? new TinyColor(foregroundColor) : foregroundColor, new ColorFieldAccessor(backgroundFieldName));
         return (c: AbstractControl) => validator.validate(c, wcag2);
     }
 
-    public static validatorForForeground(foregroundFieldName: string, backgroundColor: string | tinycolorInstance, wcag2?: WCAG2Options): ValidatorFn {
-        let validator = new ColorReadabilityValidator(new ColorFieldAccessor(foregroundFieldName), typeof backgroundColor === 'string' ? tinyColor(backgroundColor) : backgroundColor);
+    public static validatorForForeground(foregroundFieldName: string, backgroundColor: string | TinyColor, wcag2?: WCAG2Options): ValidatorFn {
+        let validator = new ColorReadabilityValidator(new ColorFieldAccessor(foregroundFieldName), typeof backgroundColor === 'string' ? new TinyColor(backgroundColor) : backgroundColor);
         return (c: AbstractControl) => validator.validate(c, wcag2);
     }
 

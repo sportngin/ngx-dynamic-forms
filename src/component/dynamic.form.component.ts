@@ -1,11 +1,10 @@
-import 'reflect-metadata';
-
 import { Component, Host, Injector, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, FormBuilder } from '@angular/forms';
 
 import { Observable } from 'rxjs/Observable';
 
 import { behaviorProvider, BehaviorType, SubmitHandler } from '../behavior';
+import { FormEventManager }     from './form.event.manager';
 import { FormHostComponent }    from './form.host.component';
 import { StructuralComponent }  from './structural.component';
 
@@ -21,10 +20,12 @@ export class DynamicFormComponent extends StructuralComponent implements SubmitH
     constructor(
         private fb: FormBuilder,
         @Host() host: FormHostComponent,
-        injector: Injector
+        injector: Injector,
+        formEventManager: FormEventManager,
     ) {
         super({ form: host.modelDef.toFormGroup(fb), element: null }, host.modelDef.toElements(), injector);
-        host.form = this;
+        host.dynamicForm = this;
+        formEventManager.registerForm(this.form);
     }
 
     ngAfterViewInit(): void {

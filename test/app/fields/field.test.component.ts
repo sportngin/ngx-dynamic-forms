@@ -6,11 +6,11 @@ export abstract class FieldTestComponent extends FormHostComponent {
         super(model);
     }
 
-    protected abstract get fieldName();
+    public abstract get fieldName();
 
-    protected abstract get modelSourcePath();
+    public abstract get modelSourcePath();
 
-    protected doSubmit(): Promise<any> {
+    public doSubmit(): Promise<any> {
         console.log(`${this.constructor.name}.doSubmit() this.form.value:`, this.form.value);
         return new Promise((resolve) => {
             setTimeout(() => resolve(this.form.value), 1500);
