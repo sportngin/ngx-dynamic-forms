@@ -1,14 +1,11 @@
-import { chain } from 'lodash';
+import { flatten } from 'lodash-es';
 
 export function cleanCssClass(cssClass: string): string {
     return cssClass.replace(/\./g, ' ').trim();
 }
 
 export function getCssClassArray(...cssClass: string[]): string[] {
-    return chain(cssClass)
-        .map(entry => cleanCssClass(entry).split(' '))
-        .flatten()
-        .value() as string[];
+    return flatten(cssClass.map(entry => cleanCssClass(entry).split(' ')))
 }
 
 export function getCssClassFromArray(cssClasses: string[]): string {

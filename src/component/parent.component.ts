@@ -1,13 +1,10 @@
 import { Injector } from '@angular/core';
 
-import { extend } from 'lodash';
-
 import { ElementTypeMappings }      from '../config';
 import { ElementType, ModelControl, ModelElement } from '../model/element';
 import { MemberType, ModelMember }  from '../model/member';
 import { ElementData }              from './element.data';
 import { ElementRenderMode }        from './element.render.mode';
-import { MemberDisplayComponent }   from './element/member.display.component';
 import { MemberLabelComponent }     from './element/member.label.component';
 import { FormControlComponent }     from './form.control.component';
 
@@ -40,7 +37,7 @@ export abstract class ParentComponent<TModelControl extends ModelControl = Model
     }
 
     protected getElementData(element: ModelElement): { [key: string]: any; } {
-        return extend({}, this.elementData, { element });
+        return Object.assign({}, this.elementData, { element });
     }
 
 }

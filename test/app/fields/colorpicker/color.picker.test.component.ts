@@ -18,11 +18,11 @@ export class ColorPickerTestComponent extends FieldTestComponent {
         super(new ColorPickerTestModel());
     }
 
-    protected get fieldName() {
+    public get fieldName() {
         return 'Color Picker';
     }
 
-    protected get modelSourcePath() {
+    public get modelSourcePath() {
         return 'test/app/fields/checkbox/color.picker.test.model.ts';
     }
 

@@ -27,15 +27,15 @@ export class ListTestComponent extends FieldTestComponent {
         ]);
     }
 
-    protected get fieldName() {
+    public get fieldName() {
         return 'List';
     }
 
-    protected get modelSourcePath() {
+    public get modelSourcePath() {
         return 'test/app/fields/dropdown/list.test.model.ts';
     }
 
-    isChildRendered(form: AbstractControl, key?: string): boolean {
+    public isChildRendered(form: AbstractControl, key?: string): boolean {
         if (key === 'cant-touch-this') {
             return form.value.cantTouchThis;
         }

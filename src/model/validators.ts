@@ -1,18 +1,18 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-import * as moment from 'moment';
+import { DateTime, Duration } from 'luxon';
 
-export function minDateDiff(duration: moment.Duration, nowFn: any = () => moment()): ValidatorFn {
+export function minDateDiff(duration: Duration, nowFn: () => number = () => DateTime.utc().valueOf()): ValidatorFn {
     return function validate(control: AbstractControl): ValidationErrors | null {
-        let now = moment(nowFn());
-        let value = moment(control.value);
-        if (moment.duration(now.diff(value)) >= duration) {
+        let now = DateTime.fromMillis(nowFn());
+        let value = DateTime.fromMillis(control.value);
+        if (value.plus(duration) <= now) {
             // valid!
             return null;
         }
         return {
             // TODO: better error message
-            minDateDiff: duration.toISOString()
+            minDateDiff: duration.toISO()
         };
     }
 }

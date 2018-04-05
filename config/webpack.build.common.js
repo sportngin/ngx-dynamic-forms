@@ -5,11 +5,13 @@ module.exports = {
     target: 'web',
 
     entry: {
-        'dynamic.forms.umd': './index.ts'
+        'ng.dynamic.forms.umd': './src/public_api'
     },
 
     resolve: {
-        extensions: [ '.js', '.ts', '.json', '.css', '.scss', '.pug', '.html' ]
+        extensions: [ '.js', '.ts', '.json', '.css', '.scss', '.pug', '.html' ],
+
+        alias: require('../src/path-mapping')(),
     },
 
     devtool: 'source-map',
@@ -41,9 +43,8 @@ module.exports = {
         '@angular/forms',
         '@angular/platform-browser',
         'bootstrap',
-        'lodash',
-        'moment',
-        'reflect-metadata',
+        'lodash-es',
+        'luxon',
         'rxjs',
         'zone.js'
     ]

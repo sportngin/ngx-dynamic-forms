@@ -1,13 +1,10 @@
-import 'zone.js';
-import 'reflect-metadata';
-
-import './scss/style.scss';
+import 'zone.js/dist/zone';
 
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { TestAppModule } from './test.app.module';
 
+import './scss/style.scss';
+
 console.log('test.bootstrap');
-document.addEventListener('DOMContentLoaded', () => {
-    platformBrowserDynamic().bootstrapModule(TestAppModule);
-});
+platformBrowserDynamic().bootstrapModule(TestAppModule);

@@ -1,5 +1,3 @@
-import { extend } from 'lodash';
-
 import { ContainerControlBase } from './container.control.base';
 import { ElementType }          from './element.type';
 import { ModelElement }         from './model.element';
@@ -25,7 +23,7 @@ export class LayoutControl extends ContainerControlBase<LayoutControl> {
 
     public addAttributes(attributes: { [name: string]: string }): LayoutControl {
         if (this.attributes) {
-            extend(this.attributes, attributes);
+            Object.assign(this.attributes, attributes);
         } else {
             this.attributes = attributes;
         }

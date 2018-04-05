@@ -1,7 +1,5 @@
 import { Component, Injector, OnInit } from '@angular/core';
 
-import { isFunction, map } from 'lodash';
-
 import { SelectionMember, SelectionMemberItem } from '../../model/member';
 import { FormMemberComponent }  from '../form.member.component';
 import { MemberData }           from '../member.data';
@@ -24,7 +22,7 @@ export class DropdownFieldComponent extends FormMemberComponent<SelectionMember>
     ) {
         super(elementData, injector);
 
-        if (isFunction(this.element.items)) {
+        if (typeof(this.element.items) === 'function') {
             this.itemsFn = this.element.items;
         } else {
             this.items = this.element.items;
@@ -58,7 +56,7 @@ export class DropdownFieldComponent extends FormMemberComponent<SelectionMember>
         }
         let valid = true;
         let changed = false;
-        let args = map(this.element.dependentControls, (name: string) => {
+        let args = this.element.dependentControls.map((name: string) => {
             let ctrl = this.form.controls[name];
             if (!ctrl || (ctrl.value === null || ctrl.value === '' || ctrl.value === undefined)) {
                 valid = false;

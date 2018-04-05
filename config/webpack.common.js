@@ -4,7 +4,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     resolve: {
-        extensions: ['.ts', '.js']
+        extensions: ['.js', '.ts']
     },
     module: {
         loaders: [
@@ -58,6 +58,12 @@ module.exports = {
         ),
 
         new webpack.optimize.OccurrenceOrderPlugin(true),
+
+        new webpack.DefinePlugin({
+            process: JSON.stringify({
+                version: process.version
+            }),
+        }),
 
         new ExtractTextPlugin('styles.css')
     ],

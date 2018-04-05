@@ -18,11 +18,11 @@ export class DropdownTestComponent extends FieldTestComponent {
         super(new DropdownTestModel());
     }
 
-    protected get fieldName() {
+    public get fieldName() {
         return 'Dropdown';
     }
 
-    protected get modelSourcePath() {
+    public get modelSourcePath() {
         return 'test/app/fields/dropdown/dropdown.test.model.ts';
     }
 

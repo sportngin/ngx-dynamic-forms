@@ -1,12 +1,14 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule }                            from '@angular/common';
 import { ModuleWithProviders, NgModule, Optional } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule }                     from '@angular/forms';
 
 import { ColorPickerModule } from 'ngx-color-picker';
 
 import { BehaviorService } from './behavior';
 
-import { ComponentManager, DynamicFormComponent, PlaceholderComponent, ValidatorDisplay } from './component';
+import {
+    ComponentManager, DynamicFormComponent, FormEventManager, PlaceholderComponent, ValidatorDisplay
+} from './component';
 
 import {
     configFactory, DYNAMIC_FORMS_CONFIG, DYNAMIC_FORMS_DEFAULT_CONFIG,
@@ -75,7 +77,7 @@ import {
         ListFieldHeaderComponent,
         PasswordFieldComponent,
         TextFieldComponent,
-        TipComponent
+        TipComponent,
     ],
     entryComponents: [
         ButtonComponent,
@@ -108,6 +110,7 @@ import {
         BehaviorService,
         ComponentManager,
         ElementTypeMappings,
+        FormEventManager,
         MemberTypeMappings,
         ValidatorDisplay,
         {

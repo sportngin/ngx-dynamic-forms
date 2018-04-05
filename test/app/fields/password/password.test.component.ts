@@ -18,11 +18,11 @@ export class PasswordTestComponent extends FieldTestComponent {
         super(new PasswordTestModel());
     }
 
-    protected get fieldName() {
+    public get fieldName() {
         return 'Password';
     }
 
-    protected get modelSourcePath() {
+    public get modelSourcePath() {
         return 'test/app/fields/password/form.test.model.ts';
     }
 

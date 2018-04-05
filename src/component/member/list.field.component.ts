@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/forms';
 
-import { chain, each, extend, last, omit } from 'lodash';
+import { each, flatten, last, omit } from 'lodash-es';
 
 import { Model }                            from '../../model';
 import { ModelElement, SIBLINGS_PROPERTY }  from '../../model/element';
@@ -58,7 +58,7 @@ export class ListFieldComponent extends FormMemberComponent<ArrayMember, FormArr
     public entryState: EntryState[] = [];
     public get children(): ModelElement[] { return this.element ? this.element.template.toElements() : null; }
 
-    private initialized: boolean = false;
+    private viewInit: boolean = false;
 
     constructor(
         elementData: MemberData,
@@ -131,16 +131,16 @@ export class ListFieldComponent extends FormMemberComponent<ArrayMember, FormArr
 
     private createEntryComponents(entries: FormGroup[], startIndex: number = 0): ComponentInfo[] {
         let result = [];
-        result.push(...chain(entries)
-            .map((entry, index) => this.createEntryComponent(entry as FormGroup, this.entryState[startIndex + index]))
-            .flatten()
-            .value() as ComponentInfo[]
+        result.push(
+            ...flatten(entries
+                .map((entry, index) => this.createEntryComponent(entry as FormGroup, this.entryState[startIndex + index]))
+            )
         );
         return result;
     }
 
     ngAfterContentChecked(): void {
-        if (!this.initialized) {
+        if (!this.viewInit) {
             return;
         }
         if (this.formControl.controls.length > this.container.length) {
@@ -164,7 +164,7 @@ export class ListFieldComponent extends FormMemberComponent<ArrayMember, FormArr
 
     ngAfterViewInit(): void {
         super.ngAfterViewInit();
-        this.initialized = true;
+        this.viewInit = true;
 
         this.inputs.changes.subscribe((changes: QueryList<ListFieldEntryDirective>) => {
             if (changes.last && last(this.entryState).editing) {
@@ -217,7 +217,7 @@ export class ListFieldComponent extends FormMemberComponent<ArrayMember, FormArr
         } else {
             form = this.formControl.controls[index];
             let state = { submitted: form.valid, editing: false };
-            extend(this.entryState[index], state);
+            Object.assign(this.entryState[index], state);
             this.patchAndCheck(form, value, state);
         }
         if (!form.valid) {
@@ -229,7 +229,7 @@ export class ListFieldComponent extends FormMemberComponent<ArrayMember, FormArr
         form.patchValue(value);
         setTimeout(() => {
             this.checkDirty(form);
-            extend(state, { submitted: form.valid, editing: false });
+            Object.assign(state, { submitted: form.valid, editing: false });
             if (!form.valid) {
                 this.editEntry(form);
             }

@@ -1,7 +1,5 @@
 import { ValidatorFn } from '@angular/forms';
 
-import { extend } from 'lodash';
-
 import { ElementType }              from '../element/element.type';
 import { Model }                    from '../model';
 import { ArrayItemPermission }      from './array.member';
@@ -30,7 +28,7 @@ export class ArrayMemberBase extends TemplatedMemberBase<ArrayMemberBase> implem
     public canRemoveItem: ArrayItemPermission = true;
 
     public configureItemLabels(options: LabelDisplayOptions): ArrayMemberBuilder {
-        extend(this.itemLabelOptions, options);
+        Object.assign(this.itemLabelOptions, options);
         return this;
     }
 

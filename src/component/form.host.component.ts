@@ -1,13 +1,12 @@
 import { EventEmitter, OnDestroy, Provider, Type } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
-
-import { extend } from 'lodash';
+import { AbstractControl, FormGroup } from '@angular/forms';
 
 import { Observable }   from 'rxjs/Observable';
 import { Observer }     from 'rxjs/Observer';
 
 import { behaviorProvider, BehaviorType, IsRenderedHandler, StateMessageDisplayHandler } from '../behavior';
 import { Model } from '../model';
+
 import { DynamicFormComponent } from './dynamic.form.component';
 import { FormHostEvent, FormHostEventType } from './form.host.event';
 
@@ -36,7 +35,22 @@ export interface FormState {
 
 export abstract class FormHostComponent<TState extends FormState = FormState> implements OnDestroy, IsRenderedHandler, StateMessageDisplayHandler    {
 
-    private _form: DynamicFormComponent;
+    private _dynamicForm: DynamicFormComponent;
+    public get dynamicForm(): DynamicFormComponent {
+        return this._dynamicForm;
+    }
+    public set dynamicForm(form: DynamicFormComponent) {
+        this._dynamicForm = form;
+        this.afterFormInit();
+    }
+
+    public get form(): FormGroup {
+        if (!this.dynamicForm) {
+            return null;
+        }
+        return this.dynamicForm.form;
+    }
+
     private valueInjectionObserver: Promise<Observer<ControlValueInjection>>;
     public valueInjections: Observable<ControlValueInjection>;
     public state: TState = {} as TState;
@@ -51,43 +65,42 @@ export abstract class FormHostComponent<TState extends FormState = FormState> im
         });
     }
 
-    public submit(e: Event): void {
+    public async submit(e: Event): Promise<any> {
         if (e) {
             e.preventDefault();
         }
-        this.handleSubmit();
+        return await this.handleSubmit();
     }
 
     public get canSave(): boolean {
-        return this.form.form.valid;
+        return this.form.valid;
     }
 
-    public handleSubmit(): Promise<any> {
+    public async handleSubmit(): Promise<any> {
         if (!this.canSave) {
-            return Promise.reject(this.form.form.errors);
+            throw this.form.errors;
         }
         this.clearStateMessages();
-        let result = this.doSubmit()
-            .then(result => {
-                this.state.error = null;
-                this.state.submitting = false;
-                this.state.submitted = true;
-                this.form.form.markAsPristine();
-                if (result && result.state) {
-                    extend(this.state, result.state);
-                }
-                this.emit(FormHostEventType.submitted, result);
-                return result;
-            }, err => {
-                this.state.error = err;
-                this.state.submitting = false;
-                this.state.submitted = false;
-                this.emit(FormHostEventType.error, err);
-                return Promise.reject(err);
-            });
         this.state.submitting = true;
-        this.emit(FormHostEventType.submitting, this.form.value);
-        return result;
+        this.emit(FormHostEventType.submitting, this.dynamicForm.value);
+        try {
+            const result = await this.doSubmit();
+            this.state.error = null;
+            this.state.submitting = false;
+            this.state.submitted = true;
+            this.form.markAsPristine();
+            if (result && result.state) {
+                Object.assign(this.state, result.state);
+            }
+            this.emit(FormHostEventType.submitted, result);
+            return result;
+        } catch (err) {
+            this.state.error = err;
+            this.state.submitting = false;
+            this.state.submitted = false;
+            this.emit(FormHostEventType.error, err);
+            throw err;
+        }
     }
 
     protected setStateMessage(key: string, value: any): void {
@@ -102,15 +115,6 @@ export abstract class FormHostComponent<TState extends FormState = FormState> im
     }
 
     protected abstract doSubmit(): Promise<any | { state: FormState }>;
-
-    public get form(): DynamicFormComponent {
-        return this._form;
-    }
-
-    public set form(form: DynamicFormComponent) {
-        this._form = form;
-        this.afterFormInit();
-    }
 
     ngOnDestroy() {
         this.valueInjectionObserver.then(observer => observer.complete());

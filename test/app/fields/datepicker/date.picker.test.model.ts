@@ -1,6 +1,5 @@
 import { Validators } from '@angular/forms';
-
-import * as moment from 'moment';
+import { DateTime, Duration, DurationObject } from 'luxon';
 
 import { MemberType, minDateDiff, Model } from '@siplay/ng-dynamic-forms';
 
@@ -11,11 +10,11 @@ export class DatePickerTestModel extends Model {
             Model.member('datepicker', MemberType.date)
                 .addLabel('Date Picker'),
 
-            Model.defaultValueMember('datepicker-existing-value', moment(), MemberType.date)
+            Model.defaultValueMember('datepicker-existing-value', DateTime.utc(), MemberType.date)
                 .addLabel('Default Value Date Picker'),
 
             Model.layout('',
-                Model.member('dob', MemberType.date, Validators.required, minDateDiff(moment.duration(13, 'y')))
+                Model.member('dob', MemberType.date, Validators.required, minDateDiff(Duration.fromObject({ years: 13 } as DurationObject)))
                     .addLabel('Date of Birth')
                     .addSiblingTip('You must be 13 years or older to create an account.', '.alert.alert-warning')
             )

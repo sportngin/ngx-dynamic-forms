@@ -28,16 +28,5 @@
     "paths": {
       "@siplay/*": ["modules/@siplay/*"]
     }
-  },
-  "files": [
-    "app/test.bootstrap.ts"
-  ],
-  "angularCompilerOptions": {
-    "skipMetadataEmit" : false,
-    "skipTemplateCodegen": true
-  },
-  "awesomeTypescriptLoaderOptions": {
-    "forkChecker": true,
-    "useWebpackText": true
   }
 }

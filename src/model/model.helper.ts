@@ -1,49 +1,58 @@
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn } from '@angular/forms';
 
-import { chain, map } from 'lodash';
+import { flattenDeep, fromPairs } from 'lodash-es';
 
 import { ElementType, ModelElement, ContainerControl } from './element';
 import { MemberType, ModelMember, SimpleMember, TemplatedMember } from './member';
 
 export class ModelHelper {
 
-    static modelMemberToFormControl(fb: FormBuilder, member: ModelMember): AbstractControl {
+    constructor(private fb: FormBuilder) {
+        this.collectMember = this.collectMember.bind(this)
+    }
+
+    modelMemberToFormControl(member: ModelMember): AbstractControl {
         switch (member.elementType) {
 
             case ElementType.input:
                 if (member.memberType === MemberType.list) {
-                    return fb.array([(member as TemplatedMember).template.toFormGroup(fb)], member.validator);
+                    return this.fb.array([(member as TemplatedMember).template.toFormGroup(this.fb)], member.validator);
                 }
                 return (member as SimpleMember).createFormControl();
 
             // case ElementType.group:
             case ElementType.page:
-                return (member as TemplatedMember).template.toFormGroup(fb);
+                return (member as TemplatedMember).template.toFormGroup(this.fb);
 
             default: throw new Error(`Invalid MemberType ${member.elementType}`);
         }
     }
 
-    private static collectMembers(fb: FormBuilder, members: ModelElement[]): any {
-        return map(members, (member: ModelElement) => {
-            if (member.elementType === ElementType.layout || member.elementType === ElementType.pageRoot) {
-                return ModelHelper.collectMembers(fb, (member as ContainerControl).children);
-            }
-            return member;
-        });
+    private collectMember(member: ModelElement) {
+        if (member.elementType === ElementType.layout || member.elementType === ElementType.pageRoot) {
+            return this.collectMembers((member as ContainerControl).children);
+        }
+        return member;
     }
 
-    static createFormGroup(fb: FormBuilder, members: ModelElement[], validator: ValidatorFn): FormGroup {
-        return fb.group(chain(ModelHelper.collectMembers(fb, members))
-            .flattenDeep()
+    private collectMembers(members: ModelElement[]): any {
+        return members.map(this.collectMember);
+    }
+
+    public createFormGroup(members: ModelElement[], validator: ValidatorFn): FormGroup {
+        const collectedMembers = flattenDeep(this.collectMembers(members))
             .filter((member: ModelElement) =>
                 member.elementType !== ElementType.button //&&
                 // member.elementType !== ElementType.submit &&
                 // member.elementType !== ElementType.validator
-            )
-            .map((member: ModelMember) => [member.name, ModelHelper.modelMemberToFormControl(fb, member)])
-            .fromPairs()
-            .value(), { validator });
+            );
+
+        const group = fromPairs(
+            collectedMembers
+                .map((member: ModelMember) => [member.name, this.modelMemberToFormControl(member)])
+        );
+
+        return this.fb.group(group,{ validator });
     }
 
     // static modelElementToModelControl(member: ModelElement, index?: number): ModelControl {

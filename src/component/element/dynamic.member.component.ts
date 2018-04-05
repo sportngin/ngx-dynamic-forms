@@ -1,9 +1,9 @@
 import {
-    AfterViewChecked, Component, Inject, Injector, OnInit, Optional, Provider, ViewEncapsulation
+    AfterViewChecked, Component, Inject, Injector, OnInit, Optional, StaticProvider, ViewEncapsulation,
 } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 
-import { extend, omit } from 'lodash';
+import { omit } from 'lodash-es';
 
 import { MemberTypeMappings }   from '../../config/member.type.mappings';
 
@@ -142,9 +142,9 @@ export class DynamicMemberComponent extends FormControlComponent<ModelMember> im
     protected createControlComponent(): ComponentInfo {
 
         let elementData = this.getElementData();
-        let mergedInputData = omit(extend(elementData, { createsSiblings: false }), 'form', 'control');
+        let mergedInputData = omit(Object.assign(elementData, { createsSiblings: false }), 'form', 'control');
 
-        let inputProviders: Provider[] = this.getProvidersFromInputData(mergedInputData);
+        let inputProviders: StaticProvider[] = this.getProvidersFromInputData(mergedInputData);
         inputProviders.push(
             { provide: MemberData, useValue: elementData },
             ...this.getInputProviders()
@@ -154,11 +154,11 @@ export class DynamicMemberComponent extends FormControlComponent<ModelMember> im
         return this.createComponent(this.element, componentType, inputProviders);
     }
 
-    public getProvidersFromInputData(inputData: { [key: string]: any }): Provider[] {
+    public getProvidersFromInputData(inputData: { [key: string]: any }): StaticProvider[] {
         return Object.keys(inputData).map(name => ({ provide: name, useValue: inputData[name] }));
     }
 
-    protected getInputProviders(): Provider[] {
+    protected getInputProviders(): StaticProvider[] {
         return [{
             provide: MemberData,
             useValue: this.inputData

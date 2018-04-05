@@ -62,7 +62,7 @@ const REPLACE_CONFIG = {
 
 function renderChildFile(formatConfig, sourceFile, renderer, childFileName) {
     let dirpath = path.relative(path.resolve(sourceFile.cwd, 'dist'), path.dirname(sourceFile.path));
-    let childPath = path.resolve(dirpath, childFileName);
+    let childPath = path.resolve('src', dirpath, childFileName);
     return renderer(childPath).replace(formatConfig.quotePattern, formatConfig.quoteReplaceChar);
 }
 
