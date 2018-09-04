@@ -1,8 +1,14 @@
 {
   "name": "@siplay/ng-dynamic-forms",
   "version": "1.0.0",
-  "description": "",
-  "author": "SI Play",
+  "description": "Dynamically generate forms with validation with reusable form components",
+  "author": {
+    "name": "SportsEngine"
+  },
+  "license": "See license in MIT-LICENSE",
+  "contributors": [
+    "Daniel Schaffer <dan@dandoes.net>"
+  ],
   "repository": {
     "type": "git",
     "url": "git@github.com:sportngin/siplay_ng-dynamic-forms.git"
